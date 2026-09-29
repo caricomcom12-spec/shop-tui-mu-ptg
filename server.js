@@ -61,7 +61,7 @@ app.post('/api/user/nap-tien', (req, res) => {
 app.post('/api/shop/xe-tui', (req, res) => {
     const { email } = req.body;
     const user = users[email];
-    const GIA_TUI = 30000; 
+    const GIA_TUI = 000; 
 
     if (!user) return res.status(400).json({ error: "Vui lòng đăng nhập!" });
     
