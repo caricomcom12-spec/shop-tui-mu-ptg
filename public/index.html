@@ -11,12 +11,16 @@
         .mobile-header { background: linear-gradient(135deg, var(--pt-pink), var(--pt-purple)); color: white; padding: 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 99; }
         .shop-name { font-size: 22px; font-weight: 900; color: var(--pt-yellow); text-shadow: 2px 2px var(--pt-purple); }
         .user-panel { max-width: 500px; margin: 15px auto; background: white; border-radius: 15px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); width: 92%; }
-        .login-btn { background: #fff; border: 1px solid #ddd; padding: 10px; border-radius: 25px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: bold; cursor: pointer; font-size: 15px; }
-        .profile { display: flex; align-items: center; justify-content: space-between; }
+        .login-box { text-align: center; width: 100%; }
+        .login-box p { font-size: 14px; font-weight: bold; margin-bottom: 10px; color: var(--pt-purple); }
+        .login-input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 25px; margin-bottom: 10px; font-size: 15px; text-align: center; outline: none; }
+        .login-input:focus { border-color: var(--pt-pink); }
+        .login-btn { background: linear-gradient(to right, var(--pt-pink), var(--pt-purple)); color: white; border: none; padding: 12px; border-radius: 25px; width: 100%; font-weight: bold; cursor: pointer; font-size: 15px; }
+        .profile { display: flex; align-items: center; justify-content: space-between; width: 100%; }
         .profile-info { display: flex; align-items: center; gap: 10px; }
         .profile-info img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--pt-pink); }
         .uid-tag { background: #eee; font-size: 12px; padding: 2px 6px; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 3px; }
-        .money { color: #2ed573; font-weight: bold; font-size: 16px; }
+        .money { color: #2ed573; font-weight: bold; font-size: 16px; text-align: right; }
         .btn-add-money { background: var(--pt-yellow); color: #000; border: none; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-top: 4px; cursor: pointer; }
         .banner { max-width: 500px; width: 92%; margin: 10px auto; background: linear-gradient(45deg, #ff9f43, var(--pt-pink)); border-radius: 15px; padding: 20px; color: white; text-align: center; font-weight: bold; }
         .shop-container { max-width: 500px; width: 92%; margin: 20px auto; }
@@ -36,16 +40,23 @@
 </head>
 <body>
     <div class="mobile-header"><div class="shop-name">🛍️ PTG-BAG.SHOP 🛍️</div></div>
+    
+    <!-- KHU VỰC ĐĂNG NHẬP GMAIL GÕ TAY -->
     <div class="user-panel" id="auth-panel">
-        <button class="login-btn" onclick="fakeGoogleLogin()">🌐 Đăng nhập bằng tài khoản Google</button>
+        <div class="login-box">
+            <p>📧 VUI LÒNG NHẬP GMAIL ĐỂ ĐĂNG NHẬP / ĐĂNG KÝ</p>
+            <input type="email" id="gmail-input" class="login-input" placeholder="Ví dụ: nguyenvana@gmail.com">
+            <button class="login-btn" onclick="handleGmailLogin()">TIẾP TỤC VÀO SHOP</button>
+        </div>
     </div>
+
     <div class="banner">🎉 KHAI TRƯƠNG GIẢM GIÁ TÚI MÙ ĐỒNG GIÁ 30,000Đ 🎉</div>
     <div class="shop-container">
         <div class="section-title">📦 DANH SÁCH TÚI MÙ</div>
         <div class="bag-card">
             <div class="bag-title">Túi Mù Play Together Siêu VIP</div>
             <div class="bag-img" id="ptg-bag">🛍️</div>
-            <div class="bag-price">5,000đ</div>
+            <div class="bag-price">30,000đ</div>
             <button class="btn-open" onclick="buyBlindBag()">XÉ TÚI NGAY</button>
         </div>
     </div>
@@ -53,18 +64,24 @@
 
     <script>
         let currentUser = null;
-        function fakeGoogleLogin() {
-            const listFakeNames = ["Nguyễn Văn An", "Trần Thị Bích", "Lê Minh Công", "Hoàng Thảo Nhi"];
-            const randomName = listFakeNames[Math.floor(Math.random() * listFakeNames.length)];
-            const fakeEmail = "user_" + Math.floor(Math.random() * 10000) + "@gmail.com";
 
-            fetch('/api/auth/google', {
+        // Xử lý khi khách điền Gmail ấn nút đăng nhập
+        function handleGmailLogin() {
+            const email = document.getElementById('gmail-input').value.trim();
+            if(!email || !email.includes('@')) {
+                return alert("Vui lòng điền đúng định dạng địa chỉ Gmail của bạn!");
+            }
+
+            fetch('/api/auth/gmail-login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: fakeEmail, name: randomName, avatar: 'https://imgur.com' })
+                body: JSON.stringify({ email: email })
             })
             .then(res => res.json()).then(data => {
-                if(data.success) { currentUser = data.user; renderUserPanel(); }
+                if(data.success) { 
+                    currentUser = data.user; 
+                    renderUserPanel(); 
+                }
             });
         }
 
@@ -74,7 +91,7 @@
                     <div class="profile-info">
                         <img src="${currentUser.avatar}">
                         <div>
-                            <div style="font-weight: bold;">${currentUser.name}</div>
+                            <div style="font-weight: bold; font-size:14px; color:#333; word-break: break-all;">${currentUser.email}</div>
                             <div class="uid-tag">Mã số (UID): ${currentUser.uid}</div>
                         </div>
                     </div>
@@ -86,13 +103,8 @@
         }
 
         function showNapTienBox() {
-            fetch('/api/user/nap-tien', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: currentUser.email })
-            });
             document.getElementById('popupContent').innerHTML = `
-                <h3>💳 HƯỚNG DẪN NẠP TIỀN QUẠ ZALO</h3>
+                <h3>💳 HƯỚNG DẪN NẠP TIỀN QUA ZALO</h3>
                 <p style="margin-top:10px;">Mã số của bạn: <strong style="color:var(--pt-purple); font-size:18px;">${currentUser.uid}</strong></p>
                 <div style="font-size:22px; font-weight:bold; color:#0084ff; margin:15px 0;">📞 Zalo: 0907859891</div>
                 <p style="font-size:13px;">Hãy gửi <b>Mã Số trên + Bill chuyển khoản</b> qua Zalo để Admin cộng số dư nhé!</p>
@@ -101,7 +113,7 @@
         }
 
         function buyBlindBag() {
-            if (!currentUser) return alert("Bạn cần bấm ĐĂNG NHẬP GOOGLE ở phía trên trước!");
+            if (!currentUser) return alert("Bạn cần điền GMAIL ở phía trên trước khi xé túi mù nhé!");
             const bagImg = document.getElementById('ptg-bag');
             bagImg.classList.add('shake');
 
