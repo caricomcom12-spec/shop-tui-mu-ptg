@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const fetch = require('node-fetch');
 const fs = require('fs');
 
 const app = express();
@@ -16,6 +15,8 @@ const TELEGRAM_CHAT_ID = 'ID_CHAT_CUA_BAN';
 function sendTelegramAlert(message) {
     if (TELEGRAM_TOKEN === 'TOKEN_BOT_CUA_BAN') return;
     const url = `https://telegram.org{TELEGRAM_TOKEN}/sendMessage`;
+    
+    // Đã sửa sang hàm fetch có sẵn của hệ thống, không lo bị lỗi sập web nữa
     fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -23,11 +24,10 @@ function sendTelegramAlert(message) {
     }).catch(err => console.error("Lỗi gửi Telegram:", err));
 }
 
-// ================= HỆ THỐNG LƯU TRỮ VĨNH VIỄN CHỐNG ĐƠ WEB =================
+// ================= HỆ THỐNG LƯU TRỮ VĨNH VIỄN CHỐNG MẤT SỐ DƯ & UID =================
 const DATA_FILE = path.join(__dirname, 'users_database.json');
-let dbData = { last_uid: 0, users: {} }; // Đặt mặc định sẵn phòng ngừa lỗi đơ kẹt tệp
+let dbData = { last_uid: 0, users: {} }; 
 
-// Khởi chạy: Chặn đứng lỗi đơ bằng hàm try-catch thông minh
 if (fs.existsSync(DATA_FILE)) {
     try { 
         const fileContent = fs.readFileSync(DATA_FILE, 'utf8');
@@ -35,22 +35,16 @@ if (fs.existsSync(DATA_FILE)) {
             dbData = JSON.parse(fileContent); 
         }
     } catch (e) { 
-        console.error("Phát hiện file trống hoặc lỗi cấu trúc JSON, tự động reset...");
+        console.error("Khởi tạo lại dữ liệu database...");
     }
 }
-// Đảm bảo các thuộc tính mảng luôn tồn tại
 if (!dbData.users) dbData.users = {};
 if (dbData.last_uid === undefined) dbData.last_uid = 0;
 
 function saveUsersToDisk() { 
-    try {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(dbData, null, 2), 'utf8'); 
-    } catch(err) {
-        console.error("Lỗi ghi file ổ cứng:", err);
-    }
+    try { fs.writeFileSync(DATA_FILE, JSON.stringify(dbData, null, 2), 'utf8'); } catch(e) {}
 }
 
-// ================= KHO NICK GAME THẬT =================
 let khoPlayTogether = [
     { id: 1001, tk: "play_vip_01", mk: "ptg1234", note: "Acc 50 ô tô, nhà siêu to khổng lồ!" },
     { id: 1002, tk: "cau_ca_pro", mk: "cauca999", note: "Acc chuyên câu cá, sẵn cần câu vàng!" }
@@ -100,10 +94,10 @@ app.post('/api/user/nap-tien', (req, res) => {
 
 app.post('/api/shop/xe-tui', (req, res) => {
     const { email, loaiTui } = req.body;
-    if(!email) return res.json({ success: false, msg: "Vui lòng nhập định dạng Gmail trước!" });
+    if(!email) return res.json({ success: false, msg: "Vui lòng đăng nhập trước!" });
     
     const user = dbData.users[email.toLowerCase().trim()];
-    if (!user) return res.json({ success: false, msg: "Vui lòng nhập định dạng Gmail trước!" });
+    if (!user) return res.json({ success: false, msg: "Vui lòng đăng nhập trước!" });
 
     let giaTui = 0;
     let targetKho = [];
@@ -118,33 +112,30 @@ app.post('/api/shop/xe-tui', (req, res) => {
         targetKho = khoCloneCoKhi;
         tenTuiText = "Túi Clone Cơ Khí VIP";
     } else {
-        return res.json({ success: false, msg: "Loại túi mù không hợp lệ!" });
+        return res.json({ success: false, msg: "Loại túi không hợp lệ!" });
     }
     
     if (!user.balance || user.balance < giaTui || user.balance <= 0) {
         return res.json({ success: false, msg: `Số dư tài khoản không đủ. Mã số tài khoản của bạn là ${user.uid}. Vui lòng gửi mã này qua Zalo 0907859891 để kích hoạt nạp tiền!` });
     }
-    if (targetKho.length === 0) {
-        return res.json({ success: false, msg: `Túi mù [${tenTuiText}] này hiện đã hết hàng, liên hệ admin để nạp thêm!` });
-    }
+    if (targetKho.length === 0) return res.json({ success: false, msg: `Túi mù [${tenTuiText}] hiện đã hết hàng!` });
 
     const randomIdx = Math.floor(Math.random() * targetKho.length);
-    const accTrung = targetKho.splice(randomIdx, 1)[0]; 
+    const accTrung = targetKho.splice(randomIdx, 1); 
 
     user.balance -= giaTui;
     saveUsersToDisk();
 
-    sendTelegramAlert(`🎁 <b>THÔNG BÁO TÚI MÙ</b>\n👤 Khách UID: <b>${user.uid}</b>\n🛒 Đã xé: <b>${tenTuiText}</b>\n💰 Số dư còn lại: ${user.balance.toLocaleString()}đ\n🔑 Nick trúng:\nTK: <code>${accTrung.tk}</code>\nMK: <code>${accTrung.mk}</code>\n📝 Mô tả: <i>${accTrung.note}</i>`);
+    sendTelegramAlert(`🎁 <b>THÔNG BÁO TÚI MÙ</b>\n👤 Khách UID: <b>${user.uid}</b>\n🛒 Đã xé: <b>${tenTuiText}</b>\n🔑 Nick trúng:\nTK: <code>${accTrung.tk}</code>\nMK: <code>${accTrung.mk}</code>`);
 
     return res.json({ success: true, account: accTrung, newBalance: user.balance });
 });
 
-// ================= PANEL ADMIN CỘNG TIỀN BÍ MẬT =================
 app.get('/panel-admin-an', (req, res) => {
     res.send(`
         <!DOCTYPE html>
         <html>
-        <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cộng Tiền Chủ Shop</title></head>
+        <head><meta charset="UTF-8"><title>Cộng Tiền Chủ Shop</title></head>
         <body style="font-family:Arial; background:#2c3e50; color:white; text-align:center; padding:20px;">
             <div style="background:#34495e; padding:25px; border-radius:15px; display:inline-block; max-width:400px; width:100%; text-align:left; margin-top:40px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                 <h2 style="text-align:center; color:#f1c40f;">⚙️ PANEL CỘNG TIỀN KHÁCH</h2>
