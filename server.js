@@ -1,186 +1,155 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
+const fetch = require('node-fetch');
+const fs = require('fs');
 
-const PORT = process.env.PORT || 3000;
-const DATA_FILE = path.join(__dirname, 'users_database.json');
+const app = express();
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // ================= TELEGRAM CONFIG =================
-// Nhớ điền mã số Token và ID Telegram của bạn vào giữa hai dấu nháy đơn để nhận thông báo
+// Bạn nhớ điền lại 2 cái mã Token và ID Chat Telegram của bạn vào đây nhé!
 const TELEGRAM_TOKEN = 'TOKEN_BOT_CUA_BAN'; 
 const TELEGRAM_CHAT_ID = 'ID_CHAT_CUA_BAN'; 
 
 function sendTelegramAlert(message) {
     if (TELEGRAM_TOKEN === 'TOKEN_BOT_CUA_BAN') return;
     const url = `https://telegram.org{TELEGRAM_TOKEN}/sendMessage`;
-    
-    const req = http.request(url, {
+    fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-    });
-    req.on('error', (e) => console.error(e));
-    req.write(JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message, parse_mode: 'HTML' }));
-    req.end();
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message, parse_mode: 'HTML' })
+    }).catch(err => console.error("Lỗi gửi Telegram:", err));
 }
 
-// ================= DATABASE LƯU TRỮ VĨNH VIỄN CỐ ĐỊNH UID =================
-let dbData = { last_uid: 0, users: {} };
+// ================= HỆ THỐNG LƯU TRỮ VĨNH VIỄN KHÔNG MẤT SỐ DƯ =================
+const DATA_FILE = path.join(__dirname, 'users_database.json');
+let users = {};
 
+// Khởi chạy: Tự động nạp dữ liệu khách hàng cũ từ file cứng lên
 if (fs.existsSync(DATA_FILE)) {
     try {
-        const content = fs.readFileSync(DATA_FILE, 'utf8');
-        if (content.trim().length > 0) dbData = JSON.parse(content);
+        users = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
     } catch (e) {
-        dbData = { last_uid: 0, users: {} };
+        users = {};
     }
 }
-if (!dbData.users) dbData.users = {};
-if (dbData.last_uid === undefined) dbData.last_uid = 0;
 
+// Hàm đồng bộ lưu ví tiền vào ổ đĩa cứng khi có thay đổi
 function saveUsersToDisk() {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(dbData, null, 2), 'utf8');
+    fs.writeFileSync(DATA_FILE, JSON.stringify(users, null, 2), 'utf8');
 }
 
-// ================= KHO ACC THẬT 2 Ô TÚI MÙ (BẠN TỰ SỬA NICK TẠI ĐÂY) =================
-let khoPlayTogether = [
-    { id: 1001, tk: "play_vip_01", mk: "ptg1234", note: "Acc 50 ô tô, nhà siêu to khổng lồ!" },
-    { id: 1002, tk: "cau_ca_pro", mk: "cauca999", note: "Acc chuyên câu cá, sẵn cần câu vàng!" }
+let accountsKho = [
+    { id: 1001, tk: "play_vip_01", mk: "ptg1234", note: "Acc 50 ô tô, nhà siêu to khổng lồ, cánh hiếm!" },
+    { id: 1002, tk: "cau_ca_pro", mk: "cauca999", note: "Acc chuyên câu cá, sẵn cần câu vàng, 500 kim cương." },
+    { id: 1003, tk: "shiba_cute", mk: "playtogether", note: "Acc full pet hiếm lv max, trang phục giới hạn." }
 ];
 
-let khoCloneCoKhi = [
-    { id: 2001, tk: "clone_cokhi_01", mk: "cokhi123", note: "Acc clone cơ khí sẵn phôi vip 1" },
-    { id: 2002, tk: "clone_cokhi_02", mk: "cokhi456", note: "Acc clone cơ khí full linh kiện cấp 2" }
-];
-
-function generateNextUID() {
-    dbData.last_uid = parseInt(dbData.last_uid) + 1;
-    return String(dbData.last_uid).padStart(3, '0');
+function generateUserUID() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-// ================= MÁY CHỦ ROUTER HỆ THỐNG =================
-const server = http.createServer((req, res) => {
-    const sendJSON = (data, status = 200) => {
-        res.writeHead(status, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(data));
-    };
+// ================= API ĐĂNG NHẬP GMAIL THỦ CÔNG =================
+app.post('/api/auth/gmail-login', (req, res) => {
+    const { email } = req.body;
+    const cleanEmail = email.toLowerCase().trim();
 
-    let body = '';
-    req.on('data', chunk => { body += chunk; });
-    req.on('end', () => {
-        let parseBody = {};
-        try { if (body) parseBody = JSON.parse(body); } catch(e){}
-
-        // API 1: Đăng nhập Gmail tăng dần UID vĩnh viễn (001, 002...)
-        if (req.url === '/api/auth/gmail-login' && req.method === 'POST') {
-            const email = parseBody.email;
-            if (!email || !email.includes('@')) return sendJSON({ success: false, msg: "Gmail không hợp lệ" });
-            const cleanEmail = email.toLowerCase().trim();
-
-            if (!dbData.users[cleanEmail]) {
-                const customUID = generateNextUID();
-                dbData.users[cleanEmail] = { uid: customUID, email: cleanEmail, balance: 0, avatar: 'https://imgur.com' };
-                saveUsersToDisk();
-                sendTelegramAlert(`🔔 <b>THÀNH VIÊN ĐĂNG KÝ MỚI</b>\n📧 Gmail: <code>${cleanEmail}</code>\n🆔 UID: <b>${customUID}</b>`);
-            } else {
-                sendTelegramAlert(`🔄 <b>KHÁCH CŨ ĐĂNG NHẬP LẠI</b>\n📧 Gmail: <code>${cleanEmail}</code>\n🆔 UID: <b>${dbData.users[cleanEmail].uid}</b>\n💰 Số dư cũ giữ nguyên: ${dbData.users[cleanEmail].balance.toLocaleString()}đ`);
-            }
-            return sendJSON({ success: true, user: dbData.users[cleanEmail] });
-        }
-
-        // API 2: Yêu cầu nạp tiền
-        if (req.url === '/api/user/nap-tien' && req.method === 'POST') {
-            const email = parseBody.email;
-            const user = dbData.users[(email || '').toLowerCase().trim()];
-            if (!user) return sendJSON({ error: "Chưa đăng nhập" }, 400);
-            sendTelegramAlert(`💰 <b>YÊU CẦU NẠP TIỀN</b>\n🆔 UID: <b>${user.uid}</b>\n📧 Gmail: <code>${user.email}</code>\n📞 Zalo hỗ trợ: 0907859891`);
-            return sendJSON({ success: true, uid: user.uid });
-        }
-
-        // API 3: Xé túi mù chia 2 loại
-        if (req.url === '/api/shop/xe-tui' && req.method === 'POST') {
-            const { email, loaiTui } = parseBody;
-            const user = dbData.users[(email || '').toLowerCase().trim()];
-            if (!user) return sendJSON({ success: false, msg: "Vui lòng nhập định dạng Gmail trước!" });
-
-            let giaTui = 0, targetKho = [], tenTuiText = "";
-            if (loaiTui === 'playtogether') {
-                giaTui = 30000; targetKho = khoPlayTogether; tenTuiText = "Túi VIP Play Together";
-            } else if (loaiTui === 'clone_cokhi') {
-                giaTui = 20000; targetKho = khoCloneCoKhi; tenTuiText = "Túi Clone Cơ Khí VIP";
-            } else {
-                return sendJSON({ success: false, msg: "Loại túi không hợp lệ!" });
-            }
-
-            if (!user.balance || user.balance < giaTui || user.balance <= 0) {
-                return sendJSON({ success: false, msg: `Số dư tài khoản không đủ. Mã số tài khoản của bạn là ${user.uid}. Vui lòng gửi mã này qua Zalo 0907859891 để kích hoạt nạp tiền!` });
-            }
-            if (targetKho.length === 0) return sendJSON({ success: false, msg: `Túi mù [${tenTuiText}] hiện đã hết hàng!` });
-
-            const randomIdx = Math.floor(Math.random() * targetKho.length);
-            const accTrung = targetKho.splice(randomIdx, 1)[0];
-
-            user.balance -= giaTui;
-            saveUsersToDisk();
-
-            sendTelegramAlert(`🎁 <b>THÔNG BÁO TÚI MÙ</b>\n👤 Khách UID: <b>${user.uid}</b>\n🛒 Đã xé: <b>${tenTuiText}</b>\n🔑 Nick trúng:\nTK: <code>${accTrung.tk}</code>\nMK: <code>${accTrung.mk}</code>`);
-            return sendJSON({ success: true, account: accTrung, newBalance: user.balance });
-        }
-
-        // API 4: Admin cộng tiền theo UID (001, 002) vĩnh viễn
-        if (req.url === '/api/admin/add-money' && req.method === 'POST') {
-            const { uid, amount } = parseBody;
-            let foundUser = null;
-            for (let email in dbData.users) {
-                if (dbData.users[email].uid === (uid || '').toString().trim()) { foundUser = dbData.users[email]; break; }
-            }
-            if (!foundUser) return sendJSON({ success: false, msg: "Không tìm thấy mã số khách!" });
-            foundUser.balance += amount;
-            saveUsersToDisk();
-            sendTelegramAlert(`💰 <b>XÁC NHẬN NẠP TIỀN THÀNH CÔNG</b>\n🆔 UID khách: <b>${foundUser.uid}</b>\n💵 Số tiền cộng: +${amount.toLocaleString()}đ`);
-            return sendJSON({ success: true });
-        }
-
-        // ================= GIAO DIỆN WEB TỆP TĨNH THƯ MỤC PUBLIC =================
-        let filePath = path.join(__dirname, 'public', req.url === '/' ? 'index.html' : req.url);
-        
-        // Link bí mật nạp tiền của chủ shop
-        if (req.url === '/panel-admin-an') {
-            res.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' });
-            return res.end(`
-                <!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cộng Tiền Chủ Shop</title></head>
-                <body style="font-family:Arial; background:#2c3e50; color:white; text-align:center; padding:20px;">
-                    <div style="background:#34495e; padding:25px; border-radius:15px; display:inline-block; max-width:400px; width:100%; text-align:left; margin-top:40px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-                        <h2 style="text-align:center; color:#f1c40f;">⚙️ PANEL CỘNG TIỀN KHÁCH</h2>
-                        <label><b>Mã Số Khách Cần Tìm (UID):</b></label><input type="text" id="uid" placeholder="Ví dụ: 001" style="width:100%; padding:12px; margin:10px 0; font-size:16px; border-radius:8px; border:none;"><br>
-                        <label><b>Số Tiền Cộng Thêm (đ):</b></label><input type="number" id="amount" placeholder="Ví dụ: 50000" style="width:100%; padding:12px; margin:10px 0; font-size:16px; border-radius:8px; border:none;"><br>
-                        <button onclick="addMoney()" style="background:#2ecc71; color:white; padding:14px; width:100%; border:none; border-radius:8px; font-weight:bold; font-size:16px; cursor:pointer;">XÁC NHẬN CỘNG TIỀN</button>
-                    </div>
-                    <script>
-                        function addMoney() {
-                            const uid = document.getElementById('uid').value.trim();
-                            const amount = document.getElementById('amount').value;
-                            if(!uid || !amount) return alert("Vui lòng điền đủ thông tin!");
-                            fetch('/api/admin/add-money', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ uid, amount: parseInt(amount) }) })
-                            .then(res => res.json()).then(data => { if(data.success) alert("Đã cộng tiền thành công!"); else alert("Lỗi: " + data.msg); });
-                        }
-                    </script>
-                </body></html>
-            `);
-        }
-
-        const extname = String(path.extname(filePath)).toLowerCase();
-        const mimeTypes = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json', '.png': 'image/png' };
-        const contentType = mimeTypes[extname] || 'application/octet-stream';
-
-        fs.readFile(filePath, (error, content) => {
-            if (error) {
-                res.writeHead(404, { 'Content-Type': 'text/html' });
-                res.end('<h1>404 Not Found</h1>', 'utf-8');
-            } else {
-                res.writeHead(200, { 'Content-Type': contentType + '; charset=UTF-8' });
-res.end(content, 'utf-8');
-}
+    // Nếu Gmail này chưa từng vào shop, hệ thống tự động đăng ký mới luôn
+    if (!users[cleanEmail]) {
+        users[cleanEmail] = {
+            uid: generateUserUID(),
+            name: cleanEmail.split('@')[0],
+            email: cleanEmail,
+            balance: 0,
+            avatar: 'https://imgur.com'
+        };
+        saveUsersToDisk(); // Lưu ngay vào ổ đĩa cứng
+        sendTelegramAlert(`🔔 <b>THÀNH VIÊN ĐĂNG KÝ GMAIL MỚI</b>\n📧 Gmail: <code>${cleanEmail}</code>\n🆔 Mã số (UID): <code>${users[cleanEmail].uid}</code>`);
+    } else {
+        // Nếu đã có Gmail này rồi, Bot gửi tin báo khách cũ vừa quay trở lại đăng nhập
+        sendTelegramAlert(`🔄 <b>KHÁCH CŨ ĐĂNG NHẬP</b>\n📧 Gmail: <code>${cleanEmail}</code>\n🆔 UID: <code>${users[cleanEmail].uid}</code>\n💰 Số dư hiện tại: ${users[cleanEmail].balance.toLocaleString()}đ`);
+    }
+    
+    res.json({ success: true, user: users[cleanEmail] });
 });
+
+app.post('/api/user/nap-tien', (req, res) => {
+    const { email } = req.body;
+    const user = users[email.toLowerCase().trim()];
+    if (!user) return res.status(400).json({ error: "Chưa đăng nhập" });
+    sendTelegramAlert(`💰 <b>YÊU CẦU NẠP TIỀN</b>\n🆔 Mã số khách: <code>${user.uid}</code>\n📧 Gmail: <code>${user.email}</code>\n📞 Liên hệ Zalo: 0907859891\n💬 Hãy chờ khách gửi bill chuyển khoản.`);
+    res.json({ success: true, uid: user.uid });
 });
+
+app.post('/api/shop/xe-tui', (req, res) => {
+    const { email } = req.body;
+    const user = users[email.toLowerCase().trim()];
+    const GIA_TUI = 30000; 
+
+    if (!user) return res.json({ success: false, msg: "Vui lòng nhập định dạng Gmail trước!" });
+    if (!user.balance || user.balance < GIA_TUI || user.balance <= 0) {
+        return res.json({ success: false, msg: `Số dư tài khoản không đủ. Mã số tài khoản của bạn là ${user.uid}. Vui lòng gửi mã này qua Zalo 0907859891 để kích hoạt nạp tiền!` });
+    }
+    if (accountsKho.length === 0) return res.json({ success: false, msg: "Túi mù hiện đã hết hàng, liên hệ admin để nạp thêm!" });
+
+    const randomIdx = Math.floor(Math.random() * accountsKho.length);
+    const accTrung = accountsKho.splice(randomIdx, 1)[0]; 
+
+    user.balance -= GIA_TUI;
+    saveUsersToDisk(); // Khách bốc xong trừ tiền và lưu ví cứng luôn
+
+    sendTelegramAlert(`🎁 <b>THÔNG BÁO TÚI MÙ</b>\n👤 Khách UID: <code>${user.uid}</code>\n📧 Gmail: <code>${user.email}</code>\n🛒 Đã xé: Túi VIP Play Together\n🔑 Nick trúng:\nTK: <code>${accTrung.tk}</code>\nMK: <code>${accTrung.mk}</code>\n📝 Mô tả: <i>${accTrung.note}</i>`);
+
+    return res.json({ success: true, account: accTrung, newBalance: user.balance });
 });
-server.listen(PORT, () => console.log(Hệ thống đang chạy tại cổng: ${PORT}));
+
+// ================= HỆ THỐNG PANEL ADMIN CỘNG TIỀN =================
+app.get('/panel-admin-an', (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cộng Tiền Chủ Shop</title></head>
+        <body style="font-family:Arial; background:#2c3e50; color:white; text-align:center; padding:20px;">
+            <div style="background:#34495e; padding:25px; border-radius:15px; display:inline-block; max-width:400px; width:100%; text-align:left; margin-top:40px;">
+                <h2 style="text-align:center; color:#f1c40f;">⚙️ PANEL CỘNG TIỀN KHÁCH</h2>
+                <label><b>Mã Số Khách (UID):</b></label><input type="number" id="uid" style="width:100%; padding:12px; margin:10px 0; font-size:16px;"><br>
+                <label><b>Số Tiền Cộng:</b></label><input type="number" id="amount" style="width:100%; padding:12px; margin:10px 0; font-size:16px;"><br>
+                <button onclick="addMoney()" style="background:#2ecc71; color:white; padding:14px; width:100%; border:none; border-radius:8px; font-weight:bold; font-size:16px;">XÁC NHẬN CỘNG TIỀN</button>
+            </div>
+            <script>
+                function addMoney() {
+                    const uid = document.getElementById('uid').value;
+                    const amount = document.getElementById('amount').value;
+                    fetch('/api/admin/add-money', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ uid, amount: parseInt(amount) })
+                    }).then(res => res.json()).then(data => {
+                        if(data.success) alert("Đã cộng tiền thành công!"); else alert("Lỗi: " + data.msg);
+                    });
+                }
+            </script>
+        </body>
+        </html>
+    `);
+});
+
+app.post('/api/admin/add-money', (req, res) => {
+    const { uid, amount } = req.body;
+    let foundUser = null;
+    for (let email in users) {
+        if (users[email].uid === uid.toString()) { foundUser = users[email]; break; }
+    }
+    if (!foundUser) return res.json({ success: false, msg: "Không tìm thấy mã số khách hàng này!" });
+
+    foundUser.balance += amount;
+    saveUsersToDisk(); // Lưu lại vào ổ đĩa cứng sau khi cộng tiền thành công
+
+    sendTelegramAlert(`💰 <b>XÁC NHẬN NẠP TIỀN THÀNH CÔNG</b>\n🆔 UID khách: <code>${foundUser.uid}</code>\n📧 Gmail: <code>${foundUser.email}</code>\n💵 Số tiền cộng: +${amount.toLocaleString()}đ\n📈 Số dư mới: ${foundUser.balance.toLocaleString()}đ`);
+    return res.json({ success: true });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Hệ thống đang chạy tại cổng: ${PORT}`));
