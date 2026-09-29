@@ -18,7 +18,7 @@
         .profile { display: flex; align-items: center; justify-content: space-between; width: 100%; }
         .profile-info { display: flex; align-items: center; gap: 10px; }
         .profile-info img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--pt-pink); }
-        .uid-tag { background: #eee; font-size: 12px; padding: 2px 6px; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 3px; }
+        .uid-tag { background: #f1c40f; color:#000; font-size: 12px; padding: 2px 8px; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 3px; }
         .money { color: #2ed573; font-weight: bold; font-size: 16px; text-align: right; }
         .btn-add-money { background: var(--pt-yellow); color: #000; border: none; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-top: 4px; cursor: pointer; }
         .banner { max-width: 500px; width: 92%; margin: 10px auto; background: linear-gradient(45deg, #ff9f43, var(--pt-pink)); border-radius: 15px; padding: 20px; color: white; text-align: center; font-weight: bold; }
@@ -26,7 +26,7 @@
         .section-title { font-size: 18px; font-weight: 800; margin-bottom: 12px; color: var(--pt-purple); }
         .bag-card { background: white; border-radius: 20px; border: 3px solid var(--pt-pink); overflow: hidden; margin-bottom: 20px; text-align: center; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .bag-card.blue-theme { border-color: var(--pt-blue); }
-        .bag-img { font-size: 70px; margin: 15px 0; display: inline-block; transition: 0.3s; }
+        .bag-img { font-size: 70px; margin: 15px 0; display: inline-block; }
         .bag-title { font-size: 18px; font-weight: bold; }
         .bag-price { font-size: 20px; font-weight: 900; color: var(--pt-pink); margin: 5px 0 15px 0; }
         .bag-card.blue-theme .bag-price { color: var(--pt-blue); }
@@ -56,7 +56,7 @@
     <div class="shop-container">
         <div class="section-title">📦 DANH SÁCH TÚI MÙ ĐANG CÓ</div>
         
-        <!-- Ô TÚI MÙ 1: PLAY TOGETHER -->
+        <!-- PLAY TOGETHER -->
         <div class="bag-card">
             <div class="bag-title">Túi Mù Play Together Siêu VIP</div>
             <div class="bag-img" id="bag-playtogether">🛍️</div>
@@ -64,7 +64,7 @@
             <button class="btn-open" onclick="buyBlindBag('playtogether')">XÉ TÚI PLAY TOGETHER</button>
         </div>
 
-        <!-- Ô TÚI MÙ 2: CLONE CƠ KHÍ MỚI THÊM -->
+        <!-- CLONE CƠ KHÍ -->
         <div class="bag-card blue-theme">
             <div class="bag-title">Túi Mù Acc Clone Cơ Khí VIP</div>
             <div class="bag-img" id="bag-clone_cokhi">⚙️</div>
@@ -107,7 +107,7 @@
             fetch('/api/user/nap-tien', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: currentUser.email }) });
             document.getElementById('popupContent').innerHTML = `
                 <h3>💳 HƯỚNG DẪN NẠP TIỀN QUA ZALO</h3>
-                <p style="margin-top:10px;">Mã số của bạn: <strong style="color:var(--pt-purple); font-size:18px;">${currentUser.uid}</strong></p>
+                <p style="margin-top:10px;">Mã số của bạn là: <strong style="color:var(--pt-purple); font-size:18px;">${currentUser.uid}</strong></p>
                 <div style="font-size:22px; font-weight:bold; color:#0084ff; margin:15px 0;">📞 Zalo: 0907859891</div>
                 <p style="font-size:13px;">Hãy gửi <b>Mã Số trên + Bill chuyển khoản</b> qua Zalo để Admin cộng số dư nhé!</p>
                 <button class="btn-close" onclick="closeModal()">ĐÃ HIỂU</button>`;
@@ -138,3 +138,4 @@
                             <div class="acc-info-box">
                                 <p>🔐 <b>Tài khoản:</b> ${data.account.tk}</p>
                                 <p>🔑 <b>Mật khẩu:</b> ${data.account.mk}</p>
+                                <p style="font-size:12px; color:#666; margin-top:5px;">✨ <b>Mô tả:</b> <i>${data.account.note}</i></p>
