@@ -1,4 +1,3 @@
-// Sử dụng bộ thư viện lõi nguyên bản có sẵn của NodeJS, 100% không lo bị lỗi sập mạng
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -7,7 +6,7 @@ const PORT = process.env.PORT || 3000;
 const DATA_FILE = path.join(__dirname, 'users_database.json');
 
 // ================= TELEGRAM CONFIG =================
-// Nhớ điền mã số Token và ID Telegram của bạn vào đây
+// Nhớ điền mã số Token và ID Telegram của bạn vào giữa hai dấu nháy đơn để nhận thông báo
 const TELEGRAM_TOKEN = 'TOKEN_BOT_CUA_BAN'; 
 const TELEGRAM_CHAT_ID = 'ID_CHAT_CUA_BAN'; 
 
@@ -42,7 +41,7 @@ function saveUsersToDisk() {
     fs.writeFileSync(DATA_FILE, JSON.stringify(dbData, null, 2), 'utf8');
 }
 
-// ================= KHO ACC THẬT (BẠN TỰ SỬA NICK TẠI ĐÂY) =================
+// ================= KHO ACC THẬT 2 Ô TÚI MÙ (BẠN TỰ SỬA NICK TẠI ĐÂY) =================
 let khoPlayTogether = [
     { id: 1001, tk: "play_vip_01", mk: "ptg1234", note: "Acc 50 ô tô, nhà siêu to khổng lồ!" },
     { id: 1002, tk: "cau_ca_pro", mk: "cauca999", note: "Acc chuyên câu cá, sẵn cần câu vàng!" }
@@ -58,22 +57,20 @@ function generateNextUID() {
     return String(dbData.last_uid).padStart(3, '0');
 }
 
-// ================= BỘ XỬ LÝ MÁY CHỦ ROUTER KHÔNG DÙNG EXPRESS =================
+// ================= MÁY CHỦ ROUTER HỆ THỐNG =================
 const server = http.createServer((req, res) => {
-    // Tiện ích gửi dữ liệu JSON nhanh
     const sendJSON = (data, status = 200) => {
         res.writeHead(status, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(data));
     };
 
-    // ĐỌC DỮ LIỆU ĐƯỜNG TRUYỀN (BODY)
     let body = '';
     req.on('data', chunk => { body += chunk; });
     req.on('end', () => {
         let parseBody = {};
         try { if (body) parseBody = JSON.parse(body); } catch(e){}
 
-        // 1. API ĐĂNG NHẬP GMAIL CỐ ĐỊNH SỐ DƯ
+        // API 1: Đăng nhập Gmail tăng dần UID vĩnh viễn (001, 002...)
         if (req.url === '/api/auth/gmail-login' && req.method === 'POST') {
             const email = parseBody.email;
             if (!email || !email.includes('@')) return sendJSON({ success: false, msg: "Gmail không hợp lệ" });
@@ -83,23 +80,23 @@ const server = http.createServer((req, res) => {
                 const customUID = generateNextUID();
                 dbData.users[cleanEmail] = { uid: customUID, email: cleanEmail, balance: 0, avatar: 'https://imgur.com' };
                 saveUsersToDisk();
-                sendTelegramAlert(`🔔 <b>THÀNH VIÊN ĐĂNG KÝ MỚI</b>\n📧 Gmail: <code>${cleanEmail}</code>\n🆔 Mã số duy nhất (UID): <b>${customUID}</b>`);
+                sendTelegramAlert(`🔔 <b>THÀNH VIÊN ĐĂNG KÝ MỚI</b>\n📧 Gmail: <code>${cleanEmail}</code>\n🆔 UID: <b>${customUID}</b>`);
             } else {
-                sendTelegramAlert(`🔄 <b>KHÁCH CŨ ĐĂNG NHẬP LẠI</b>\n📧 Gmail: <code>${cleanEmail}</code>\n🆔 UID: <b>${dbData.users[cleanEmail].uid}</b>\n💰 Số dư: ${dbData.users[cleanEmail].balance.toLocaleString()}đ`);
+                sendTelegramAlert(`🔄 <b>KHÁCH CŨ ĐĂNG NHẬP LẠI</b>\n📧 Gmail: <code>${cleanEmail}</code>\n🆔 UID: <b>${dbData.users[cleanEmail].uid}</b>\n💰 Số dư cũ giữ nguyên: ${dbData.users[cleanEmail].balance.toLocaleString()}đ`);
             }
             return sendJSON({ success: true, user: dbData.users[cleanEmail] });
         }
 
-        // 2. API YÊU CẦU NẠP TIỀN QUA ZALO
+        // API 2: Yêu cầu nạp tiền
         if (req.url === '/api/user/nap-tien' && req.method === 'POST') {
             const email = parseBody.email;
             const user = dbData.users[(email || '').toLowerCase().trim()];
             if (!user) return sendJSON({ error: "Chưa đăng nhập" }, 400);
-            sendTelegramAlert(`💰 <b>YÊU CẦU NẠP TIỀN</b>\n🆔 Mã số (UID): <b>${user.uid}</b>\n📧 Gmail: <code>${user.email}</code>\n📞 Zalo hỗ trợ: 0907859891`);
+            sendTelegramAlert(`💰 <b>YÊU CẦU NẠP TIỀN</b>\n🆔 UID: <b>${user.uid}</b>\n📧 Gmail: <code>${user.email}</code>\n📞 Zalo hỗ trợ: 0907859891`);
             return sendJSON({ success: true, uid: user.uid });
         }
 
-        // 3. API XÉ TÚI MÙ TRỪ TIỀN TỰ ĐỘNG
+        // API 3: Xé túi mù chia 2 loại
         if (req.url === '/api/shop/xe-tui' && req.method === 'POST') {
             const { email, loaiTui } = parseBody;
             const user = dbData.users[(email || '').toLowerCase().trim()];
@@ -129,7 +126,7 @@ const server = http.createServer((req, res) => {
             return sendJSON({ success: true, account: accTrung, newBalance: user.balance });
         }
 
-        // 4. API BẢO MẬT ADMIN CỘNG TIỀN CHO KHÁCH KHÔNG CẦN TOKEN
+        // API 4: Admin cộng tiền theo UID (001, 002) vĩnh viễn
         if (req.url === '/api/admin/add-money' && req.method === 'POST') {
             const { uid, amount } = parseBody;
             let foundUser = null;
@@ -143,10 +140,10 @@ const server = http.createServer((req, res) => {
             return sendJSON({ success: true });
         }
 
-        // ================= ĐỌC PHẦN HIỂN THỊ GIAO DIỆN (TỆP TĨNH TỰ ĐỘNG) =================
+        // ================= GIAO DIỆN WEB TỆP TĨNH THƯ MỤC PUBLIC =================
         let filePath = path.join(__dirname, 'public', req.url === '/' ? 'index.html' : req.url);
         
-        // Đường dẫn ảo cho trang Admin ẩn nạp tiền
+        // Link bí mật nạp tiền của chủ shop
         if (req.url === '/panel-admin-an') {
             res.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' });
             return res.end(`
@@ -179,12 +176,11 @@ const server = http.createServer((req, res) => {
             if (error) {
                 res.writeHead(404, { 'Content-Type': 'text/html' });
                 res.end('<h1>404 Not Found</h1>', 'utf-8');
-            } else {res.writeHead(200, { 'Content-Type': contentType + '; charset=UTF-8' });
+            } else {
+                res.writeHead(200, { 'Content-Type': contentType + '; charset=UTF-8' });
 res.end(content, 'utf-8');
 }
 });
 });
 });
-server.listen(PORT, () => {
-console.log(Hệ thống máy chủ sạch lỗi đang chạy tại cổng: ${PORT});
-});
+server.listen(PORT, () => console.log(Hệ thống đang chạy tại cổng: ${PORT}));
