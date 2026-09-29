@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ================= TELEGRAM CONFIG =================
-// Điền lại mã Token và ID Chat Telegram của bạn vào đây
+// Bạn nhớ thay mã Token và ID Chat Telegram của bạn vào đây để nhận thông báo nhé!
 const TELEGRAM_TOKEN = 'TOKEN_BOT_CUA_BAN'; 
 const TELEGRAM_CHAT_ID = 'ID_CHAT_CUA_BAN'; 
 
@@ -32,7 +32,7 @@ if (fs.existsSync(DATA_FILE)) {
 }
 function saveUsersToDisk() { fs.writeFileSync(DATA_FILE, JSON.stringify(users, null, 2), 'utf8'); }
 
-// ================= KHO TÀI KHOẢN CHIA LÀM 2 LOẠI TÚI =================
+// ================= KHO NICK GAME THẬT (BẠN TỰ SỬA TÀI KHOẢN Ở ĐÂY) =================
 let khoPlayTogether = [
     { id: 1001, tk: "play_vip_01", mk: "ptg1234", note: "Acc 50 ô tô, nhà siêu to khổng lồ!" },
     { id: 1002, tk: "cau_ca_pro", mk: "cauca999", note: "Acc chuyên câu cá, sẵn cần câu vàng!" }
@@ -63,18 +63,16 @@ app.post('/api/user/nap-tien', (req, res) => {
     const { email } = req.body;
     const user = users[email.toLowerCase().trim()];
     if (!user) return res.status(400).json({ error: "Chưa đăng nhập" });
-    sendTelegramAlert(`💰 <b>YÊU CẦU NẠP TIỀN</b>\n🆔 UID khách: <code>${user.uid}</code>\n📧 Gmail: <code>${user.email}</code>\n📞 Zalo: 0907859891`);
+    sendTelegramAlert(`💰 <b>YÊU CẦU NẠP TIỀN</b>\n🆔 UID khách: <code>${user.uid}</code>\n📧 Gmail: <code>${user.email}</code>\n📞 Zalo hỗ trợ: 0907859891`);
     res.json({ success: true, uid: user.uid });
 });
 
-// LOGIC XÉ TÚI MÙ ĐÃ ĐƯỢC CHIA LÀM 2 LOẠI TÚI BẢO MẬT
 app.post('/api/shop/xe-tui', (req, res) => {
-    const { email, loaiTui } = req.body; // Thêm loaiTui nhận từ giao diện gửi lên
+    const { email, loaiTui } = req.body;
     const user = users[email.toLowerCase().trim()];
 
     if (!user) return res.json({ success: false, msg: "Vui lòng nhập định dạng Gmail trước!" });
 
-    // Cấu hình giá tiền và kho acc theo từng loại túi khách chọn
     let giaTui = 0;
     let targetKho = [];
     let tenTuiText = "";
@@ -84,7 +82,7 @@ app.post('/api/shop/xe-tui', (req, res) => {
         targetKho = khoPlayTogether;
         tenTuiText = "Túi VIP Play Together";
     } else if (loaiTui === 'clone_cokhi') {
-        giaTui = 20000; // Giá túi clone cơ khí
+        giaTui = 20000;
         targetKho = khoCloneCoKhi;
         tenTuiText = "Túi Clone Cơ Khí VIP";
     } else {
@@ -109,23 +107,28 @@ app.post('/api/shop/xe-tui', (req, res) => {
     return res.json({ success: true, account: accTrung, newBalance: user.balance });
 });
 
-// ================= PANEL ADMIN CỘNG TIỀN =================
+// ================= PANEL ADMIN CỘNG TIỀN BÍ MẬT =================
 app.get('/panel-admin-an', (req, res) => {
     res.send(`
         <!DOCTYPE html>
         <html>
-        <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cộng Tiền Chủ Shop</title></head>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Cộng Tiền Chủ Shop</title>
+        </head>
         <body style="font-family:Arial; background:#2c3e50; color:white; text-align:center; padding:20px;">
-            <div style="background:#34495e; padding:25px; border-radius:15px; display:inline-block; max-width:400px; width:100%; text-align:left; margin-top:40px;">
+            <div style="background:#34495e; padding:25px; border-radius:15px; display:inline-block; max-width:400px; width:100%; text-align:left; margin-top:40px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                 <h2 style="text-align:center; color:#f1c40f;">⚙️ PANEL CỘNG TIỀN KHÁCH</h2>
-                <label><b>Mã Số Khách (UID):</b></label><input type="number" id="uid" style="width:100%; padding:12px; margin:10px 0; font-size:16px;"><br>
-                <label><b>Số Tiền Cộng:</b></label><input type="number" id="amount" style="width:100%; padding:12px; margin:10px 0; font-size:16px;"><br>
-                <button onclick="addMoney()" style="background:#2ecc71; color:white; padding:14px; width:100%; border:none; border-radius:8px; font-weight:bold; font-size:16px;">XÁC NHẬN CỘNG TIỀN</button>
+                <label><b>Mã Số Khách (UID):</b></label><input type="number" id="uid" style="width:100%; padding:12px; margin:10px 0; font-size:16px; border-radius:8px; border:none;"><br>
+                <label><b>Số Tiền Cộng (đ):</b></label><input type="number" id="amount" style="width:100%; padding:12px; margin:10px 0; font-size:16px; border-radius:8px; border:none;"><br>
+                <button onclick="addMoney()" style="background:#2ecc71; color:white; padding:14px; width:100%; border:none; border-radius:8px; font-weight:bold; font-size:16px; cursor:pointer;">XÁC NHẬN CỘNG TIỀN</button>
             </div>
             <script>
                 function addMoney() {
                     const uid = document.getElementById('uid').value;
                     const amount = document.getElementById('amount').value;
+                    if(!uid || !amount) return alert("Vui lòng điền đủ thông tin!");
                     fetch('/api/admin/add-money', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ uid, amount: parseInt(amount) }) })
                     .then(res => res.json()).then(data => { if(data.success) alert("Đã cộng tiền thành công!"); else alert("Lỗi: " + data.msg); });
                 }
