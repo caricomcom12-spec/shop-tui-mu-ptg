@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shop Túi Mù Play Together Siêu Cấp</title>
+    <style>
+        :root { --pt-pink: #ff6b81; --pt-yellow: #feca57; --pt-purple: #5f27cd; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #f7f9fc; color: #333; padding-bottom: 50px; }
+        .mobile-header { background: linear-gradient(135deg, var(--pt-pink), var(--pt-purple)); color: white; padding: 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 99; }
+        .shop-name { font-size: 22px; font-weight: 900; color: var(--pt-yellow); text-shadow: 2px 2px var(--pt-purple); }
+        .user-panel { max-width: 500px; margin: 15px auto; background: white; border-radius: 15px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); width: 92%; }
+        .login-btn { background: #fff; border: 1px solid #ddd; padding: 10px; border-radius: 25px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: bold; cursor: pointer; font-size: 15px; }
+        .profile { display: flex; align-items: center; justify-content: space-between; }
+        .profile-info { display: flex; align-items: center; gap: 10px; }
+        .profile-info img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--pt-pink); }
+        .uid-tag { background: #eee; font-size: 12px; padding: 2px 6px; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 3px; }
+        .money { color: #2ed573; font-weight: bold; font-size: 16px; }
+        .btn-add-money { background: var(--pt-yellow); color: #000; border: none; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-top: 4px; cursor: pointer; }
+        .banner { max-width: 500px; width: 92%; margin: 10px auto; background: linear-gradient(45deg, #ff9f43, var(--pt-pink)); border-radius: 15px; padding: 20px; color: white; text-align: center; font-weight: bold; }
+        .shop-container { max-width: 500px; width: 92%; margin: 20px auto; }
+        .section-title { font-size: 18px; font-weight: 800; margin-bottom: 12px; color: var(--pt-purple); }
+        .bag-card { background: white; border-radius: 20px; border: 3px solid var(--pt-pink); overflow: hidden; margin-bottom: 20px; text-align: center; padding: 20px; }
+        .bag-img { font-size: 70px; margin: 15px 0; display: inline-block; }
+        .bag-title { font-size: 18px; font-weight: bold; }
+        .bag-price { font-size: 20px; font-weight: 900; color: var(--pt-pink); margin: 5px 0 15px 0; }
+        .btn-open { background: linear-gradient(to right, var(--pt-pink), #ff4757); color: white; border: none; width: 100%; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 15px; cursor: pointer; }
+        .shake { animation: shakeMobile 0.5s infinite; }
+        @keyframes shakeMobile { 0% { transform: rotate(0deg); } 25% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } 75% { transform: rotate(-1deg); } 100% { transform: rotate(0deg); } }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: white; border-radius: 20px; padding: 25px; width: 100%; max-width: 400px; text-align: center; }
+        .acc-info-box { background: #f1f2f6; border: 2px dashed var(--pt-purple); padding: 15px; border-radius: 12px; margin: 15px 0; text-align: left; }
+        .btn-close { background: #2f3542; color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; width: 100%; margin-top: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="mobile-header"><div class="shop-name">🛍️ PTG-BAG.SHOP 🛍️</div></div>
+    <div class="user-panel" id="auth-panel">
+        <button class="login-btn" onclick="fakeGoogleLogin()">🌐 Đăng nhập bằng tài khoản Google</button>
+    </div>
+    <div class="banner">🎉 KHAI TRƯƠNG GIẢM GIÁ TÚI MÙ ĐỒNG GIÁ 30,000Đ 🎉</div>
+    <div class="shop-container">
+        <div class="section-title">📦 DANH SÁCH TÚI MÙ</div>
+        <div class="bag-card">
+            <div class="bag-title">Túi Mù Play Together Siêu VIP</div>
+            <div class="bag-img" id="ptg-bag">🛍️</div>
+            <div class="bag-price">30,000đ</div>
+            <button class="btn-open" onclick="buyBlindBag()">XÉ TÚI NGAY</button>
+        </div>
+    </div>
+    <div class="modal" id="popupModal"><div class="modal-content" id="popupContent"></div></div>
+
+    <script>
+        let currentUser = null;
+        function fakeGoogleLogin() {
+            const listFakeNames = ["Nguyễn Văn An", "Trần Thị Bích", "Lê Minh Công", "Hoàng Thảo Nhi"];
+            const randomName = listFakeNames[Math.floor(Math.random() * listFakeNames.length)];
+            const fakeEmail = "user_" + Math.floor(Math.random() * 10000) + "@gmail.com";
+
+            fetch('/api/auth/google', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: fakeEmail, name: randomName, avatar: 'https://imgur.com' })
+            })
+            .then(res => res.json()).then(data => {
+                if(data.success) { currentUser = data.user; renderUserPanel(); }
+            });
+        }
+
+        function renderUserPanel() {
+            document.getElementById('auth-panel').innerHTML = `
+                <div class="profile">
+                    <div class="profile-info">
+                        <img src="${currentUser.avatar}">
+                        <div>
+                            <div style="font-weight: bold;">${currentUser.name}</div>
+                            <div class="uid-tag">Mã số (UID): ${currentUser.uid}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="money">${currentUser.balance.toLocaleString('vi-VN')}đ</div>
+                        <button class="btn-add-money" onclick="showNapTienBox()">Nạp tiền</button>
+                    </div>
+                </div>`;
+        }
+
+        function showNapTienBox() {
+            fetch('/api/user/nap-tien', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: currentUser.email })
+            });
+            document.getElementById('popupContent').innerHTML = `
+                <h3>💳 HƯỚNG DẪN NẠP TIỀN QUẠ ZALO</h3>
+                <p style="margin-top:10px;">Mã số của bạn: <strong style="color:var(--pt-purple); font-size:18px;">${currentUser.uid}</strong></p>
+                <div style="font-size:22px; font-weight:bold; color:#0084ff; margin:15px 0;">📞 Zalo: 0907859891</div>
+                <p style="font-size:13px;">Hãy gửi <b>Mã Số trên + Bill chuyển khoản</b> qua Zalo để Admin cộng số dư nhé!</p>
+                <button class="btn-close" onclick="closeModal()">ĐÃ HIỂU</button>`;
+            document.getElementById('popupModal').style.display = "flex";
+        }
+
+        function buyBlindBag() {
+            if (!currentUser) return alert("Bạn cần bấm ĐĂNG NHẬP GOOGLE ở phía trên trước!");
+            const bagImg = document.getElementById('ptg-bag');
+            bagImg.classList.add('shake');
+
+            setTimeout(() => {
+                bagImg.classList.remove('shake');
+                fetch('/api/shop/xe-tui', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentUser.email })
+                })
+                .then(res => res.json()).then(data => {
+                    const content = document.getElementById('popupContent');
+                    if (!data.success) {
+                        content.innerHTML = `<h3>❌ THẤT BẠI</h3><p>${data.msg}</p><button class="btn-close" onclick="closeModal()">ĐÓNG</button>`;
+                    } else {
+                        currentUser.balance = data.newBalance; renderUserPanel();
+                        content.innerHTML = `
+                            <h3>🎉 XÉ TÚI THÀNH CÔNG! 🎉</h3>
+                            <div class="acc-info-box">
+                                <p>🔐 <b>Tài khoản:</b> ${data.account.tk}</p>
+                                <p>🔑 <b>Mật khẩu:</b> ${data.account.mk}</p>
+                                <p style="font-size:12px; color:#666; margin-top:5px;">✨ <b>Mô tả:</b> <i>${data.account.note}</i></p>
+                            </div>
+                            <button class="btn-close" onclick="closeModal()">NHẬN ACC</button>`;
+                    }
+                    document.getElementById('popupModal').style.display = "flex";
+                });
+            }, 1000);
+        }
+        function closeModal() { document.getElementById('popupModal').style.display = "none"; }
+    </script>
+</body>
+</html>
