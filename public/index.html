@@ -35,7 +35,7 @@
     </style>
 </head>
 <body>
-    <div class="mobile-header"><div class="shop-name">🛍️ PTG-BAG.SHOP 🛍️</div></div>
+    <div class="mobile-header"><div class="shop-name">🛍️ TÚI MÙ PTG CDANG 🛍️</div></div>
     
     <div class="user-panel" id="auth-panel">
         <div class="login-box">
@@ -109,7 +109,7 @@
                 .then(res => res.json()).then(data => {
                     const content = document.getElementById('popupContent');
                     if (!data.success) {
-                        content.innerHTML = `<h3>❌ SỐ DƯ KHÔNG ĐỦ</h3><p style="font-size:14px; padding:15px 0; line-height:1.6; color:#ff4757; font-weight:bold;">${data.msg}</p><button class="btn-close" style="background:#ff4757; color:#fff;" onclick="closeModal()">ĐÓNG</button>`;
+                        content.innerHTML = `<h3>❌ SỐ DƯ KHÔNG ĐỦ,nạp thêm tiền đi:3</h3><p style="font-size:14px; padding:15px 0; line-height:1.6; color:#ff4757; font-weight:bold;">${data.msg}</p><button class="btn-close" style="background:#ff4757; color:#fff;" onclick="closeModal()">ĐÓNG</button>`;
                     } else {
                         currentUser.balance = data.newBalance; renderUserPanel();
                         content.innerHTML = `<h3>🎉 XÉ TÚI THÀNH CÔNG! 🎉</h3><div class="acc-info-box"><p>🔐 <b>TK:</b> ${data.account.tk}</p><p>🔑 <b>MK:</b> ${data.account.mk}</p><p style="font-size:12px; color:#666; margin-top:8px;">✨ <b>Mô tả:</b> <i>${data.account.note}</i></p></div><button class="btn-close" style="background:#2ed573; color:#fff;" onclick="closeModal()">NHẬN ACC</button>`;
