@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ================= TELEGRAM CONFIG =================
-// Điền lại mã số Token và ID Telegram của bạn vào đây để nhận thông báo tự động nhé
+// Điền lại mã số Token và ID Telegram của bạn vào đây để nhận thông báo tự động
 const TELEGRAM_TOKEN = '8867715609:AAF4bUXyvqmWz1yKXA2ioynyPXKXaU-AMiQ'; 
 const TELEGRAM_CHAT_ID = '8814138987'; 
 
@@ -24,7 +24,7 @@ function sendTelegramAlert(message) {
     }).catch(err => console.error("Lỗi gửi Telegram:", err));
 }
 
-// ================= DATABASE LƯU TRỮ VĨNH VIỄN KHÔNG MẤT SỐ DƯ =================
+// ================= DATABASE KHÔNG MẤT SỐ DƯ =================
 const DATA_FILE = path.join(__dirname, 'users_database.json');
 let dbData = { users: {} };
 
@@ -46,7 +46,7 @@ function saveUsersToDisk() {
     }
 }
 
-// ================= KHO NICK GAME THẬT (BẠN TỰ SỬA NICK TẠI ĐÂY) =================
+// =================NICK GAME=================
 let khoTuiMu7k = [
     { id: 1001, tk: "tuimu_7k_01", mk: "pass7k", note: "Acc Play Together sẵn đồ trang trí cute!" },
     { id: 1002, tk: "tuimu_7k_02", mk: "lucky7k", note: "Acc trắng thông tin hên xui!" }
