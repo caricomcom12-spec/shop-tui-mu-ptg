@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ================= TELEGRAM CONFIG =================
-// Điền mã Token và ID Chat Telegram của bạn vào đây để nhận thông báo
+// Điền mã Token và ID Chat Telegram của bạn vào đây nhé
 const TELEGRAM_TOKEN = 'TOKEN_BOT_CUA_BAN'; 
 const TELEGRAM_CHAT_ID = 'ID_CHAT_CUA_BAN'; 
 
@@ -23,27 +23,34 @@ function sendTelegramAlert(message) {
     }).catch(err => console.error("Lỗi gửi Telegram:", err));
 }
 
-// ================= HỆ THỐNG LƯU TRỮ VĨNH VIỄN KHÔNG MẤT SỐ DƯ & UID =================
+// ================= HỆ THỐNG LƯU TRỮ VĨNH VIỄN CHỐNG ĐƠ WEB =================
 const DATA_FILE = path.join(__dirname, 'users_database.json');
-let dbData = {
-    last_uid: 0, // Dùng để đếm số thứ tự tăng dần: 1, 2, 3...
-    users: {}    // Danh sách lưu thông tin khách hàng vĩnh viễn
-};
+let dbData = { last_uid: 0, users: {} }; // Đặt mặc định sẵn phòng ngừa lỗi đơ kẹt tệp
 
-// Khởi chạy: Tải dữ liệu từ file cứng lên bộ nhớ mạng
+// Khởi chạy: Chặn đứng lỗi đơ bằng hàm try-catch thông minh
 if (fs.existsSync(DATA_FILE)) {
     try { 
-        dbData = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')); 
-        // Đảm bảo cấu trúc dữ liệu không bị lỗi trống
-        if (!dbData.users) dbData.users = {};
-        if (dbData.last_uid === undefined) dbData.last_uid = Object.keys(dbData.users).length;
+        const fileContent = fs.readFileSync(DATA_FILE, 'utf8');
+        if (fileContent && fileContent.trim().length > 0) {
+            dbData = JSON.parse(fileContent); 
+        }
     } catch (e) { 
-        console.error("Lỗi đọc file database, khởi tạo lại...");
+        console.error("Phát hiện file trống hoặc lỗi cấu trúc JSON, tự động reset...");
     }
 }
-function saveUsersToDisk() { fs.writeFileSync(DATA_FILE, JSON.stringify(dbData, null, 2), 'utf8'); }
+// Đảm bảo các thuộc tính mảng luôn tồn tại
+if (!dbData.users) dbData.users = {};
+if (dbData.last_uid === undefined) dbData.last_uid = 0;
 
-// ================= KHO NICK GAME (BẠN TỰ SỬA TÀI KHOẢN TẠI ĐÂY) =================
+function saveUsersToDisk() { 
+    try {
+        fs.writeFileSync(DATA_FILE, JSON.stringify(dbData, null, 2), 'utf8'); 
+    } catch(err) {
+        console.error("Lỗi ghi file ổ cứng:", err);
+    }
+}
+
+// ================= KHO NICK GAME THẬT =================
 let khoPlayTogether = [
     { id: 1001, tk: "play_vip_01", mk: "ptg1234", note: "Acc 50 ô tô, nhà siêu to khổng lồ!" },
     { id: 1002, tk: "cau_ca_pro", mk: "cauca999", note: "Acc chuyên câu cá, sẵn cần câu vàng!" }
@@ -54,43 +61,37 @@ let khoCloneCoKhi = [
     { id: 2002, tk: "clone_cokhi_02", mk: "cokhi456", note: "Acc clone cơ khí full linh kiện cấp 2" }
 ];
 
-// Hàm tự động tạo mã số UID định dạng 3 chữ số dạng: 001, 002, 015, 120... tăng dần không trùng lặp
 function generateNextUID() {
-    dbData.last_uid += 1;
+    dbData.last_uid = parseInt(dbData.last_uid) + 1;
     return String(dbData.last_uid).padStart(3, '0');
 }
 
 // ================= API ENDPOINTS SHOP =================
 app.post('/api/auth/gmail-login', (req, res) => {
-    const { email } = req.body;
-    if (!email) return res.json({ success: false, msg: "Gmail không hợp lệ" });
-    
-    const cleanEmail = email.toLowerCase().trim();
+    try {
+        const { email } = req.body;
+        if (!email || !email.includes('@')) return res.json({ success: false, msg: "Gmail không hợp lệ" });
+        
+        const cleanEmail = email.toLowerCase().trim();
 
-    // KIỂM TRA: Nếu Gmail này CHƯA TỒN TẠI ➔ Tiến hành đăng ký cấp mã UID mới vĩnh viễn
-    if (!dbData.users[cleanEmail]) {
-        const customUID = generateNextUID(); // Tạo mã số thứ tự duy nhất (Ví dụ: 001)
-        
-        dbData.users[cleanEmail] = { 
-            uid: customUID, 
-            email: cleanEmail, 
-            balance: 0, 
-            avatar: 'https://imgur.com' 
-        };
-        saveUsersToDisk(); // Ghi đè ngay lập tức vào ổ cứng Render
-        
-        sendTelegramAlert(`🔔 <b>THÀNH VIÊN ĐĂNG KÝ MỚI</b>\n📧 Gmail: <code>${cleanEmail}</code>\n🆔 Mã số duy nhất (UID): <b>${customUID}</b>`);
-    } else {
-        // KIỂM TRA: Nếu Gmail ĐÃ CÓ ➔ Giữ nguyên mã UID cũ và giữ nguyên số dư cũ
-        const user = dbData.users[cleanEmail];
-        sendTelegramAlert(`🔄 <b>KHÁCH CŨ ĐĂNG NHẬP LẠI</b>\n📧 Gmail: <code>${cleanEmail}</code>\n🆔 Mã số (UID): <b>${user.uid}</b>\n💰 Số dư cũ giữ nguyên: ${user.balance.toLocaleString()}đ`);
+        if (!dbData.users[cleanEmail]) {
+            const customUID = generateNextUID();
+            dbData.users[cleanEmail] = { uid: customUID, email: cleanEmail, balance: 0, avatar: 'https://imgur.com' };
+            saveUsersToDisk();
+            sendTelegramAlert(`🔔 <b>THÀNH VIÊN ĐĂNG KÝ MỚI</b>\n📧 Gmail: <code>${cleanEmail}</code>\n🆔 Mã số duy nhất (UID): <b>${customUID}</b>`);
+        } else {
+            const user = dbData.users[cleanEmail];
+            sendTelegramAlert(`🔄 <b>KHÁCH CŨ ĐĂNG NHẬP LẠI</b>\n📧 Gmail: <code>${cleanEmail}</code>\n🆔 Mã số (UID): <b>${user.uid}</b>\n💰 Số dư: ${user.balance.toLocaleString()}đ`);
+        }
+        res.json({ success: true, user: dbData.users[cleanEmail] });
+    } catch (err) {
+        res.json({ success: false, msg: "Hệ thống bận, vui lòng thử lại!" });
     }
-    
-    res.json({ success: true, user: dbData.users[cleanEmail] });
 });
 
 app.post('/api/user/nap-tien', (req, res) => {
     const { email } = req.body;
+    if(!email) return res.status(400).json({ error: "Thiếu thông tin" });
     const user = dbData.users[email.toLowerCase().trim()];
     if (!user) return res.status(400).json({ error: "Chưa đăng nhập" });
     sendTelegramAlert(`💰 <b>YÊU CẦU NẠP TIỀN</b>\n🆔 Mã số (UID): <b>${user.uid}</b>\n📧 Gmail: <code>${user.email}</code>\n📞 Zalo hỗ trợ: 0907859891`);
@@ -99,8 +100,9 @@ app.post('/api/user/nap-tien', (req, res) => {
 
 app.post('/api/shop/xe-tui', (req, res) => {
     const { email, loaiTui } = req.body;
+    if(!email) return res.json({ success: false, msg: "Vui lòng nhập định dạng Gmail trước!" });
+    
     const user = dbData.users[email.toLowerCase().trim()];
-
     if (!user) return res.json({ success: false, msg: "Vui lòng nhập định dạng Gmail trước!" });
 
     let giaTui = 0;
@@ -130,9 +132,9 @@ app.post('/api/shop/xe-tui', (req, res) => {
     const accTrung = targetKho.splice(randomIdx, 1)[0]; 
 
     user.balance -= giaTui;
-    saveUsersToDisk(); // Cập nhật ví tiền mới lưu vĩnh viễn vào file cứng
+    saveUsersToDisk();
 
-    sendTelegramAlert(`🎁 <b>THÔNG BÁO TÚI MÙ</b>\n👤 Khách UID: <b>${user.uid}</b>\n🛒 Đã xé: <b>${tenTuiText} (${giaTui.toLocaleString()}đ)</b>\n💰 Số dư còn lại: ${user.balance.toLocaleString()}đ\n🔑 Nick trúng:\nTK: <code>${accTrung.tk}</code>\nMK: <code>${accTrung.mk}</code>\n📝 Mô tả: <i>${accTrung.note}</i>`);
+    sendTelegramAlert(`🎁 <b>THÔNG BÁO TÚI MÙ</b>\n👤 Khách UID: <b>${user.uid}</b>\n🛒 Đã xé: <b>${tenTuiText}</b>\n💰 Số dư còn lại: ${user.balance.toLocaleString()}đ\n🔑 Nick trúng:\nTK: <code>${accTrung.tk}</code>\nMK: <code>${accTrung.mk}</code>\n📝 Mô tả: <i>${accTrung.note}</i>`);
 
     return res.json({ success: true, account: accTrung, newBalance: user.balance });
 });
@@ -142,11 +144,7 @@ app.get('/panel-admin-an', (req, res) => {
     res.send(`
         <!DOCTYPE html>
         <html>
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Cộng Tiền Chủ Shop</title>
-        </head>
+        <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cộng Tiền Chủ Shop</title></head>
         <body style="font-family:Arial; background:#2c3e50; color:white; text-align:center; padding:20px;">
             <div style="background:#34495e; padding:25px; border-radius:15px; display:inline-block; max-width:400px; width:100%; text-align:left; margin-top:40px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                 <h2 style="text-align:center; color:#f1c40f;">⚙️ PANEL CỘNG TIỀN KHÁCH</h2>
@@ -171,21 +169,14 @@ app.get('/panel-admin-an', (req, res) => {
 app.post('/api/admin/add-money', (req, res) => {
     const { uid, amount } = req.body;
     let foundUser = null;
-    
-    // Tìm kiếm chính xác khách hàng dựa theo mã số UID dạng chuỗi chu kỳ cố định
     for (let email in dbData.users) { 
-        if (dbData.users[email].uid === uid.toString().trim()) { 
-            foundUser = dbData.users[email]; 
-            break; 
-        } 
+        if (dbData.users[email].uid === uid.toString().trim()) { foundUser = dbData.users[email]; break; } 
     }
-    
-    if (!foundUser) return res.json({ success: false, msg: "Không tìm thấy mã số tài khoản định danh này trên hệ thống!" });
+    if (!foundUser) return res.json({ success: false, msg: "Không tìm thấy mã số khách hàng!" });
     
     foundUser.balance += amount;
-    saveUsersToDisk(); // Đồng bộ lưu lại ví tiền mới của khách vào file cứng
-    
-    sendTelegramAlert(`💰 <b>XÁC NHẬN NẠP TIỀN THÀNH CÔNG</b>\n🆔 UID khách: <b>${foundUser.uid}</b>\n📧 Gmail: <code>${foundUser.email}</code>\n💵 Số tiền cộng: +${amount.toLocaleString()}đ\n📈 Tổng số dư: ${foundUser.balance.toLocaleString()}đ`);
+    saveUsersToDisk();
+    sendTelegramAlert(`💰 <b>XÁC NHẬN NẠP TIỀN THÀNH CÔNG</b>\n🆔 UID khách: <b>${foundUser.uid}</b>\n💵 Số tiền cộng: +${amount.toLocaleString()}đ`);
     return res.json({ success: true });
 });
 
