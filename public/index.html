@@ -26,7 +26,7 @@
         .section-title { font-size: 18px; font-weight: 800; margin-bottom: 12px; color: var(--pt-purple); }
         .bag-card { background: white; border-radius: 20px; border: 3px solid var(--pt-pink); overflow: hidden; margin-bottom: 20px; text-align: center; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .bag-card.blue-theme { border-color: var(--pt-blue); }
-        .bag-img { font-size: 70px; margin: 15px 0; display: inline-block; }
+        .bag-img { font-size: 70px; margin: 15px 0; display: inline-block; transition: 0.3s; }
         .bag-title { font-size: 18px; font-weight: bold; }
         .bag-price { font-size: 20px; font-weight: 900; color: var(--pt-pink); margin: 5px 0 15px 0; }
         .bag-card.blue-theme .bag-price { color: var(--pt-blue); }
@@ -64,7 +64,7 @@
             <button class="btn-open" onclick="buyBlindBag('playtogether')">XÉ TÚI PLAY TOGETHER</button>
         </div>
 
-        <!-- Ô TÚI MÙ 2: CLONE CƠ KHÍ MỚI THÊM THEO YÊU CẦU -->
+        <!-- Ô TÚI MÙ 2: CLONE CƠ KHÍ MỚI THÊM -->
         <div class="bag-card blue-theme">
             <div class="bag-title">Túi Mù Acc Clone Cơ Khí VIP</div>
             <div class="bag-img" id="bag-clone_cokhi">⚙️</div>
@@ -104,6 +104,7 @@
         }
 
         function showNapTienBox() {
+            fetch('/api/user/nap-tien', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: currentUser.email }) });
             document.getElementById('popupContent').innerHTML = `
                 <h3>💳 HƯỚNG DẪN NẠP TIỀN QUA ZALO</h3>
                 <p style="margin-top:10px;">Mã số của bạn: <strong style="color:var(--pt-purple); font-size:18px;">${currentUser.uid}</strong></p>
@@ -124,7 +125,7 @@
                 fetch('/api/shop/xe-tui', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: currentUser.email, loaiTui: type }) // Gửi kèm loại túi lên backend
+                    body: JSON.stringify({ email: currentUser.email, loaiTui: type })
                 })
                 .then(res => res.json()).then(data => {
                     const content = document.getElementById('popupContent');
@@ -137,6 +138,3 @@
                             <div class="acc-info-box">
                                 <p>🔐 <b>Tài khoản:</b> ${data.account.tk}</p>
                                 <p>🔑 <b>Mật khẩu:</b> ${data.account.mk}</p>
-                                <p style="font-size:12px; color:#666; margin-top:5px;">✨ <b>Mô tả:</b> <i>${data.account.note}</i></p>
-                            </div>
-                            <button class="btn-close" onclick="closeModal()">NHẬN ACC</button>`;
