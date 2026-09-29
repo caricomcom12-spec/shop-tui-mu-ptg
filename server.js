@@ -10,11 +10,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ================= TELEGRAM CONFIG =================
 // Điền lại mã số Token và ID Telegram của bạn vào đây để nhận thông báo tự động nhé
-const TELEGRAM_TOKEN = 'TOKEN_BOT_CUA_BAN'; 
-const TELEGRAM_CHAT_ID = 'ID_CHAT_CUA_BAN'; 
+const TELEGRAM_TOKEN = '8867715609:AAF4bUXyvqmWz1yKXA2ioynyPXKXaU-AMiQ'; 
+const TELEGRAM_CHAT_ID = '8814138987'; 
 
 function sendTelegramAlert(message) {
-    if (TELEGRAM_TOKEN === 'TOKEN_BOT_CUA_BAN') return;
+    if (TELEGRAM_TOKEN === '8867715609:AAF4bUXyvqmWz1yKXA2ioynyPXKXaU-AMiQ') return;
     const url = `https://telegram.org{TELEGRAM_TOKEN}/sendMessage`;
     
     fetch(url, {
