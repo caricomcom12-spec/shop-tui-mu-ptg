@@ -52,8 +52,7 @@ let khoTuiMu7k = [
     { id: 1002, tk: "acc_thu_hai", mk: "pass2", note: "Acc chuyên câu cá sẵn cần vàng" },
     { id: 1003, tk: "acc_thu_ba", mk: "pass3", note: "Acc full pet hiếm lv max" },
     { id: 1004, tk: "acc_thu_tu", mk: "pass4", note: "Acc sẵn 1000 kim cương cực hot" },
-    { id: 1005, tk: "acc_thu_6", mk: "pass6", note: "Acc clone cày cuốc rất hên xui" }
-    { id: 1006, tk: "acc_thu_7", mk: "pass7", note: "Acc clone cày cuốc rất hên xui" }
+    { id: 1005, tk: "acc_thu_nam", mk: "pass5", note: "Acc clone cày cuốc rất hên xui" }
 ];
 
 function generateRandomUID() {
