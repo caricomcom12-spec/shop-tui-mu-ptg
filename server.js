@@ -54,8 +54,6 @@ let khoTuiMu7k = [
     { id: 1004, tk: "acc_thu_tu", mk: "pass4", note: "Acc sẵn 1000 kim cương cực hot" },
     { id: 1005, tk: "acc_thu_6", mk: "pass6", note: "Acc clone cày cuốc rất hên xui" }
     { id: 1006, tk: "acc_thu_7", mk: "pass7", note: "Acc clone cày cuốc rất hên xui" }
-{ id: 1007, tk: "acc_thu_8", mk: "pass8", note: "Acc clone cày cuốc rất hên xui" }
-{ id: 1008, tk: "acc_thu_9", mk: "pass9", note: "Acc clone cày cuốc rất hên xui" }
 ];
 
 function generateRandomUID() {
