@@ -24,7 +24,7 @@ function sendTelegramAlert(message) {
     }).catch(err => console.error("Lỗi gửi Telegram:", err));
 }
 
-// ================= DATABASE LƯU TRỮ VĨNH VIỄN CHỐNG MẤT SỐ DƯ =================
+// ================= DATABASE LƯU TRỮ VĨNH VIỄN KHÔNG MẤT SỐ DƯ =================
 const DATA_FILE = path.join(__dirname, 'users_database.json');
 let dbData = { users: {} };
 
@@ -46,18 +46,12 @@ function saveUsersToDisk() {
     }
 }
 
-// ================= KHO ACC THẬT (BẠN TỰ SỬA NICK TẠI ĐÂY) =================
+// ================= KHO NICK GAME THẬT (BẠN TỰ SỬA NICK TẠI ĐÂY) =================
 let khoTuiMu7k = [
     { id: 1001, tk: "tuimu_7k_01", mk: "pass7k", note: "Acc Play Together sẵn đồ trang trí cute!" },
     { id: 1002, tk: "tuimu_7k_02", mk: "lucky7k", note: "Acc trắng thông tin hên xui!" }
 ];
 
-let khoCanClone30k = [
-    { id: 2001, tk: "can_clone_vip_01", mk: "clone30k", note: "Cần câu clone cơ khí VIP tỉ lệ đứt thấp!" },
-    { id: 2002, tk: "can_clone_vip_02", mk: "pro30k", note: "Cần câu cơ khí full linh kiện cấp cao!" }
-];
-
-// Hàm tạo mã số UID ngẫu nhiên gồm 6 chữ số cố định cho mỗi Gmail
 function generateRandomUID() {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
@@ -90,32 +84,25 @@ app.post('/api/user/nap-tien', (req, res) => {
     return res.json({ success: true, uid: user.uid });
 });
 
-// 3. API Xé túi mù và mua cần cơ khí trừ tiền tự động
+// 3. API Xé túi mù trừ tiền tự động
 app.post('/api/shop/xe-tui', (req, res) => {
     const { email, loaiTui } = req.body;
     const user = dbData.users[(email || '').toLowerCase().trim()];
     if (!user) return res.json({ success: false, msg: "Vui lòng nhập định dạng Gmail trước!" });
 
-    let giaTui = 0, targetKho = [], tenTuiText = "";
-    if (loaiTui === 'tuimu7k') {
-        giaTui = 7000; targetKho = khoTuiMu7k; tenTuiText = "Túi Mù Play Together VIP";
-    } else if (loaiTui === 'canclone30k') {
-        giaTui = 30000; targetKho = khoCanClone30k; tenTuiText = "Cần Clone Cơ Khí Ngẫu Nhiên VIP";
-    } else {
-        return res.json({ success: false, msg: "Loại sản phẩm không hợp lệ!" });
-    }
+    const giaTui = 7000;
+    const tenTuiText = "Túi Mù Play Together VIP";
 
-    // NẾU KHÁCH KHÔNG ĐỦ TIỀN ➔ HIỂN THỊ ĐÚNG THÔNG BÁO THEO YÊU CẦU CỦA BẠN
     if (!user.balance || user.balance < giaTui || user.balance <= 0) {
         return res.json({ 
             success: false, 
             msg: `Số dư không đủ vui lòng liên hệ sđt 0907859891 bank tiền + UID: ${user.uid} để được cộng tiền vào tài khoản` 
         });
     }
-    if (targetKho.length === 0) return res.json({ success: false, msg: `Sản phẩm [${tenTuiText}] này hiện đã hết hàng!` });
+    if (khoTuiMu7k.length === 0) return res.json({ success: false, msg: `Sản phẩm [${tenTuiText}] này hiện đã hết hàng!` });
 
-    const randomIdx = Math.floor(Math.random() * targetKho.length);
-    const accTrung = targetKho.splice(randomIdx, 1)[0];
+    const randomIdx = Math.floor(Math.random() * khoTuiMu7k.length);
+    const accTrung = khoTuiMu7k.splice(randomIdx, 1)[0];
 
     user.balance -= giaTui;
     saveUsersToDisk();
