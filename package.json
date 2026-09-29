@@ -1,10 +1,13 @@
 {
   "name": "shop-tui-mu-ptg",
   "version": "1.0.0",
-  "description": "Clean Server Setup",
+  "description": "Shop tui mu game account",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2"
+  }
 }
