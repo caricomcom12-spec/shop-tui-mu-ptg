@@ -48,11 +48,11 @@ function saveUsersToDisk() {
 
 // =================NICK GAME=================
 let khoTuiMu7k = [
-    { id: 1001, tk: "acc_thu_nhat", mk: "pass1", note: "Acc VIP 50 ô tô, nhà siêu to" },
-    { id: 1002, tk: "acc_thu_hai", mk: "pass2", note: "Acc chuyên câu cá sẵn cần vàng" },
-    { id: 1003, tk: "acc_thu_ba", mk: "pass3", note: "Acc full pet hiếm lv max" },
-    { id: 1004, tk: "acc_thu_tu", mk: "pass4", note: "Acc sẵn 1000 kim cương cực hot" },
-    { id: 1005, tk: "acc_thu_nam", mk: "pass5", note: "Acc clone cày cuốc rất hên xui" }
+    { id: 1001, tk: "plmvcf2781", mk: "Maicongdang01@", note: "Acc VIP 50 ô tô, nhà siêu to" },
+    { id: 1002, tk: "gpt362999", mk: "ML05teOs0rk", note: "Acc chuyên câu cá sẵn cần vàng" },
+    { id: 1003, tk: "9kiencuongc1", mk: "EEvn649", note: "Acc full pet hiếm lv max" },
+    { id: 1004, tk: "+50%lucky", mk: ":33", note: "Acc sẵn 1000 kim cương cực hot" },
+    { id: 1005, tk: "k trúng lêu lêu", mk: "hihi", note: "Acc clone cày cuốc rất hên xui" }
 ];
 
 function generateRandomUID() {
