@@ -22,20 +22,10 @@ function saveUsersToDisk() {
     fs.writeFileSync(DATA_FILE, JSON.stringify(dbData, null, 2), 'utf8');
 }
 
-// ================= KHO TÀI KHOẢN VÀ THIẾT LẬP TỶ LỆ TRÚNG ACC (%) =================
-
-// 1. KHO TÚI MÙ 7K (Bạn tự sửa tài khoản thật ở đây)
+// ================= KHO ACC THẬT TÚI MÙ 7K (Bạn tự sửa tài khoản tại đây) =================
 let khoTuiMu7k = [
     { id: 1001, tk: "acc_tuimu_vip01", mk: "pass7k", note: "Acc VIP 50 ô tô, nhà siêu to!" },
     { id: 1002, tk: "acc_tuimu_normal", mk: "lucky7k", note: "Acc trắng thông tin cày cuốc!" }
-];
-
-// 2. KHO VÒNG QUAY MAY MẮN 20K (Tổng tỷ lệ 4 ô phải bằng đúng 100)
-let phanThuongVongQuay = [
-    { index: 0, ten: "Nick Sơ Cấp", loai: "acc", tk: "clone01", mk: "123", note: "Nick sơ cấp sẵn cần vàng", tyLe: 50 },
-    { index: 1, ten: "Chúc May Mắn", loai: "text", msg: "Bạn đã trúng phần quà may mắn lượt sau!", tyLe: 30 },
-    { index: 2, ten: "Nick Trung Cấp", loai: "acc", tk: "trungcap01", mk: "456", note: "Nick trung cấp full pet", tyLe: 15 },
-    { index: 3, ten: "Siêu Siêu VIP", loai: "acc", tk: "sieuvip999", mk: "admin", note: "SIÊU PHẨM: Acc full rương, cánh hiếm, biệt thự!", tyLe: 5 }
 ];
 
 function generateRandomUID() { return Math.floor(100000 + Math.random() * 900000).toString(); }
@@ -80,7 +70,7 @@ const server = http.createServer((req, res) => {
             if (khoTuiMu7k.length === 0) return sendJSON({ success: false, msg: "Túi mù hiện đã hết hàng!" });
 
             const randomIdx = Math.floor(Math.random() * khoTuiMu7k.length);
-            const accTrung = khoTuiMu7k.splice(randomIdx, 1)[0];
+            const accTrung = khoTuiMu7k.splice(randomIdx, 1);
 
             user.balance -= giaTui;
             user.history.unshift({ thoiGian: new Date().toLocaleString('vi-VN'), tenSp: "Túi Mù 7K", ketQua: `TK: ${accTrung.tk} | MK: ${accTrung.mk} (${accTrung.note})` });
@@ -89,35 +79,7 @@ const server = http.createServer((req, res) => {
             return sendJSON({ success: true, account: accTrung, newBalance: user.balance, history: user.history });
         }
 
-        // 3. API Quay vòng quay 20K
-        if (req.url === '/api/shop/quay-vong-quay' && req.method === 'POST') {
-            const email = parseBody.email;
-            const user = dbData.users[(email || '').toLowerCase().trim()];
-            const giaQuay = 20000;
-
-            if (!user) return sendJSON({ success: false, msg: "Vui lòng đăng nhập trước!" });
-            if (!user.balance || user.balance < giaQuay || user.balance <= 0) {
-                return sendJSON({ success: false, msg: `Số dư không đủ vui lòng liên hệ sđt 0907859891 bank tiền + UID: ${user.uid} để được cộng tiền vào tài khoản` });
-            }
-
-            let xacSuat = Math.floor(Math.random() * 100) + 1; 
-            let mocDuoi = 0, phanThuongTrung = phanThuongVongQuay[1]; 
-
-            for (let i = 0; i < phanThuongVongQuay.length; i++) {
-                let mocTren = mocDuoi + phanThuongVongQuay[i].tyLe;
-                if (xacSuat > mocDuoi && xacSuat <= mocTren) { phanThuongTrung = phanThuongVongQuay[i]; break; }
-                mocDuoi = mocTren;
-            }
-
-            user.balance -= giaQuay;
-            let textKetQua = phanThuongTrung.loai === 'acc' ? `Trúng ${phanThuongTrung.ten} -> TK: ${phanThuongTrung.tk} | MK: ${phanThuongTrung.mk}` : `Trúng ô: ${phanThuongTrung.ten}`;
-            user.history.unshift({ thoiGian: new Date().toLocaleString('vi-VN'), tenSp: "Vòng Quay 20K", ketQua: textKetQua });
-            saveUsersToDisk();
-
-            return sendJSON({ success: true, reward: phanThuongTrung, newBalance: user.balance, history: user.history });
-        }
-
-        // 4. API Admin bí mật cộng tiền
+        // 3. API Admin bí mật cộng tiền
         if (req.url === '/api/admin/add-money' && req.method === 'POST') {
             const { uid, amount } = parseBody;
             let foundUser = null;
