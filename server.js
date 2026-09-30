@@ -9,9 +9,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ================= TELEGRAM CONFIG =================
-// Nhớ điền mã Token và ID Chat Telegram của bạn vào đây để nhận thông báo
+// Điền mã số Token và ID Telegram của bạn vào đây để nhận thông báo tự động nhé
 const TELEGRAM_TOKEN = 'TOKEN_BOT_CUA_BAN'; 
-const TELEGRAM_CHAT_ID = 'ID_CHAT_CUA_BAN'; 
+const TELEGRAM_CHAT_ID = '8814138987'; 
 
 function sendTelegramAlert(message) {
     if (TELEGRAM_TOKEN === 'TOKEN_BOT_CUA_BAN') return;
