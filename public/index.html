@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>⚡ CYBER GAME SHOP - SIÊU THỊ TÚI MÙ ⚡</title>
+    <title>⚡ CDANG GAME SHOP - SIÊU THỊ TÚI MÙ ⚡</title>
     <style>
         :root { --cb-pink: #ff007f; --cb-blue: #00f0ff; --cb-purple: #7000ff; --cb-dark: #0a0f1d; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -27,9 +27,6 @@
         .bag-title { font-size: 19px; font-weight: bold; color: #fff; }
         .bag-price { font-size: 22px; font-weight: 900; color: var(--cb-pink); margin: 8px 0 15px 0; text-shadow: 0 0 5px var(--cb-pink); }
         .btn-open { background: linear-gradient(to right, var(--cb-pink), #ff0055); color: white; border: none; width: 100%; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 15px; cursor: pointer; box-shadow: 0 0 15px var(--cb-pink); }
-        .wheel-container { position: relative; width: 260px; height: 260px; margin: 15px auto; border-radius: 50%; border: 6px solid var(--cb-blue); box-shadow: 0 0 20px var(--cb-blue); overflow: hidden; background: #1e293b; transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1); }
-        .wheel-pointer { position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid var(--cb-pink); z-index: 10; filter: drop-shadow(0 0 5px var(--cb-pink)); }
-        .wheel-canvas { width: 100%; height: 100%; display: block; }
         .history-box { background: #111c2e; border: 1px solid var(--cb-purple); border-radius: 15px; padding: 15px; margin-top: 25px; }
         .history-title { font-size: 16px; font-weight: bold; color: var(--cb-blue); border-bottom: 1px solid #2d3748; padding-bottom: 8px; margin-bottom: 10px; }
         .history-list { max-height: 200px; overflow-y: auto; font-size: 13px; text-align: left; }
@@ -53,7 +50,7 @@
             <button class="login-btn" onclick="handleGmailLogin()">XÁC NHẬN VÀO SHOP</button>
         </div>
     </div>
-    <div class="banner">🎮 KHAI TRƯƠNG PHIÊN BẢN CÔNG NGHỆ CYBERPUNK SIÊU UY TÍN 🎮</div>
+    <div class="banner">🎉 MỞ BÁN TÚI MÙ ACC PLAY TOGETHER CHẤT LƯỢNG GIÁ RẺ 🎉</div>
     <div class="shop-container">
         <div class="section-title">📦 Ô XÉ TÚI MÙ ACC PLAY TOGETHER</div>
         <div class="bag-card">
@@ -62,16 +59,6 @@
             <div class="bag-price">7,000đ</div>
             <button class="btn-open" onclick="buyBlindBag()">XÉ TÚI MÙ NGAY</button>
         </div>
-        <div class="section-title" style="margin-top:30px;">🎯 VÒNG QUAY ACC GAME MAY MẮN</div>
-        <div class="bag-card" style="border-color: var(--cb-blue); box-shadow:0 0 15px rgba(0,240,255,0.15);">
-            <div class="bag-title" style="color:var(--cb-blue);">Vòng Quay Siêu Phẩm Play Together</div>
-            <div style="position:relative; width:260px; height:260px; margin:0 auto;">
-                <div class="wheel-pointer"></div>
-                <div class="wheel-container" id="wheel"><canvas class="wheel-canvas" id="wheelCanvas" width="260" height="260"></canvas></div>
-            </div>
-            <div class="bag-price" style="color:var(--cb-blue); text-shadow:0 0 5px var(--cb-blue);">20,000đ</div>
-            <button class="btn-open" style="background:linear-gradient(to right, var(--cb-blue), var(--cb-purple)); box-shadow:0 0 15px var(--cb-blue);" onclick="spinWheel()">QUAY VÒNG QUAY</button>
-        </div>
         <div class="history-box" id="history-container" style="display:none;">
             <div class="history-title">📜 LỊCH SỬ GIAO DỊCH VÀ BỐC THĂM</div>
             <div class="history-list" id="history-list-area"><div style="color:#8892b0; text-align:center; padding:10px;">Chưa có lịch sử giao dịch nào.</div></div>
@@ -79,53 +66,30 @@
     </div>
     <div class="modal" id="popupModal"><div class="modal-content" id="popupContent"></div></div>
     <script>
-        let currentUser = null; const oPhanThuong = ["Nick Sơ Cấp", "Chúc May Mắn", "Nick Trung Cấp", "Siêu Siêu VIP"]; const mauSac = ["#7000ff", "#0a0f1d", "#ff007f", "#111b30"];
-        function veVongQuay() {
-            const canvas = document.getElementById('wheelCanvas'); const ctx = canvas.getContext('2d'); const banKinh = canvas.width / 2; const gocGoc = (2 * Math.PI) / oPhanThuong.length;
-            for (let i = 0; i < oPhanThuong.length; i++) {
-                ctx.beginPath(); ctx.fillStyle = mauSac[i]; ctx.moveTo(banKinh, banKinh); ctx.arc(banKinh, banKinh, banKinh - 4, i * gocGoc, (i + 1) * gocGoc); ctx.fill(); ctx.save(); ctx.fillStyle = "#fff"; ctx.font = "bold 11px Arial"; ctx.translate(banKinh, banKinh); ctx.rotate(i * gocGoc + gocGoc / 2); ctx.textAlign = "right"; ctx.fillText(oPhanThuong[i], banKinh - 20, 5); ctx.restore();
-            }
+        let currentUser = null;
+        function handleGmailLogin() {
+            const email = document.getElementById('gmail-input').value.trim(); if(!email || !email.includes('@')) return alert("Vui lòng điền đúng địa chỉ Gmail!");
+            fetch('/api/auth/gmail-login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }).then(res => res.json()).then(data => { if(data.success) { currentUser = data.user; renderUserPanel(); capNhatLichSuGiaoDich(); } });
         }
-        window.onload = veVongQuay;
-        function handleGmailLogin() {const email = document.getElementById('gmail-input').value.trim(); if(!email || !email.includes('@')) return alert("Vui lòng điền đúng địa chỉ Gmail!");
-fetch('/api/auth/gmail-login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }).then(res => res.json()).then(data => { if(data.success) { currentUser = data.user; renderUserPanel(); capNhatLichSuGiaoDich(); } });
-}
-function renderUserPanel() {
-document.getElementById('auth-panel').innerHTML = <div class="profile"><div style="display:flex; align-items:center; gap:10px;"><img src="${currentUser.avatar}" style="width:45px; border-radius:50%; border:2px solid var(--cb-pink);"><div style="max-width: 180px;"><div style="font-weight: bold; font-size:13px; color:#fff; word-break: break-all;">${currentUser.email}</div><div class="uid-tag">Mã số (UID): ${currentUser.uid}</div></div></div><div style="text-align:right;"><div class="money">${currentUser.balance.toLocaleString('vi-VN')}đ</div><button class="btn-add-money" onclick="showNapTienBox()">Nạp tiền</button></div></div>; document.getElementById('history-container').style.display = "block";
-}
-function capNhatLichSuGiaoDich() {
-const area = document.getElementById('history-list-area'); if(!currentUser.history || currentUser.history.length === 0) { area.innerHTML = <div style="color:#8892b0; text-align:center; padding:10px;">Chưa có lịch sử bốc thăm/quay số nào.</div>; return; }
-let htmlStr = ""; currentUser.history.forEach(item => { htmlStr += <div class="history-item"><div class="history-time">⏱️ ${item.thoiGian} - <b>${item.tenSp}</b></div><div class="history-result">➔ ${item.ketQua}</div></div>; }); area.innerHTML = htmlStr;
-}
-function showNapTienBox() {
-fetch('/api/user/nap-tien', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: currentUser.email }) });
-document.getElementById('popupContent').innerHTML = <h3>💳 HƯỚNG DẪN NẠP TIỀN QUA ZALO</h3><p style="margin-top:10px;">Mã số UID của bạn là: <strong style="color:var(--cb-pink); font-size:18px;">${currentUser.uid}</strong></p><div style="font-size:24px; font-weight:bold; color:#39ff14; margin:15px 0; text-shadow:0 0 5px #39ff14;">📞 Zalo: 0907859891</div><p style="font-size:13px; color:#fff; line-height:1.5;">Số dư không đủ vui lòng liên hệ sđt 0907859891 bank tiền + UID: ${currentUser.uid} để được cộng tiền vào tài khoản</p><button class="btn-close" style="margin-top:15px;" onclick="closeModal()">ĐÃ HIỂU</button>; document.getElementById('popupModal').style.display = "flex";
-}
-function buyBlindBag() {
+        function renderUserPanel() {
+            document.getElementById('auth-panel').innerHTML = `<div class="profile"><div style="display:flex; align-items:center; gap:10px;"><img src="${currentUser.avatar}" style="width:45px; border-radius:50%; border:2px solid var(--cb-pink);"><div style="max-width: 180px;"><div style="font-weight: bold; font-size:13px; color:#fff; word-break: break-all;">${currentUser.email}</div><div class="uid-tag">Mã số (UID): ${currentUser.uid}</div></div></div><div style="text-align:right;"><div class="money">${currentUser.balance.toLocaleString('vi-VN')}đ</div><button class="btn-add-money" onclick="showNapTienBox()">Nạp tiền</button></div></div>`; document.getElementById('history-container').style.display = "block";
+        }
+        function capNhatLichSuGiaoDich() {
+            const area = document.getElementById('history-list-area'); if(!currentUser.history || currentUser.history.length === 0) { area.innerHTML = `<div style="color:#8892b0; text-align:center; padding:10px;">Chưa có lịch sử bốc thăm nào.</div>`; return; }
+            let htmlStr = ""; currentUser.history.forEach(item => { htmlStr += `<div class="history-item"><div class="history-time">⏱️ ${item.thoiGian} - <b>${item.tenSp}</b></div><div class="history-result">➔ ${item.ketQua}</div></div>`; }); area.innerHTML = htmlStr;
+        }
+        function showNapTienBox() {
+            document.getElementById('popupContent').innerHTML = `<h3>💳 HƯỚNG DẪN NẠP TIỀN QUA ZALO</h3><p style="margin-top:10px;">Mã số UID của bạn là: <strong style="color:var(--cb-pink); font-size:18px;">${currentUser.uid}</strong></p><div style="font-size:24px; font-weight:bold; color:#39ff14; margin:15px 0; text-shadow:0 0 5px #39ff14;">📞 Zalo: 0907859891</div><p style="font-size:13px; color:#fff; line-height:1.5;">Số dư không đủ vui lòng liên hệ sđt 0907859891 bank tiền + UID: ${currentUser.uid} để được cộng tiền vào tài khoản</p><button class="btn-close" style="margin-top:15px;" onclick="closeModal()">ĐÃ HIỂU</button>`; document.getElementById('popupModal').style.display = "flex";
+        }
+        function buyBlindBag() {
 if (!currentUser) return alert("Bạn cần nhập định dạng Gmail ở phía trên trước!"); const bagImg = document.getElementById('bag-tuimu7k'); bagImg.classList.add('shake');
 setTimeout(() => {
 bagImg.classList.remove('shake'); fetch('/api/shop/xe-tui', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: currentUser.email }) }).then(res => res.json()).then(data => {
 const content = document.getElementById('popupContent');
 if (!data.success) { content.innerHTML = <h3>❌ SỐ DƯ KHÔNG ĐỦ</h3><p style="font-size:14px; padding:15px 0; line-height:1.6; color:#fff;">${data.msg}</p><button class="btn-close" style="background:#ff4757;" onclick="closeModal()">ĐÓNG</button>; }
-else { currentUser.balance = data.newBalance; currentUser.history = data.history; renderUserPanel(); capNhatLichSuGiaoDich(); content.innerHTML = <h3>🎉 XÉ TÚI THÀNH CÔNG! 🎉</h3><div class="acc-info-box"><p>🔐 <b>Tài khoản:</b> <span style="color:var(--cb-blue); font-weight:bold;">${data.account[0].tk}</span></p><p>🔑 <b>Mật khẩu:</b> <span style="color:var(--cb-blue); font-weight:bold;">${data.account[0].mk}</span></p><p style="font-size:12px; color:#aaa; margin-top:8px;">✨ <b>Mô tả:</b> <i>${data.account[0].note}</i></p></div><button class="btn-close" style="background:#39ff14; color:#000;" onclick="closeModal()">NHẬN ACC</button>; }
+else { currentUser.balance = data.newBalance; currentUser.history = data.history; renderUserPanel(); capNhatLichSuGiaoDich(); content.innerHTML = <h3>🎉 XÉ TÚI THÀNH CÔNG! 🎉</h3><div class="acc-info-box"><p>🔐 <b>Tài khoản:</b> <span style="color:var(--cb-blue); font-weight:bold;">${data.account.tk}</span></p><p>🔑 <b>Mật khẩu:</b> <span style="color:var(--cb-blue); font-weight:bold;">${data.account.mk}</span></p><p style="font-size:12px; color:#aaa; margin-top:8px;">✨ <b>Mô tả:</b> <i>${data.account.note}</i></p></div><button class="btn-close" style="background:#39ff14; color:#000;" onclick="closeModal()">NHẬN ACC</button>; }
 document.getElementById('popupModal').style.display = "flex";
 });
 }, 1000);
-}
-let dangQuay = false;
-function spinWheel() {
-if (!currentUser) return alert("Bạn cần nhập định dạng Gmail ở phía trên trước!"); if (dangQuay) return; dangQuay = true;
-fetch('/api/shop/quay-vong-quay', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: currentUser.email }) }).then(res => res.json()).then(data => {
-const content = document.getElementById('popupContent');
-if (!data.success) { dangQuay = false; content.innerHTML = <h3>❌ SỐ DƯ KHÔNG ĐỦ</h3><p style="font-size:14px; padding:15px 0; line-height:1.6; color:#fff;">${data.msg}</p><button class="btn-close" style="background:#ff4757;" onclick="closeModal()">ĐÓNG</button>; document.getElementById('popupModal').style.display = "flex"; return; }
-const targetIdx = data.reward.index; const degreesPerSegment = 360 / oPhanThuong.length; const targetDegrees = 360 - (targetIdx * degreesPerSegment) - (degreesPerSegment / 2); const totalRotation = (360 * 5) + targetDegrees; const wheelEl = document.getElementById('wheel'); wheelEl.style.transform = rotate(${totalRotation}deg);
-setTimeout(() => {
-dangQuay = false; currentUser.balance = data.newBalance; currentUser.history = data.history; renderUserPanel(); capNhatLichSuGiaoDich(); wheelEl.style.transition = 'none'; wheelEl.style.transform = rotate(${targetDegrees}deg);
-setTimeout(() => { wheelEl.style.transition = 'transform 4s cubic-bezier(0.1, 0.8, 0.1, 1)'; }, 50);
-if (data.reward.loai === 'acc') { content.innerHTML = <h3>🎉 CHÚC MỪNG BẠN! 🎉</h3><p style="margin-top:5px;">Bạn đã quay trúng phần quà: <b style="color:var(--cb-blue);">${data.reward.ten}</b></p><div class="acc-info-box"><p>🔐 <b>Tài khoản:</b> <span style="color:var(--cb-blue); font-weight:bold;">${data.reward.tk}</span></p><p>🔑 <b>Mật khẩu:</b> <span style="color:var(--cb-blue); font-weight:bold;">${data.reward.mk}</span></p><p style="font-size:12px; color:#aaa; margin-top:8px;">✨ <b>Mô tả:</b> <i>${data.reward.note}</i></p></div><button class="btn-close" style="background:#39ff14; color:#000;" onclick="closeModal()">NHẬN QUÀ</button>; }
-else { content.innerHTML = <h3 style="color:var(--cb-pink);">🎁 KẾT QUẢ VÒNG QUAY</h3><p style="font-size:15px; font-weight:bold; padding:20px 0; color:#fff;">${data.reward.msg}</p><button class="btn-close" style="background:var(--cb-pink);" onclick="closeModal()">ĐÓNG</button>; }
-document.getElementById('popupModal').style.display = "flex";
-}, 4000);
-});
 }
 function closeModal() { document.getElementById('popupModal').style.display = "none"; }
