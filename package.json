@@ -1,9 +1,13 @@
 {
   "name": "shop-tui-mu-ptg",
   "version": "1.0.0",
+  "description": "Shop tui mu game account",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.0"
+  }
 }
