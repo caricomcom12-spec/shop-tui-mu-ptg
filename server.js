@@ -1,124 +1,132 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shop Túi Mù Play Together</title>
-    <style>
-        :root { --pt-pink: #ff6b81; --pt-yellow: #feca57; --pt-purple: #5f27cd; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #f7f9fc; padding-bottom: 50px; }
-        .mobile-header { background: linear-gradient(135deg, var(--pt-pink), var(--pt-purple)); color: white; padding: 15px; text-align: center; border-bottom-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .shop-name { font-size: 22px; font-weight: 900; color: var(--pt-yellow); text-shadow: 2px 2px var(--pt-purple); }
-        .user-panel { max-width: 500px; margin: 15px auto; background: white; border-radius: 15px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); width: 92%; }
-        .login-box { text-align: center; }
-        .login-input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 25px; margin-bottom: 10px; font-size: 15px; text-align: center; outline: none; }
-        .login-btn { background: linear-gradient(to right, var(--pt-pink), var(--pt-purple)); color: white; border: none; padding: 12px; border-radius: 25px; width: 100%; font-weight: bold; cursor: pointer; }
-        .profile { display: flex; align-items: center; justify-content: space-between; }
-        .uid-tag { background: #f1c40f; font-size: 12px; padding: 2px 8px; border-radius: 5px; font-weight: bold; margin-top: 3px; }
-        .money { color: #2ed573; font-weight: bold; font-size: 16px; }
-        .btn-add-money { background: var(--pt-yellow); border: none; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; cursor: pointer; }
-        .banner { max-width: 500px; width: 92%; margin: 10px auto; background: linear-gradient(45deg, #ff9f43, var(--pt-pink)); border-radius: 15px; padding: 20px; color: white; text-align: center; font-weight: bold; }
-        .shop-container { max-width: 500px; width: 92%; margin: 20px auto; }
-        .section-title { font-size: 18px; font-weight: 800; margin-bottom: 12px; color: var(--pt-purple); }
-        .bag-card { background: white; border-radius: 20px; border: 3px solid var(--pt-pink); text-align: center; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .bag-img { font-size: 70px; margin: 15px 0; display: inline-block; }
-        .bag-title { font-size: 18px; font-weight: bold; }
-        .bag-price { font-size: 20px; font-weight: 900; color: var(--pt-pink); margin: 5px 0 15px 0; }
-        .btn-open { background: linear-gradient(to right, var(--pt-pink), #ff4757); color: white; border: none; width: 100%; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 15px; cursor: pointer; }
-        .shake { animation: shakeMobile 0.5s infinite; }
-        @keyframes shakeMobile { 0% { transform: rotate(0deg); } 25% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } 75% { transform: rotate(-1deg); } 100% { transform: rotate(0deg); } }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: white; border-radius: 20px; padding: 25px; width: 100%; max-width: 400px; text-align: center; }
-        .acc-info-box { background: #f1f2f6; border: 2px dashed var(--pt-purple); padding: 15px; border-radius: 12px; margin: 15px 0; text-align: left; }
-        .btn-close { background: #2f3542; color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; width: 100%; cursor: pointer; }
-    </style>
-</head>
-<body>
-    <div class="mobile-header"><div class="shop-name">🛍️ TÚI MÙ PTG CDANG 🛍️</div></div>
-    
-    <div class="user-panel" id="auth-panel">
-        <div class="login-box">
-            <p style="font-size: 14px; font-weight: bold; margin-bottom: 10px; color: var(--pt-purple);">📧 VUI LÒNG NHẬP GMAIL ĐỂ ĐĂNG NHẬP / ĐĂNG KÝ</p>
-            <input type="email" id="gmail-input" class="login-input" placeholder="Ví dụ: nguyenvana@gmail.com">
-            <button class="login-btn" onclick="handleGmailLogin()">TIẾP TỤC VÀO SHOP</button>
-        </div>
-    </div>
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const fs = require('fs');
 
-    <div class="banner">🎉 MỞ BÁN TÚI MÙ ACC PLAY TOGETHER VIP GIÁ RẺ 🎉</div>
-    
-    <div class="shop-container">
-        <div class="section-title">📦 DANH SÁCH TÚI MÙ</div>
-        <div class="bag-card">
-            <div class="bag-title">Túi Mù Play Together VIP</div>
-            <div class="bag-img" id="bag-tuimu7k">🛍️</div>
-            <div class="bag-price">7,000đ</div>
-            <button class="btn-open" onclick="buyBlindBag('tuimu7k')">XÉ TÚI 7.000Đ</button>
-        </div>
-    </div>
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-    <div class="modal" id="popupModal"><div class="modal-content" id="popupContent"></div></div>
+// ================= DATABASE LƯU TRỮ VĨNH VIỄN CHỐNG MẤT SỐ DƯ =================
+const DATA_FILE = path.join(__dirname, 'users_database.json');
+let dbData = { users: {} };
 
-    <script>
-        let currentUser = null;
+if (fs.existsSync(DATA_FILE)) {
+    try {
+        const content = fs.readFileSync(DATA_FILE, 'utf8');
+        if (content.trim().length > 0) dbData = JSON.parse(content);
+    } catch (e) {
+        dbData = { users: {} };
+    }
+}
+if (!dbData.users) dbData.users = {};
 
-        function handleGmailLogin() {
-            const email = document.getElementById('gmail-input').value.trim();
-            if(!email || !email.includes('@')) return alert("Vui lòng điền đúng định dạng Gmail!");
+function saveUsersToDisk() {
+    try {
+        fs.writeFileSync(DATA_FILE, JSON.stringify(dbData, null, 2), 'utf8');
+    } catch(err) {
+        console.error("Lỗi ghi file:", err);
+    }
+}
 
-            fetch('/api/auth/gmail-login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
-            .then(res => res.json()).then(data => { if(data.success) { currentUser = data.user; renderUserPanel(); } });
-        }
+// ================= KHO NICK GAME THẬT TÚI MÙ 7K (BẠN TỰ SỬA NICK TẠI ĐÂY) =================
+let khoTuiMu7k = [
+    { id: 1001, tk: "tuimu_7k_01", mk: "pass7k", note: "Acc Play Together sẵn đồ trang trí cute!" },
+    { id: 1002, tk: "tuimu_7k_02", mk: "lucky7k", note: "Acc trắng thông tin hên xui!" }
+];
 
-        function renderUserPanel() {
-            document.getElementById('auth-panel').innerHTML = `
-                <div class="profile">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <img src="${currentUser.avatar}" style="width:45px; border-radius:50%; border:2px solid var(--pt-pink);">
-                        <div>
-                            <div style="font-weight: bold; font-size:14px; color:#333; word-break: break-all;">${currentUser.email}</div>
-                            <div class="uid-tag">Mã số (UID): ${currentUser.uid}</div>
-                        </div>
-                    </div>
-                    <div style="text-align:right;">
-                        <div class="money">${currentUser.balance.toLocaleString('vi-VN')}đ</div>
-                        <button class="btn-add-money" onclick="showNapTienBox()">Nạp tiền</button>
-                    </div>
-                </div>`;
-        }
+function generateRandomUID() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
-        function showNapTienBox() {
-            fetch('/api/user/nap-tien', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: currentUser.email }) });
-            document.getElementById('popupContent').innerHTML = `
-                <h3>💳 HƯỚNG DẪN NẠP TIỀN QUA ZALO</h3>
-                <p style="margin-top:10px;">Mã số UID của bạn là: <strong style="color:var(--pt-purple); font-size:18px;">${currentUser.uid}</strong></p>
-                <div style="font-size:22px; font-weight:bold; color:#0084ff; margin:15px 0;">📞 Zalo: 0907859891</div>
-                <p style="font-size:13px; color:#ff4757; font-weight:bold; line-height:1.5;">Số dư không đủ vui lòng liên hệ sđt 0907859891 bank tiền + UID: ${currentUser.uid} để được cộng tiền vào tài khoản</p>
-                <button class="btn-close" onclick="closeModal()">ĐÃ HIỂU</button>`;
-            document.getElementById('popupModal').style.display = "flex";
-        }
+// ================= HỆ THỐNG ĐƯỜNG TRUYỀN API SHOP (EXPRESS) =================
 
-        function buyBlindBag(type) {
-            if (!currentUser) return alert("Bạn cần điền GMAIL ở phía trên trước!");
-            const bagImg = document.getElementById(`bag-${type}`);
-            bagImg.classList.add('shake');
+// 1. API Đăng nhập Gmail cấp mã UID ngẫu nhiên cố định
+app.post('/api/auth/gmail-login', (req, res) => {
+    const { email } = req.body;
+    if (!email || !email.includes('@')) return res.json({ success: false, msg: "Gmail không hợp lệ" });
+    const cleanEmail = email.toLowerCase().trim();
 
-            setTimeout(() => {
-                bagImg.classList.remove('shake');
-                fetch('/api/shop/xe-tui', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: currentUser.email, loaiTui: type }) })
-                .then(res => res.json()).then(data => {
-                    const content = document.getElementById('popupContent');
-                    if (!data.success) {
-                        content.innerHTML = `<h3>❌ SỐ DƯ KHÔNG ĐỦ,nạp thêm tiền đi:3</h3><p style="font-size:14px; padding:15px 0; line-height:1.6; color:#ff4757; font-weight:bold;">${data.msg}</p><button class="btn-close" style="background:#ff4757; color:#fff;" onclick="closeModal()">ĐÓNG</button>`;
-                    } else {
-                        currentUser.balance = data.newBalance; renderUserPanel();
-                        content.innerHTML = `<h3>🎉 XÉ TÚI THÀNH CÔNG! 🎉</h3><div class="acc-info-box"><p>🔐 <b>TK:</b> ${data.account.tk}</p><p>🔑 <b>MK:</b> ${data.account.mk}</p><p style="font-size:12px; color:#666; margin-top:8px;">✨ <b>Mô tả:</b> <i>${data.account.note}</i></p></div><button class="btn-close" style="background:#2ed573; color:#fff;" onclick="closeModal()">NHẬN ACC</button>`;
-                    }
-                    document.getElementById('popupModal').style.display = "flex";
-                });
-            }, 1000);
-        }
-        function closeModal() { document.getElementById('popupModal').style.display = "none"; }
-    </script>
-</body>
-</html>
+    if (!dbData.users[cleanEmail]) {
+        const randomUID = generateRandomUID();
+        dbData.users[cleanEmail] = { uid: randomUID, email: cleanEmail, balance: 0, avatar: 'https://imgur.com', history: [] };
+        saveUsersToDisk();
+    }
+    return res.json({ success: true, user: dbData.users[cleanEmail] });
+});
+
+// 2. API Yêu cầu nạp tiền
+app.post('/api/user/nap-tien', (req, res) => {
+    const { email } = req.body;
+    const user = dbData.users[(email || '').toLowerCase().trim()];
+    if (!user) return res.status(400).json({ error: "Chưa đăng nhập" });
+    return res.json({ success: true, uid: user.uid });
+});
+
+// 3. API Xé túi mù trừ tiền tự động
+app.post('/api/shop/xe-tui', (req, res) => {
+    const { email } = req.body;
+    const user = dbData.users[(email || '').toLowerCase().trim()];
+    if (!user) return res.json({ success: false, msg: "Vui lòng nhập định dạng Gmail trước!" });
+
+    const giaTui = 7000;
+    const tenTuiText = "Túi Mù Play Together VIP";
+
+    if (!user.balance || user.balance < giaTui || user.balance <= 0) {
+        return res.json({ 
+            success: false, 
+            msg: `Số dư không đủ vui lòng liên hệ sđt 0907859891 bank tiền + UID: ${user.uid} để được cộng tiền vào tài khoản` 
+        });
+    }
+    if (khoTuiMu7k.length === 0) return res.json({ success: false, msg: `Sản phẩm [${tenTuiText}] này hiện đã hết hàng!` });
+
+    const randomIdx = Math.floor(Math.random() * khoTuiMu7k.length);
+    const accTrung = khoTuiMu7k.splice(randomIdx, 1)[0]; // Lấy chính xác object nick game trúng
+
+    user.balance -= giaTui;
+    user.history.unshift({ thoiGian: new Date().toLocaleString('vi-VN'), tenSp: "Túi Mù 7K", ketQua: `TK: ${accTrung.tk} | MK: ${accTrung.mk} (${accTrung.note})` });
+    saveUsersToDisk();
+
+    return res.json({ success: true, account: accTrung, newBalance: user.balance, history: user.history });
+});
+
+// 4. Giao diện quản trị Admin bí mật nạp tiền cho khách theo mã UID ngẫu nhiên
+app.get('/panel-admin-an', (req, res) => {
+    res.send(`
+        <!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cộng Tiền Chủ Shop</title></head>
+        <body style="font-family:Arial; background:#2c3e50; color:white; text-align:center; padding:20px;">
+            <div style="background:#34495e; padding:25px; border-radius:15px; display:inline-block; max-width:400px; width:100%; text-align:left; margin-top:40px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                <h2 style="text-align:center; color:#f1c40f;">⚙️ PANEL CỘNG TIỀN KHÁCH</h2>
+                <label><b>Nhập Mã Số Khách Gửi (UID):</b></label><input type="text" id="uid" placeholder="Ví dụ: 582491" style="width:100%; padding:12px; margin:10px 0; font-size:16px; border-radius:8px; border:none; background:#0f172a; color:white;"><br>
+                <label><b>Số Tiền Cộng Thêm (đ):</b></label><input type="number" id="amount" placeholder="Ví dụ: 50000" style="width:100%; padding:12px; margin:10px 0; font-size:16px; border-radius:8px; border:none; background:#0f172a; color:white;"><br>
+                <button onclick="addMoney()" style="background:#2ecc71; color:white; padding:14px; width:100%; border:none; border-radius:8px; font-weight:bold; font-size:16px; cursor:pointer;">XÁC NHẬN CỘNG TIỀN</button>
+            </div>
+            <script>
+                function addMoney() {
+                    const uid = document.getElementById('uid').value.trim();
+                    const amount = document.getElementById('amount').value;
+                    if(!uid || !amount) return alert("Vui lòng điền đủ thông tin!");
+                    fetch('/api/admin/add-money', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ uid, amount: parseInt(amount) }) })
+                    .then(res => res.json()).then(data => { if(data.success) alert("Đã cộng tiền thành công!"); else alert("Lỗi: " + data.msg); });
+                }
+            </script>
+        </body></html>
+    `);
+});
+
+// 5. API Admin xử lý cộng số dư vĩnh viễn
+app.post('/api/admin/add-money', (req, res) => {
+    const { uid, amount } = req.body;
+    let foundUser = null;
+    for (let email in dbData.users) {
+        if (dbData.users[email].uid === (uid || '').toString().trim()) { foundUser = dbData.users[email]; break; }
+    }
+    if (!foundUser) return res.json({ success: false, msg: "Không tìm thấy mã số khách!" });
+    foundUser.balance += amount;
+    saveUsersToDisk();
+    return res.json({ success: true });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Hệ thống máy chủ Express đang chạy tại cổng: ${PORT}`));
