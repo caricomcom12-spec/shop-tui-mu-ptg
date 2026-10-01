@@ -1,7 +1,7 @@
 {
-  "name": "shop-tui-mu-ptg",
+  "name": "vongquay-mayman",
   "version": "1.0.0",
-  "description": "Shop tui mu game account",
+  "description": "Website Vong Quay May Man Doc Lap",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
