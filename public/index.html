@@ -2,139 +2,316 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>PT BAG SHOP</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
 body{
- background:linear-gradient(135deg,#090916,#191033,#090916);
- color:#fff;min-height:100vh
+    min-height:100vh;
+    background:
+    radial-gradient(circle at top,#392064,#111122 45%,#07070d);
+    color:white;
 }
+
+button{
+    cursor:pointer;
+}
+
 header{
- position:sticky;top:0;z-index:20;
- background:#0b0b18eF;
- backdrop-filter:blur(15px);
- padding:14px 18px;border-bottom:1px solid #ffffff18
-}
-.nav{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:22px;font-weight:900}
-.logo span{color:#b65cff}
-button{cursor:pointer}
-.cart{
- border:0;border-radius:12px;padding:10px 15px;
- background:linear-gradient(90deg,#763cff,#e638d0);
- color:white;font-weight:bold
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:#090914eF;
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid #ffffff15;
+    padding:14px 18px;
 }
 
-.hero{text-align:center;padding:45px 18px 25px}
-.hero h1{font-size:clamp(38px,9vw,65px)}
+.nav{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:900;
+}
+
+.logo span{
+    color:#b866ff;
+}
+
+.account-btn{
+    border:0;
+    border-radius:12px;
+    padding:10px 15px;
+    color:white;
+    background:linear-gradient(90deg,#713dff,#e33bd0);
+    font-weight:bold;
+}
+
+.hero{
+    text-align:center;
+    padding:50px 18px 30px;
+}
+
+.hero h1{
+    font-size:clamp(38px,9vw,65px);
+}
+
 .hero h1 span{
- background:linear-gradient(90deg,#9c4cff,#ff45cf,#55ddff);
- -webkit-background-clip:text;color:transparent
-}
-.hero p{color:#9999ad;margin-top:12px}
-
-.container{max-width:1100px;margin:auto;padding:20px 18px 60px}
-.products{
- display:grid;grid-template-columns:repeat(3,1fr);gap:18px
-}
-.card{
- position:relative;padding:16px;border-radius:20px;
- background:#ffffff0b;border:1px solid #ffffff16;
- box-shadow:0 15px 40px #0005
-}
-.card-img{
- height:170px;border-radius:15px;
- display:flex;align-items:center;justify-content:center;
- font-size:75px;
- background:radial-gradient(circle,#6334a8,#17152e)
-}
-.tag{
- position:absolute;top:25px;left:25px;
- background:#ff3fae;padding:5px 9px;
- border-radius:7px;font-size:11px;font-weight:bold
-}
-.card h3{margin-top:15px}
-.desc{color:#9999aa;font-size:13px;margin-top:7px}
-.price{color:#d39aff;font-size:21px;font-weight:bold;margin:15px 0}
-.buy{
- width:100%;padding:12px;border:0;border-radius:11px;
- background:linear-gradient(90deg,#713bff,#dc38d1);
- color:#fff;font-weight:bold
+    background:linear-gradient(90deg,#9147ff,#ff43ce,#52dfff);
+    -webkit-background-clip:text;
+    color:transparent;
 }
 
-.modal{
- position:fixed;inset:0;background:#000b;z-index:100;
- display:none;align-items:center;justify-content:center;padding:18px
-}
-.modal.show{display:flex}
-.box{
- width:100%;max-width:430px;
- background:#17172b;border:1px solid #ffffff1c;
- border-radius:20px;padding:22px
-}
-.box h2{margin-bottom:15px}
-input,textarea,select{
- width:100%;padding:12px;margin:7px 0;
- border:1px solid #ffffff18;border-radius:10px;
- background:#0c0c18;color:white
-}
-.primary{
- width:100%;padding:12px;border:0;border-radius:10px;
- background:#873eff;color:white;font-weight:bold;margin-top:8px
-}
-.close{
- width:100%;padding:11px;border:0;border-radius:10px;
- background:#303044;color:#fff;margin-top:8px
+.hero p{
+    margin-top:12px;
+    color:#a5a5b7;
 }
 
-.notice{
- position:fixed;inset:0;z-index:200;
- background:#000b;display:flex;
- align-items:center;justify-content:center;padding:18px
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:20px 18px 60px;
 }
-.notice.hide{display:none}
-.notice-box{
- width:100%;max-width:430px;
- background:linear-gradient(145deg,#21173d,#121222);
- border:1px solid #b65cff55;
- border-radius:22px;padding:25px;
- box-shadow:0 20px 70px #000
+
+/* USER */
+
+.user-card{
+    margin-bottom:25px;
+    padding:18px;
+    border-radius:18px;
+    background:#ffffff09;
+    border:1px solid #ffffff15;
 }
-.notice-box h2{margin-bottom:12px}
-.notice-content{
- color:#c4c4d0;line-height:1.6;
- white-space:pre-wrap;margin-bottom:20px
+
+.user-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.user-info{
+    color:#aaaabd;
+    font-size:13px;
+}
+
+.user-info b{
+    color:white;
 }
 
 .balance{
- margin:10px 0;padding:14px;
- background:#ffffff09;border-radius:12px
-}
-.balance strong{color:#bd73ff;font-size:20px}
-
-.insufficient{
- padding:15px;border-radius:12px;
- background:#ff315018;border:1px solid #ff315055;
- line-height:1.5;margin-top:10px
+    margin-top:12px;
+    color:#aaaabd;
 }
 
-.uid{
- background:#0008;padding:12px;border-radius:10px;
- margin:10px 0;word-break:break-all
+.balance strong{
+    color:#c47aff;
+    font-size:22px;
 }
 
-.account{
- background:#ffffff09;border-radius:10px;
- padding:12px;margin:8px 0
+/* PRODUCTS */
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
 }
+
+.card{
+    position:relative;
+    padding:16px;
+    border-radius:20px;
+    background:#ffffff09;
+    border:1px solid #ffffff15;
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:#a75cff;
+}
+
+.card-img{
+    height:170px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:75px;
+    background:
+    radial-gradient(circle,#6434a0,#151526);
+}
+
+.tag{
+    position:absolute;
+    top:26px;
+    left:26px;
+    padding:5px 9px;
+    border-radius:7px;
+    background:#ff3fae;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.card h3{
+    margin-top:15px;
+}
+
+.desc{
+    color:#9999aa;
+    font-size:13px;
+    margin-top:7px;
+}
+
+.price{
+    color:#d09aff;
+    font-size:21px;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+.buy{
+    width:100%;
+    border:0;
+    border-radius:11px;
+    padding:12px;
+    color:white;
+    background:linear-gradient(90deg,#713dff,#dd38d0);
+    font-weight:bold;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:#000b;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.box{
+    width:100%;
+    max-width:430px;
+    background:#17172b;
+    border:1px solid #ffffff18;
+    border-radius:20px;
+    padding:22px;
+    box-shadow:0 20px 70px #000;
+}
+
+.box h2{
+    margin-bottom:15px;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    margin:7px 0;
+    border-radius:10px;
+    border:1px solid #ffffff18;
+    background:#0b0b17;
+    color:white;
+    outline:none;
+}
+
+.primary{
+    width:100%;
+    margin-top:10px;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    color:white;
+    background:linear-gradient(90deg,#743cff,#dc3bd0);
+    font-weight:bold;
+}
+
+.close{
+    width:100%;
+    margin-top:8px;
+    padding:12px;
+    border:0;
+    border-radius:10px;
+    color:white;
+    background:#303044;
+}
+
+.uid-box{
+    padding:13px;
+    margin:10px 0;
+    background:#080812;
+    border-radius:10px;
+    word-break:break-all;
+}
+
+.not-enough{
+    margin-top:15px;
+    padding:15px;
+    border-radius:12px;
+    background:#ff315018;
+    border:1px solid #ff315055;
+    line-height:1.6;
+}
+
+.copy{
+    width:100%;
+    padding:11px;
+    border:0;
+    border-radius:9px;
+    background:#6d3cff;
+    color:white;
+    font-weight:bold;
+}
+
+.result-account{
+    margin-top:15px;
+    padding:15px;
+    border-radius:12px;
+    background:#ffffff09;
+    line-height:1.7;
+}
+
+/* MOBILE */
 
 @media(max-width:750px){
- .products{grid-template-columns:repeat(2,1fr)}
+
+    .products{
+        grid-template-columns:repeat(2,1fr);
+    }
+
 }
+
 @media(max-width:480px){
- .products{grid-template-columns:1fr}
+
+    .products{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        padding-top:35px;
+    }
+
 }
 </style>
 </head>
@@ -142,447 +319,898 @@ input,textarea,select{
 <body>
 
 <header>
+
 <div class="nav">
-<div class="logo">PT <span>BAG SHOP</span></div>
-<button class="cart" onclick="openLogin()">👤 Tài khoản</button>
+
+<div class="logo">
+PT <span>BAG SHOP</span>
 </div>
+
+<button
+class="account-btn"
+onclick="openAccount()">
+
+👤 Tài khoản
+
+</button>
+
+</div>
+
 </header>
 
+
 <section class="hero">
-<h1>PT <span>BAG SHOP</span></h1>
-<p>Túi mù • ACC • Kho tài khoản</p>
+
+<h1>
+PT <span>BAG SHOP</span>
+</h1>
+
+<p>
+Đăng nhập Gmail để sử dụng shop
+</p>
+
 </section>
+
 
 <main class="container">
 
-<div id="userArea"></div>
+
+<!-- THÔNG TIN USER -->
+
+<div
+class="user-card"
+id="userCard"
+style="display:none">
+
+<div class="user-row">
+
+<div class="user-info">
+
+Gmail:
+<b id="userGmail">---</b>
+
+<br><br>
+
+UID:
+<b id="userUID">---</b>
+
+</div>
+
+<button
+class="account-btn"
+onclick="openAccount()">
+
+Tài khoản
+
+</button>
+
+</div>
+
+<div class="balance">
+
+Số dư:
+<strong id="userBalance">
+0đ
+</strong>
+
+</div>
+
+</div>
+
+
+<!-- SHOP -->
 
 <div class="products">
 
+
 <div class="card">
+
 <span class="tag">COMMON</span>
-<div class="card-img">🎁</div>
-<h3>Túi Mù Tân Binh</h3>
-<div class="desc">Kho gồm tối đa 5 ACC.</div>
-<div class="price">20.000đ</div>
-<button class="buy" onclick="buy('tanbinh',20000)">
-MUA NGAY
-</button>
+
+<div class="card-img">
+🎁
 </div>
 
+<h3>
+Túi Mù Tân Binh
+</h3>
+
+<div class="desc">
+Kho tối đa 5 ACC
+</div>
+
+<div class="price">
+20.000đ
+</div>
+
+<button
+class="buy"
+onclick="buy('tanbinh',20000)">
+
+MUA NGAY
+
+</button>
+
+</div>
+
+
+
 <div class="card">
+
 <span class="tag">RARE</span>
-<div class="card-img">🎒</div>
-<h3>Túi Mù Premium</h3>
-<div class="desc">Kho gồm tối đa 5 ACC.</div>
-<div class="price">50.000đ</div>
-<button class="buy" onclick="buy('premium',50000)">
-MUA NGAY
-</button>
+
+<div class="card-img">
+🎒
 </div>
 
+<h3>
+Túi Mù Premium
+</h3>
+
+<div class="desc">
+Kho tối đa 5 ACC
+</div>
+
+<div class="price">
+50.000đ
+</div>
+
+<button
+class="buy"
+onclick="buy('premium',50000)">
+
+MUA NGAY
+
+</button>
+
+</div>
+
+
+
 <div class="card">
+
 <span class="tag">LEGEND</span>
-<div class="card-img">💎</div>
-<h3>Túi Mù Legendary</h3>
-<div class="desc">Kho gồm tối đa 5 ACC.</div>
-<div class="price">100.000đ</div>
-<button class="buy" onclick="buy('legendary',100000)">
-MUA NGAY
-</button>
+
+<div class="card-img">
+💎
 </div>
 
+<h3>
+Túi Mù Legendary
+</h3>
+
+<div class="desc">
+Kho tối đa 5 ACC
+</div>
+
+<div class="price">
+100.000đ
+</div>
+
+<button
+class="buy"
+onclick="buy('legendary',100000)">
+
+MUA NGAY
+
+</button>
+
+</div>
+
+
+
 <div class="card">
+
 <span class="tag">VIP</span>
-<div class="card-img">👑</div>
-<h3>Túi Mù VIP</h3>
-<div class="desc">Kho gồm tối đa 5 ACC.</div>
-<div class="price">200.000đ</div>
-<button class="buy" onclick="buy('vip',200000)">
-MUA NGAY
-</button>
+
+<div class="card-img">
+👑
 </div>
 
+<h3>
+Túi Mù VIP
+</h3>
+
+<div class="desc">
+Kho tối đa 5 ACC
+</div>
+
+<div class="price">
+200.000đ
+</div>
+
+<button
+class="buy"
+onclick="buy('vip',200000)">
+
+MUA NGAY
+
+</button>
+
+</div>
+
+
+
 <div class="card">
+
 <span class="tag">ULTRA</span>
-<div class="card-img">🌟</div>
-<h3>Túi Mù Ultra</h3>
-<div class="desc">Kho gồm tối đa 5 ACC.</div>
-<div class="price">500.000đ</div>
-<button class="buy" onclick="buy('ultra',500000)">
-MUA NGAY
-</button>
+
+<div class="card-img">
+🌟
 </div>
+
+<h3>
+Túi Mù Ultra
+</h3>
+
+<div class="desc">
+Kho tối đa 5 ACC
+</div>
+
+<div class="price">
+500.000đ
+</div>
+
+<button
+class="buy"
+onclick="buy('ultra',500000)">
+
+MUA NGAY
+
+</button>
+
+</div>
+
+
 
 <div class="card">
+
 <span class="tag">LUCKY</span>
-<div class="card-img">🍀</div>
-<h3>Túi Mù Lucky</h3>
-<div class="desc">Kho gồm tối đa 5 ACC.</div>
-<div class="price">1.000.000đ</div>
-<button class="buy" onclick="buy('lucky',1000000)">
-MUA NGAY
-</button>
+
+<div class="card-img">
+🍀
 </div>
 
+<h3>
+Túi Mù Lucky
+</h3>
+
+<div class="desc">
+Kho tối đa 5 ACC
 </div>
+
+<div class="price">
+1.000.000đ
+</div>
+
+<button
+class="buy"
+onclick="buy('lucky',1000000)">
+
+MUA NGAY
+
+</button>
+
+</div>
+
+
+</div>
+
 </main>
 
 
-<!-- THÔNG BÁO -->
-<div class="notice" id="notice">
-<div class="notice-box">
-<h2>📢 THÔNG BÁO</h2>
-<div class="notice-content" id="noticeText">
-Chào mừng bạn đến với PT BAG SHOP!
-</div>
-<button class="primary" onclick="closeNotice()">
-ĐÓNG 1 GIỜ
-</button>
-</div>
-</div>
-
-
 <!-- LOGIN -->
-<div class="modal" id="loginModal">
+
+<div
+class="modal"
+id="loginModal">
+
 <div class="box">
 
-<h2>👤 Tài khoản</h2>
+<h2>
+🔐 Đăng nhập
+</h2>
 
-<input id="gmail" type="email"
-placeholder="Nhập Gmail của bạn">
+<p style="color:#9999aa;font-size:13px">
+Bạn cần đăng nhập Gmail để vào shop.
+</p>
 
-<button class="primary" onclick="login()">
+<input
+id="gmail"
+type="email"
+placeholder="Nhập Gmail của bạn"
+autocomplete="email">
+
+<button
+class="primary"
+onclick="login()">
+
 ĐĂNG NHẬP / TẠO TÀI KHOẢN
-</button>
 
-<button class="close" onclick="closeLogin()">
-ĐÓNG
 </button>
 
 </div>
+
 </div>
 
 
 <!-- ACCOUNT -->
-<div class="modal" id="accountModal">
+
+<div
+class="modal"
+id="accountModal">
+
 <div class="box">
 
-<h2>💰 Tài khoản của bạn</h2>
+<h2>
+👤 Tài khoản
+</h2>
 
-<div class="balance">
+<p>
+Gmail:
+</p>
+
+<div
+class="uid-box"
+id="accountGmail">
+---
+</div>
+
+<p>
 UID:
-<div class="uid" id="myUid">---</div>
+</p>
 
-<button class="primary" onclick="copyUID()">
+<div
+class="uid-box"
+id="accountUID">
+---
+</div>
+
+<button
+class="copy"
+onclick="copyUID()">
+
 📋 SAO CHÉP UID
+
 </button>
 
 <br><br>
 
+<p>
 Số dư:
-<strong id="myBalance">0đ</strong>
+</p>
+
+<div
+class="uid-box"
+id="accountBalance">
+
+0đ
+
 </div>
 
-<div id="notEnough" class="insufficient">
-Số dư không đủ.<br><br>
-Vui lòng sao chép UID tài khoản của bạn,
-sau đó chuyển khoản/nạp tiền qua Zalo:
+<button
+class="close"
+onclick="closeAccount()">
 
-<b>0907859891</b>
-</div>
-
-<button class="close" onclick="closeAccount()">
 ĐÓNG
+
 </button>
 
 </div>
+
 </div>
 
 
-<!-- RESULT -->
-<div class="modal" id="resultModal">
+<!-- THÔNG BÁO THIẾU TIỀN -->
+
+<div
+class="modal"
+id="notEnoughModal">
+
 <div class="box">
 
-<h2>🎉 KẾT QUẢ</h2>
+<h2>
+⚠️ SỐ DƯ KHÔNG ĐỦ
+</h2>
 
-<div id="result"></div>
+<div class="not-enough">
 
-<button class="close" onclick="closeResult()">
+Số dư của bạn không đủ để mua túi mù này.
+
+<br><br>
+
+UID tài khoản:
+
+<div
+class="uid-box"
+id="notEnoughUID">
+---
+</div>
+
+<button
+class="copy"
+onclick="copyUID()">
+
+📋 SAO CHÉP UID
+
+</button>
+
+<br><br>
+
+Vui lòng gửi UID qua Zalo:
+
+<br>
+
+<b style="font-size:20px">
+0907859891
+</b>
+
+<br><br>
+
+để nạp tiền vào tài khoản.
+
+</div>
+
+<button
+class="close"
+onclick="closeNotEnough()">
+
 ĐÓNG
+
 </button>
 
 </div>
+
+</div>
+
+
+<!-- KẾT QUẢ MUA -->
+
+<div
+class="modal"
+id="resultModal">
+
+<div class="box">
+
+<h2>
+🎉 MUA THÀNH CÔNG
+</h2>
+
+<div
+id="resultAccount"
+class="result-account">
+</div>
+
+<button
+class="close"
+onclick="closeResult()">
+
+ĐÓNG
+
+</button>
+
+</div>
+
 </div>
 
 
 <script>
 
-let user=null;
-
-const API="";
+let user = null;
 
 
-function money(n){
- return Number(n).toLocaleString("vi-VN")+"đ";
+/* =========================
+   FORMAT TIỀN
+========================= */
+
+function money(number){
+
+    return Number(number)
+    .toLocaleString("vi-VN")+"đ";
+
 }
 
 
-/* THÔNG BÁO 1 GIỜ */
-
-function closeNotice(){
-
- localStorage.setItem(
-  "pt_notice_close",
-  Date.now()
- );
-
- document
- .getElementById("notice")
- .classList.add("hide");
-}
-
-
-function checkNotice(){
-
- const t=localStorage.getItem("pt_notice_close");
-
- if(!t){
-  return;
- }
-
- const oneHour=60*60*1000;
-
- if(Date.now()-Number(t)<oneHour){
-  document.getElementById("notice")
-  .classList.add("hide");
- }
-}
-
-checkNotice();
-
-
-/* LOGIN */
-
-function openLogin(){
- document.getElementById("loginModal")
- .classList.add("show");
-}
-
-function closeLogin(){
- document.getElementById("loginModal")
- .classList.remove("show");
-}
-
+/* =========================
+   LOGIN
+========================= */
 
 async function login(){
 
- const gmail=document
- .getElementById("gmail").value.trim();
+    const input =
+    document.getElementById("gmail");
 
- if(!gmail || !gmail.includes("@")){
-  alert("Vui lòng nhập Gmail hợp lệ!");
-  return;
- }
+    const gmail =
+    input.value.trim().toLowerCase();
 
- try{
 
-  const res=await fetch("/api/login",{
-   method:"POST",
-   headers:{
-    "Content-Type":"application/json"
-   },
-   body:JSON.stringify({gmail})
-  });
+    if(!gmail){
 
-  const data=await res.json();
+        alert("Vui lòng nhập Gmail.");
 
-  if(!data.success){
-   alert(data.message);
-   return;
-  }
+        return;
 
-  user=data.user;
+    }
 
-  localStorage.setItem(
-   "pt_user",
-   JSON.stringify(user)
-  );
 
-  closeLogin();
+    if(!gmail.endsWith("@gmail.com")){
 
-  showAccount();
+        alert("Vui lòng sử dụng Gmail.");
 
- }catch(e){
+        return;
 
-  alert("Không kết nối được server!");
+    }
 
- }
+
+    try{
+
+        const response =
+        await fetch("/api/login",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
+
+            body:JSON.stringify({
+                gmail:gmail
+            })
+
+        });
+
+
+        const data =
+        await response.json();
+
+
+        if(!data.success){
+
+            alert(
+                data.message ||
+                "Đăng nhập thất bại."
+            );
+
+            return;
+
+        }
+
+
+        user=data.user;
+
+
+        localStorage.setItem(
+            "pt_user",
+            JSON.stringify(user)
+        );
+
+
+        document
+        .getElementById("loginModal")
+        .classList.remove("show");
+
+
+        updateUser();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Không kết nối được server. " +
+            "Hãy kiểm tra Render đã Deploy thành công chưa."
+        );
+
+    }
 
 }
 
 
-/* ACCOUNT */
+/* =========================
+   UPDATE USER
+========================= */
 
-function showAccount(){
+function updateUser(){
 
- if(!user)return;
+    if(!user)return;
 
- document.getElementById("myUid")
- .textContent=user.uid;
 
- document.getElementById("myBalance")
- .textContent=money(user.balance);
+    document
+    .getElementById("userCard")
+    .style.display="block";
 
- document.getElementById("accountModal")
- .classList.add("show");
+
+    document
+    .getElementById("userGmail")
+    .textContent=user.gmail;
+
+
+    document
+    .getElementById("userUID")
+    .textContent=user.uid;
+
+
+    document
+    .getElementById("userBalance")
+    .textContent=money(user.balance);
 
 }
+
+
+/* =========================
+   ACCOUNT
+========================= */
+
+function openAccount(){
+
+    if(!user){
+
+        document
+        .getElementById("loginModal")
+        .classList.add("show");
+
+        return;
+
+    }
+
+
+    document
+    .getElementById("accountGmail")
+    .textContent=user.gmail;
+
+
+    document
+    .getElementById("accountUID")
+    .textContent=user.uid;
+
+
+    document
+    .getElementById("accountBalance")
+    .textContent=money(user.balance);
+
+
+    document
+    .getElementById("accountModal")
+    .classList.add("show");
+
+}
+
 
 function closeAccount(){
 
- document.getElementById("accountModal")
- .classList.remove("show");
+    document
+    .getElementById("accountModal")
+    .classList.remove("show");
 
 }
 
+
+/* =========================
+   COPY UID
+========================= */
 
 function copyUID(){
 
- navigator.clipboard.writeText(user.uid);
+    if(!user)return;
 
- alert(
-  "Đã sao chép UID!\n\n"+
-  "Hãy gửi UID này qua Zalo 0907859891."
- );
+
+    navigator.clipboard
+    .writeText(user.uid);
+
+
+    alert(
+        "Đã sao chép UID.\n\n"+
+        "Gửi UID qua Zalo 0907859891."
+    );
 
 }
 
 
-/* MUA */
+/* =========================
+   MUA
+========================= */
 
 async function buy(product,price){
 
- if(!user){
+    /* Bắt buộc đăng nhập */
 
-  alert("Vui lòng đăng nhập bằng Gmail trước!");
+    if(!user){
 
-  openLogin();
+        document
+        .getElementById("loginModal")
+        .classList.add("show");
 
-  return;
- }
+        return;
 
- try{
-
-  const res=await fetch("/api/buy",{
-
-   method:"POST",
-
-   headers:{
-    "Content-Type":"application/json"
-   },
-
-   body:JSON.stringify({
-    uid:user.uid,
-    product,
-    price
-   })
-
-  });
-
-  const data=await res.json();
-
-  if(!data.success){
-
-   if(data.code==="NOT_ENOUGH"){
-
-    user.balance=data.balance;
-
-    localStorage.setItem(
-     "pt_user",
-     JSON.stringify(user)
-    );
-
-    document.getElementById("myUid")
-    .textContent=user.uid;
-
-    document.getElementById("myBalance")
-    .textContent=money(user.balance);
-
-    alert(
-     "SỐ DƯ KHÔNG ĐỦ!\n\n"+
-     "Vui lòng sao chép UID:\n"+
-     user.uid+
-     "\n\n"+
-     "Gửi UID qua Zalo 0907859891 để nạp tiền."
-    );
-
-    showAccount();
-
-    return;
-   }
-
-   alert(data.message);
-   return;
-  }
+    }
 
 
-  user.balance=data.balance;
+    try{
 
-  localStorage.setItem(
-   "pt_user",
-   JSON.stringify(user)
-  );
+        const response =
+        await fetch("/api/buy",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
+
+            body:JSON.stringify({
+
+                uid:user.uid,
+
+                product:product,
+
+                price:price
+
+            })
+
+        });
 
 
-  document.getElementById("result")
-  .innerHTML=`
+        const data =
+        await response.json();
 
-   <p>Mua thành công!</p>
 
-   <div class="account">
-   <b>Thông tin ACC:</b><br><br>
-   ${data.account}
-   </div>
+        /* THIẾU TIỀN */
 
-   <p>Số dư còn lại:
-   <b>${money(data.balance)}</b>
-   </p>
-  `;
+        if(
+            !data.success &&
+            data.code==="NOT_ENOUGH"
+        ){
 
-  document.getElementById("resultModal")
-  .classList.add("show");
+            user.balance=data.balance;
 
- }catch(e){
 
-  alert("Không kết nối được server!");
+            updateUser();
 
- }
+
+            document
+            .getElementById("notEnoughUID")
+            .textContent=user.uid;
+
+
+            document
+            .getElementById("notEnoughModal")
+            .classList.add("show");
+
+
+            return;
+
+        }
+
+
+        /* LỖI KHÁC */
+
+        if(!data.success){
+
+            alert(data.message);
+
+            return;
+
+        }
+
+
+        /* MUA THÀNH CÔNG */
+
+        user.balance=data.balance;
+
+        updateUser();
+
+
+        localStorage.setItem(
+            "pt_user",
+            JSON.stringify(user)
+        );
+
+
+        document
+        .getElementById("resultAccount")
+        .innerHTML=`
+
+        <b>🎉 Mua thành công!</b>
+
+        <br><br>
+
+        Thông tin tài khoản:
+
+        <br><br>
+
+        <b>${data.account}</b>
+
+        <br><br>
+
+        Số dư còn lại:
+
+        <b>${money(data.balance)}</b>
+
+        `;
+
+
+        document
+        .getElementById("resultModal")
+        .classList.add("show");
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Không kết nối được server."
+        );
+
+    }
+
+}
+
+
+function closeNotEnough(){
+
+    document
+    .getElementById("notEnoughModal")
+    .classList.remove("show");
 
 }
 
 
 function closeResult(){
 
- document.getElementById("resultModal")
- .classList.remove("show");
+    document
+    .getElementById("resultModal")
+    .classList.remove("show");
 
 }
 
 
-/* LOAD USER */
+/* =========================
+   KIỂM TRA LOGIN KHI VÀO WEB
+========================= */
 
-try{
+window.addEventListener(
+    "DOMContentLoaded",
+    function(){
 
- const saved=localStorage.getItem("pt_user");
+        try{
 
- if(saved){
+            const saved =
+            localStorage.getItem("pt_user");
 
-  user=JSON.parse(saved);
 
- }
+            if(saved){
 
-}catch(e){}
+                user=JSON.parse(saved);
+
+                updateUser();
+
+            }else{
+
+                setTimeout(function(){
+
+                    document
+                    .getElementById("loginModal")
+                    .classList.add("show");
+
+                },300);
+
+            }
+
+        }catch(error){
+
+            localStorage.removeItem("pt_user");
+
+            document
+            .getElementById("loginModal")
+            .classList.add("show");
+
+        }
+
+    }
+);
 
 </script>
 
