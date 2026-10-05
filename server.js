@@ -1,6 +1,4 @@
 const express = require("express");
-const path = require("path");
-const crypto = require("crypto");
 
 const app = express();
 
@@ -8,94 +6,111 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use(express.static(
-    path.join(__dirname, "public")
-));
+app.use(express.static("public"));
 
 
-/* =========================
-   DATABASE DEMO
-========================= */
+// ================================
+// DATABASE TẠM
+// ================================
+
+/*
+  Gmail -> User
+
+  UID được lưu ở server.
+
+  Vì vậy:
+
+  Gmail A
+  -> UID PT-ABC12345
+
+  đăng xuất
+
+  đăng nhập Gmail A lần nữa
+  -> vẫn UID PT-ABC12345
+
+  Gmail B
+  -> UID khác
+*/
 
 const users = new Map();
 
 
-/* =========================
-   KHO ACC
-   M thay thông tin ACC ở đây
-========================= */
+// ================================
+// TẠO UID
+// ================================
+
+function createUID(){
+
+    const random =
+        Math.random()
+        .toString(16)
+        .substring(2,10)
+        .toUpperCase();
+
+    return "PT-" + random;
+}
+
+
+// ================================
+// STOCK
+// ================================
 
 const stock = {
 
     tanbinh: [
-        "Gmail: acc1@gmail.com | MK: matkhau1",
-        "Gmail: acc2@gmail.com | MK: matkhau2",
-        "Gmail: acc3@gmail.com | MK: matkhau3",
-        "Gmail: acc4@gmail.com | MK: matkhau4",
-        "Gmail: acc5@gmail.com | MK: matkhau5"
+        "ACC TÂN BINH #01",
+        "ACC TÂN BINH #02",
+        "ACC TÂN BINH #03",
+        "ACC TÂN BINH #04",
+        "ACC TÂN BINH #05"
     ],
 
     premium: [
-        "Gmail: premium1@gmail.com | MK: matkhau1",
-        "Gmail: premium2@gmail.com | MK: matkhau2",
-        "Gmail: premium3@gmail.com | MK: matkhau3",
-        "Gmail: premium4@gmail.com | MK: matkhau4",
-        "Gmail: premium5@gmail.com | MK: matkhau5"
+        "ACC PREMIUM #01",
+        "ACC PREMIUM #02",
+        "ACC PREMIUM #03",
+        "ACC PREMIUM #04",
+        "ACC PREMIUM #05"
     ],
 
     legendary: [
-        "Gmail: legendary1@gmail.com | MK: matkhau1",
-        "Gmail: legendary2@gmail.com | MK: matkhau2",
-        "Gmail: legendary3@gmail.com | MK: matkhau3",
-        "Gmail: legendary4@gmail.com | MK: matkhau4",
-        "Gmail: legendary5@gmail.com | MK: matkhau5"
+        "ACC LEGENDARY #01",
+        "ACC LEGENDARY #02",
+        "ACC LEGENDARY #03",
+        "ACC LEGENDARY #04",
+        "ACC LEGENDARY #05"
     ],
 
     vip: [
-        "Gmail: vip1@gmail.com | MK: matkhau1",
-        "Gmail: vip2@gmail.com | MK: matkhau2",
-        "Gmail: vip3@gmail.com | MK: matkhau3",
-        "Gmail: vip4@gmail.com | MK: matkhau4",
-        "Gmail: vip5@gmail.com | MK: matkhau5"
+        "ACC VIP #01",
+        "ACC VIP #02",
+        "ACC VIP #03",
+        "ACC VIP #04",
+        "ACC VIP #05"
     ],
 
     ultra: [
-        "Gmail: ultra1@gmail.com | MK: matkhau1",
-        "Gmail: ultra2@gmail.com | MK: matkhau2",
-        "Gmail: ultra3@gmail.com | MK: matkhau3",
-        "Gmail: ultra4@gmail.com | MK: matkhau4",
-        "Gmail: ultra5@gmail.com | MK: matkhau5"
+        "ACC ULTRA #01",
+        "ACC ULTRA #02",
+        "ACC ULTRA #03",
+        "ACC ULTRA #04",
+        "ACC ULTRA #05"
     ],
 
     lucky: [
-        "Gmail: lucky1@gmail.com | MK: matkhau1",
-        "Gmail: lucky2@gmail.com | MK: matkhau2",
-        "Gmail: lucky3@gmail.com | MK: matkhau3",
-        "Gmail: lucky4@gmail.com | MK: matkhau4",
-        "Gmail: lucky5@gmail.com | MK: matkhau5"
+        "ACC LUCKY #01",
+        "ACC LUCKY #02",
+        "ACC LUCKY #03",
+        "ACC LUCKY #04",
+        "ACC LUCKY #05"
     ]
 
 };
 
 
-/* =========================
-   UID
-========================= */
-
-function createUID(){
-
-    return "PT-" +
-        crypto
-        .randomBytes(4)
-        .toString("hex")
-        .toUpperCase();
-
-}
-
-
-/* =========================
-   LOGIN
-========================= */
+// ================================
+// LOGIN
+// ================================
 
 app.post("/api/login",(req,res)=>{
 
@@ -107,41 +122,33 @@ app.post("/api/login",(req,res)=>{
 
     if(!gmail.endsWith("@gmail.com")){
 
-        return res.status(400).json({
+        return res.json({
 
             success:false,
 
-            message:
-            "Vui lòng nhập đúng Gmail."
+            message:"Gmail không hợp lệ."
 
         });
 
     }
 
 
-    let user=null;
+    /*
+      Tìm Gmail cũ.
 
+      Nếu đã tồn tại:
+      -> dùng lại UID cũ.
 
-    /* Tìm Gmail cũ */
+      Nếu chưa:
+      -> tạo UID mới.
+    */
 
-    for(const account of users.values()){
+    let user = users.get(gmail);
 
-        if(account.gmail===gmail){
-
-            user=account;
-
-            break;
-
-        }
-
-    }
-
-
-    /* Gmail mới */
 
     if(!user){
 
-        user={
+        user = {
 
             gmail:gmail,
 
@@ -151,16 +158,12 @@ app.post("/api/login",(req,res)=>{
 
         };
 
-
-        users.set(
-            user.uid,
-            user
-        );
+        users.set(gmail,user);
 
     }
 
 
-    res.json({
+    return res.json({
 
         success:true,
 
@@ -171,57 +174,92 @@ app.post("/api/login",(req,res)=>{
 });
 
 
-/* =========================
-   MUA SẢN PHẨM
-========================= */
+// ================================
+// BUY
+// ================================
 
 app.post("/api/buy",(req,res)=>{
 
-    const {
-        uid,
-        product,
-        price
-    }=req.body;
+    const uid =
+        String(req.body.uid || "");
+
+    const product =
+        String(req.body.product || "");
+
+    const price =
+        Number(req.body.price);
 
 
-    const user=users.get(uid);
+    // Tìm user bằng UID
+
+    let user = null;
+
+    for(const item of users.values()){
+
+        if(item.uid === uid){
+
+            user = item;
+
+            break;
+
+        }
+
+    }
 
 
     if(!user){
 
-        return res.status(404).json({
+        return res.json({
 
             success:false,
 
-            message:
-            "Không tìm thấy tài khoản."
+            message:"Phiên đăng nhập không hợp lệ."
 
         });
 
     }
 
 
-    const amount=Number(price);
+    // Kiểm tra giá
+
+    const validPrices = {
+
+        tanbinh:20000,
+
+        premium:50000,
+
+        legendary:100000,
+
+        vip:200000,
+
+        ultra:500000,
+
+        lucky:1000000
+
+    };
 
 
-    if(!Number.isFinite(amount)){
+    if(
+        !validPrices[product] ||
+        validPrices[product] !== price
+    ){
 
-        return res.status(400).json({
+        return res.json({
 
             success:false,
 
-            message:
-            "Giá sản phẩm không hợp lệ."
+            message:"Sản phẩm không hợp lệ."
 
         });
 
     }
 
 
-    /* Chỉ kiểm tra thiếu tiền
-       khi khách thực sự bấm mua */
+    // ================================
+    // KHÔNG ĐỦ TIỀN
+    // ================================
 
-    if(user.balance < amount){
+    if(user.balance < price){
 
         return res.json({
 
@@ -236,37 +274,40 @@ app.post("/api/buy",(req,res)=>{
     }
 
 
-    /* Kiểm tra kho */
+    // ================================
+    // HẾT HÀNG
+    // ================================
 
     if(
         !stock[product] ||
-        stock[product].length===0
+        stock[product].length === 0
     ){
 
         return res.json({
 
             success:false,
 
-            message:
-            "Túi mù này hiện đã hết ACC."
+            message:"Túi này hiện đã hết hàng."
 
         });
 
     }
 
 
-    /* Lấy ACC */
+    // ================================
+    // LẤY ACC
+    // ================================
 
     const account =
         stock[product].shift();
 
 
-    /* Trừ số dư */
+    // Trừ tiền
 
-    user.balance -= amount;
+    user.balance -= price;
 
 
-    res.json({
+    return res.json({
 
         success:true,
 
@@ -279,9 +320,9 @@ app.post("/api/buy",(req,res)=>{
 });
 
 
-/* =========================
-   STATUS
-========================= */
+// ================================
+// STATUS
+// ================================
 
 app.get("/api/status",(req,res)=>{
 
@@ -289,62 +330,36 @@ app.get("/api/status",(req,res)=>{
 
         success:true,
 
-        status:"online",
+        message:"PT BAG SHOP đang hoạt động.",
 
-        shop:"PT BAG SHOP"
+        users:users.size
 
     });
 
 });
 
 
-/* =========================
-   TRANG CHỦ
-========================= */
+// ================================
+// HOME
+// ================================
 
 app.get("/",(req,res)=>{
 
     res.sendFile(
-        path.join(
-            __dirname,
-            "public",
-            "index.html"
-        )
+        __dirname + "/public/index.html"
     );
 
 });
 
 
-/* =========================
-   404 API
-========================= */
+// ================================
+// START
+// ================================
 
-app.use("/api",(req,res)=>{
+app.listen(PORT,"0.0.0.0",()=>{
 
-    res.status(404).json({
-
-        success:false,
-
-        message:"API không tồn tại."
-
-    });
+    console.log(
+        `PT BAG SHOP running on port ${PORT}`
+    );
 
 });
-
-
-/* =========================
-   START
-========================= */
-
-app.listen(
-    PORT,
-    "0.0.0.0",
-    ()=>{
-
-        console.log(
-            "PT BAG SHOP running on port "
-            + PORT
-        );
-
-    }
-);
