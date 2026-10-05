@@ -311,7 +311,7 @@ app.get("/api/status",(req,res)=>{
 
 
 // Mật khẩu Admin
-const ADMIN_PASSWORD = "PTG-ADMIN-2026";
+const ADMIN_PASSWORD = "congdang86";
 
 // Token Admin
 const ADMIN_TOKEN = "PTG-ADMIN-SECRET-2026";
