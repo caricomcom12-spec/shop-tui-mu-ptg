@@ -1,7 +1,7 @@
 {
   "name": "pt-bag-shop",
-  "version": "1.0.0",
-  "description": "Play Together Mystery Bag Shop",
+  "version": "3.0.0",
+  "description": "PT BAG SHOP",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
