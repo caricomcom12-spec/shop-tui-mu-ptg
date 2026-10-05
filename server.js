@@ -32,66 +32,351 @@ function createUID(){
 
 // ==================================================
 // KHO TÚI MÙ
+// MỖI TÚI CÓ 5 ACC ẢO
 // ==================================================
 
 const stock = {
 
+    // =========================
+    // TÚI 5K
+    // =========================
+
     bag5k: [
-        "ACC 5K #01",
-        "ACC 5K #02",
-        "ACC 5K #03",
-        "ACC 5K #04",
-        "ACC 5K #05",
-        "ACC 5K #06",
-        "ACC 5K #07"
+
+        {
+            username:"PTG_DEMO_5K_01",
+            password:"demo123",
+            level:12,
+            rarity:"Thường",
+            info:"Acc demo 5K - nhân vật cơ bản"
+        },
+
+        {
+            username:"PTG_DEMO_5K_02",
+            password:"demo456",
+            level:18,
+            rarity:"Hiếm",
+            info:"Acc demo 5K - có một số vật phẩm"
+        },
+
+        {
+            username:"PTG_DEMO_5K_03",
+            password:"demo789",
+            level:25,
+            rarity:"Hiếm",
+            info:"Acc demo 5K - nhiều trang phục"
+        },
+
+        {
+            username:"PTG_DEMO_5K_04",
+            password:"demo999",
+            level:31,
+            rarity:"Siêu hiếm",
+            info:"Acc demo 5K - nhiều vật phẩm"
+        },
+
+        {
+            username:"PTG_DEMO_5K_05",
+            password:"demo000",
+            level:40,
+            rarity:"Cực hiếm",
+            info:"Acc demo 5K - acc mẫu đặc biệt"
+        }
+
     ],
+
+
+    // =========================
+    // TÂN BINH
+    // =========================
 
     tanbinh: [
-        "ACC TÂN BINH #01",
-        "ACC TÂN BINH #02",
-        "ACC TÂN BINH #03",
-        "ACC TÂN BINH #04",
-        "ACC TÂN BINH #05"
+
+        {
+            username:"PTG_DEMO_TB_01",
+            password:"tb111",
+            level:10,
+            rarity:"Thường",
+            info:"Acc Tân Binh mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_TB_02",
+            password:"tb222",
+            level:20,
+            rarity:"Hiếm",
+            info:"Acc Tân Binh mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_TB_03",
+            password:"tb333",
+            level:27,
+            rarity:"Hiếm",
+            info:"Acc Tân Binh mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_TB_04",
+            password:"tb444",
+            level:35,
+            rarity:"Siêu hiếm",
+            info:"Acc Tân Binh mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_TB_05",
+            password:"tb555",
+            level:45,
+            rarity:"Cực hiếm",
+            info:"Acc Tân Binh mẫu đặc biệt"
+        }
+
     ],
+
+
+    // =========================
+    // PREMIUM
+    // =========================
 
     premium: [
-        "ACC PREMIUM #01",
-        "ACC PREMIUM #02",
-        "ACC PREMIUM #03",
-        "ACC PREMIUM #04",
-        "ACC PREMIUM #05"
+
+        {
+            username:"PTG_DEMO_PRE_01",
+            password:"pre111",
+            level:35,
+            rarity:"Hiếm",
+            info:"Acc Premium mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_PRE_02",
+            password:"pre222",
+            level:42,
+            rarity:"Hiếm",
+            info:"Acc Premium mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_PRE_03",
+            password:"pre333",
+            level:50,
+            rarity:"Siêu hiếm",
+            info:"Acc Premium mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_PRE_04",
+            password:"pre444",
+            level:58,
+            rarity:"Siêu hiếm",
+            info:"Acc Premium mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_PRE_05",
+            password:"pre555",
+            level:65,
+            rarity:"Cực hiếm",
+            info:"Acc Premium mẫu đặc biệt"
+        }
+
     ],
+
+
+    // =========================
+    // LEGENDARY
+    // =========================
 
     legendary: [
-        "ACC LEGENDARY #01",
-        "ACC LEGENDARY #02",
-        "ACC LEGENDARY #03",
-        "ACC LEGENDARY #04",
-        "ACC LEGENDARY #05"
+
+        {
+            username:"PTG_DEMO_LEG_01",
+            password:"leg111",
+            level:50,
+            rarity:"Hiếm",
+            info:"Acc Legendary mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LEG_02",
+            password:"leg222",
+            level:60,
+            rarity:"Siêu hiếm",
+            info:"Acc Legendary mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LEG_03",
+            password:"leg333",
+            level:70,
+            rarity:"Siêu hiếm",
+            info:"Acc Legendary mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LEG_04",
+            password:"leg444",
+            level:80,
+            rarity:"Cực hiếm",
+            info:"Acc Legendary mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LEG_05",
+            password:"leg555",
+            level:90,
+            rarity:"Huyền thoại",
+            info:"Acc Legendary mẫu đặc biệt"
+        }
+
     ],
+
+
+    // =========================
+    // VIP
+    // =========================
 
     vip: [
-        "ACC VIP #01",
-        "ACC VIP #02",
-        "ACC VIP #03",
-        "ACC VIP #04",
-        "ACC VIP #05"
+
+        {
+            username:"PTG_DEMO_VIP_01",
+            password:"vip111",
+            level:60,
+            rarity:"Siêu hiếm",
+            info:"Acc VIP mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_VIP_02",
+            password:"vip222",
+            level:70,
+            rarity:"Siêu hiếm",
+            info:"Acc VIP mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_VIP_03",
+            password:"vip333",
+            level:80,
+            rarity:"Cực hiếm",
+            info:"Acc VIP mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_VIP_04",
+            password:"vip444",
+            level:90,
+            rarity:"Huyền thoại",
+            info:"Acc VIP mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_VIP_05",
+            password:"vip555",
+            level:100,
+            rarity:"Huyền thoại",
+            info:"Acc VIP mẫu đặc biệt"
+        }
+
     ],
+
+
+    // =========================
+    // ULTRA
+    // =========================
 
     ultra: [
-        "ACC ULTRA #01",
-        "ACC ULTRA #02",
-        "ACC ULTRA #03",
-        "ACC ULTRA #04",
-        "ACC ULTRA #05"
+
+        {
+            username:"PTG_DEMO_ULT_01",
+            password:"ult111",
+            level:70,
+            rarity:"Cực hiếm",
+            info:"Acc Ultra mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_ULT_02",
+            password:"ult222",
+            level:80,
+            rarity:"Cực hiếm",
+            info:"Acc Ultra mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_ULT_03",
+            password:"ult333",
+            level:90,
+            rarity:"Huyền thoại",
+            info:"Acc Ultra mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_ULT_04",
+            password:"ult444",
+            level:100,
+            rarity:"Huyền thoại",
+            info:"Acc Ultra mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_ULT_05",
+            password:"ult555",
+            level:120,
+            rarity:"Cực phẩm",
+            info:"Acc Ultra mẫu đặc biệt"
+        }
+
     ],
 
+
+    // =========================
+    // LUCKY
+    // =========================
+
     lucky: [
-        "ACC LUCKY #01",
-        "ACC LUCKY #02",
-        "ACC LUCKY #03",
-        "ACC LUCKY #04",
-        "ACC LUCKY #05"
+
+        {
+            username:"PTG_DEMO_LUCKY_01",
+            password:"luck111",
+            level:80,
+            rarity:"Cực hiếm",
+            info:"Acc Lucky mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LUCKY_02",
+            password:"luck222",
+            level:90,
+            rarity:"Huyền thoại",
+            info:"Acc Lucky mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LUCKY_03",
+            password:"luck333",
+            level:100,
+            rarity:"Huyền thoại",
+            info:"Acc Lucky mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LUCKY_04",
+            password:"luck444",
+            level:120,
+            rarity:"Cực phẩm",
+            info:"Acc Lucky mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LUCKY_05",
+            password:"luck555",
+            level:150,
+            rarity:"SIÊU CỰC PHẨM",
+            info:"Acc Lucky mẫu đặc biệt"
+        }
+
     ]
 
 };
@@ -103,13 +388,19 @@ const stock = {
 
 const validPrices = {
 
-    bag5k: 5000,
-    tanbinh: 20000,
-    premium: 50000,
-    legendary: 100000,
-    vip: 200000,
-    ultra: 500000,
-    lucky: 1000000
+    bag5k:5000,
+
+    tanbinh:20000,
+
+    premium:50000,
+
+    legendary:100000,
+
+    vip:200000,
+
+    ultra:500000,
+
+    lucky:1000000
 
 };
 
@@ -125,18 +416,24 @@ app.post("/api/login",(req,res)=>{
         .trim()
         .toLowerCase();
 
+
     if(!gmail.endsWith("@gmail.com")){
 
         return res.json({
+
             success:false,
+
             message:"Gmail không hợp lệ."
+
         });
 
     }
 
+
     let user = users.get(gmail);
 
-    // Gmail cũ -> giữ nguyên UID
+
+    // Gmail cũ -> giữ UID
     if(!user){
 
         user = {
@@ -151,28 +448,57 @@ app.post("/api/login",(req,res)=>{
 
         };
 
+
         users.set(gmail,user);
 
     }
 
-    // Đảm bảo user cũ có history
+
     if(!user.history){
-        user.history = [];
+
+        user.history=[];
+
     }
+
 
     return res.json({
 
         success:true,
 
         user:{
+
             gmail:user.gmail,
+
             uid:user.uid,
+
             balance:user.balance
+
         }
 
     });
 
 });
+
+
+// ==================================================
+// TÌM USER THEO UID
+// ==================================================
+
+function findUserByUID(uid){
+
+    for(const user of users.values()){
+
+        if(user.uid === uid){
+
+            return user;
+
+        }
+
+    }
+
+    return null;
+
+}
 
 
 // ==================================================
@@ -182,28 +508,22 @@ app.post("/api/login",(req,res)=>{
 app.post("/api/buy",(req,res)=>{
 
     const uid =
-        String(req.body.uid || "");
+        String(req.body.uid || "")
+        .trim();
+
 
     const product =
-        String(req.body.product || "");
+        String(req.body.product || "")
+        .trim();
+
 
     const price =
         Number(req.body.price);
 
 
     // Tìm user
-    let user = null;
-
-    for(const item of users.values()){
-
-        if(item.uid === uid){
-
-            user = item;
-            break;
-
-        }
-
-    }
+    const user =
+        findUserByUID(uid);
 
 
     if(!user){
@@ -219,7 +539,7 @@ app.post("/api/buy",(req,res)=>{
     }
 
 
-    // Kiểm tra giá
+    // Kiểm tra sản phẩm + giá
     if(
         !validPrices[product] ||
         validPrices[product] !== price
@@ -252,7 +572,7 @@ app.post("/api/buy",(req,res)=>{
     }
 
 
-    // Hết hàng
+    // Hết acc
     if(
         !stock[product] ||
         stock[product].length === 0
@@ -262,35 +582,65 @@ app.post("/api/buy",(req,res)=>{
 
             success:false,
 
-            message:"Túi này hiện đã hết hàng."
+            code:"OUT_OF_STOCK",
+
+            message:"Túi này hiện đã hết acc."
 
         });
 
     }
 
 
-    // Lấy acc đầu tiên
+    // ==============================================
+    // BỐC ACC
+    // ==============================================
+
     const account =
         stock[product].shift();
 
 
-    // Trừ tiền
+    // ==============================================
+    // TRỪ TIỀN
+    // ==============================================
+
     user.balance -= price;
 
 
-    // Ghi lịch sử
-    user.history.push({
+    // ==============================================
+    // TẠO LỊCH SỬ
+    // ==============================================
+
+    const historyItem = {
 
         product:product,
 
-        account:account,
-
         price:price,
+
+        account:{
+
+            username:account.username,
+
+            password:account.password,
+
+            level:account.level,
+
+            rarity:account.rarity,
+
+            info:account.info
+
+        },
 
         time:new Date().toISOString()
 
-    });
+    };
 
+
+    user.history.push(historyItem);
+
+
+    // ==============================================
+    // TRẢ KẾT QUẢ
+    // ==============================================
 
     return res.json({
 
@@ -298,7 +648,9 @@ app.post("/api/buy",(req,res)=>{
 
         account:account,
 
-        balance:user.balance
+        balance:user.balance,
+
+        history:historyItem
 
     });
 
@@ -306,26 +658,18 @@ app.post("/api/buy",(req,res)=>{
 
 
 // ==================================================
-// LỊCH SỬ CỦA UID ĐANG ĐĂNG NHẬP
+// LỊCH SỬ CỦA UID
 // ==================================================
 
 app.get("/api/history",(req,res)=>{
 
     const uid =
-        String(req.query.uid || "");
+        String(req.query.uid || "")
+        .trim();
 
-    let user = null;
 
-    for(const item of users.values()){
-
-        if(item.uid === uid){
-
-            user = item;
-            break;
-
-        }
-
-    }
+    const user =
+        findUserByUID(uid);
 
 
     if(!user){
@@ -341,9 +685,13 @@ app.get("/api/history",(req,res)=>{
     }
 
 
-    res.json({
+    return res.json({
 
         success:true,
+
+        uid:user.uid,
+
+        gmail:user.gmail,
 
         history:user.history || []
 
@@ -358,13 +706,25 @@ app.get("/api/history",(req,res)=>{
 
 app.get("/api/status",(req,res)=>{
 
+    const stockCount = {};
+
+    for(const product in stock){
+
+        stockCount[product] =
+            stock[product].length;
+
+    }
+
+
     res.json({
 
         success:true,
 
         message:"PT BAG SHOP đang hoạt động.",
 
-        users:users.size
+        users:users.size,
+
+        stock:stockCount
 
     });
 
@@ -376,14 +736,20 @@ app.get("/api/status",(req,res)=>{
 // ==================================================
 
 const ADMIN_PASSWORD = "congdang86";
-const ADMIN_TOKEN = "PTG-ADMIN-SECRET-2026";
+
+const ADMIN_TOKEN =
+    "PTG-ADMIN-SECRET-2026";
 
 
+// ==================================================
 // ADMIN LOGIN
+// ==================================================
+
 app.post("/api/admin/login",(req,res)=>{
 
     const password =
         String(req.body.password || "");
+
 
     if(password !== ADMIN_PASSWORD){
 
@@ -397,6 +763,7 @@ app.post("/api/admin/login",(req,res)=>{
 
     }
 
+
     res.json({
 
         success:true,
@@ -408,11 +775,15 @@ app.post("/api/admin/login",(req,res)=>{
 });
 
 
-// KIỂM TRA QUYỀN
+// ==================================================
+// KIỂM TRA QUYỀN ADMIN
+// ==================================================
+
 function checkAdmin(req,res,next){
 
     const token =
         req.headers["x-admin-token"];
+
 
     if(token !== ADMIN_TOKEN){
 
@@ -426,33 +797,32 @@ function checkAdmin(req,res,next){
 
     }
 
+
     next();
 
 }
 
 
+// ==================================================
 // ADMIN TÌM USER
+// ==================================================
+
 app.get(
+
     "/api/admin/user",
+
     checkAdmin,
+
     (req,res)=>{
 
         const uid =
             String(req.query.uid || "")
             .trim();
 
-        let found = null;
 
-        for(const user of users.values()){
+        const found =
+            findUserByUID(uid);
 
-            if(user.uid === uid){
-
-                found = user;
-                break;
-
-            }
-
-        }
 
         if(!found){
 
@@ -466,31 +836,44 @@ app.get(
 
         }
 
+
         res.json({
 
             success:true,
 
             user:{
+
                 gmail:found.gmail,
+
                 uid:found.uid,
+
                 balance:found.balance
+
             }
 
         });
 
     }
+
 );
 
 
+// ==================================================
 // ADMIN CỘNG TIỀN
+// ==================================================
+
 app.post(
+
     "/api/admin/add-money",
+
     checkAdmin,
+
     (req,res)=>{
 
         const uid =
             String(req.body.uid || "")
             .trim();
+
 
         const amount =
             Number(req.body.amount);
@@ -525,18 +908,8 @@ app.post(
         }
 
 
-        let found = null;
-
-        for(const user of users.values()){
-
-            if(user.uid === uid){
-
-                found = user;
-                break;
-
-            }
-
-        }
+        const found =
+            findUserByUID(uid);
 
 
         if(!found){
@@ -564,6 +937,7 @@ app.post(
         });
 
     }
+
 );
 
 
@@ -572,26 +946,20 @@ app.post(
 // ==================================================
 
 app.get(
+
     "/api/admin/history",
+
     checkAdmin,
+
     (req,res)=>{
 
         const uid =
             String(req.query.uid || "")
             .trim();
 
-        let found = null;
 
-        for(const user of users.values()){
-
-            if(user.uid === uid){
-
-                found = user;
-                break;
-
-            }
-
-        }
+        const found =
+            findUserByUID(uid);
 
 
         if(!found){
@@ -620,6 +988,7 @@ app.get(
         });
 
     }
+
 );
 
 
@@ -630,7 +999,10 @@ app.get(
 app.get("/admin",(req,res)=>{
 
     res.sendFile(
-        __dirname + "/public/admin.html"
+
+        __dirname +
+        "/public/admin.html"
+
     );
 
 });
@@ -643,20 +1015,33 @@ app.get("/admin",(req,res)=>{
 app.get("/",(req,res)=>{
 
     res.sendFile(
-        __dirname + "/public/index.html"
+
+        __dirname +
+        "/public/index.html"
+
     );
 
 });
 
 
 // ==================================================
-// START
+// START SERVER
 // ==================================================
 
-app.listen(PORT,"0.0.0.0",()=>{
+app.listen(
 
-    console.log(
-        `PT BAG SHOP running on port ${PORT}`
-    );
+    PORT,
 
-});
+    "0.0.0.0",
+
+    ()=>{
+
+        console.log(
+
+            `PT BAG SHOP running on port ${PORT}`
+
+        );
+
+    }
+
+);
