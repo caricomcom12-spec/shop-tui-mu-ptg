@@ -1,9 +1,12 @@
 {
-  "name": "vongquay-playtogether",
+  "name": "pt-bag-shop",
   "version": "1.0.0",
+  "description": "Play Together Mystery Bag Shop",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
