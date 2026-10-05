@@ -5,80 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Shop Túi Mù Play Together</title>
     <style>
-        :root { --pt-pink: #ff6b81; --pt-purple: #5f27cd; --pt-yellow: #feca57; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #f7f9fc; color: #333; padding-bottom: 50px; }
-        .mobile-header { background: linear-gradient(135deg, var(--pt-pink), var(--pt-purple)); color: white; padding: 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 99; }
-        .shop-name { font-size: 22px; font-weight: 900; color: var(--pt-yellow); text-shadow: 2px 2px var(--pt-purple); }
-        .user-panel { max-width: 500px; margin: 15px auto; background: white; border-radius: 15px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); width: 92%; }
-        .login-box { text-align: center; width: 100%; }
-        .login-input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 25px; margin-bottom: 10px; font-size: 15px; text-align: center; outline: none; }
-        .login-btn { background: linear-gradient(to right, var(--pt-pink), var(--pt-purple)); color: white; border: none; padding: 12px; border-radius: 25px; width: 100%; font-weight: bold; cursor: pointer; font-size: 15px; }
-        .profile { display: flex; align-items: center; justify-content: space-between; width: 100%; }
-        .uid-tag { background: #eee; font-size: 12px; padding: 2px 6px; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 3px; }
-        .money { color: #2ed573; font-weight: bold; font-size: 16px; text-align: right; }
-        .btn-add-money { background: var(--pt-yellow); color: #000; border: none; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-top: 4px; cursor: pointer; }
-        .banner { max-width: 500px; width: 92%; margin: 10px auto; background: linear-gradient(45deg, #ff9f43, var(--pt-pink)); border-radius: 15px; padding: 20px; color: white; text-align: center; font-weight: bold; }
-        .shop-container { max-width: 500px; width: 92%; margin: 20px auto; }
-        .section-title { font-size: 18px; font-weight: 800; margin-bottom: 12px; color: var(--pt-purple); }
-        .bag-card { background: white; border-radius: 20px; border: 3px solid var(--pt-pink); overflow: hidden; margin-bottom: 20px; text-align: center; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .bag-img { font-size: 70px; margin: 15px 0; display: inline-block; }
-        .bag-title { font-size: 18px; font-weight: bold; }
-        .bag-price { font-size: 20px; font-weight: 900; color: var(--pt-pink); margin: 5px 0 15px 0; }
-        .btn-open { background: linear-gradient(to right, var(--pt-pink), #ff4757); color: white; border: none; width: 100%; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 15px; cursor: pointer; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: white; border-radius: 20px; padding: 25px; width: 100%; max-width: 400px; text-align: center; }
-        .acc-info-box { background: #f1f2f6; border: 2px dashed var(--pt-purple); padding: 15px; border-radius: 12px; margin: 15px 0; text-align: left; }
-        .btn-close { background: #2f3542; color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; width: 100%; margin-top: 10px; cursor: pointer; }
-        .shake { animation: shakeMobile 0.5s infinite; }
-        @keyframes shakeMobile { 0% { transform: rotate(0deg); } 25% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } 100% { transform: rotate(0deg); } }
+        body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 15px; text-align: center; color: #333; }
+        .box { max-width: 450px; margin: 15px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 20px; text-align: center; outline: none; font-size: 15px; }
+        button { width: 100%; padding: 12px; background: #ff4757; color: white; border: none; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 15px; }
+        .profile { display: flex; justify-content: space-between; align-items: center; text-align: left; }
+        .history-item { padding: 8px; border-bottom: 1px solid #eee; text-align: left; font-size: 13px; line-height: 1.4; }
     </style>
 </head>
 <body>
-    <div class="mobile-header"><div class="shop-name">🛍️ CDANG-SHOPACCPTG 🛍️</div></div>
-    <div class="user-panel" id="auth-panel">
-        <div class="login-box">
-            <p style="font-size:14px; font-weight:bold; margin-bottom:10px; color:var(--pt-purple);">📧 VUI LÒNG NHẬP GMAIL ĐỂ ĐĂNG NHẬP / ĐĂNG KÝ</p>
-            <input type="email" id="gmail-input" class="login-input" placeholder="Ví dụ: nguyenvana@gmail.com">
-            <button class="login-btn" onclick="handleGmailLogin()">TIẾP TỤC VÀO SHOP</button>
-        </div>
+    <h2>🛍️ SHOP TÚI MÙ PLAY TOGETHER</h2>
+    
+    <div class="box" id="auth-panel">
+        <p style="margin-bottom:10px; font-weight:bold;">📧 NHẬP GMAIL ĐỂ ĐĂNG NHẬP / ĐĂNG KÝ</p>
+        <input type="email" id="gmail-input" placeholder="Ví dụ: emlamshoptuimu@gmail.com">
+        <button style="background: #5f27cd;" onclick="login()">TIẾP TỤC VÀO SHOP</button>
     </div>
-    <div class="banner">🎉 MỞ BÁN TÚI MÙ ACC PLAY TOGETHER CHẤT LƯỢNG GIÁ RẺ 🎉</div>
-    <div class="shop-container">
-        <div class="section-title">📦 DANH SÁCH TÚI MÙ ĐANG CÓ</div>
-        <div class="bag-card">
-            <div class="bag-title">Túi Mù Play Together VIP Dễ Nổ</div>
-            <div class="bag-img" id="bag-tuimu7k">🛍️</div>
-            <div class="bag-price">7,000đ</div>
-            <button class="btn-open" onclick="buyBlindBag()">XÉ TÚI 7.000Đ</button>
-        </div>
+
+    <div class="box">
+        <h3>📦 Túi Mù Play Together Siêu Cấp</h3>
+        <p style="font-size: 60px; margin: 15px 0;">🛍️</p>
+        <h4 style="color: #ff4757; font-size: 22px; margin-bottom: 15px;">Giá: 7,000đ</h4>
+        <button onclick="xeTui()">XÉ TÚI MÙ 7.000Đ</button>
     </div>
-    <div class="modal" id="popupModal"><div class="modal-content" id="popupContent"></div></div>
+
+    <div class="box" id="history-box" style="display: none;">
+        <h3 style="text-align: left; border-bottom: 2px solid #eee; padding-bottom: 5px; color: #5f27cd;">📜 LỊCH SỬ XÉ TÚI CỦA BẠN</h3>
+        <div id="history-list"></div>
+    </div>
+
+    <div id="popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; padding:20px;">
+        <div style="background:white; padding:20px; border-radius:15px; max-width:380px; width:100%;" id="popup-content"></div>
+    </div>
+
     <script>
-        let currentUser = null;
-        function handleGmailLogin() {
-            const email = document.getElementById('gmail-input').value.trim(); if(!email || !email.includes('@')) return alert("Vui lòng điền đúng địa chỉ Gmail!");
-            fetch('/api/auth/gmail-login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }).then(res => res.json()).then(data => { if(data.success) { currentUser = data.user; renderUserPanel(); } });
+        let userEmail = "";
+        function login() {
+            const email = document.getElementById('gmail-input').value.trim();
+            if(!email || !email.includes('@')) return alert("Vui lòng điền đúng địa chỉ Gmail!");
+            fetch('/api/auth/gmail-login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }).then(res => res.json()).then(data => {
+                if(data.success) { userEmail = email; renderUser(data.user); renderHistory(data.user.history); }
+            });
         }
-        function renderUserPanel() {
-            document.getElementById('auth-panel').innerHTML = `<div class="profile"><div style="display:flex; align-items:center; gap:10px;"><img src="${currentUser.avatar}" style="width:45px; border-radius:50%; border:2px solid var(--pt-pink);"><div><div style="font-weight: bold; font-size:14px; color:#333; word-break: break-all;">${currentUser.email}</div><div class="uid-tag">Mã số (UID): ${currentUser.uid}</div></div></div><div style="text-align:right;"><div class="money">${currentUser.balance.toLocaleString('vi-VN')}đ</div><button class="btn-add-money" onclick="showNapTienBox()">Nạp tiền</button></div></div>`;
+        function renderUser(user) {
+            document.getElementById('auth-panel').innerHTML = `<div class="profile"><div><b>${user.email}</b><br><small style="background:#eee; padding:2px 5px; border-radius:4px;">UID: ${user.uid}</small></div><div style="text-align:right;"><b style="color:#2ed573; font-size:18px;">${user.balance.toLocaleString()}đ</b></div></div>`;
+            document.getElementById('history-box').style.display = "block";
         }
-        function showNapTienBox() {
-            fetch('/api/user/nap-tien', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: currentUser.email }) });
-            document.getElementById('popupContent').innerHTML = `<h3>💳 HƯỚNG DẪN NẠP TIỀN QUA ZALO</h3><p style="margin-top:10px;">Mã số UID của bạn là: <strong style="color:var(--pt-purple); font-size:18px;">${currentUser.uid}</strong></p><div style="font-size:22px; font-weight:bold; color:#0084ff; margin:15px 0;">📞 Zalo: 0907859891</div><p style="font-size:13px; color:#ff4757; font-weight:bold; line-height:1.5;">Số dư không đủ vui lòng liên hệ sđt 0907859891 bank tiền + UID: ${currentUser.uid} để được cộng tiền vào tài khoản</p><button class="btn-close" onclick="closeModal()">ĐÃ HIỂU</button>`; document.getElementById('popupModal').style.display = "flex";
+        function renderHistory(list) {
+            const area = document.getElementById('history-list');
+            if(!list || list.length === 0) { area.innerHTML = "<p style='color:#999;padding:10px;'>Chưa bốc được túi mù nào.</p>"; return; }
+            area.innerHTML = list.map(item => `<div class="history-item"><small style="color:#999;">⏱️ ${item.thoiGian}</small><br><b style="color:#2ed573;">➔ ${item.ketQua}</b></div>`).join('');
         }
-        function buyBlindBag() {
-            if (!currentUser) return alert("Bạn cần điền GMAIL ở phía trên trước khi xé túi mù!"); const bagImg = document.getElementById('bag-tuimu7k'); bagImg.classList.add('shake');
-            setTimeout(() => {
-                bagImg.classList.remove('shake'); fetch('/api/shop/xe-tui', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: currentUser.email }) }).then(res => res.json()).then(data => {
-                    const content = document.getElementById('popupContent');
-                    if (!data.success) { content.innerHTML = `<h3>❌ SỐ DƯ KHÔNG ĐỦ</h3><p style="font-size:14px; padding:15px 0; line-height:1.6; color:#222; font-weight:bold; text-align:left;">${data.msg}</p><button class="btn-close" style="background:#ff4757; color:#fff;" onclick="closeModal()">ĐÓNG</button>`; } 
-                    else { currentUser.balance = data.newBalance; renderUserPanel(); content.innerHTML = `<h3>🎉 XÉ TÚI THÀNH CÔNG! 🎉</h3><div class="acc-info-box"><p>🔐 <b>Tài khoản:</b> <span style="color:var(--pt-pink); font-weight:bold;">${data.account.tk}</span></p><p>🔑 <b>Mật khẩu:</b> <span style="color:var(--pt-pink); font-weight:bold;">${data.account.mk}</span></p><p style="font-size:12px; color:#666; margin-top:8px;">✨ <b>Mô tả:</b> <i>${data.account.note}</i></p></div><button class="btn-close" style="background:#2ed573; color:#fff;" onclick="closeModal()">NHẬN ACC</button>`; }
-                    document.getElementById('popupModal').style.display = "flex";
-                });
-            }, 1000);
+        function xeTui() {
+            if(!userEmail) return alert("Vui lòng điền Gmail ở phía trên trước khi xé túi mù!");
+            fetch('/api/shop/xe-tui', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: userEmail }) }).then(res => res.json()).then(data => {
+                const pop = document.getElementById('popup'); const content = document.getElementById('popup-content');
+                if(!data.success) {
+                    content.innerHTML = `<h3 style="color:#ff4757;">❌ SỐ DƯ KHÔNG ĐỦ</h3><p style="padding:15px 0; font-size:14px; text-align:left; font-weight:bold; color:#333;">${data.msg}</p><button onclick="closePop()">ĐÓNG BẢNG</button>`;
+                } else {
+                    renderUser({ email: userEmail, uid: document.querySelector('small').innerText.replace('UID: ', ''), balance: data.newBalance }); renderHistory(data.history);
+                    content.innerHTML = `<h3 style="color:#2ed573;">🎉 XÉ TÚI THÀNH CÔNG</h3><div style="background:#f1f2f6; padding:12px; margin:15px 0; text-align:left; border-radius:8px; border:1px dashed #5f27cd;"><p>🔐 <b>Tài khoản:</b> ${data.account[0].tk}</p><p>🔑 <b>Mật khẩu:</b> ${data.account[0].mk}</p><p style="font-size:12px; color:#666; margin-top:5px;">✨ <b>Mô tả:</b> <i>${data.account[0].note}</i></p></div><button style="background:#2ed573;" onclick="closePop()">NHẬN ACC GAME</button>`;
+                }
+                pop.style.display = "flex";
+            });
         }
-        function closeModal() { document.getElementById('popupModal').style.display = "none"; }
+        function closePop() { document.getElementById('popup').style.display = "none"; }
     </script>
 </body>
 </html>
