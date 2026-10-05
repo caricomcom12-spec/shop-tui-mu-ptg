@@ -1,1 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PTG ADMIN</title>
+<style>
+*{box-sizing:border-box;font-family:Arial}
+body{
+ margin:0;min-height:100vh;background:#080808;color:white;
+ display:flex;justify-content:center;align-items:center;padding:20px
+}
+.box{
+ width:100%;max-width:430px;background:#121212;padding:25px;
+ border-radius:20px;border:1px solid #333;box-shadow:0 0 30px #000
+}
+h1{text-align:center;color:#00eaff}
+input{
+ width:100%;padding:14px;margin:7px 0;border-radius:10px;
+ border:1px solid #444;background:#050505;color:white
+}
+button{
+ width:100%;padding:13px;margin-top:10px;border:0;border-radius:10px;
+ background:#00aaff;color:white;font-weight:bold;cursor:pointer
+}
+.card{
+ margin-top:18px;padding:15px;border-radius:14px;background:#080808;
+ border:1px solid #333;line-height:1.8
+}
+.money{color:#00ff88;font-size:22px;font-weight:bold}
+.logout{background:#e53935}
+.hidden{display:none}
+</style>
+</head>
 
+<body>
+
+<div class="box">
+
+<h1>⚡ PTG ADMIN</h1>
+
+<div id="login">
+
+<input id="password" type="password"
+placeholder="Mật khẩu Admin">
+
+<button onclick="adminLogin()">ĐĂNG NHẬP ADMIN</button>
+
+</div>
+
+
+<div id="panel" class="hidden">
+
+<input id="uid"
+placeholder="Nhập UID khách hàng">
+
+<button onclick="checkUser()">🔎 KIỂM TRA UID</button>
+
+<div id="userInfo"></div>
+
+<div id="addMoneyBox" class="hidden">
+
+<input id="amount" type="number"
+placeholder="Số tiền muốn cộng">
+
+<button onclick="addMoney()">
+💰 CỘNG TIỀN
+</button>
+
+</div>
+
+<button class="logout" onclick="logout()">
+ĐĂNG XUẤT ADMIN
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+let adminToken = "";
+
+
+/* LOGIN */
+
+async function adminLogin(){
+
+    const password =
+        document.getElementById("password").value;
+
+    const res = await fetch("/api/admin/login",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({password})
+
+    });
+
+    const data = await res.json();
+
+    if(!data.success){
+
+        alert("❌ Sai mật khẩu!");
+
+        return;
+    }
+
+    adminToken = data.token;
+
+    document.getElementById("login")
+        .classList.add("hidden");
+
+    document.getElementById("panel")
+        .classList.remove("hidden");
+}
+
+
+/* CHECK UID */
+
+async function checkUser(){
+
+    const uid =
+        document.getElementById("uid").value.trim();
+
+    if(!uid){
+
+        alert("Nhập UID trước.");
+
+        return;
+    }
+
+    const res = await fetch(
+        "/api/admin/user?uid=" +
+        encodeURIComponent(uid),
+        {
+            headers:{
+                "x-admin-token":adminToken
+            }
+        }
+    );
+
+    const data = await res.json();
+
+    if(!data.success){
+
+        document.getElementById("userInfo").innerHTML =
+            "<div class='card'>❌ Không tìm thấy UID</div>";
+
+        document.getElementById("addMoneyBox")
+            .classList.add("hidden");
+
+        return;
+    }
+
+    document.getElementById("userInfo").innerHTML = `
+
+        <div class="card">
+
+            <b>Gmail:</b><br>
+            ${escapeHTML(data.user.gmail)}
+
+            <br><br>
+
+            <b>UID:</b><br>
+            ${escapeHTML(data.user.uid)}
+
+            <br><br>
+
+            <b>Số dư:</b><br>
+
+            <span class="money">
+                ${formatMoney(data.user.balance)}
+            </span>
+
+        </div>
+
+    `;
+
+    document.getElementById("addMoneyBox")
+        .classList.remove("hidden");
+}
+
+
+/* ADD MONEY */
+
+async function addMoney(){
+
+    const uid =
+        document.getElementById("uid").value.trim();
+
+    const amount =
+        Number(document.getElementById("amount").value);
+
+    if(!uid){
+
+        alert("Nhập UID.");
+
+        return;
+    }
+
+    if(!amount || amount <= 0){
+
+        alert("Nhập số tiền hợp lệ.");
+
+        return;
+    }
+
+    const res = await fetch("/api/admin/add-money",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json",
+            "x-admin-token":adminToken
+        },
+
+        body:JSON.stringify({
+            uid:uid,
+            amount:amount
+        })
+
+    });
+
+    const data = await res.json();
+
+    if(!data.success){
+
+        alert("❌ " + data.message);
+
+        return;
+    }
+
+    alert(
+        "✅ Đã cộng " +
+        formatMoney(amount) +
+        " cho UID " +
+        uid
+    );
+
+    document.getElementById("amount").value = "";
+
+    checkUser();
+}
+
+
+/* LOGOUT */
+
+function logout(){
+
+    adminToken = "";
+
+    document.getElementById("panel")
+        .classList.add("hidden");
+
+    document.getElementById("login")
+        .classList.remove("hidden");
+
+    document.getElementById("password").value = "";
+}
+
+
+/* MONEY */
+
+function formatMoney(n){
+
+    return Number(n).toLocaleString("vi-VN") + "đ";
+
+}
+
+
+/* HTML */
+
+function escapeHTML(text){
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+</script>
+
+</body>
+</html>
