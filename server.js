@@ -1,24 +1,22 @@
 const express = require("express");
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-
 app.use(express.static("public"));
 
 
-// ================================
+// ==================================================
 // DATABASE TẠM
-// ================================
+// ==================================================
 
 const users = new Map();
 
 
-// ================================
+// ==================================================
 // TẠO UID
-// ================================
+// ==================================================
 
 function createUID(){
 
@@ -32,11 +30,21 @@ function createUID(){
 }
 
 
-// ================================
-// STOCK
-// ================================
+// ==================================================
+// KHO TÚI MÙ
+// ==================================================
 
 const stock = {
+
+    bag5k: [
+        "ACC 5K #01",
+        "ACC 5K #02",
+        "ACC 5K #03",
+        "ACC 5K #04",
+        "ACC 5K #05",
+        "ACC 5K #06",
+        "ACC 5K #07"
+    ],
 
     tanbinh: [
         "ACC TÂN BINH #01",
@@ -89,9 +97,26 @@ const stock = {
 };
 
 
-// ================================
-// LOGIN KHÁCH HÀNG
-// ================================
+// ==================================================
+// GIÁ TÚI
+// ==================================================
+
+const validPrices = {
+
+    bag5k: 5000,
+    tanbinh: 20000,
+    premium: 50000,
+    legendary: 100000,
+    vip: 200000,
+    ultra: 500000,
+    lucky: 1000000
+
+};
+
+
+// ==================================================
+// LOGIN
+// ==================================================
 
 app.post("/api/login",(req,res)=>{
 
@@ -100,22 +125,16 @@ app.post("/api/login",(req,res)=>{
         .trim()
         .toLowerCase();
 
-
     if(!gmail.endsWith("@gmail.com")){
 
         return res.json({
-
             success:false,
-
             message:"Gmail không hợp lệ."
-
         });
 
     }
 
-
     let user = users.get(gmail);
-
 
     // Gmail cũ -> giữ nguyên UID
     if(!user){
@@ -126,7 +145,9 @@ app.post("/api/login",(req,res)=>{
 
             uid:createUID(),
 
-            balance:0
+            balance:0,
+
+            history:[]
 
         };
 
@@ -134,21 +155,29 @@ app.post("/api/login",(req,res)=>{
 
     }
 
+    // Đảm bảo user cũ có history
+    if(!user.history){
+        user.history = [];
+    }
 
     return res.json({
 
         success:true,
 
-        user:user
+        user:{
+            gmail:user.gmail,
+            uid:user.uid,
+            balance:user.balance
+        }
 
     });
 
 });
 
 
-// ================================
-// MUA TÚI
-// ================================
+// ==================================================
+// MUA / BỐC TÚI
+// ==================================================
 
 app.post("/api/buy",(req,res)=>{
 
@@ -162,8 +191,7 @@ app.post("/api/buy",(req,res)=>{
         Number(req.body.price);
 
 
-    // Tìm user bằng UID
-
+    // Tìm user
     let user = null;
 
     for(const item of users.values()){
@@ -171,7 +199,6 @@ app.post("/api/buy",(req,res)=>{
         if(item.uid === uid){
 
             user = item;
-
             break;
 
         }
@@ -192,25 +219,7 @@ app.post("/api/buy",(req,res)=>{
     }
 
 
-    // Giá sản phẩm
-
-    const validPrices = {
-
-        tanbinh:20000,
-
-        premium:50000,
-
-        legendary:100000,
-
-        vip:200000,
-
-        ultra:500000,
-
-        lucky:1000000
-
-    };
-
-
+    // Kiểm tra giá
     if(
         !validPrices[product] ||
         validPrices[product] !== price
@@ -228,7 +237,6 @@ app.post("/api/buy",(req,res)=>{
 
 
     // Không đủ tiền
-
     if(user.balance < price){
 
         return res.json({
@@ -245,7 +253,6 @@ app.post("/api/buy",(req,res)=>{
 
 
     // Hết hàng
-
     if(
         !stock[product] ||
         stock[product].length === 0
@@ -262,15 +269,27 @@ app.post("/api/buy",(req,res)=>{
     }
 
 
-    // Lấy tài khoản
-
+    // Lấy acc đầu tiên
     const account =
         stock[product].shift();
 
 
     // Trừ tiền
-
     user.balance -= price;
+
+
+    // Ghi lịch sử
+    user.history.push({
+
+        product:product,
+
+        account:account,
+
+        price:price,
+
+        time:new Date().toISOString()
+
+    });
 
 
     return res.json({
@@ -286,9 +305,56 @@ app.post("/api/buy",(req,res)=>{
 });
 
 
-// ================================
+// ==================================================
+// LỊCH SỬ CỦA UID ĐANG ĐĂNG NHẬP
+// ==================================================
+
+app.get("/api/history",(req,res)=>{
+
+    const uid =
+        String(req.query.uid || "");
+
+    let user = null;
+
+    for(const item of users.values()){
+
+        if(item.uid === uid){
+
+            user = item;
+            break;
+
+        }
+
+    }
+
+
+    if(!user){
+
+        return res.json({
+
+            success:false,
+
+            message:"Không tìm thấy UID."
+
+        });
+
+    }
+
+
+    res.json({
+
+        success:true,
+
+        history:user.history || []
+
+    });
+
+});
+
+
+// ==================================================
 // STATUS
-// ================================
+// ==================================================
 
 app.get("/api/status",(req,res)=>{
 
@@ -306,26 +372,18 @@ app.get("/api/status",(req,res)=>{
 
 
 // ==================================================
-// ================= ADMIN PANEL ====================
+// ADMIN
 // ==================================================
 
-
-// Mật khẩu Admin
 const ADMIN_PASSWORD = "congdang86";
-
-// Token Admin
 const ADMIN_TOKEN = "PTG-ADMIN-SECRET-2026";
 
 
-// ================================
 // ADMIN LOGIN
-// ================================
-
 app.post("/api/admin/login",(req,res)=>{
 
     const password =
         String(req.body.password || "");
-
 
     if(password !== ADMIN_PASSWORD){
 
@@ -339,7 +397,6 @@ app.post("/api/admin/login",(req,res)=>{
 
     }
 
-
     res.json({
 
         success:true,
@@ -351,15 +408,11 @@ app.post("/api/admin/login",(req,res)=>{
 });
 
 
-// ================================
-// KIỂM TRA QUYỀN ADMIN
-// ================================
-
+// KIỂM TRA QUYỀN
 function checkAdmin(req,res,next){
 
     const token =
         req.headers["x-admin-token"];
-
 
     if(token !== ADMIN_TOKEN){
 
@@ -373,16 +426,12 @@ function checkAdmin(req,res,next){
 
     }
 
-
     next();
 
 }
 
 
-// ================================
-// TÌM KHÁCH THEO UID
-// ================================
-
+// ADMIN TÌM USER
 app.get(
     "/api/admin/user",
     checkAdmin,
@@ -392,22 +441,18 @@ app.get(
             String(req.query.uid || "")
             .trim();
 
-
         let found = null;
-
 
         for(const user of users.values()){
 
             if(user.uid === uid){
 
                 found = user;
-
                 break;
 
             }
 
         }
-
 
         if(!found){
 
@@ -421,19 +466,14 @@ app.get(
 
         }
 
-
         res.json({
 
             success:true,
 
             user:{
-
                 gmail:found.gmail,
-
                 uid:found.uid,
-
                 balance:found.balance
-
             }
 
         });
@@ -442,10 +482,7 @@ app.get(
 );
 
 
-// ================================
-// CỘNG TIỀN
-// ================================
-
+// ADMIN CỘNG TIỀN
 app.post(
     "/api/admin/add-money",
     checkAdmin,
@@ -455,12 +492,9 @@ app.post(
             String(req.body.uid || "")
             .trim();
 
-
         const amount =
             Number(req.body.amount);
 
-
-        // Kiểm tra số tiền
 
         if(
             !Number.isFinite(amount) ||
@@ -478,8 +512,6 @@ app.post(
         }
 
 
-        // Giới hạn mỗi lần cộng
-
         if(amount > 100000000){
 
             return res.json({
@@ -493,17 +525,13 @@ app.post(
         }
 
 
-        // Tìm khách
-
         let found = null;
-
 
         for(const user of users.values()){
 
             if(user.uid === uid){
 
                 found = user;
-
                 break;
 
             }
@@ -524,8 +552,6 @@ app.post(
         }
 
 
-        // Cộng tiền
-
         found.balance += amount;
 
 
@@ -533,10 +559,7 @@ app.post(
 
             success:true,
 
-            balance:found.balance,
-
-            message:
-                "Đã cộng tiền thành công."
+            balance:found.balance
 
         });
 
@@ -544,9 +567,65 @@ app.post(
 );
 
 
-// ================================
+// ==================================================
+// ADMIN XEM LỊCH SỬ UID
+// ==================================================
+
+app.get(
+    "/api/admin/history",
+    checkAdmin,
+    (req,res)=>{
+
+        const uid =
+            String(req.query.uid || "")
+            .trim();
+
+        let found = null;
+
+        for(const user of users.values()){
+
+            if(user.uid === uid){
+
+                found = user;
+                break;
+
+            }
+
+        }
+
+
+        if(!found){
+
+            return res.json({
+
+                success:false,
+
+                message:"Không tìm thấy UID."
+
+            });
+
+        }
+
+
+        res.json({
+
+            success:true,
+
+            gmail:found.gmail,
+
+            uid:found.uid,
+
+            history:found.history || []
+
+        });
+
+    }
+);
+
+
+// ==================================================
 // TRANG ADMIN
-// ================================
+// ==================================================
 
 app.get("/admin",(req,res)=>{
 
@@ -557,9 +636,9 @@ app.get("/admin",(req,res)=>{
 });
 
 
-// ================================
-// HOME
-// ================================
+// ==================================================
+// TRANG CHÍNH
+// ==================================================
 
 app.get("/",(req,res)=>{
 
@@ -570,9 +649,9 @@ app.get("/",(req,res)=>{
 });
 
 
-// ================================
-// START SERVER
-// ================================
+// ==================================================
+// START
+// ==================================================
 
 app.listen(PORT,"0.0.0.0",()=>{
 
