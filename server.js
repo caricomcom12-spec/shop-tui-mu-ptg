@@ -1,75 +1,26 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shop Túi Mù Play Together</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 15px; text-align: center; color: #333; }
-        .box { max-width: 450px; margin: 15px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 20px; text-align: center; outline: none; font-size: 15px; }
-        button { width: 100%; padding: 12px; background: #ff4757; color: white; border: none; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 15px; }
-        .profile { display: flex; justify-content: space-between; align-items: center; text-align: left; }
-        .history-item { padding: 8px; border-bottom: 1px solid #eee; text-align: left; font-size: 13px; line-height: 1.4; }
-    </style>
-</head>
-<body>
-    <h2>🛍️ SHOP TÚI MÙ PLAY TOGETHER</h2>
-    
-    <div class="box" id="auth-panel">
-        <p style="margin-bottom:10px; font-weight:bold;">📧 NHẬP GMAIL ĐỂ VÀO SHOP</p>
-        <input type="email" id="gmail-input" placeholder="Ví dụ: nguyenvana@gmail.com">
-        <button style="background: #5f27cd;" onclick="login()">TIẾP TỤC</button>
-    </div>
+const express = require("express");
+const path = require("path");
 
-    <div class="box">
-        <h3>📦 Túi Mù Play Together VIP</h3>
-        <p style="font-size: 50px; margin: 10px 0;">🛍️</p>
-        <h4 style="color: #ff4757; font-size: 20px; margin-bottom: 10px;">Giá: 7,000đ</h4>
-        <button onclick="xeTui()">XÉ TÚI MÙ NGAY</button>
-    </div>
+const app = express();
 
-    <div class="box" id="history-box" style="display: none;">
-        <h3 style="text-align: left; border-bottom: 2px solid #eee; padding-bottom: 5px;">📜 LỊCH SỬ NHẬN ACC</h3>
-        <div id="history-list"></div>
-    </div>
+const PORT = process.env.PORT || 3000;
 
-    <div id="popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; padding:20px;">
-        <div style="background:white; padding:20px; border-radius:15px; max-width:380px; width:100%;" id="popup-content"></div>
-    </div>
+app.use(express.json());
 
-    <script>
-        let userEmail = "";
-        function login() {
-            const email = document.getElementById('gmail-input').value.trim();
-            if(!email || !email.includes('@')) return alert("Nhập đúng định dạng Gmail!");
-            fetch('/api/auth/gmail-login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }).then(res => res.json()).then(data => {
-                if(data.success) { userEmail = email; renderUser(data.user); renderHistory(data.user.history); }
-            });
-        }
-        function renderUser(user) {
-            document.getElementById('auth-panel').innerHTML = `<div class="profile"><div><b>${user.email}</b><br><small style="background:#eee; padding:2px 5px; border-radius:4px;">UID: ${user.uid}</small></div><div style="text-align:right;"><b style="color:#2ed573; font-size:18px;">${user.balance.toLocaleString()}đ</b></div></div>`;
-            document.getElementById('history-box').style.display = "block";
-        }
-        function renderHistory(list) {
-            const area = document.getElementById('history-list');
-            if(!list || list.length === 0) { area.innerHTML = "<p style='color:#999;padding:10px;'>Chưa bốc túi mù nào.</p>"; return; }
-            area.innerHTML = list.map(item => `<div class="history-item"><small style="color:#999;">⏱️ ${item.thoiGian}</small><br><b style="color:#2ed573;">➔ ${item.ketQua}</b></div>`).join('');
-        }
-        function xeTui() {
-            if(!userEmail) return alert("Vui lòng điền Gmail ở trên trước!");
-            fetch('/api/shop/xe-tui', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: userEmail }) }).then(res => res.json()).then(data => {
-                const pop = document.getElementById('popup'); const content = document.getElementById('popup-content');
-                if(!data.success) {
-                    content.innerHTML = `<h3>❌ THẤT BẠI</h3><p style="padding:15px 0; font-size:14px; text-align:left; font-weight:bold;">${data.msg}</p><button onclick="closePop()">ĐÓNG</button>`;
-                } else {
-                    renderUser({ email: userEmail, uid: document.querySelector('small').innerText.replace('UID: ', ''), balance: data.newBalance }); renderHistory(data.history);
-                    content.innerHTML = `<h3 style="color:#2ed573;">🎉 THÀNH CÔNG</h3><div style="background:#f1f2f6; padding:12px; margin:15px 0; text-align:left; border-radius:8px;"><p>🔐 <b>TK:</b> ${data.account.tk}</p><p>🔑 <b>MK:</b> ${data.account.mk}</p><p style="font-size:12px; color:#666; margin-top:5px;">✨ <b>Mô tả:</b> <i>${data.account.note}</i></p></div><button style="background:#2ed573;" onclick="closePop()">XÁC NHẬN</button>`;
-                }
-                pop.style.display = "flex";
-            });
-        }
-        function closePop() { document.getElementById('popup').style.display = "none"; }
-    </script>
-</body>
-</html>
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+app.get("/api/status", (req, res) => {
+  res.json({
+    success: true,
+    shop: "PT BAG SHOP",
+    status: "online"
+  });
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`PT BAG SHOP running on port ${PORT}`);
+});
