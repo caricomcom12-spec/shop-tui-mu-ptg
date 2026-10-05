@@ -1,75 +1,628 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shop Túi Mù Play Together</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 15px; text-align: center; color: #333; }
-        .box { max-width: 450px; margin: 15px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 20px; text-align: center; outline: none; font-size: 15px; }
-        button { width: 100%; padding: 12px; background: #ff4757; color: white; border: none; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 15px; }
-        .profile { display: flex; justify-content: space-between; align-items: center; text-align: left; }
-        .history-item { padding: 8px; border-bottom: 1px solid #eee; text-align: left; font-size: 13px; line-height: 1.4; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PT BAG SHOP</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top, #3b2475 0%, #15152b 38%, #090912 100%);
+      color: white;
+      min-height: 100vh;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(15px);
+      background: rgba(10, 10, 25, .82);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      padding: 14px 18px;
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: #b56cff;
+    }
+
+    .cart {
+      background: linear-gradient(135deg,#8e45ff,#ff3fd1);
+      border: 0;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: auto;
+      padding: 55px 18px 25px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 14px;
+      border-radius: 50px;
+      background: rgba(181,108,255,.15);
+      border: 1px solid rgba(181,108,255,.5);
+      color: #d9b7ff;
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: clamp(35px, 8vw, 65px);
+      line-height: 1;
+      margin-bottom: 15px;
+    }
+
+    h1 span {
+      background: linear-gradient(90deg,#8e45ff,#ff4bd8,#61e7ff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: #aaaabd;
+      max-width: 600px;
+      margin: auto;
+      line-height: 1.6;
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 18px 60px;
+    }
+
+    .section-title {
+      margin-bottom: 18px;
+      font-size: 25px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 22px;
+      padding: 18px;
+      background: rgba(255,255,255,.065);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 15px 45px rgba(0,0,0,.25);
+      transition: .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #a75cff;
+    }
+
+    .card-img {
+      height: 190px;
+      border-radius: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 85px;
+      margin-bottom: 15px;
+      background:
+        radial-gradient(circle at 50% 35%,rgba(255,255,255,.3),transparent 25%),
+        linear-gradient(135deg,#351c68,#15152e);
+    }
+
+    .rare {
+      position: absolute;
+      top: 28px;
+      left: 28px;
+      padding: 5px 9px;
+      background: #ff3eb5;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+      font-size: 19px;
+    }
+
+    .desc {
+      color: #9c9caf;
+      font-size: 13px;
+      min-height: 40px;
+      line-height: 1.45;
+    }
+
+    .price {
+      margin: 15px 0;
+      font-size: 22px;
+      font-weight: 900;
+      color: #d8a9ff;
+    }
+
+    .buy {
+      width: 100%;
+      border: 0;
+      padding: 13px;
+      border-radius: 12px;
+      background: linear-gradient(90deg,#7b3cff,#e735d2);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .buy:hover {
+      filter: brightness(1.15);
+      transform: scale(1.02);
+    }
+
+    .info {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .info-box {
+      padding: 20px;
+      border-radius: 17px;
+      background: rgba(255,255,255,.05);
+      text-align: center;
+    }
+
+    .info-box b {
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .info-box span {
+      color: #9999ad;
+      font-size: 13px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #77778c;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0,0,0,.72);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 430px;
+      background: #17172b;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 22px;
+      padding: 24px;
+    }
+
+    .modal-box h2 {
+      margin-bottom: 15px;
+    }
+
+    .order-item {
+      padding: 13px;
+      background: rgba(255,255,255,.06);
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
+    .total {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 18px 0;
+    }
+
+    .close {
+      width: 100%;
+      padding: 12px;
+      background: #292940;
+      color: white;
+      border: 0;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    @media(max-width: 750px) {
+      .products {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+      .info {
+        grid-template-columns: 1fr;
+      }
+
+      .card-img {
+        height: 145px;
+        font-size: 65px;
+      }
+    }
+
+    @media(max-width: 480px) {
+      .products {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 40px;
+      }
+
+      .card-img {
+        height: 180px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <h2>🛍️ SHOP TÚI MÙ PLAY TOGETHER</h2>
-    
-    <div class="box" id="auth-panel">
-        <p style="margin-bottom:10px; font-weight:bold;">📧 NHẬP GMAIL ĐỂ ĐĂNG NHẬP / ĐĂNG KÝ</p>
-        <input type="email" id="gmail-input" placeholder="Ví dụ: emlamshoptuimu@gmail.com">
-        <button style="background: #5f27cd;" onclick="login()">TIẾP TỤC VÀO SHOP</button>
+
+<header class="header">
+  <div class="nav">
+    <div class="logo">PT <span>BAG SHOP</span></div>
+
+    <button class="cart" onclick="openCart()">
+      🛒 Giỏ hàng <span id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="badge">✨ PLAY TOGETHER • MYSTERY SHOP</div>
+
+  <h1>
+    MỞ <span>TÚI MÙ</span><br>
+    NHẬN BẤT NGỜ
+  </h1>
+
+  <p>
+    Khám phá những gói túi mù Play Together với nhiều cấp độ
+    và phần thưởng khác nhau.
+  </p>
+</section>
+
+<section class="section">
+
+  <h2 class="section-title">🔥 Túi mù nổi bật</h2>
+
+  <div class="products">
+
+    <div class="card">
+      <div class="rare">COMMON</div>
+
+      <div class="card-img">🎁</div>
+
+      <h3>Túi Mù Tân Binh</h3>
+
+      <div class="desc">
+        Gói cơ bản dành cho người mới.
+      </div>
+
+      <div class="price">20.000đ</div>
+
+      <button class="buy"
+        onclick="addCart('Túi Mù Tân Binh',20000)">
+        MUA NGAY
+      </button>
     </div>
 
-    <div class="box">
-        <h3>📦 Túi Mù Play Together Siêu Cấp</h3>
-        <p style="font-size: 60px; margin: 15px 0;">🛍️</p>
-        <h4 style="color: #ff4757; font-size: 22px; margin-bottom: 15px;">Giá: 7,000đ</h4>
-        <button onclick="xeTui()">XÉ TÚI MÙ 7.000Đ</button>
+
+    <div class="card">
+      <div class="rare">RARE</div>
+
+      <div class="card-img">🎒</div>
+
+      <h3>Túi Mù Premium</h3>
+
+      <div class="desc">
+        Gói premium với phần thưởng hiếm hơn.
+      </div>
+
+      <div class="price">50.000đ</div>
+
+      <button class="buy"
+        onclick="addCart('Túi Mù Premium',50000)">
+        MUA NGAY
+      </button>
     </div>
 
-    <div class="box" id="history-box" style="display: none;">
-        <h3 style="text-align: left; border-bottom: 2px solid #eee; padding-bottom: 5px; color: #5f27cd;">📜 LỊCH SỬ XÉ TÚI CỦA BẠN</h3>
-        <div id="history-list"></div>
+
+    <div class="card">
+      <div class="rare">LEGEND</div>
+
+      <div class="card-img">💎</div>
+
+      <h3>Túi Mù Legendary</h3>
+
+      <div class="desc">
+        Gói cao cấp dành cho người thích thử vận may.
+      </div>
+
+      <div class="price">100.000đ</div>
+
+      <button class="buy"
+        onclick="addCart('Túi Mù Legendary',100000)">
+        MUA NGAY
+      </button>
     </div>
 
-    <div id="popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; padding:20px;">
-        <div style="background:white; padding:20px; border-radius:15px; max-width:380px; width:100%;" id="popup-content"></div>
+
+    <div class="card">
+      <div class="rare">VIP</div>
+
+      <div class="card-img">👑</div>
+
+      <h3>Túi Mù VIP</h3>
+
+      <div class="desc">
+        Gói VIP với nhiều phần thưởng đặc biệt.
+      </div>
+
+      <div class="price">200.000đ</div>
+
+      <button class="buy"
+        onclick="addCart('Túi Mù VIP',200000)">
+        MUA NGAY
+      </button>
     </div>
 
-    <script>
-        let userEmail = "";
-        function login() {
-            const email = document.getElementById('gmail-input').value.trim();
-            if(!email || !email.includes('@')) return alert("Vui lòng điền đúng địa chỉ Gmail!");
-            fetch('/api/auth/gmail-login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }).then(res => res.json()).then(data => {
-                if(data.success) { userEmail = email; renderUser(data.user); renderHistory(data.user.history); }
-            });
-        }
-        function renderUser(user) {
-            document.getElementById('auth-panel').innerHTML = `<div class="profile"><div><b>${user.email}</b><br><small style="background:#eee; padding:2px 5px; border-radius:4px;">UID: ${user.uid}</small></div><div style="text-align:right;"><b style="color:#2ed573; font-size:18px;">${user.balance.toLocaleString()}đ</b></div></div>`;
-            document.getElementById('history-box').style.display = "block";
-        }
-        function renderHistory(list) {
-            const area = document.getElementById('history-list');
-            if(!list || list.length === 0) { area.innerHTML = "<p style='color:#999;padding:10px;'>Chưa bốc được túi mù nào.</p>"; return; }
-            area.innerHTML = list.map(item => `<div class="history-item"><small style="color:#999;">⏱️ ${item.thoiGian}</small><br><b style="color:#2ed573;">➔ ${item.ketQua}</b></div>`).join('');
-        }
-        function xeTui() {
-            if(!userEmail) return alert("Vui lòng điền Gmail ở phía trên trước khi xé túi mù!");
-            fetch('/api/shop/xe-tui', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: userEmail }) }).then(res => res.json()).then(data => {
-                const pop = document.getElementById('popup'); const content = document.getElementById('popup-content');
-                if(!data.success) {
-                    content.innerHTML = `<h3 style="color:#ff4757;">❌ SỐ DƯ KHÔNG ĐỦ</h3><p style="padding:15px 0; font-size:14px; text-align:left; font-weight:bold; color:#333;">${data.msg}</p><button onclick="closePop()">ĐÓNG BẢNG</button>`;
-                } else {
-                    renderUser({ email: userEmail, uid: document.querySelector('small').innerText.replace('UID: ', ''), balance: data.newBalance }); renderHistory(data.history);
-                    content.innerHTML = `<h3 style="color:#2ed573;">🎉 XÉ TÚI THÀNH CÔNG</h3><div style="background:#f1f2f6; padding:12px; margin:15px 0; text-align:left; border-radius:8px; border:1px dashed #5f27cd;"><p>🔐 <b>Tài khoản:</b> ${data.account[0].tk}</p><p>🔑 <b>Mật khẩu:</b> ${data.account[0].mk}</p><p style="font-size:12px; color:#666; margin-top:5px;">✨ <b>Mô tả:</b> <i>${data.account[0].note}</i></p></div><button style="background:#2ed573;" onclick="closePop()">NHẬN ACC GAME</button>`;
-                }
-                pop.style.display = "flex";
-            });
-        }
-        function closePop() { document.getElementById('popup').style.display = "none"; }
-    </script>
+
+    <div class="card">
+      <div class="rare">ULTRA</div>
+
+      <div class="card-img">🌟</div>
+
+      <h3>Túi Mù Ultra</h3>
+
+      <div class="desc">
+        Gói cực hiếm với giá trị phần thưởng cao.
+      </div>
+
+      <div class="price">500.000đ</div>
+
+      <button class="buy"
+        onclick="addCart('Túi Mù Ultra',500000)">
+        MUA NGAY
+      </button>
+    </div>
+
+
+    <div class="card">
+      <div class="rare">LUCKY</div>
+
+      <div class="card-img">🍀</div>
+
+      <h3>Túi Mù Lucky</h3>
+
+      <div class="desc">
+        Gói may mắn với phần thưởng ngẫu nhiên.
+      </div>
+
+      <div class="price">1.000.000đ</div>
+
+      <button class="buy"
+        onclick="addCart('Túi Mù Lucky',1000000)">
+        MUA NGAY
+      </button>
+    </div>
+
+  </div>
+
+
+  <div class="info">
+
+    <div class="info-box">
+      <b>⚡ XỬ LÝ NHANH</b>
+      <span>Hỗ trợ xử lý đơn hàng nhanh chóng.</span>
+    </div>
+
+    <div class="info-box">
+      <b>🔒 AN TOÀN</b>
+      <span>Không yêu cầu cung cấp mật khẩu tài khoản.</span>
+    </div>
+
+    <div class="info-box">
+      <b>💬 HỖ TRỢ</b>
+      <span>Liên hệ shop khi cần hỗ trợ.</span>
+    </div>
+
+  </div>
+
+</section>
+
+
+<footer>
+  © 2026 PT BAG SHOP • Fan-made storefront
+</footer>
+
+
+<div class="modal" id="cartModal">
+
+  <div class="modal-box">
+
+    <h2>🛒 Giỏ hàng</h2>
+
+    <div id="cartItems">
+      Chưa có sản phẩm.
+    </div>
+
+    <div class="total">
+      Tổng: <span id="total">0đ</span>
+    </div>
+
+    <button class="buy" onclick="checkout()">
+      TIẾN HÀNH ĐẶT HÀNG
+    </button>
+
+    <button class="close" onclick="closeCart()">
+      ĐÓNG
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  let cart = [];
+
+  function formatMoney(number) {
+    return number.toLocaleString('vi-VN') + 'đ';
+  }
+
+
+  function addCart(name, price) {
+
+    cart.push({
+      name: name,
+      price: price
+    });
+
+    updateCart();
+
+    alert("Đã thêm " + name + " vào giỏ hàng!");
+  }
+
+
+  function updateCart() {
+
+    document.getElementById("cartCount").textContent = cart.length;
+
+    const box = document.getElementById("cartItems");
+
+    if (cart.length === 0) {
+      box.innerHTML = "Chưa có sản phẩm.";
+      document.getElementById("total").textContent = "0đ";
+      return;
+    }
+
+    let html = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+      total += item.price;
+
+      html += `
+        <div class="order-item">
+          <b>${item.name}</b><br>
+          ${formatMoney(item.price)}
+          <button
+            onclick="removeItem(${index})"
+            style="
+              float:right;
+              background:#ff426f;
+              color:white;
+              border:0;
+              padding:5px 8px;
+              border-radius:7px;
+              cursor:pointer;
+            ">
+            X
+          </button>
+        </div>
+      `;
+
+    });
+
+    box.innerHTML = html;
+
+    document.getElementById("total").textContent =
+      formatMoney(total);
+  }
+
+
+  function removeItem(index) {
+
+    cart.splice(index,1);
+
+    updateCart();
+  }
+
+
+  function openCart() {
+
+    document
+      .getElementById("cartModal")
+      .classList.add("active");
+
+  }
+
+
+  function closeCart() {
+
+    document
+      .getElementById("cartModal")
+      .classList.remove("active");
+
+  }
+
+
+  function checkout() {
+
+    if (cart.length === 0) {
+
+      alert("Giỏ hàng đang trống!");
+
+      return;
+    }
+
+    alert(
+      "Đơn hàng đã được tạo ở chế độ demo. " +
+      "Hãy liên hệ shop để xác nhận thanh toán."
+    );
+
+  }
+
+</script>
+
 </body>
 </html>
