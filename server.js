@@ -3,26 +3,21 @@ const path = require("path");
 const crypto = require("crypto");
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(
-  path.join(__dirname, "public")
-));
+// Cho phép đọc thư mục public
+app.use(express.static(path.join(__dirname, "public")));
 
-/*
-  DEMO DATABASE
-
-  Khi deploy thật trên Render,
-  nên thay phần này bằng PostgreSQL.
-*/
+// =========================
+// DATABASE DEMO
+// =========================
 
 const users = new Map();
 
 const stock = {
-
   tanbinh: [
     "ACC_TANBINH_01",
     "ACC_TANBINH_02",
@@ -70,198 +65,254 @@ const stock = {
     "ACC_LUCKY_04",
     "ACC_LUCKY_05"
   ]
-
 };
 
 
-function makeUID(){
+// =========================
+// TẠO UID
+// =========================
 
-  return "PT-" +
-    crypto.randomBytes(4)
+function makeUID() {
+  return (
+    "PT-" +
+    crypto
+      .randomBytes(4)
       .toString("hex")
-      .toUpperCase();
-
+      .toUpperCase()
+  );
 }
 
 
-/* LOGIN */
+// =========================
+// KIỂM TRA GMAIL
+// =========================
 
-app.post("/api/login",(req,res)=>{
+function validGmail(gmail) {
+  return /^[^\s@]+@gmail\.com$/i.test(gmail);
+}
 
-  const gmail =
-    String(req.body.gmail || "")
+
+// =========================
+// ĐĂNG NHẬP / TẠO TÀI KHOẢN
+// =========================
+
+app.post("/api/login", (req, res) => {
+
+  try {
+
+    const gmail = String(
+      req.body.gmail || ""
+    )
       .trim()
       .toLowerCase();
 
 
-  if(!gmail.includes("@")){
+    if (!validGmail(gmail)) {
 
-    return res.json({
-      success:false,
-      message:"Gmail không hợp lệ."
-    });
-
-  }
-
-
-  let user=null;
-
-
-  for(const u of users.values()){
-
-    if(u.gmail===gmail){
-
-      user=u;
-      break;
+      return res.status(400).json({
+        success: false,
+        message: "Vui lòng nhập đúng Gmail."
+      });
 
     }
 
+
+    // Tìm tài khoản cũ
+    let user = null;
+
+    for (const account of users.values()) {
+
+      if (account.gmail === gmail) {
+        user = account;
+        break;
+      }
+
+    }
+
+
+    // Nếu chưa có thì tạo mới
+    if (!user) {
+
+      user = {
+        gmail: gmail,
+        uid: makeUID(),
+        balance: 0,
+        createdAt: new Date().toISOString()
+      };
+
+      users.set(user.uid, user);
+    }
+
+
+    return res.json({
+      success: true,
+      user: {
+        gmail: user.gmail,
+        uid: user.uid,
+        balance: user.balance
+      }
+    });
+
+  } catch (error) {
+
+    console.error("LOGIN ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Lỗi server."
+    });
+
   }
 
-
-  if(!user){
-
-    user={
-
-      gmail,
-
-      uid:makeUID(),
-
-      balance:0,
-
-      createdAt:new Date().toISOString()
-
-    };
+});
 
 
-    users.set(user.uid,user);
+// =========================
+// LẤY THÔNG TIN USER
+// =========================
+
+app.get("/api/user/:uid", (req, res) => {
+
+  const user = users.get(req.params.uid);
+
+  if (!user) {
+
+    return res.status(404).json({
+      success: false,
+      message: "Không tìm thấy tài khoản."
+    });
 
   }
-
 
   res.json({
-
-    success:true,
-
-    user
-
+    success: true,
+    user: {
+      gmail: user.gmail,
+      uid: user.uid,
+      balance: user.balance
+    }
   });
 
 });
 
 
-/* MUA */
+// =========================
+// MUA TÚI MÙ
+// =========================
 
-app.post("/api/buy",(req,res)=>{
+app.post("/api/buy", (req, res) => {
 
-  const {
-    uid,
-    product,
-    price
-  }=req.body;
+  try {
+
+    const {
+      uid,
+      product,
+      price
+    } = req.body;
 
 
-  const user=users.get(uid);
+    const user = users.get(uid);
 
 
-  if(!user){
+    if (!user) {
+
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy tài khoản."
+      });
+
+    }
+
+
+    const amount = Number(price);
+
+
+    if (!Number.isFinite(amount) || amount <= 0) {
+
+      return res.status(400).json({
+        success: false,
+        message: "Giá sản phẩm không hợp lệ."
+      });
+
+    }
+
+
+    // Kiểm tra số dư
+    if (user.balance < amount) {
+
+      return res.json({
+        success: false,
+        code: "NOT_ENOUGH",
+        balance: user.balance,
+        message:
+          "Số dư không đủ. Vui lòng nạp tiền qua Zalo 0907859891."
+      });
+
+    }
+
+
+    // Kiểm tra kho
+    if (
+      !stock[product] ||
+      stock[product].length === 0
+    ) {
+
+      return res.json({
+        success: false,
+        message: "Túi này hiện đã hết ACC."
+      });
+
+    }
+
+
+    // Lấy ACC đầu tiên
+    const account = stock[product].shift();
+
+
+    // Trừ tiền
+    user.balance -= amount;
+
 
     return res.json({
+      success: true,
+      account: account,
+      balance: user.balance
+    });
 
-      success:false,
+  } catch (error) {
 
-      message:"Không tìm thấy tài khoản."
+    console.error("BUY ERROR:", error);
 
+    return res.status(500).json({
+      success: false,
+      message: "Lỗi server khi mua hàng."
     });
 
   }
 
-
-  const amount=Number(price);
-
-
-  if(!Number.isFinite(amount) || amount<=0){
-
-    return res.json({
-
-      success:false,
-
-      message:"Giá sản phẩm không hợp lệ."
-
-    });
-
-  }
+});
 
 
-  if(user.balance<amount){
+// =========================
+// TEST SERVER
+// =========================
 
-    return res.json({
-
-      success:false,
-
-      code:"NOT_ENOUGH",
-
-      balance:user.balance,
-
-      message:
-       "Số dư không đủ. Vui lòng nạp tiền qua Zalo 0907859891."
-
-    });
-
-  }
-
-
-  if(!stock[product] ||
-     stock[product].length===0){
-
-    return res.json({
-
-      success:false,
-
-      message:"Túi này hiện đã hết ACC."
-
-    });
-
-  }
-
-
-  const account=stock[product].shift();
-
-
-  user.balance-=amount;
-
+app.get("/api/status", (req, res) => {
 
   res.json({
-
-    success:true,
-
-    account,
-
-    balance:user.balance
-
+    success: true,
+    status: "online",
+    shop: "PT BAG SHOP"
   });
 
 });
 
 
-/* STATUS */
+// =========================
+// TRANG CHỦ
+// =========================
 
-app.get("/api/status",(req,res)=>{
-
-  res.json({
-
-    success:true,
-
-    shop:"PT BAG SHOP",
-
-    status:"online"
-
-  });
-
-});
-
-
-app.get("*",(req,res)=>{
+app.get("/", (req, res) => {
 
   res.sendFile(
     path.join(
@@ -274,12 +325,32 @@ app.get("*",(req,res)=>{
 });
 
 
+// =========================
+// 404 API
+// =========================
+
+app.use("/api", (req, res) => {
+
+  res.status(404).json({
+    success: false,
+    message: "API không tồn tại."
+  });
+
+});
+
+
+// =========================
+// CHẠY SERVER
+// =========================
+
 app.listen(
   PORT,
   "0.0.0.0",
-  ()=>{
+  () => {
+
     console.log(
-      `PT BAG SHOP running on ${PORT}`
+      `PT BAG SHOP đang chạy tại port ${PORT}`
     );
+
   }
 );
