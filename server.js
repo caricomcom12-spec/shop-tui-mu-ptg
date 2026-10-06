@@ -559,14 +559,6 @@ const stock = {
             info:"Acc Lucky mẫu"
         },
 
-        {
-            username:"PTG_DEMO_LUCKY_05",
-            password:"luck555",
-            level:150,
-            rarity:"SIÊU CỰC PHẨM",
-            info:"Acc Lucky mẫu đặc biệt"
-        }
-
     ]
 
 };
@@ -579,19 +571,19 @@ const stock = {
 
 const demoSold = {
 
-    bag5k: 3,
+    bag5k: 7,
 
-    tanbinh: 5,
+    tanbinh: 3,
 
     premium: 2,
 
-    legendary: 6,
+    legendary: 0,
 
-    vip: 4,
+    vip: 1,
 
-    ultra: 1,
+    ultra: 0,
 
-    lucky: 5
+    lucky: 0
 
 };
 
