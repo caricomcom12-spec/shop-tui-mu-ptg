@@ -387,12 +387,12 @@ const stock = {
 
 const extraAccounts = {
     bag5k:22,
-    tanbinh:6,
-    premium:6,
-    legendary:6,
-    vip:6,
-    ultra:6,
-    lucky:6
+    tanbinh:9,
+    premium:1,
+    legendary:2,
+    vip:4,
+    ultra:2,
+    lucky:1
 };
 
 const accountConfig = {
