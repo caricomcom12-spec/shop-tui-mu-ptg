@@ -1,16 +1,12 @@
 {
-"name": "shop-tui-mu-ptg",
-"version": "1.0.0",
-"description": "Shop tui mu acc demo",
-"main": "server.js",
-"scripts": {
-"start": "node server.js"
-},
-"engines": {
-"node": ">=20"
-},
-"dependencies": {
-"express": "^5.1.0",
-"better-sqlite3": "^12.4.1"
-}
+  "name": "pt-bag-shop",
+  "version": "5.0.0",
+  "description": "PT BAG SHOP",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
