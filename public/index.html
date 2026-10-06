@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Túi Mù Acc PTG</title>
 
-```
 <style>
     * {
         box-sizing: border-box;
@@ -136,6 +134,14 @@
     .stock {
         font-size: 13px;
         color: #64748b;
+        margin-bottom: 6px;
+    }
+
+    /* LƯỢT BÁN DEMO */
+    .sold-demo {
+        font-size: 13px;
+        color: #fbbf24;
+        font-weight: bold;
         margin-bottom: 12px;
     }
 
@@ -397,7 +403,6 @@
         }
     }
 </style>
-```
 
 </head>
 
@@ -405,7 +410,6 @@
 
 <header>
 
-```
 <div class="logo" id="shopLogo">
     🎁 TÚI MÙ ACC PTG
 </div>
@@ -421,13 +425,11 @@
     </span>
 
 </button>
-```
 
 </header>
 
 <main class="container">
 
-```
 <section class="hero">
 
     <h1 id="shopTitle">
@@ -441,23 +443,22 @@
 </section>
 
 <section class="products" id="products"></section>
-```
 
 </main>
 
 <footer>
+
     <div id="footerText">
         © 2026 Túi Mù Acc PTG
     </div>
+
 </footer>
 
-<!-- ==================================================
-     LOGIN
-================================================== -->
+
+<!-- LOGIN -->
 
 <div class="overlay" id="loginOverlay">
 
-```
 <div class="modal">
 
     <h2>🔐 Đăng nhập</h2>
@@ -482,17 +483,14 @@
     </button>
 
 </div>
-```
 
 </div>
 
-<!-- ==================================================
-     ACCOUNT
-================================================== -->
+
+<!-- ACCOUNT -->
 
 <div class="overlay" id="accountOverlay">
 
-```
 <div class="modal">
 
     <h2>👤 Tài khoản</h2>
@@ -547,17 +545,14 @@
     </button>
 
 </div>
-```
 
 </div>
 
-<!-- ==================================================
-     HISTORY
-================================================== -->
+
+<!-- HISTORY -->
 
 <div class="overlay" id="historyOverlay">
 
-```
 <div class="modal">
 
     <h2>📜 Lịch sử bốc túi</h2>
@@ -571,17 +566,14 @@
     </button>
 
 </div>
-```
 
 </div>
 
-<!-- ==================================================
-     NOTICE
-================================================== -->
+
+<!-- NOTICE -->
 
 <div class="overlay" id="noticeOverlay">
 
-```
 <div class="modal">
 
     <h2>📢 THÔNG BÁO</h2>
@@ -599,17 +591,14 @@
     </button>
 
 </div>
-```
 
 </div>
 
-<!-- ==================================================
-     KHÔNG ĐỦ TIỀN
-================================================== -->
+
+<!-- KHÔNG ĐỦ TIỀN -->
 
 <div class="overlay" id="balanceOverlay">
 
-```
 <div class="modal">
 
     <h2>⚠️ KHÔNG ĐỦ SỐ DƯ</h2>
@@ -654,17 +643,14 @@
     </button>
 
 </div>
-```
 
 </div>
 
-<!-- ==================================================
-     BỐC THÀNH CÔNG
-================================================== -->
+
+<!-- BỐC THÀNH CÔNG -->
 
 <div class="overlay" id="successOverlay">
 
-```
 <div class="modal">
 
     <h2>🎉 BỐC TÚI THÀNH CÔNG</h2>
@@ -691,7 +677,6 @@
 
     </div>
 
-
     <div class="account-result">
 
         <div class="account-row">
@@ -709,7 +694,6 @@
 
         </div>
 
-
         <div class="account-row">
 
             <span class="account-label">
@@ -724,7 +708,6 @@
             </span>
 
         </div>
-
 
         <div class="account-row">
 
@@ -741,7 +724,6 @@
 
         </div>
 
-
         <div class="account-row">
 
             <span class="account-label">
@@ -756,7 +738,6 @@
             </span>
 
         </div>
-
 
         <div class="account-row">
 
@@ -775,14 +756,12 @@
 
     </div>
 
-
     <button
         class="copy-account"
         onclick="copyAccount()"
     >
         📋 COPY THÔNG TIN ACC
     </button>
-
 
     <div class="account-info">
 
@@ -794,7 +773,6 @@
 
     </div>
 
-
     <button
         class="close"
         onclick="closeModal('successOverlay')"
@@ -803,15 +781,15 @@
     </button>
 
 </div>
-```
 
 </div>
+
 
 <script>
 
 /* ============================================================
                     ⚙️ CẤU HÌNH SHOP
-   ============================================================ */
+============================================================ */
 
 const SHOP_CONFIG = {
 
@@ -823,9 +801,6 @@ const SHOP_CONFIG = {
 
     footer: "© 2026 Túi Mù Acc PTG",
 
-
-    /* THÔNG BÁO */
-
     notice: `📢 THÔNG BÁO SHOP
 
 🎁 Chào mừng bạn đến với Công Đặng Shop Acc!
@@ -835,13 +810,7 @@ const SHOP_CONFIG = {
 
 ❤️ Cảm ơn bạn đã ủng hộ shop!`,
 
-
-    /* ZALO */
-
     zalo: "0907859891",
-
-
-    /* MÔ TẢ TÚI */
 
     descriptions: {
 
@@ -867,9 +836,6 @@ const SHOP_CONFIG = {
             "Túi Lucky - acc log game trị giá cao."
     },
 
-
-    /* TÊN TÚI */
-
     names: {
 
         bag5k: "🎁 TÚI 5K",
@@ -886,9 +852,6 @@ const SHOP_CONFIG = {
 
         lucky: "🍀 LUCKY"
     },
-
-
-    /* GIÁ */
 
     prices: {
 
@@ -987,46 +950,48 @@ async function loadShop() {
         const response =
             await fetch("/api/status");
 
-
         const data =
             await response.json();
-
 
         const stock =
             data.stock || {};
 
+        /*
+         * LƯỢT BÁN DEMO
+         * Lấy từ server.js
+         */
+        const demoSold =
+            data.demoSold || {};
 
         const container =
             document.getElementById("products");
 
-
         container.innerHTML = "";
-
 
         productOrder.forEach(product => {
 
             const price =
                 SHOP_CONFIG.prices[product];
 
-
             const name =
                 SHOP_CONFIG.names[product];
-
 
             const description =
                 SHOP_CONFIG.descriptions[product];
 
-
             const amount =
                 stock[product] ?? 0;
 
+            /*
+             * SỐ LƯỢT BÁN DEMO CỦA TỪNG TÚI
+             */
+            const sold =
+                demoSold[product] ?? 0;
 
             const card =
                 document.createElement("div");
 
-
             card.className = "card";
-
 
             card.innerHTML = `
 
@@ -1047,6 +1012,11 @@ async function loadShop() {
                     ${amount} acc
                 </div>
 
+                <div class="sold-demo">
+                    🔥 Đã bán (demo):
+                    ${sold} lượt
+                </div>
+
                 <button
                     class="buy-btn"
                     onclick="buyProduct('${product}')"
@@ -1061,16 +1031,13 @@ async function loadShop() {
 
             `;
 
-
             container.appendChild(card);
 
         });
 
-
     } catch(error) {
 
         console.error(error);
-
 
         document.getElementById("products").innerHTML = `
 
@@ -1127,7 +1094,6 @@ function openAccount() {
 
     }
 
-
     updateAccountUI();
 
     openModal("accountOverlay");
@@ -1139,28 +1105,22 @@ function updateAccountUI() {
 
     if(!currentUser) return;
 
-
     document.getElementById("accountGmail").textContent =
         currentUser.gmail;
-
 
     document.getElementById("accountUID").textContent =
         currentUser.uid;
 
-
     document.getElementById("accountBalance").textContent =
         formatMoney(currentUser.balance);
-
 
     const firstLetter =
         currentUser.gmail
         .charAt(0)
         .toUpperCase();
 
-
     document.getElementById("headerAvatar").textContent =
         firstLetter;
-
 
     document.getElementById("headerAccountText").textContent =
         currentUser.gmail;
@@ -1179,7 +1139,6 @@ async function login() {
         .value
         .trim();
 
-
     if(!gmail) {
 
         alert("Vui lòng nhập Gmail.");
@@ -1187,7 +1146,6 @@ async function login() {
         return;
 
     }
-
 
     try {
 
@@ -1207,10 +1165,8 @@ async function login() {
 
             });
 
-
         const data =
             await response.json();
-
 
         if(!data.success) {
 
@@ -1223,27 +1179,21 @@ async function login() {
 
         }
 
-
         currentUser =
             data.user;
-
 
         document.getElementById("gmailInput")
             .value = "";
 
-
         closeModal("loginOverlay");
 
-
         updateAccountUI();
-
 
         alert(
             "Đăng nhập thành công!\n\n" +
             "UID của bạn: " +
             currentUser.uid
         );
-
 
     } catch(error) {
 
@@ -1268,14 +1218,11 @@ function logout() {
 
     lastAccount = null;
 
-
     document.getElementById("headerAvatar")
         .textContent = "?";
 
-
     document.getElementById("headerAccountText")
         .textContent = "Đăng nhập";
-
 
     closeModal("accountOverlay");
 
@@ -1289,7 +1236,6 @@ function logout() {
 async function copyUID() {
 
     if(!currentUser) return;
-
 
     try {
 
@@ -1325,12 +1271,8 @@ async function buyProduct(product) {
 
     }
 
-
     const price =
         SHOP_CONFIG.prices[product];
-
-
-    /* Kiểm tra số dư */
 
     if(
         Number(currentUser.balance)
@@ -1341,20 +1283,17 @@ async function buyProduct(product) {
             .textContent =
             currentUser.uid;
 
-
         document.getElementById("balanceCurrent")
             .textContent =
             formatMoney(
                 currentUser.balance
             );
 
-
         openModal("balanceOverlay");
 
         return;
 
     }
-
 
     const confirmBuy =
         confirm(
@@ -1371,9 +1310,7 @@ async function buyProduct(product) {
 
         );
 
-
     if(!confirmBuy) return;
-
 
     try {
 
@@ -1402,19 +1339,10 @@ async function buyProduct(product) {
 
             });
 
-
         const data =
             await response.json();
 
-
-        /* ==================================================
-           SERVER BÁO LỖI
-        ================================================== */
-
         if(!data.success) {
-
-
-            /* KHÔNG ĐỦ TIỀN */
 
             if(data.code === "NOT_ENOUGH") {
 
@@ -1422,12 +1350,10 @@ async function buyProduct(product) {
                     data.balance ??
                     currentUser.balance;
 
-
                 document.getElementById(
                     "balanceUID"
                 ).textContent =
                     currentUser.uid;
-
 
                 document.getElementById(
                     "balanceCurrent"
@@ -1436,7 +1362,6 @@ async function buyProduct(product) {
                         currentUser.balance
                     );
 
-
                 openModal(
                     "balanceOverlay"
                 );
@@ -1444,9 +1369,6 @@ async function buyProduct(product) {
                 return;
 
             }
-
-
-            /* HẾT ACC */
 
             if(data.code === "OUT_OF_STOCK") {
 
@@ -1460,7 +1382,6 @@ async function buyProduct(product) {
 
             }
 
-
             alert(
                 data.message ||
                 "Không thể bốc túi."
@@ -1470,80 +1391,49 @@ async function buyProduct(product) {
 
         }
 
-
-        /* ==================================================
-           BỐC THÀNH CÔNG
-        ================================================== */
-
         currentUser.balance =
             data.balance;
-
 
         const account =
             data.account;
 
-
         lastAccount =
             account;
-
-
-        /* TÊN TÚI */
 
         document.getElementById(
             "successProduct"
         ).textContent =
             SHOP_CONFIG.names[product];
 
-
-        /* GIÁ */
-
         document.getElementById(
             "successPrice"
         ).textContent =
             formatMoney(price);
-
-
-        /* USERNAME */
 
         document.getElementById(
             "successUsername"
         ).textContent =
             account.username || "---";
 
-
-        /* PASSWORD */
-
         document.getElementById(
             "successPassword"
         ).textContent =
             account.password || "---";
-
-
-        /* LEVEL */
 
         document.getElementById(
             "successLevel"
         ).textContent =
             account.level ?? "---";
 
-
-        /* ĐỘ HIẾM */
-
         document.getElementById(
             "successRarity"
         ).textContent =
             account.rarity || "---";
 
-
-        /* THÔNG TIN */
-
         document.getElementById(
             "successInfo"
         ).textContent =
             account.info || "---";
-
-
-        /* SỐ DƯ */
 
         document.getElementById(
             "successBalance"
@@ -1552,23 +1442,13 @@ async function buyProduct(product) {
                 data.balance
             );
 
-
-        /* MỞ POPUP */
-
         openModal(
             "successOverlay"
         );
 
-
-        /* CẬP NHẬT SHOP */
-
         loadShop();
 
-
-        /* CẬP NHẬT USER */
-
         updateAccountUI();
-
 
     } catch(error) {
 
@@ -1591,7 +1471,6 @@ async function copyAccount() {
 
     if(!lastAccount) return;
 
-
     const text =
 
         "Username: " +
@@ -1608,7 +1487,6 @@ async function copyAccount() {
 
         "\nThông tin: " +
         (lastAccount.info || "");
-
 
     try {
 
@@ -1637,26 +1515,21 @@ async function showHistory() {
 
     if(!currentUser) return;
 
-
     closeModal(
         "accountOverlay"
     );
 
-
     openModal(
         "historyOverlay"
     );
-
 
     const list =
         document.getElementById(
             "historyList"
         );
 
-
     list.innerHTML =
         "Đang tải lịch sử...";
-
 
     try {
 
@@ -1671,10 +1544,8 @@ async function showHistory() {
 
             );
 
-
         const data =
             await response.json();
-
 
         if(!data.success) {
 
@@ -1686,10 +1557,8 @@ async function showHistory() {
 
         }
 
-
         const history =
             data.history || [];
-
 
         if(history.length === 0) {
 
@@ -1711,34 +1580,27 @@ async function showHistory() {
 
         }
 
-
         list.innerHTML = "";
-
 
         [...history]
         .reverse()
         .forEach(item => {
 
-
             const account =
                 item.account || {};
-
 
             const name =
                 SHOP_CONFIG.names[
                     item.product
                 ] || item.product;
 
-
             const div =
                 document.createElement(
                     "div"
                 );
 
-
             div.className =
                 "history-item";
-
 
             div.innerHTML = `
 
@@ -1794,11 +1656,9 @@ async function showHistory() {
 
             `;
 
-
             list.appendChild(div);
 
         });
-
 
     } catch(error) {
 
@@ -1820,10 +1680,8 @@ function formatDate(time) {
 
     if(!time) return "---";
 
-
     const date =
         new Date(time);
-
 
     return date.toLocaleString(
         "vi-VN"
@@ -1859,7 +1717,7 @@ document.querySelectorAll(".overlay")
 
 
 /* ============================================================
-                    THÔNG BÁO MỖI LẦN VÀO WEB
+                    THÔNG BÁO
 ============================================================ */
 
 window.addEventListener(
