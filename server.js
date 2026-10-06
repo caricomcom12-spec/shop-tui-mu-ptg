@@ -1,980 +1,1047 @@
 const express = require("express");
-const crypto = require("crypto");
-const Database = require("better-sqlite3");
-const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-/* =========================
-EXPRESS
-========================= */
-
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("public"));
 
-/* =========================
-DATABASE
-========================= */
 
-const dbPath =
-process.env.DB_PATH ||
-path.join(__dirname, "shop.db");
+// ==================================================
+// DATABASE TẠM
+// ==================================================
 
-const db = new Database(dbPath);
+const users = new Map();
 
-db.pragma("journal_mode = WAL");
 
-db.exec(`
-CREATE TABLE IF NOT EXISTS users (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-gmail TEXT UNIQUE NOT NULL,
-uid TEXT UNIQUE NOT NULL,
-balance INTEGER NOT NULL DEFAULT 0,
-created_at TEXT NOT NULL
-);
+// ==================================================
+// TẠO UID
+// ==================================================
 
-CREATE TABLE IF NOT EXISTS accounts (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-product TEXT NOT NULL,
-username TEXT NOT NULL,
-password TEXT NOT NULL,
-level INTEGER NOT NULL,
-rarity TEXT NOT NULL,
-info TEXT NOT NULL,
-sold INTEGER NOT NULL DEFAULT 0,
-sold_uid TEXT,
-sold_at TEXT
-);
+function createUID(){
 
-CREATE TABLE IF NOT EXISTS history (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-uid TEXT NOT NULL,
-product TEXT NOT NULL,
-account_id INTEGER NOT NULL,
-username TEXT NOT NULL,
-password TEXT NOT NULL,
-level INTEGER NOT NULL,
-rarity TEXT NOT NULL,
-info TEXT NOT NULL,
-price INTEGER NOT NULL,
-created_at TEXT NOT NULL
-);
-`);
+    const random =
+        Math.random()
+        .toString(16)
+        .substring(2,10)
+        .toUpperCase();
 
-/* =========================
-UID CỐ ĐỊNH THEO GMAIL
-========================= */
-
-function createUID(gmail) {
-return (
-"PT-" +
-crypto
-.createHash("sha256")
-.update(gmail.toLowerCase().trim())
-.digest("hex")
-.substring(0, 8)
-.toUpperCase()
-);
+    return "PT-" + random;
 }
 
-/* =========================
-GIÁ
-========================= */
+
+// ==================================================
+// KHO TÚI MÙ
+// MỖI TÚI CÓ 5 ACC ẢO
+// ==================================================
+
+const stock = {
+
+    // =========================
+    // TÚI 5K
+    // =========================
+
+    bag5k: [
+
+        {
+            username:"PTG_DEMO_5K_01",
+            password:"demo123",
+            level:12,
+            rarity:"Thường",
+            info:"Acc demo 5K - nhân vật cơ bản"
+        },
+
+        {
+            username:"PTG_DEMO_5K_02",
+            password:"demo456",
+            level:18,
+            rarity:"Hiếm",
+            info:"Acc demo 5K - có một số vật phẩm"
+        },
+
+        {
+            username:"PTG_DEMO_5K_03",
+            password:"demo789",
+            level:25,
+            rarity:"Hiếm",
+            info:"Acc demo 5K - nhiều trang phục"
+        },
+
+        {
+            username:"PTG_DEMO_5K_04",
+            password:"demo999",
+            level:31,
+            rarity:"Siêu hiếm",
+            info:"Acc demo 5K - nhiều vật phẩm"
+        },
+
+        {
+            username:"PTG_DEMO_5K_05",
+            password:"demo000",
+            level:40,
+            rarity:"Cực hiếm",
+            info:"Acc demo 5K - acc mẫu đặc biệt"
+        }
+
+    ],
+
+
+    // =========================
+    // TÂN BINH
+    // =========================
+
+    tanbinh: [
+
+        {
+            username:"PTG_DEMO_TB_01",
+            password:"tb111",
+            level:10,
+            rarity:"Thường",
+            info:"Acc Tân Binh mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_TB_02",
+            password:"tb222",
+            level:20,
+            rarity:"Hiếm",
+            info:"Acc Tân Binh mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_TB_03",
+            password:"tb333",
+            level:27,
+            rarity:"Hiếm",
+            info:"Acc Tân Binh mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_TB_04",
+            password:"tb444",
+            level:35,
+            rarity:"Siêu hiếm",
+            info:"Acc Tân Binh mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_TB_05",
+            password:"tb555",
+            level:45,
+            rarity:"Cực hiếm",
+            info:"Acc Tân Binh mẫu đặc biệt"
+        }
+
+    ],
+
+
+    // =========================
+    // PREMIUM
+    // =========================
+
+    premium: [
+
+        {
+            username:"PTG_DEMO_PRE_01",
+            password:"pre111",
+            level:35,
+            rarity:"Hiếm",
+            info:"Acc Premium mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_PRE_02",
+            password:"pre222",
+            level:42,
+            rarity:"Hiếm",
+            info:"Acc Premium mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_PRE_03",
+            password:"pre333",
+            level:50,
+            rarity:"Siêu hiếm",
+            info:"Acc Premium mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_PRE_04",
+            password:"pre444",
+            level:58,
+            rarity:"Siêu hiếm",
+            info:"Acc Premium mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_PRE_05",
+            password:"pre555",
+            level:65,
+            rarity:"Cực hiếm",
+            info:"Acc Premium mẫu đặc biệt"
+        }
+
+    ],
+
+
+    // =========================
+    // LEGENDARY
+    // =========================
+
+    legendary: [
+
+        {
+            username:"PTG_DEMO_LEG_01",
+            password:"leg111",
+            level:50,
+            rarity:"Hiếm",
+            info:"Acc Legendary mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LEG_02",
+            password:"leg222",
+            level:60,
+            rarity:"Siêu hiếm",
+            info:"Acc Legendary mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LEG_03",
+            password:"leg333",
+            level:70,
+            rarity:"Siêu hiếm",
+            info:"Acc Legendary mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LEG_04",
+            password:"leg444",
+            level:80,
+            rarity:"Cực hiếm",
+            info:"Acc Legendary mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LEG_05",
+            password:"leg555",
+            level:90,
+            rarity:"Huyền thoại",
+            info:"Acc Legendary mẫu đặc biệt"
+        }
+
+    ],
+
+
+    // =========================
+    // VIP
+    // =========================
+
+    vip: [
+
+        {
+            username:"PTG_DEMO_VIP_01",
+            password:"vip111",
+            level:60,
+            rarity:"Siêu hiếm",
+            info:"Acc VIP mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_VIP_02",
+            password:"vip222",
+            level:70,
+            rarity:"Siêu hiếm",
+            info:"Acc VIP mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_VIP_03",
+            password:"vip333",
+            level:80,
+            rarity:"Cực hiếm",
+            info:"Acc VIP mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_VIP_04",
+            password:"vip444",
+            level:90,
+            rarity:"Huyền thoại",
+            info:"Acc VIP mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_VIP_05",
+            password:"vip555",
+            level:100,
+            rarity:"Huyền thoại",
+            info:"Acc VIP mẫu đặc biệt"
+        }
+
+    ],
+
+
+    // =========================
+    // ULTRA
+    // =========================
+
+    ultra: [
+
+        {
+            username:"PTG_DEMO_ULT_01",
+            password:"ult111",
+            level:70,
+            rarity:"Cực hiếm",
+            info:"Acc Ultra mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_ULT_02",
+            password:"ult222",
+            level:80,
+            rarity:"Cực hiếm",
+            info:"Acc Ultra mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_ULT_03",
+            password:"ult333",
+            level:90,
+            rarity:"Huyền thoại",
+            info:"Acc Ultra mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_ULT_04",
+            password:"ult444",
+            level:100,
+            rarity:"Huyền thoại",
+            info:"Acc Ultra mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_ULT_05",
+            password:"ult555",
+            level:120,
+            rarity:"Cực phẩm",
+            info:"Acc Ultra mẫu đặc biệt"
+        }
+
+    ],
+
+
+    // =========================
+    // LUCKY
+    // =========================
+
+    lucky: [
+
+        {
+            username:"PTG_DEMO_LUCKY_01",
+            password:"luck111",
+            level:80,
+            rarity:"Cực hiếm",
+            info:"Acc Lucky mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LUCKY_02",
+            password:"luck222",
+            level:90,
+            rarity:"Huyền thoại",
+            info:"Acc Lucky mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LUCKY_03",
+            password:"luck333",
+            level:100,
+            rarity:"Huyền thoại",
+            info:"Acc Lucky mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LUCKY_04",
+            password:"luck444",
+            level:120,
+            rarity:"Cực phẩm",
+            info:"Acc Lucky mẫu"
+        },
+
+        {
+            username:"PTG_DEMO_LUCKY_05",
+            password:"luck555",
+            level:150,
+            rarity:"SIÊU CỰC PHẨM",
+            info:"Acc Lucky mẫu đặc biệt"
+        }
+
+    ]
+
+};
+
+
+// ==================================================
+// GIÁ TÚI
+// ==================================================
 
 const validPrices = {
-bag5k: 5000,
-tanbinh: 20000,
-premium: 50000,
-legendary: 100000,
-vip: 200000,
-ultra: 500000,
-lucky: 1000000
+
+    bag5k:5000,
+
+    tanbinh:20000,
+
+    premium:50000,
+
+    legendary:100000,
+
+    vip:200000,
+
+    ultra:500000,
+
+    lucky:1000000
+
 };
 
-/* =========================
-TÊN TÚI
-========================= */
 
-const productNames = {
-bag5k: "🎁 TÚI 5K",
-tanbinh: "🥉 TÂN BINH",
-premium: "💎 PREMIUM",
-legendary: "🔥 LEGENDARY",
-vip: "👑 VIP",
-ultra: "⚡ ULTRA",
-lucky: "🍀 LUCKY"
-};
+// ==================================================
+// LOGIN
+// ==================================================
 
-/* =========================
-TẠO ACC DEMO
-========================= */
+app.post("/api/login",(req,res)=>{
 
-function createDemoAccounts() {
+    const gmail =
+        String(req.body.gmail || "")
+        .trim()
+        .toLowerCase();
 
-const exists =
-db.prepare(
-"SELECT COUNT(*) AS count FROM accounts"
-).get().count;
 
-if (exists > 0) {
-return;
-}
+    if(!gmail.endsWith("@gmail.com")){
 
-const bags = [
-{
-product: "bag5k",
-count: 20,
-level: 5,
-rarity: "Thường"
-},
+        return res.json({
 
-```
-{
-  product: "tanbinh",
-  count: 10,
-  level: 10,
-  rarity: "Thường"
-},
+            success:false,
 
-{
-  product: "premium",
-  count: 10,
-  level: 20,
-  rarity: "Hiếm"
-},
+            message:"Gmail không hợp lệ."
 
-{
-  product: "legendary",
-  count: 10,
-  level: 30,
-  rarity: "Siêu hiếm"
-},
+        });
 
-{
-  product: "vip",
-  count: 10,
-  level: 40,
-  rarity: "VIP"
-},
-
-{
-  product: "ultra",
-  count: 10,
-  level: 50,
-  rarity: "Cực hiếm"
-},
-
-{
-  product: "lucky",
-  count: 10,
-  level: 60,
-  rarity: "May mắn"
-}
-```
-
-];
-
-const insert =
-db.prepare(`       INSERT INTO accounts
-      (
-        product,
-        username,
-        password,
-        level,
-        rarity,
-        info
-      )
-      VALUES (?, ?, ?, ?, ?, ?)
-    `);
-
-const transaction =
-db.transaction(() => {
-
-```
-  for (const bag of bags) {
-
-    for (let i = 1; i <= bag.count; i++) {
-
-      const number =
-        String(i).padStart(2, "0");
-
-      insert.run(
-        bag.product,
-        `demo_${bag.product}_${number}`,
-        "demo12345",
-        bag.level + Math.floor((i - 1) / 3),
-        bag.rarity,
-        `ACC DEMO ${bag.product.toUpperCase()} #${number}`
-      );
     }
-  }
-});
-```
 
-transaction();
 
-console.log(
-"Đã tạo kho acc demo."
-);
-}
+    let user = users.get(gmail);
 
-createDemoAccounts();
 
-/* =========================
-TELEGRAM
-========================= */
+    // Gmail cũ -> giữ UID
+    if(!user){
 
-async function sendTelegram(message) {
+        user = {
 
-const token =
-process.env.TELEGRAM_BOT_TOKEN;
+            gmail:gmail,
 
-const chatId =
-process.env.TELEGRAM_CHAT_ID;
+            uid:createUID(),
 
-if (!token || !chatId) {
-console.log(
-"Telegram chưa được cấu hình."
-);
-return;
-}
+            balance:0,
 
-try {
+            history:[]
 
-```
-const response =
-  await fetch(
-    `https://api.telegram.org/bot${token}/sendMessage`,
-    {
-      method: "POST",
+        };
 
-      headers: {
-        "Content-Type":
-          "application/json"
-      },
 
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message
-      })
+        users.set(gmail,user);
+
     }
-  );
 
-const result =
-  await response.json();
 
-if (!result.ok) {
-  console.log(
-    "Telegram error:",
-    result
-  );
-}
-```
+    if(!user.history){
 
-} catch (error) {
+        user.history=[];
 
-```
-console.log(
-  "Telegram error:",
-  error.message
-);
-```
+    }
 
-}
-}
 
-/* =========================
-TÌM USER
-========================= */
+    return res.json({
 
-function getUserByUID(uid) {
+        success:true,
 
-return db
-.prepare(
-"SELECT * FROM users WHERE uid = ?"
-)
-.get(uid);
-}
+        user:{
 
-/* =========================
-LOGIN
-========================= */
+            gmail:user.gmail,
 
-app.post("/api/login", (req, res) => {
+            uid:user.uid,
 
-const gmail =
-String(req.body.gmail || "")
-.trim()
-.toLowerCase();
+            balance:user.balance
 
-if (!gmail.endsWith("@gmail.com")) {
+        }
 
-```
-return res.json({
-  success: false,
-  message: "Vui lòng nhập đúng Gmail."
-});
-```
-
-}
-
-let user =
-db
-.prepare(
-"SELECT * FROM users WHERE gmail = ?"
-)
-.get(gmail);
-
-if (!user) {
-
-```
-const uid =
-  createUID(gmail);
-
-db.prepare(`
-  INSERT INTO users
-  (
-    gmail,
-    uid,
-    balance,
-    created_at
-  )
-  VALUES (?, ?, 0, ?)
-`).run(
-  gmail,
-  uid,
-  new Date().toISOString()
-);
-
-user =
-  db
-    .prepare(
-      "SELECT * FROM users WHERE gmail = ?"
-    )
-    .get(gmail);
-```
-
-}
-
-res.json({
-success: true,
-
-```
-user: {
-  gmail: user.gmail,
-  uid: user.uid,
-  balance: user.balance
-}
-```
+    });
 
 });
-});
 
-/* =========================
-SHOP STATUS
-========================= */
 
-app.get("/api/status", (req, res) => {
+// ==================================================
+// TÌM USER THEO UID
+// ==================================================
 
-const stock = {};
+function findUserByUID(uid){
 
-for (const product of Object.keys(validPrices)) {
+    for(const user of users.values()){
 
-```
-const row =
-  db
-    .prepare(`
-      SELECT COUNT(*) AS count
-      FROM accounts
-      WHERE product = ?
-      AND sold = 0
-    `)
-    .get(product);
+        if(user.uid === uid){
 
-stock[product] =
-  row.count;
-```
+            return user;
 
-}
+        }
 
-res.json({
-success: true,
-message: "PT BAG SHOP đang hoạt động.",
-stock: stock
-});
-});
+    }
 
-/* =========================
-BỐC ACC
-========================= */
-
-app.post("/api/buy", async (req, res) => {
-
-const uid =
-String(req.body.uid || "").trim();
-
-const product =
-String(req.body.product || "").trim();
-
-const user =
-getUserByUID(uid);
-
-if (!user) {
-
-```
-return res.json({
-  success: false,
-  code: "NOT_LOGGED_IN",
-  message:
-    "Phiên đăng nhập không hợp lệ."
-});
-```
-
-}
-
-if (!validPrices[product]) {
-
-```
-return res.json({
-  success: false,
-  message: "Túi không tồn tại."
-});
-```
-
-}
-
-const price =
-validPrices[product];
-
-if (user.balance < price) {
-
-```
-return res.json({
-  success: false,
-  code: "NOT_ENOUGH",
-  message: "Số dư không đủ."
-});
-```
-
-}
-
-/*
-Transaction giúp tránh 2 khách
-cùng lấy một acc.
-*/
-
-const buyTransaction =
-db.transaction(() => {
-
-```
-  const account =
-    db
-      .prepare(`
-        SELECT *
-        FROM accounts
-        WHERE product = ?
-        AND sold = 0
-        ORDER BY id ASC
-        LIMIT 1
-      `)
-      .get(product);
-
-  if (!account) {
     return null;
-  }
-
-  const now =
-    new Date().toISOString();
-
-  db.prepare(`
-    UPDATE accounts
-    SET
-      sold = 1,
-      sold_uid = ?,
-      sold_at = ?
-    WHERE id = ?
-    AND sold = 0
-  `).run(
-    uid,
-    now,
-    account.id
-  );
-
-  db.prepare(`
-    UPDATE users
-    SET balance = balance - ?
-    WHERE uid = ?
-    AND balance >= ?
-  `).run(
-    price,
-    uid,
-    price
-  );
-
-  db.prepare(`
-    INSERT INTO history
-    (
-      uid,
-      product,
-      account_id,
-      username,
-      password,
-      level,
-      rarity,
-      info,
-      price,
-      created_at
-    )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(
-    uid,
-    product,
-    account.id,
-    account.username,
-    account.password,
-    account.level,
-    account.rarity,
-    account.info,
-    price,
-    now
-  );
-
-  return {
-    account,
-    now
-  };
-});
-```
-
-if (!buyTransaction) {
-
-```
-return res.json({
-  success: false,
-  code: "OUT_OF_STOCK",
-  message:
-    "Túi này hiện đã hết hàng."
-});
-```
 
 }
 
-const updatedUser =
-getUserByUID(uid);
 
-const account =
-buyTransaction.account;
+// ==================================================
+// MUA / BỐC TÚI
+// ==================================================
 
-const telegramMessage =
-`🎁 CÓ KHÁCH VỪA BỐC ACC
+app.post("/api/buy",(req,res)=>{
 
-📦 Túi: ${productNames[product]}
-💰 Giá: ${price.toLocaleString("vi-VN")}đ
+    const uid =
+        String(req.body.uid || "")
+        .trim();
 
-👤 Gmail: ${user.gmail}
-🆔 UID: ${user.uid}
 
-🎮 Username: ${account.username}
-🔐 Password: ${account.password}
-⭐ Level: ${account.level}
-💎 Độ hiếm: ${account.rarity}
-📝 Thông tin: ${account.info}
+    const product =
+        String(req.body.product || "")
+        .trim();
 
-💰 Số dư còn lại:
-${updatedUser.balance.toLocaleString("vi-VN")}đ
 
-⏰ ${new Date().toLocaleString("vi-VN")}`;
+    const price =
+        Number(req.body.price);
 
-await sendTelegram(
-telegramMessage
-);
 
-res.json({
-success: true,
+    // Tìm user
+    const user =
+        findUserByUID(uid);
 
-```
-account: {
-  username: account.username,
-  password: account.password,
-  level: account.level,
-  rarity: account.rarity,
-  info: account.info
-},
 
-balance:
-  updatedUser.balance
-```
+    if(!user){
+
+        return res.json({
+
+            success:false,
+
+            message:"Phiên đăng nhập không hợp lệ."
+
+        });
+
+    }
+
+
+    // Kiểm tra sản phẩm + giá
+    if(
+        !validPrices[product] ||
+        validPrices[product] !== price
+    ){
+
+        return res.json({
+
+            success:false,
+
+            message:"Sản phẩm không hợp lệ."
+
+        });
+
+    }
+
+
+    // Không đủ tiền
+    if(user.balance < price){
+
+        return res.json({
+
+            success:false,
+
+            code:"NOT_ENOUGH",
+
+            balance:user.balance
+
+        });
+
+    }
+
+
+    // Hết acc
+    if(
+        !stock[product] ||
+        stock[product].length === 0
+    ){
+
+        return res.json({
+
+            success:false,
+
+            code:"OUT_OF_STOCK",
+
+            message:"Túi này hiện đã hết acc."
+
+        });
+
+    }
+
+
+    // ==============================================
+    // BỐC ACC
+    // ==============================================
+
+    const account =
+        stock[product].shift();
+
+
+    // ==============================================
+    // TRỪ TIỀN
+    // ==============================================
+
+    user.balance -= price;
+
+
+    // ==============================================
+    // TẠO LỊCH SỬ
+    // ==============================================
+
+    const historyItem = {
+
+        product:product,
+
+        price:price,
+
+        account:{
+
+            username:account.username,
+
+            password:account.password,
+
+            level:account.level,
+
+            rarity:account.rarity,
+
+            info:account.info
+
+        },
+
+        time:new Date().toISOString()
+
+    };
+
+
+    user.history.push(historyItem);
+
+
+    // ==============================================
+    // TRẢ KẾT QUẢ
+    // ==============================================
+
+    return res.json({
+
+        success:true,
+
+        account:account,
+
+        balance:user.balance,
+
+        history:historyItem
+
+    });
 
 });
-});
 
-/* =========================
-LỊCH SỬ KHÁCH
-========================= */
 
-app.get("/api/history", (req, res) => {
+// ==================================================
+// LỊCH SỬ CỦA UID
+// ==================================================
 
-const uid =
-String(req.query.uid || "").trim();
+app.get("/api/history",(req,res)=>{
 
-const user =
-getUserByUID(uid);
+    const uid =
+        String(req.query.uid || "")
+        .trim();
 
-if (!user) {
 
-```
-return res.json({
-  success: false,
-  message: "Không tìm thấy UID."
-});
-```
+    const user =
+        findUserByUID(uid);
 
-}
 
-const history =
-db
-.prepare(`         SELECT
-          product,
-          username,
-          password,
-          level,
-          rarity,
-          info,
-          price,
-          created_at AS time
-        FROM history
-        WHERE uid = ?
-        ORDER BY id DESC
-      `)
-.all(uid);
+    if(!user){
 
-res.json({
-success: true,
-history: history.map(item => ({
-product: item.product,
+        return res.json({
 
-```
-  account: {
-    username: item.username,
-    password: item.password,
-    level: item.level,
-    rarity: item.rarity,
-    info: item.info
-  },
+            success:false,
 
-  price: item.price,
-  time: item.time
-}))
-```
+            message:"Không tìm thấy UID."
+
+        });
+
+    }
+
+
+    return res.json({
+
+        success:true,
+
+        uid:user.uid,
+
+        gmail:user.gmail,
+
+        history:user.history || []
+
+    });
 
 });
+
+
+// ==================================================
+// STATUS
+// ==================================================
+
+app.get("/api/status",(req,res)=>{
+
+    const stockCount = {};
+
+    for(const product in stock){
+
+        stockCount[product] =
+            stock[product].length;
+
+    }
+
+
+    res.json({
+
+        success:true,
+
+        message:"PT BAG SHOP đang hoạt động.",
+
+        users:users.size,
+
+        stock:stockCount
+
+    });
+
 });
 
-/* =========================
-ADMIN
-========================= */
 
-const ADMIN_PASSWORD =
-process.env.ADMIN_PASSWORD ||
-"congdang86";
+// ==================================================
+// ADMIN
+// ==================================================
+
+const ADMIN_PASSWORD = "congdang86";
 
 const ADMIN_TOKEN =
-process.env.ADMIN_TOKEN ||
-"PTG-ADMIN-SECRET-2026";
+    "PTG-ADMIN-SECRET-2026";
 
-function checkAdmin(req, res) {
 
-const token =
-req.headers.authorization ||
-req.query.token ||
-req.body.token;
+// ==================================================
+// ADMIN LOGIN
+// ==================================================
 
-if (token !== ADMIN_TOKEN) {
+app.post("/api/admin/login",(req,res)=>{
 
-```
-res.status(403).json({
-  success: false,
-  message: "Không có quyền admin."
+    const password =
+        String(req.body.password || "");
+
+
+    if(password !== ADMIN_PASSWORD){
+
+        return res.json({
+
+            success:false,
+
+            message:"Sai mật khẩu Admin."
+
+        });
+
+    }
+
+
+    res.json({
+
+        success:true,
+
+        token:ADMIN_TOKEN
+
+    });
+
 });
 
-return false;
-```
+
+// ==================================================
+// KIỂM TRA QUYỀN ADMIN
+// ==================================================
+
+function checkAdmin(req,res,next){
+
+    const token =
+        req.headers["x-admin-token"];
+
+
+    if(token !== ADMIN_TOKEN){
+
+        return res.status(401).json({
+
+            success:false,
+
+            message:"Bạn không có quyền Admin."
+
+        });
+
+    }
+
+
+    next();
 
 }
 
-return true;
-}
 
-/* =========================
-ADMIN LOGIN
-========================= */
+// ==================================================
+// ADMIN TÌM USER
+// ==================================================
 
-app.post("/api/admin/login", (req, res) => {
+app.get(
 
-const password =
-String(req.body.password || "");
+    "/api/admin/user",
 
-if (password !== ADMIN_PASSWORD) {
+    checkAdmin,
 
-```
-return res.json({
-  success: false,
-  message: "Sai mật khẩu admin."
-});
-```
+    (req,res)=>{
 
-}
+        const uid =
+            String(req.query.uid || "")
+            .trim();
 
-res.json({
-success: true,
-token: ADMIN_TOKEN
-});
-});
 
-/* =========================
-ADMIN TÌM USER
-========================= */
+        const found =
+            findUserByUID(uid);
 
-app.get("/api/admin/user", (req, res) => {
 
-if (!checkAdmin(req, res)) {
-return;
-}
+        if(!found){
 
-const uid =
-String(req.query.uid || "").trim();
+            return res.json({
 
-const user =
-getUserByUID(uid);
+                success:false,
 
-if (!user) {
+                message:"Không tìm thấy UID."
 
-```
-return res.json({
-  success: false,
-  message: "Không tìm thấy UID."
-});
-```
+            });
 
-}
+        }
 
-const historyCount =
-db
-.prepare(`         SELECT COUNT(*) AS count
-        FROM history
-        WHERE uid = ?
-      `)
-.get(uid).count;
 
-res.json({
-success: true,
+        res.json({
 
-```
-user: {
-  gmail: user.gmail,
-  uid: user.uid,
-  balance: user.balance,
-  historyCount: historyCount
-}
-```
+            success:true,
 
-});
-});
+            user:{
 
-/* =========================
-ADMIN CỘNG TIỀN
-========================= */
+                gmail:found.gmail,
 
-app.post("/api/admin/add-money", (req, res) => {
+                uid:found.uid,
 
-if (!checkAdmin(req, res)) {
-return;
-}
+                balance:found.balance
 
-const uid =
-String(req.body.uid || "").trim();
+            }
 
-const amount =
-Number(req.body.amount);
+        });
 
-if (
-!Number.isFinite(amount) ||
-amount <= 0
-) {
+    }
 
-```
-return res.json({
-  success: false,
-  message: "Số tiền không hợp lệ."
-});
-```
-
-}
-
-const user =
-getUserByUID(uid);
-
-if (!user) {
-
-```
-return res.json({
-  success: false,
-  message: "Không tìm thấy UID."
-});
-```
-
-}
-
-db.prepare(`     UPDATE users
-    SET balance = balance + ?
-    WHERE uid = ?
-  `).run(
-amount,
-uid
 );
 
-const updated =
-getUserByUID(uid);
 
-res.json({
-success: true,
-balance: updated.balance
-});
-});
+// ==================================================
+// ADMIN CỘNG TIỀN
+// ==================================================
 
-/* =========================
-ADMIN XEM LỊCH SỬ
-========================= */
+app.post(
 
-app.get("/api/admin/history", (req, res) => {
+    "/api/admin/add-money",
 
-if (!checkAdmin(req, res)) {
-return;
-}
+    checkAdmin,
 
-const uid =
-String(req.query.uid || "").trim();
+    (req,res)=>{
 
-const user =
-getUserByUID(uid);
+        const uid =
+            String(req.body.uid || "")
+            .trim();
 
-if (!user) {
 
-```
-return res.json({
-  success: false,
-  message: "Không tìm thấy UID."
-});
-```
+        const amount =
+            Number(req.body.amount);
 
-}
 
-const history =
-db
-.prepare(`         SELECT
-          product,
-          username,
-          password,
-          level,
-          rarity,
-          info,
-          price,
-          created_at AS time
-        FROM history
-        WHERE uid = ?
-        ORDER BY id DESC
-      `)
-.all(uid);
+        if(
+            !Number.isFinite(amount) ||
+            amount <= 0
+        ){
 
-res.json({
-success: true,
-history: history.map(item => ({
-product: item.product,
+            return res.json({
 
-```
-  account: {
-    username: item.username,
-    password: item.password,
-    level: item.level,
-    rarity: item.rarity,
-    info: item.info
-  },
+                success:false,
 
-  price: item.price,
-  time: item.time
-}))
-```
+                message:"Số tiền không hợp lệ."
 
-});
-});
+            });
 
-/* =========================
-RESET KHO DEMO
-CHỈ DÙNG KHI TEST
-========================= */
+        }
 
-app.post("/api/admin/reset-demo-stock", (req, res) => {
 
-if (!checkAdmin(req, res)) {
-return;
-}
+        if(amount > 100000000){
 
-db.prepare(`     DELETE FROM accounts
-  `).run();
+            return res.json({
 
-db.prepare(`     DELETE FROM history
-  `).run();
+                success:false,
 
-createDemoAccounts();
+                message:"Số tiền cộng quá lớn."
 
-res.json({
-success: true,
-message:
-"Đã tạo lại kho acc demo."
-});
-});
+            });
 
-/* =========================
-TRANG WEB
-========================= */
+        }
 
-app.get("/", (req, res) => {
 
-res.sendFile(
-path.join(
-__dirname,
-"public",
-"index.html"
-)
+        const found =
+            findUserByUID(uid);
+
+
+        if(!found){
+
+            return res.json({
+
+                success:false,
+
+                message:"Không tìm thấy UID."
+
+            });
+
+        }
+
+
+        found.balance += amount;
+
+
+        res.json({
+
+            success:true,
+
+            balance:found.balance
+
+        });
+
+    }
+
 );
-});
 
-app.get("/admin", (req, res) => {
 
-res.sendFile(
-path.join(
-__dirname,
-"public",
-"admin.html"
-)
+// ==================================================
+// ADMIN XEM LỊCH SỬ UID
+// ==================================================
+
+app.get(
+
+    "/api/admin/history",
+
+    checkAdmin,
+
+    (req,res)=>{
+
+        const uid =
+            String(req.query.uid || "")
+            .trim();
+
+
+        const found =
+            findUserByUID(uid);
+
+
+        if(!found){
+
+            return res.json({
+
+                success:false,
+
+                message:"Không tìm thấy UID."
+
+            });
+
+        }
+
+
+        res.json({
+
+            success:true,
+
+            gmail:found.gmail,
+
+            uid:found.uid,
+
+            history:found.history || []
+
+        });
+
+    }
+
 );
+
+
+// ==================================================
+// TRANG ADMIN
+// ==================================================
+
+app.get("/admin",(req,res)=>{
+
+    res.sendFile(
+
+        __dirname +
+        "/public/admin.html"
+
+    );
+
 });
 
-/* =========================
-START
-========================= */
+
+// ==================================================
+// TRANG CHÍNH
+// ==================================================
+
+app.get("/",(req,res)=>{
+
+    res.sendFile(
+
+        __dirname +
+        "/public/index.html"
+
+    );
+
+});
+
+
+// ==================================================
+// START SERVER
+// ==================================================
 
 app.listen(
-PORT,
-"0.0.0.0",
-() => {
 
-```
-console.log(
-  `PT BAG SHOP chạy tại port ${PORT}`
-);
-```
+    PORT,
 
-}
+    "0.0.0.0",
+
+    ()=>{
+
+        console.log(
+
+            `PT BAG SHOP running on port ${PORT}`
+
+        );
+
+    }
+
 );
