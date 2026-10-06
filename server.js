@@ -381,6 +381,47 @@ const stock = {
 
 };
 
+// ==================================================
+// THÊM ACC RIÊNG CHO TỪNG TÚI
+// ==================================================
+
+const extraAccounts = {
+    bag5k:22,
+    tanbinh:6,
+    premium:6,
+    legendary:6,
+    vip:6,
+    ultra:6,
+    lucky:6
+};
+
+const accountConfig = {
+    bag5k:{prefix:"5K",password:"demo5k",startLevel:10,rarity:"Thường",info:"Acc demo Túi 5K"},
+    tanbinh:{prefix:"TB",password:"demoTB",startLevel:15,rarity:"Thường",info:"Acc demo Tân Binh"},
+    premium:{prefix:"PRE",password:"demoPRE",startLevel:30,rarity:"Hiếm",info:"Acc demo Premium"},
+    legendary:{prefix:"LEG",password:"demoLEG",startLevel:50,rarity:"Siêu hiếm",info:"Acc demo Legendary"},
+    vip:{prefix:"VIP",password:"demoVIP",startLevel:70,rarity:"VIP",info:"Acc demo VIP"},
+    ultra:{prefix:"ULT",password:"demoULT",startLevel:90,rarity:"Cực hiếm",info:"Acc demo Ultra"},
+    lucky:{prefix:"LUCKY",password:"demoLUCKY",startLevel:100,rarity:"May mắn",info:"Acc demo Lucky"}
+};
+
+for(const product in extraAccounts){
+    const amount=extraAccounts[product];
+    const config=accountConfig[product];
+    const currentAmount=stock[product].length;
+
+    for(let i=1;i<=amount;i++){
+        const number=currentAmount+i;
+
+        stock[product].push({
+            username:`PTG_DEMO_${config.prefix}_${String(number).padStart(2,"0")}`,
+            password:`${config.password}${String(number).padStart(2,"0")}`,
+            level:config.startLevel+(i%10),
+            rarity:config.rarity,
+            info:`${config.info} #${number}`
+        });
+    }
+}
 
 // ==================================================
 // GIÁ TÚI
