@@ -39,7 +39,7 @@ const stock = {
 // TÚI 5K
 // =========================
 
-bag5k: [
+bag5k:createDemoAccounts(100), [
 
     {
         username:"PTG_DEMO_5K_01",
