@@ -2,1883 +2,1178 @@
 
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Túi Mù Acc PTG</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Túi Mù Acc PTG</title>
 
-```
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
 
-    body {
-        background:
-            radial-gradient(circle at top, #172554 0%, #020617 45%, #000 100%);
-        color: white;
-        min-height: 100vh;
-    }
+body{
+  background:#080b12;
+  color:#fff;
+  min-height:100vh;
+}
 
-    button {
-        cursor: pointer;
-    }
+button{
+  cursor:pointer;
+}
 
-    header {
-        padding: 18px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid rgba(255,255,255,.12);
-        background: rgba(0,0,0,.35);
-        backdrop-filter: blur(12px);
-        position: sticky;
-        top: 0;
-        z-index: 20;
-    }
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#101521;
+  border-bottom:1px solid #252c3a;
+  padding:14px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    .logo {
-        font-size: 22px;
-        font-weight: 900;
-        color: #60a5fa;
-    }
+.logo{
+  font-size:20px;
+  font-weight:900;
+}
 
-    .account-btn {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background: rgba(255,255,255,.08);
-        border: 1px solid rgba(255,255,255,.15);
-        color: white;
-        padding: 8px 13px;
-        border-radius: 30px;
-    }
+.account-btn{
+  background:#20293a;
+  color:white;
+  border:1px solid #39465d;
+  padding:10px 15px;
+  border-radius:12px;
+  font-weight:bold;
+}
 
-    .avatar {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        background: linear-gradient(135deg,#2563eb,#7c3aed);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-    }
+.container{
+  width:90%;
+  max-width:1200px;
+  margin:auto;
+}
 
-    .container {
-        width: min(1200px, 94%);
-        margin: auto;
-        padding: 35px 0 60px;
-    }
+.hero{
+  text-align:center;
+  padding:55px 15px 35px;
+}
 
-    .hero {
-        text-align: center;
-        margin-bottom: 35px;
-    }
+.hero h1{
+  font-size:clamp(28px,5vw,50px);
+  margin-bottom:12px;
+}
 
-    .hero h1 {
-        font-size: clamp(30px,6vw,55px);
-        font-weight: 900;
-        background: linear-gradient(90deg,#60a5fa,#c084fc,#f472b6);
-        -webkit-background-clip: text;
-        color: transparent;
-    }
+.hero p{
+  color:#aeb7c8;
+  font-size:17px;
+}
 
-    .hero p {
-        color: #94a3b8;
-        margin-top: 10px;
-    }
+.zalo-box{
+  display:inline-block;
+  margin-top:20px;
+  padding:10px 16px;
+  border-radius:12px;
+  background:#111b2b;
+  border:1px solid #29466e;
+}
 
-    .products {
-        display: grid;
-        grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-        gap: 18px;
-    }
+.zalo-box a{
+  color:#58a6ff;
+  text-decoration:none;
+  font-weight:bold;
+}
 
-    .card {
-        position: relative;
-        background: rgba(15,23,42,.8);
-        border: 1px solid rgba(255,255,255,.1);
-        border-radius: 20px;
-        padding: 22px;
-        overflow: hidden;
-        transition: .25s;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:18px;
+  padding-bottom:50px;
+}
 
-    .card:hover {
-        transform: translateY(-5px);
-        border-color: rgba(96,165,250,.6);
-        box-shadow: 0 15px 40px rgba(0,0,0,.35);
-    }
+.card{
+  background:#111722;
+  border:1px solid #283142;
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
 
-    .card h2 {
-        font-size: 22px;
-        margin-bottom: 8px;
-    }
+.card h2{
+  margin-bottom:8px;
+}
 
-    .price {
-        font-size: 25px;
-        font-weight: 900;
-        color: #38bdf8;
-        margin: 12px 0;
-    }
+.desc{
+  min-height:48px;
+  color:#aeb7c8;
+  font-size:14px;
+  line-height:1.5;
+}
 
-    .description {
-        min-height: 50px;
-        color: #94a3b8;
-        font-size: 14px;
-        line-height: 1.5;
-        margin-bottom: 15px;
-    }
+.price{
+  margin:15px 0 8px;
+  font-size:22px;
+  font-weight:900;
+}
 
-    .stock {
-        font-size: 13px;
-        color: #64748b;
-        margin-bottom: 12px;
-    }
+.stock{
+  color:#71e58b;
+  font-size:14px;
+  margin-bottom:14px;
+}
 
-    .buy-btn {
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 12px;
-        color: white;
-        font-weight: bold;
-        background: linear-gradient(90deg,#2563eb,#7c3aed);
-        transition: .2s;
-    }
+.buy{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:13px;
+  background:#2563eb;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+}
 
-    .buy-btn:hover {
-        filter: brightness(1.15);
-        transform: scale(1.02);
-    }
+.buy:hover{
+  background:#3475f5;
+}
 
-    .buy-btn:disabled {
-        opacity: .45;
-        cursor: not-allowed;
-        transform: none;
-    }
+.buy:disabled{
+  background:#3a414d;
+  cursor:not-allowed;
+}
 
-    .overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,.72);
-        backdrop-filter: blur(7px);
-        z-index: 100;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
+.notice-line{
+  margin-top:10px;
+  padding:10px;
+  border-radius:10px;
+  background:#0c1220;
+  color:#8995aa;
+  font-size:13px;
+  line-height:1.45;
+}
 
-    .modal {
-        width: min(470px,100%);
-        max-height: 90vh;
-        overflow-y: auto;
-        background: #0f172a;
-        border: 1px solid rgba(255,255,255,.12);
-        border-radius: 22px;
-        padding: 25px;
-        box-shadow: 0 30px 80px rgba(0,0,0,.5);
-        animation: popup .2s ease;
-    }
+footer{
+  text-align:center;
+  color:#697386;
+  padding:30px 10px;
+  border-top:1px solid #202735;
+}
 
-    @keyframes popup {
-        from {
-            opacity: 0;
-            transform: scale(.92);
-        }
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
+/* MODAL */
 
-    .modal h2 {
-        margin-bottom: 15px;
-    }
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.78);
+}
 
-    .modal input {
-        width: 100%;
-        padding: 13px;
-        border-radius: 10px;
-        border: 1px solid #334155;
-        background: #020617;
-        color: white;
-        outline: none;
-        margin: 8px 0;
-    }
+.modal.show{
+  display:flex;
+}
 
-    .modal button {
-        border: none;
-        border-radius: 10px;
-        padding: 12px;
-        font-weight: bold;
-    }
+.modal-box{
+  width:100%;
+  max-width:500px;
+  max-height:90vh;
+  overflow:auto;
+  background:#111722;
+  border:1px solid #303b4f;
+  border-radius:18px;
+  padding:24px;
+}
 
-    .primary {
-        width: 100%;
-        background: #2563eb;
-        color: white;
-        margin-top: 8px;
-    }
+.modal-box h2{
+  margin-bottom:15px;
+}
 
-    .close {
-        background: #334155;
-        color: white;
-        width: 100%;
-        margin-top: 8px;
-    }
+input{
+  width:100%;
+  padding:13px;
+  border-radius:10px;
+  border:1px solid #344055;
+  background:#0a0f18;
+  color:white;
+  outline:none;
+  margin:8px 0;
+}
 
-    .danger {
-        background: #dc2626;
-        color: white;
-        width: 100%;
-        margin-top: 10px;
-    }
+.primary{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:10px;
+  background:#2563eb;
+  color:#fff;
+  font-weight:bold;
+  margin-top:8px;
+}
 
-    .success {
-        color: #4ade80;
-        margin: 12px 0;
-        line-height: 1.6;
-    }
+.secondary{
+  width:100%;
+  padding:12px;
+  border:1px solid #354055;
+  border-radius:10px;
+  background:#171e2c;
+  color:white;
+  font-weight:bold;
+  margin-top:8px;
+}
 
-    .warning {
-        color: #fbbf24;
-        line-height: 1.6;
-        margin: 10px 0;
-    }
+.close{
+  float:right;
+  border:0;
+  background:none;
+  color:#9da8ba;
+  font-size:22px;
+}
 
-    .account-info {
-        background: rgba(255,255,255,.05);
-        border-radius: 14px;
-        padding: 15px;
-        line-height: 1.9;
-        margin: 15px 0;
-    }
+.info-row{
+  padding:10px 0;
+  border-bottom:1px solid #252d3c;
+}
 
-    .uid-box {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-    }
+.info-row b{
+  color:#8fa1bc;
+}
 
-    .uid-box code {
-        flex: 1;
-        background: #020617;
-        padding: 8px;
-        border-radius: 8px;
-        color: #60a5fa;
-    }
+.history-item{
+  background:#0b111c;
+  border:1px solid #252f40;
+  border-radius:12px;
+  padding:14px;
+  margin:10px 0;
+  line-height:1.6;
+}
 
-    .copy-btn {
-        background: #2563eb;
-        color: white;
-    }
+.result-account{
+  background:#0b111c;
+  border:1px solid #31415a;
+  border-radius:13px;
+  padding:15px;
+  margin-top:12px;
+  line-height:1.7;
+}
 
-    .history-list {
-        max-height: 500px;
-        overflow-y: auto;
-        margin-top: 12px;
-    }
+.warning{
+  color:#ffcc66;
+}
 
-    .history-item {
-        background: rgba(255,255,255,.05);
-        padding: 15px;
-        border-radius: 12px;
-        margin-bottom: 10px;
-        font-size: 13px;
-        line-height: 1.8;
-        border: 1px solid rgba(255,255,255,.06);
-    }
+.success{
+  color:#70e58b;
+}
 
-    .history-item .rarity {
-        color: #c084fc;
-        font-weight: bold;
-    }
+.danger{
+  color:#ff7777;
+}
 
-    .account-result {
-        background: linear-gradient(
-            145deg,
-            rgba(30,41,59,.9),
-            rgba(15,23,42,.95)
-        );
-        border: 1px solid rgba(96,165,250,.25);
-        border-radius: 16px;
-        padding: 17px;
-        margin-top: 12px;
-    }
+.small{
+  color:#8d98aa;
+  font-size:13px;
+  line-height:1.5;
+}
 
-    .account-row {
-        display: flex;
-        justify-content: space-between;
-        gap: 15px;
-        padding: 7px 0;
-        border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-
-    .account-row:last-child {
-        border-bottom: none;
-    }
-
-    .account-label {
-        color: #94a3b8;
-    }
-
-    .account-value {
-        color: white;
-        text-align: right;
-        word-break: break-word;
-    }
-
-    .account-value.green {
-        color: #4ade80;
-        font-weight: bold;
-    }
-
-    .account-value.purple {
-        color: #c084fc;
-        font-weight: bold;
-    }
-
-    .copy-account {
-        width: 100%;
-        background: #16a34a;
-        color: white;
-        margin-top: 12px;
-    }
-
-    .login-note {
-        color: #94a3b8;
-        font-size: 13px;
-        line-height: 1.5;
-        margin-top: 10px;
-    }
-
-    .notice-box {
-        white-space: pre-line;
-        line-height: 1.6;
-    }
-
-    footer {
-        text-align: center;
-        color: #64748b;
-        padding: 25px;
-        border-top: 1px solid rgba(255,255,255,.08);
-    }
-
-    @media(max-width:600px) {
-
-        header {
-            padding: 13px;
-        }
-
-        .logo {
-            font-size: 17px;
-        }
-
-        .account-btn span {
-            display: none;
-        }
-
-        .container {
-            padding-top: 25px;
-        }
-
-        .account-row {
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .account-value {
-            text-align: left;
-        }
-    }
+.copy-btn{
+  width:100%;
+  padding:11px;
+  border:1px solid #34425a;
+  border-radius:10px;
+  background:#172033;
+  color:#fff;
+  font-weight:bold;
+  margin-top:10px;
+}
 </style>
-```
 
 </head>
 
 <body>
 
 <header>
-
-```
-<div class="logo" id="shopLogo">
-    🎁 TÚI MÙ ACC PTG
-</div>
-
-<button class="account-btn" onclick="openAccount()">
-
-    <div class="avatar" id="headerAvatar">
-        ?
-    </div>
-
-    <span id="headerAccountText">
-        Đăng nhập
-    </span>
-
-</button>
-```
-
+  <div class="logo" id="logo">🎁 TÚI MÙ ACC PTG</div>
+  <button class="account-btn" onclick="openAccount()">
+    👤 <span id="accountText">Đăng nhập</span>
+  </button>
 </header>
 
 <main class="container">
 
-```
 <section class="hero">
+  <h1 id="title">TÚI MÙ ACC PLAY TOGETHER</h1>
+  <p id="subtitle">Mở túi mù - nhận acc bất ngờ 🎁</p>
 
-    <h1 id="shopTitle">
-        TÚI MÙ ACC PLAY TOGETHER
-    </h1>
-
-    <p id="shopSubtitle">
-        Mở túi mù - nhận acc bất ngờ 🎁
-    </p>
-
+  <div class="zalo-box">
+    📱 Chủ shop Zalo:
+    <a id="zaloLink" href="#" target="_blank">0907859891</a>
+  </div>
 </section>
 
-<section class="products" id="products"></section>
-```
+<section class="grid" id="products"></section>
 
 </main>
 
-<footer>
-    <div id="footerText">
-        © 2026 Túi Mù Acc PTG
-    </div>
+<footer id="footer">
+  © 2026 Túi Mù Acc PTG
 </footer>
 
-<!-- ==================================================
-     LOGIN
-================================================== -->
+<!-- LOGIN -->
 
-<div class="overlay" id="loginOverlay">
+<div class="modal" id="loginModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal('loginModal')">×</button>
 
 ```
-<div class="modal">
+<h2>🔐 Đăng nhập</h2>
 
-    <h2>🔐 Đăng nhập</h2>
+<p class="small">
+  Chỉ cần Gmail. Không yêu cầu mật khẩu Gmail.
+</p>
 
-    <p class="login-note">
-        Nhập Gmail để tạo tài khoản shop.
-        Không nhập mật khẩu Gmail.
-    </p>
+<input
+  id="gmailInput"
+  type="email"
+  placeholder="example@gmail.com"
+>
 
-    <input
-        id="gmailInput"
-        type="email"
-        placeholder="Nhập Gmail..."
-    >
+<button class="primary" onclick="login()">
+  Đăng nhập
+</button>
+```
 
-    <button class="primary" onclick="login()">
-        ĐĂNG NHẬP
-    </button>
+  </div>
+</div>
 
-    <button class="close" onclick="closeModal('loginOverlay')">
-        ĐÓNG
-    </button>
+<!-- ACCOUNT -->
 
+<div class="modal" id="accountModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal('accountModal')">×</button>
+
+```
+<h2>👤 Tài khoản</h2>
+
+<div class="info-row">
+  <b>Gmail</b><br>
+  <span id="userGmail">---</span>
+</div>
+
+<div class="info-row">
+  <b>UID</b><br>
+  <span id="userUID">---</span>
+</div>
+
+<div class="info-row">
+  <b>Số dư</b><br>
+  <span id="userBalance">0đ</span>
+</div>
+
+<button class="copy-btn" onclick="copyUID()">
+  📋 Sao chép UID
+</button>
+
+<button class="secondary" onclick="openHistory()">
+  📜 Lịch sử bốc
+</button>
+
+<button class="secondary" onclick="logout()">
+  🚪 Đăng xuất
+</button>
+```
+
+  </div>
+</div>
+
+<!-- HISTORY -->
+
+<div class="modal" id="historyModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal('historyModal')">×</button>
+
+```
+<h2>📜 Lịch sử bốc</h2>
+
+<div id="historyList">
+  Đang tải...
 </div>
 ```
 
+  </div>
 </div>
 
-<!-- ==================================================
-     ACCOUNT
-================================================== -->
+<!-- NOTICE -->
 
-<div class="overlay" id="accountOverlay">
+<div class="modal" id="noticeModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal('noticeModal')">×</button>
 
 ```
-<div class="modal">
+<h2>📢 THÔNG BÁO</h2>
 
-    <h2>👤 Tài khoản</h2>
+<div
+  id="noticeContent"
+  class="notice-line"
+  style="font-size:15px;margin-top:15px"
+></div>
 
-    <div class="account-info">
-
-        <div>
-            <b>Gmail:</b>
-            <span id="accountGmail">---</span>
-        </div>
-
-        <div>
-
-            <b>UID:</b>
-
-            <div class="uid-box">
-
-                <code id="accountUID">
-                    ---
-                </code>
-
-                <button
-                    class="copy-btn"
-                    onclick="copyUID()"
-                >
-                    COPY
-                </button>
-
-            </div>
-
-        </div>
-
-        <div>
-            <b>Số dư:</b>
-            <span id="accountBalance">
-                0đ
-            </span>
-        </div>
-
-    </div>
-
-    <button class="primary" onclick="showHistory()">
-        📜 LỊCH SỬ BỐC TÚI
-    </button>
-
-    <button class="danger" onclick="logout()">
-        ĐĂNG XUẤT
-    </button>
-
-    <button class="close" onclick="closeModal('accountOverlay')">
-        ĐÓNG
-    </button>
-
-</div>
+<button
+  class="primary"
+  onclick="closeModal('noticeModal')"
+>
+  Đã hiểu
+</button>
 ```
 
+  </div>
 </div>
 
-<!-- ==================================================
-     HISTORY
-================================================== -->
+<!-- SUCCESS -->
 
-<div class="overlay" id="historyOverlay">
-
-```
-<div class="modal">
-
-    <h2>📜 Lịch sử bốc túi</h2>
-
-    <div id="historyList" class="history-list">
-        Đang tải...
-    </div>
-
-    <button class="close" onclick="closeModal('historyOverlay')">
-        ĐÓNG
-    </button>
-
-</div>
-```
-
-</div>
-
-<!-- ==================================================
-     NOTICE
-================================================== -->
-
-<div class="overlay" id="noticeOverlay">
+<div class="modal" id="successModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal('successModal')">×</button>
 
 ```
-<div class="modal">
+<h2 class="success">🎉 BỐC THÀNH CÔNG</h2>
 
-    <h2>📢 THÔNG BÁO</h2>
+<div id="resultAccount" class="result-account"></div>
 
-    <div
-        id="noticeText"
-        class="notice-box"
-    ></div>
+<button class="copy-btn" onclick="copyAccount()">
+  📋 Sao chép thông tin acc
+</button>
 
-    <button
-        class="primary"
-        onclick="closeModal('noticeOverlay')"
-    >
-        ĐÃ HIỂU
-    </button>
-
-</div>
+<button
+  class="primary"
+  onclick="closeModal('successModal')"
+>
+  Đóng
+</button>
 ```
 
+  </div>
 </div>
 
-<!-- ==================================================
-     KHÔNG ĐỦ TIỀN
-================================================== -->
+<!-- ERROR -->
 
-<div class="overlay" id="balanceOverlay">
-
-```
-<div class="modal">
-
-    <h2>⚠️ KHÔNG ĐỦ SỐ DƯ</h2>
-
-    <div class="warning">
-        Tài khoản của bạn không đủ tiền để
-        bốc túi này.
-    </div>
-
-    <div class="account-info">
-
-        <div>
-            <b>UID:</b>
-            <span id="balanceUID">
-                ---
-            </span>
-        </div>
-
-        <div>
-            <b>Số dư hiện tại:</b>
-            <span id="balanceCurrent">
-                0đ
-            </span>
-        </div>
-
-        <br>
-
-        <div>
-            <b>💰 Nạp tiền qua Zalo:</b>
-            <br>
-
-            <strong id="zaloNumber"></strong>
-        </div>
-
-    </div>
-
-    <button
-        class="close"
-        onclick="closeModal('balanceOverlay')"
-    >
-        ĐÓNG
-    </button>
-
-</div>
-```
-
-</div>
-
-<!-- ==================================================
-     BỐC THÀNH CÔNG
-================================================== -->
-
-<div class="overlay" id="successOverlay">
+<div class="modal" id="errorModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal('errorModal')">×</button>
 
 ```
-<div class="modal">
+<h2 class="danger">⚠️ THÔNG BÁO</h2>
 
-    <h2>🎉 BỐC TÚI THÀNH CÔNG</h2>
+<div id="errorContent" class="notice-line"></div>
 
-    <div class="success">
-        Chúc mừng! Bạn đã nhận được tài khoản:
-    </div>
-
-    <div class="account-info">
-
-        <div>
-            <b>🎁 Túi:</b>
-            <span id="successProduct">
-                ---
-            </span>
-        </div>
-
-        <div>
-            <b>💰 Giá:</b>
-            <span id="successPrice">
-                ---
-            </span>
-        </div>
-
-    </div>
-
-
-    <div class="account-result">
-
-        <div class="account-row">
-
-            <span class="account-label">
-                👤 Username
-            </span>
-
-            <span
-                class="account-value green"
-                id="successUsername"
-            >
-                ---
-            </span>
-
-        </div>
-
-
-        <div class="account-row">
-
-            <span class="account-label">
-                🔑 Password
-            </span>
-
-            <span
-                class="account-value green"
-                id="successPassword"
-            >
-                ---
-            </span>
-
-        </div>
-
-
-        <div class="account-row">
-
-            <span class="account-label">
-                ⭐ Level
-            </span>
-
-            <span
-                class="account-value"
-                id="successLevel"
-            >
-                ---
-            </span>
-
-        </div>
-
-
-        <div class="account-row">
-
-            <span class="account-label">
-                💎 Độ hiếm
-            </span>
-
-            <span
-                class="account-value purple"
-                id="successRarity"
-            >
-                ---
-            </span>
-
-        </div>
-
-
-        <div class="account-row">
-
-            <span class="account-label">
-                📝 Thông tin
-            </span>
-
-            <span
-                class="account-value"
-                id="successInfo"
-            >
-                ---
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <button
-        class="copy-account"
-        onclick="copyAccount()"
-    >
-        📋 COPY THÔNG TIN ACC
-    </button>
-
-
-    <div class="account-info">
-
-        <b>💵 Số dư còn lại:</b>
-
-        <span id="successBalance">
-            ---
-        </span>
-
-    </div>
-
-
-    <button
-        class="close"
-        onclick="closeModal('successOverlay')"
-    >
-        ĐÓNG
-    </button>
-
-</div>
+<button
+  class="primary"
+  onclick="closeModal('errorModal')"
+>
+  Đóng
+</button>
 ```
 
+  </div>
 </div>
 
 <script>
 
-/* ============================================================
-                    ⚙️ CẤU HÌNH SHOP
-   ============================================================ */
+/* =====================================================
+   ⚙️ CẤU HÌNH SHOP
+   M CHỈ CẦN SỬA KHU VỰC NÀY
+===================================================== */
 
 const SHOP_CONFIG = {
 
-    logo: "🎁 TÚI MÙ ACC PTG",
+  logo: "🎁 TÚI MÙ ACC PTG",
 
-    title: "TÚI MÙ ACC PLAY TOGETHER",
+  title: "TÚI MÙ ACC PLAY TOGETHER",
 
-    subtitle: "Mở túi mù - nhận acc bất ngờ 🎁",
+  subtitle: "Mở túi mù - nhận acc bất ngờ 🎁",
 
-    footer: "© 2026 Túi Mù Acc PTG",
+  footer: "© 2026 Túi Mù Acc PTG",
 
+  notice: `🎁 CHÀO MỪNG BẠN ĐẾN SHOP TÚI MÙ ACC PTG!
 
-    /* THÔNG BÁO */
+🔥 Acc được bốc ngẫu nhiên.
+💰 Nạp tiền liên hệ Zalo: 0907859891
+📜 Mọi lần bốc đều được lưu vào lịch sử.`,
 
-    notice: `Chào mừng các bạn đến với shop túi mù siêu vip của Công Đặng Shop Acc,nếu có khó khăn hay vấn đề chưa biết thì hãy nhắn zalo 0907859891 sẽ hỗ trợ bạn tạn tình`,
+  zalo: "0907859891",
 
+  names: {
+    bag5k: "🎁 TÚI 5K",
+    tanbinh: "🥉 TÂN BINH",
+    premium: "💎 PREMIUM",
+    legendary: "🔥 LEGENDARY",
+    vip: "👑 VIP",
+    ultra: "⚡ ULTRA",
+    lucky: "🍀 LUCKY"
+  },
 
-    /* ZALO */
+  prices: {
+    bag5k: 5000,
+    tanbinh: 20000,
+    premium: 50000,
+    legendary: 100000,
+    vip: 200000,
+    ultra: 500000,
+    lucky: 1000000
+  },
 
-    zalo: "0907859891",
+  descriptions: {
 
+    bag5k:
+      "🎁 Túi 5K có 20 acc demo để khách bốc.",
 
-    /* MÔ TẢ TÚI */
+    tanbinh:
+      "🥉 Túi Tân Binh có 10 acc demo dành cho người mới.",
 
-    descriptions: {
+    premium:
+      "💎 Túi Premium có 10 acc demo độ hiếm cao.",
 
-        bag5k:
-            "Túi mù 5K - gồm 5 acc demo ngẫu nhiên.",
+    legendary:
+      "🔥 Túi Legendary có 10 acc demo siêu hiếm.",
 
-        tanbinh:
-            "Túi Tân Binh - gồm 5 acc demo dành cho người mới.",
+    vip:
+      "👑 Túi VIP có 10 acc demo đặc biệt.",
 
-        premium:
-            "Túi Premium - gồm 5 acc demo chất lượng cao.",
+    ultra:
+      "⚡ Túi Ultra có 10 acc demo cực hiếm.",
 
-        legendary:
-            "Túi Legendary - gồm 5 acc demo độ hiếm cao.",
-
-        vip:
-            "Túi VIP - gồm 5 acc demo đặc biệt.",
-
-        ultra:
-            "Túi Ultra - gồm 5 acc demo cực hiếm.",
-
-        lucky:
-            "Túi Lucky - gồm 5 acc demo đặc biệt nhất."
-    },
-
-
-    /* TÊN TÚI */
-
-    names: {
-
-        bag5k: "🎁 TÚI 5K",
-
-        tanbinh: "🥉 TÂN BINH",
-
-        premium: "💎 PREMIUM",
-
-        legendary: "🔥 LEGENDARY",
-
-        vip: "👑 VIP",
-
-        ultra: "⚡ ULTRA",
-
-        lucky: "🍀 LUCKY"
-    },
-
-
-    /* GIÁ */
-
-    prices: {
-
-        bag5k: 5000,
-
-        tanbinh: 20000,
-
-        premium: 50000,
-
-        legendary: 100000,
-
-        vip: 200000,
-
-        ultra: 500000,
-
-        lucky: 1000000
-    }
-
+    lucky:
+      "🍀 Túi Lucky có 10 acc demo đặc biệt."
+  }
 };
 
 
-/* ============================================================
-                    BIẾN
-============================================================ */
+/* =====================================================
+   BIẾN
+===================================================== */
 
 let currentUser = null;
+let currentAccount = null;
 
-let lastAccount = null;
+
+/* =====================================================
+   ÁP DỤNG CẤU HÌNH
+===================================================== */
+
+document.getElementById("logo").textContent =
+  SHOP_CONFIG.logo;
+
+document.getElementById("title").textContent =
+  SHOP_CONFIG.title;
+
+document.getElementById("subtitle").textContent =
+  SHOP_CONFIG.subtitle;
+
+document.getElementById("footer").textContent =
+  SHOP_CONFIG.footer;
+
+document.getElementById("noticeContent").innerText =
+  SHOP_CONFIG.notice;
+
+document.getElementById("zaloLink").textContent =
+  SHOP_CONFIG.zalo;
+
+document.getElementById("zaloLink").href =
+  "https://zalo.me/" + SHOP_CONFIG.zalo;
 
 
-/* ============================================================
-                    FORMAT TIỀN
-============================================================ */
+/* =====================================================
+   HIỂN THỊ CÁC TÚI
+===================================================== */
 
-function formatMoney(number) {
+function renderProducts(stock = {}) {
 
-    return Number(number).toLocaleString("vi-VN") + "đ";
+  const products = document.getElementById("products");
 
+  products.innerHTML = "";
+
+  for (const key of Object.keys(SHOP_CONFIG.prices)) {
+
+    const name = SHOP_CONFIG.names[key];
+
+    const price = SHOP_CONFIG.prices[key];
+
+    const description =
+      SHOP_CONFIG.descriptions[key] || "";
+
+    const count =
+      stock[key] ?? 0;
+
+    products.innerHTML += `
+
+      <div class="card">
+
+        <h2>${name}</h2>
+
+        <div class="desc">
+          ${description}
+        </div>
+
+        <div class="price">
+          ${price.toLocaleString("vi-VN")}đ
+        </div>
+
+        <div class="stock">
+          📦 Còn ${count} acc
+        </div>
+
+        <button
+          class="buy"
+          onclick="buy('${key}')"
+          ${count <= 0 ? "disabled" : ""}
+        >
+          ${count <= 0 ? "HẾT ACC" : "🎁 BỐC TÚI"}
+        </button>
+
+        <div class="notice-line">
+          ${description}
+        </div>
+
+      </div>
+    `;
+  }
 }
 
 
-/* ============================================================
-                    CONFIG
-============================================================ */
-
-document.getElementById("shopLogo").textContent =
-    SHOP_CONFIG.logo;
-
-document.getElementById("shopTitle").textContent =
-    SHOP_CONFIG.title;
-
-document.getElementById("shopSubtitle").textContent =
-    SHOP_CONFIG.subtitle;
-
-document.getElementById("footerText").textContent =
-    SHOP_CONFIG.footer;
-
-document.getElementById("noticeText").textContent =
-    SHOP_CONFIG.notice;
-
-document.getElementById("zaloNumber").textContent =
-    SHOP_CONFIG.zalo;
-
-
-/* ============================================================
-                    THỨ TỰ TÚI
-============================================================ */
-
-const productOrder = [
-
-    "bag5k",
-
-    "tanbinh",
-
-    "premium",
-
-    "legendary",
-
-    "vip",
-
-    "ultra",
-
-    "lucky"
-
-];
-
-
-/* ============================================================
-                    LOAD SHOP
-============================================================ */
+/* =====================================================
+   LOAD SHOP
+===================================================== */
 
 async function loadShop() {
 
-    try {
+  try {
 
-        const response =
-            await fetch("/api/status");
+    const response =
+      await fetch("/api/status");
 
+    const data =
+      await response.json();
 
-        const data =
-            await response.json();
+    if (data.success) {
 
-
-        const stock =
-            data.stock || {};
-
-
-        const container =
-            document.getElementById("products");
-
-
-        container.innerHTML = "";
-
-
-        productOrder.forEach(product => {
-
-            const price =
-                SHOP_CONFIG.prices[product];
-
-
-            const name =
-                SHOP_CONFIG.names[product];
-
-
-            const description =
-                SHOP_CONFIG.descriptions[product];
-
-
-            const amount =
-                stock[product] ?? 0;
-
-
-            const card =
-                document.createElement("div");
-
-
-            card.className = "card";
-
-
-            card.innerHTML = `
-
-                <h2>
-                    ${name}
-                </h2>
-
-                <div class="price">
-                    ${formatMoney(price)}
-                </div>
-
-                <div class="description">
-                    ${description}
-                </div>
-
-                <div class="stock">
-                    📦 Còn lại:
-                    ${amount} acc
-                </div>
-
-                <button
-                    class="buy-btn"
-                    onclick="buyProduct('${product}')"
-                    ${amount <= 0 ? "disabled" : ""}
-                >
-                    ${
-                        amount <= 0
-                        ? "HẾT ACC"
-                        : "🎁 BỐC TÚI"
-                    }
-                </button>
-
-            `;
-
-
-            container.appendChild(card);
-
-        });
-
-
-    } catch(error) {
-
-        console.error(error);
-
-
-        document.getElementById("products").innerHTML = `
-
-            <div style="
-                grid-column:1/-1;
-                text-align:center;
-                padding:30px;
-                color:#f87171;
-            ">
-
-                Không thể tải shop.
-                Hãy kiểm tra server.
-
-            </div>
-
-        `;
+      renderProducts(data.stock || {});
 
     }
 
+  } catch (error) {
+
+    console.log(error);
+
+  }
 }
 
 
-/* ============================================================
-                    MODAL
-============================================================ */
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function login() {
+
+  const gmail =
+    document.getElementById("gmailInput")
+      .value
+      .trim()
+      .toLowerCase();
+
+  if (!gmail.endsWith("@gmail.com")) {
+
+    showError(
+      "Vui lòng nhập đúng Gmail."
+    );
+
+    return;
+  }
+
+  try {
+
+    const response =
+      await fetch("/api/login", {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          gmail: gmail
+        })
+      });
+
+    const data =
+      await response.json();
+
+    if (!data.success) {
+
+      showError(
+        data.message ||
+        "Đăng nhập thất bại."
+      );
+
+      return;
+    }
+
+    currentUser = data.user;
+
+    closeModal("loginModal");
+
+    updateAccount();
+
+  } catch (error) {
+
+    showError(
+      "Không thể kết nối máy chủ."
+    );
+  }
+}
+
+
+/* =====================================================
+   ACCOUNT
+===================================================== */
+
+function updateAccount() {
+
+  if (!currentUser) {
+
+    document.getElementById(
+      "accountText"
+    ).textContent = "Đăng nhập";
+
+    return;
+  }
+
+  document.getElementById(
+    "accountText"
+  ).textContent =
+    currentUser.uid;
+
+  document.getElementById(
+    "userGmail"
+  ).textContent =
+    currentUser.gmail;
+
+  document.getElementById(
+    "userUID"
+  ).textContent =
+    currentUser.uid;
+
+  document.getElementById(
+    "userBalance"
+  ).textContent =
+    Number(currentUser.balance)
+      .toLocaleString("vi-VN") + "đ";
+}
+
+
+function openAccount() {
+
+  if (!currentUser) {
+
+    openModal("loginModal");
+
+    return;
+  }
+
+  updateAccount();
+
+  openModal("accountModal");
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+  currentUser = null;
+
+  closeModal("accountModal");
+
+  document.getElementById(
+    "accountText"
+  ).textContent = "Đăng nhập";
+}
+
+
+/* =====================================================
+   BỐC TÚI
+===================================================== */
+
+async function buy(product) {
+
+  if (!currentUser) {
+
+    openModal("loginModal");
+
+    return;
+  }
+
+  const price =
+    SHOP_CONFIG.prices[product];
+
+  if (
+    Number(currentUser.balance) <
+    Number(price)
+  ) {
+
+    showError(
+`Số dư của bạn không đủ.
+
+🆔 UID: ${currentUser.uid}
+
+💰 Cần: ${price.toLocaleString("vi-VN")}đ
+
+📱 Liên hệ Zalo chủ shop:
+0907859891`
+    );
+
+    return;
+  }
+
+  try {
+
+    const response =
+      await fetch("/api/buy", {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+
+          uid: currentUser.uid,
+
+          product: product
+        })
+      });
+
+    const data =
+      await response.json();
+
+    if (!data.success) {
+
+      if (
+        data.code ===
+        "NOT_ENOUGH"
+      ) {
+
+        showError(
+`Số dư không đủ.
+
+🆔 UID: ${currentUser.uid}
+
+📱 Zalo chủ shop:
+0907859891`
+        );
+
+      } else {
+
+        showError(
+          data.message ||
+          "Không thể bốc túi."
+        );
+      }
+
+      return;
+    }
+
+    currentUser.balance =
+      data.balance;
+
+    currentAccount =
+      data.account;
+
+    updateAccount();
+
+    showSuccess(
+      data.account
+    );
+
+    loadShop();
+
+  } catch (error) {
+
+    showError(
+      "Không thể kết nối máy chủ."
+    );
+  }
+}
+
+
+/* =====================================================
+   HIỂN THỊ ACC
+===================================================== */
+
+function showSuccess(account) {
+
+  const html = `
+
+    <div>
+      <b>👤 Username:</b>
+      ${escapeHTML(account.username)}
+    </div>
+
+    <div>
+      <b>🔐 Password:</b>
+      ${escapeHTML(account.password)}
+    </div>
+
+    <div>
+      <b>⭐ Level:</b>
+      ${escapeHTML(String(account.level))}
+    </div>
+
+    <div>
+      <b>💎 Độ hiếm:</b>
+      ${escapeHTML(account.rarity)}
+    </div>
+
+    <div>
+      <b>📝 Thông tin:</b>
+      ${escapeHTML(account.info)}
+    </div>
+
+  `;
+
+  document.getElementById(
+    "resultAccount"
+  ).innerHTML = html;
+
+  openModal("successModal");
+}
+
+
+function copyAccount() {
+
+  if (!currentAccount) return;
+
+  const text =
+`Username: ${currentAccount.username}
+Password: ${currentAccount.password}
+Level: ${currentAccount.level}
+Độ hiếm: ${currentAccount.rarity}
+Thông tin: ${currentAccount.info}`;
+
+  navigator.clipboard.writeText(text);
+
+  alert("Đã sao chép thông tin acc.");
+}
+
+
+/* =====================================================
+   LỊCH SỬ
+===================================================== */
+
+async function openHistory() {
+
+  if (!currentUser) return;
+
+  closeModal("accountModal");
+
+  openModal("historyModal");
+
+  const list =
+    document.getElementById(
+      "historyList"
+    );
+
+  list.innerHTML =
+    "Đang tải lịch sử...";
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/history?uid=" +
+        encodeURIComponent(
+          currentUser.uid
+        )
+      );
+
+    const data =
+      await response.json();
+
+    if (
+      !data.success ||
+      !data.history ||
+      data.history.length === 0
+    ) {
+
+      list.innerHTML =
+        `<p class="small">
+          Chưa có lịch sử bốc.
+        </p>`;
+
+      return;
+    }
+
+    list.innerHTML = "";
+
+    [...data.history]
+      .reverse()
+      .forEach(item => {
+
+        const acc =
+          item.account || {};
+
+        const date =
+          new Date(item.time)
+            .toLocaleString("vi-VN");
+
+        list.innerHTML += `
+
+          <div class="history-item">
+
+            <b>📦 Túi:</b>
+            ${escapeHTML(item.product)}
+
+            <br>
+
+            <b>💰 Giá:</b>
+            ${Number(item.price)
+              .toLocaleString("vi-VN")}đ
+
+            <br>
+
+            <b>🎮 Username:</b>
+            ${escapeHTML(acc.username || "---")}
+
+            <br>
+
+            <b>🔐 Password:</b>
+            ${escapeHTML(acc.password || "---")}
+
+            <br>
+
+            <b>⭐ Level:</b>
+            ${escapeHTML(String(acc.level || "---"))}
+
+            <br>
+
+            <b>💎 Độ hiếm:</b>
+            ${escapeHTML(acc.rarity || "---")}
+
+            <br>
+
+            <b>📝 Thông tin:</b>
+            ${escapeHTML(acc.info || "---")}
+
+            <br>
+
+            <span class="small">
+              ⏰ ${escapeHTML(date)}
+            </span>
+
+          </div>
+        `;
+      });
+
+  } catch (error) {
+
+    list.innerHTML =
+      `<p class="danger">
+        Không thể tải lịch sử.
+      </p>`;
+  }
+}
+
+
+/* =====================================================
+   COPY UID
+===================================================== */
+
+function copyUID() {
+
+  if (!currentUser) return;
+
+  navigator.clipboard.writeText(
+    currentUser.uid
+  );
+
+  alert("Đã sao chép UID.");
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
 
 function openModal(id) {
 
-    document.getElementById(id).style.display =
-        "flex";
-
+  document
+    .getElementById(id)
+    .classList.add("show");
 }
 
 
 function closeModal(id) {
 
-    document.getElementById(id).style.display =
-        "none";
-
+  document
+    .getElementById(id)
+    .classList.remove("show");
 }
 
 
-/* ============================================================
-                    ACCOUNT
-============================================================ */
+function showError(message) {
 
-function openAccount() {
+  document.getElementById(
+    "errorContent"
+  ).innerText = message;
 
-    if(!currentUser) {
-
-        openModal("loginOverlay");
-
-        return;
-
-    }
-
-
-    updateAccountUI();
-
-    openModal("accountOverlay");
-
+  openModal("errorModal");
 }
 
 
-function updateAccountUI() {
+/* =====================================================
+   CHỐNG HTML LỖI
+===================================================== */
 
-    if(!currentUser) return;
+function escapeHTML(value) {
 
-
-    document.getElementById("accountGmail").textContent =
-        currentUser.gmail;
-
-
-    document.getElementById("accountUID").textContent =
-        currentUser.uid;
-
-
-    document.getElementById("accountBalance").textContent =
-        formatMoney(currentUser.balance);
-
-
-    const firstLetter =
-        currentUser.gmail
-        .charAt(0)
-        .toUpperCase();
-
-
-    document.getElementById("headerAvatar").textContent =
-        firstLetter;
-
-
-    document.getElementById("headerAccountText").textContent =
-        currentUser.gmail;
-
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 
-/* ============================================================
-                    LOGIN
-============================================================ */
+/* =====================================================
+   KHÔNG LƯU LOGIN
+   F5 -> đăng xuất
+===================================================== */
 
-async function login() {
-
-    const gmail =
-        document.getElementById("gmailInput")
-        .value
-        .trim();
-
-
-    if(!gmail) {
-
-        alert("Vui lòng nhập Gmail.");
-
-        return;
-
-    }
-
-
-    try {
-
-        const response =
-            await fetch("/api/login",{
-
-                method:"POST",
-
-                headers:{
-                    "Content-Type":
-                        "application/json"
-                },
-
-                body:JSON.stringify({
-                    gmail:gmail
-                })
-
-            });
-
-
-        const data =
-            await response.json();
-
-
-        if(!data.success) {
-
-            alert(
-                data.message ||
-                "Đăng nhập thất bại."
-            );
-
-            return;
-
-        }
-
-
-        currentUser =
-            data.user;
-
-
-        document.getElementById("gmailInput")
-            .value = "";
-
-
-        closeModal("loginOverlay");
-
-
-        updateAccountUI();
-
-
-        alert(
-            "Đăng nhập thành công!\n\n" +
-            "UID của bạn: " +
-            currentUser.uid
-        );
-
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert(
-            "Không thể kết nối server."
-        );
-
-    }
-
-}
-
-
-/* ============================================================
-                    LOGOUT
-============================================================ */
-
-function logout() {
+window.addEventListener(
+  "load",
+  () => {
 
     currentUser = null;
 
-    lastAccount = null;
+    loadShop();
 
+    /* Hiện thông báo mỗi lần vào web */
+    setTimeout(() => {
 
-    document.getElementById("headerAvatar")
-        .textContent = "?";
+      openModal("noticeModal");
 
-
-    document.getElementById("headerAccountText")
-        .textContent = "Đăng nhập";
-
-
-    closeModal("accountOverlay");
-
-}
-
-
-/* ============================================================
-                    COPY UID
-============================================================ */
-
-async function copyUID() {
-
-    if(!currentUser) return;
-
-
-    try {
-
-        await navigator.clipboard.writeText(
-            currentUser.uid
-        );
-
-        alert("Đã copy UID.");
-
-    } catch {
-
-        alert(
-            "UID của bạn: " +
-            currentUser.uid
-        );
-
-    }
-
-}
-
-
-/* ============================================================
-                    BỐC TÚI
-============================================================ */
-
-async function buyProduct(product) {
-
-    if(!currentUser) {
-
-        openModal("loginOverlay");
-
-        return;
-
-    }
-
-
-    const price =
-        SHOP_CONFIG.prices[product];
-
-
-    /* Kiểm tra số dư */
-
-    if(
-        Number(currentUser.balance)
-        < price
-    ) {
-
-        document.getElementById("balanceUID")
-            .textContent =
-            currentUser.uid;
-
-
-        document.getElementById("balanceCurrent")
-            .textContent =
-            formatMoney(
-                currentUser.balance
-            );
-
-
-        openModal("balanceOverlay");
-
-        return;
-
-    }
-
-
-    const confirmBuy =
-        confirm(
-
-            "Bạn có chắc muốn bốc " +
-
-            SHOP_CONFIG.names[product] +
-
-            " với giá " +
-
-            formatMoney(price) +
-
-            "?"
-
-        );
-
-
-    if(!confirmBuy) return;
-
-
-    try {
-
-        const response =
-            await fetch("/api/buy",{
-
-                method:"POST",
-
-                headers:{
-                    "Content-Type":
-                        "application/json"
-                },
-
-                body:JSON.stringify({
-
-                    uid:
-                        currentUser.uid,
-
-                    product:
-                        product,
-
-                    price:
-                        price
-
-                })
-
-            });
-
-
-        const data =
-            await response.json();
-
-
-        /* ==================================================
-           SERVER BÁO LỖI
-        ================================================== */
-
-        if(!data.success) {
-
-
-            /* KHÔNG ĐỦ TIỀN */
-
-            if(data.code === "NOT_ENOUGH") {
-
-                currentUser.balance =
-                    data.balance ??
-                    currentUser.balance;
-
-
-                document.getElementById(
-                    "balanceUID"
-                ).textContent =
-                    currentUser.uid;
-
-
-                document.getElementById(
-                    "balanceCurrent"
-                ).textContent =
-                    formatMoney(
-                        currentUser.balance
-                    );
-
-
-                openModal(
-                    "balanceOverlay"
-                );
-
-                return;
-
-            }
-
-
-            /* HẾT ACC */
-
-            if(data.code === "OUT_OF_STOCK") {
-
-                alert(
-                    "Túi này đã hết acc."
-                );
-
-                loadShop();
-
-                return;
-
-            }
-
-
-            alert(
-                data.message ||
-                "Không thể bốc túi."
-            );
-
-            return;
-
-        }
-
-
-        /* ==================================================
-           BỐC THÀNH CÔNG
-        ================================================== */
-
-        currentUser.balance =
-            data.balance;
-
-
-        const account =
-            data.account;
-
-
-        lastAccount =
-            account;
-
-
-        /* TÊN TÚI */
-
-        document.getElementById(
-            "successProduct"
-        ).textContent =
-            SHOP_CONFIG.names[product];
-
-
-        /* GIÁ */
-
-        document.getElementById(
-            "successPrice"
-        ).textContent =
-            formatMoney(price);
-
-
-        /* USERNAME */
-
-        document.getElementById(
-            "successUsername"
-        ).textContent =
-            account.username || "---";
-
-
-        /* PASSWORD */
-
-        document.getElementById(
-            "successPassword"
-        ).textContent =
-            account.password || "---";
-
-
-        /* LEVEL */
-
-        document.getElementById(
-            "successLevel"
-        ).textContent =
-            account.level ?? "---";
-
-
-        /* ĐỘ HIẾM */
-
-        document.getElementById(
-            "successRarity"
-        ).textContent =
-            account.rarity || "---";
-
-
-        /* THÔNG TIN */
-
-        document.getElementById(
-            "successInfo"
-        ).textContent =
-            account.info || "---";
-
-
-        /* SỐ DƯ */
-
-        document.getElementById(
-            "successBalance"
-        ).textContent =
-            formatMoney(
-                data.balance
-            );
-
-
-        /* MỞ POPUP */
-
-        openModal(
-            "successOverlay"
-        );
-
-
-        /* CẬP NHẬT SHOP */
-
-        loadShop();
-
-
-        /* CẬP NHẬT USER */
-
-        updateAccountUI();
-
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert(
-            "Không thể kết nối tới server."
-        );
-
-    }
-
-}
-
-
-/* ============================================================
-                    COPY ACC
-============================================================ */
-
-async function copyAccount() {
-
-    if(!lastAccount) return;
-
-
-    const text =
-
-        "Username: " +
-        (lastAccount.username || "") +
-
-        "\nPassword: " +
-        (lastAccount.password || "") +
-
-        "\nLevel: " +
-        (lastAccount.level ?? "") +
-
-        "\nĐộ hiếm: " +
-        (lastAccount.rarity || "") +
-
-        "\nThông tin: " +
-        (lastAccount.info || "");
-
-
-    try {
-
-        await navigator.clipboard.writeText(
-            text
-        );
-
-        alert(
-            "Đã copy thông tin acc."
-        );
-
-    } catch {
-
-        alert(text);
-
-    }
-
-}
-
-
-/* ============================================================
-                    LỊCH SỬ
-============================================================ */
-
-async function showHistory() {
-
-    if(!currentUser) return;
-
-
-    closeModal(
-        "accountOverlay"
-    );
-
-
-    openModal(
-        "historyOverlay"
-    );
-
-
-    const list =
-        document.getElementById(
-            "historyList"
-        );
-
-
-    list.innerHTML =
-        "Đang tải lịch sử...";
-
-
-    try {
-
-        const response =
-            await fetch(
-
-                "/api/history?uid=" +
-
-                encodeURIComponent(
-                    currentUser.uid
-                )
-
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if(!data.success) {
-
-            list.innerHTML =
-                data.message ||
-                "Không thể tải lịch sử.";
-
-            return;
-
-        }
-
-
-        const history =
-            data.history || [];
-
-
-        if(history.length === 0) {
-
-            list.innerHTML = `
-
-                <div style="
-                    text-align:center;
-                    color:#94a3b8;
-                    padding:20px;
-                ">
-
-                    Chưa có lịch sử bốc túi.
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        list.innerHTML = "";
-
-
-        [...history]
-        .reverse()
-        .forEach(item => {
-
-
-            const account =
-                item.account || {};
-
-
-            const name =
-                SHOP_CONFIG.names[
-                    item.product
-                ] || item.product;
-
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "history-item";
-
-
-            div.innerHTML = `
-
-                <b>
-                    ${name}
-                </b>
-
-                <br>
-
-                💰 Giá:
-                ${formatMoney(item.price)}
-
-                <br>
-
-                👤 Username:
-                <span style="
-                    color:#4ade80;
-                    font-weight:bold;
-                ">
-                    ${account.username || "---"}
-                </span>
-
-                <br>
-
-                🔑 Password:
-                <span style="
-                    color:#4ade80;
-                ">
-                    ${account.password || "---"}
-                </span>
-
-                <br>
-
-                ⭐ Level:
-                ${account.level ?? "---"}
-
-                <br>
-
-                💎 Độ hiếm:
-                <span class="rarity">
-                    ${account.rarity || "---"}
-                </span>
-
-                <br>
-
-                📝 Thông tin:
-                ${account.info || "---"}
-
-                <br>
-
-                🕒 Thời gian:
-                ${formatDate(item.time)}
-
-            `;
-
-
-            list.appendChild(div);
-
-        });
-
-
-    } catch(error) {
-
-        console.error(error);
-
-        list.innerHTML =
-            "Không thể kết nối server.";
-
-    }
-
-}
-
-
-/* ============================================================
-                    FORMAT NGÀY
-============================================================ */
-
-function formatDate(time) {
-
-    if(!time) return "---";
-
-
-    const date =
-        new Date(time);
-
-
-    return date.toLocaleString(
-        "vi-VN"
-    );
-
-}
-
-
-/* ============================================================
-                    CLICK NGOÀI MODAL
-============================================================ */
-
-document.querySelectorAll(".overlay")
-.forEach(overlay => {
-
-    overlay.addEventListener(
-        "click",
-        function(event) {
-
-            if(
-                event.target === overlay
-            ){
-
-                overlay.style.display =
-                    "none";
-
-            }
-
-        }
-    );
-
-});
-
-
-/* ============================================================
-                    THÔNG BÁO MỖI LẦN VÀO WEB
-============================================================ */
-
-window.addEventListener(
-    "load",
-    function() {
-
-        setTimeout(
-            () => {
-
-                openModal(
-                    "noticeOverlay"
-                );
-
-            },
-            400
-        );
-
-    }
+    }, 400);
+  }
 );
-
-
-/* ============================================================
-                    KHỞI ĐỘNG
-============================================================ */
-
-loadShop();
 
 </script>
 
