@@ -90,10 +90,6 @@ header{
     margin-top:8px;
 }
 
-/* =========================
-   TIÊU ĐỀ KHU VỰC
-========================= */
-
 .section-title{
     display:flex;
     align-items:center;
@@ -108,10 +104,6 @@ header{
     font-size:12px;
     font-weight:normal;
 }
-
-/* =========================
-   KHU TÚI MÙ NHỎ GỌN
-========================= */
 
 .products{
     display:grid;
@@ -194,10 +186,6 @@ header{
     transform:none;
 }
 
-/* =========================
-   KHU BÁN ACC
-========================= */
-
 .acc-section{
     margin-top:32px;
 }
@@ -244,10 +232,6 @@ header{
 .acc-card .description{
     min-height:40px;
 }
-
-/* =========================
-   MODAL
-========================= */
 
 .overlay{
     display:none;
@@ -351,19 +335,23 @@ header{
     display:flex;
     gap:8px;
     align-items:center;
+    margin-top:5px;
 }
 
 .uid-box code{
     flex:1;
     background:#020617;
-    padding:8px;
+    padding:10px;
     border-radius:8px;
     color:#60a5fa;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 .copy-btn{
     background:#2563eb;
     color:white;
+    white-space:nowrap;
 }
 
 .history-list{
@@ -457,10 +445,6 @@ footer{
     padding:25px;
     border-top:1px solid rgba(255,255,255,.08);
 }
-
-/* =========================
-   MOBILE
-========================= */
 
 @media(max-width:850px){
 
@@ -566,9 +550,7 @@ footer{
 </section>
 
 
-<!-- =========================
-     TÚI MÙ
-========================= -->
+<!-- TÚI MÙ -->
 
 <div class="section-title">
     🎁 TÚI MÙ
@@ -578,9 +560,7 @@ footer{
 <section class="products" id="products"></section>
 
 
-<!-- =========================
-     BÁN ACC
-========================= -->
+<!-- BÁN ACC -->
 
 <div class="acc-section">
 
@@ -654,19 +634,17 @@ footer{
 
         <div>
 
-            <b>UID:</b>
+            <b>UID khách:</b>
 
             <div class="uid-box">
 
-                <code id="accountUID">
-                    ---
-                </code>
+                <code id="accountUID">---</code>
 
                 <button
                     class="copy-btn"
                     onclick="copyUID()"
                 >
-                    COPY
+                    📋 SAO CHÉP
                 </button>
 
             </div>
@@ -674,10 +652,8 @@ footer{
         </div>
 
         <div>
-            <b>Số dư:</b>
-            <span id="accountBalance">
-                0đ
-            </span>
+            <b>💰 Số dư:</b>
+            <span id="accountBalance">0đ</span>
         </div>
 
     </div>
@@ -933,9 +909,9 @@ const SHOP_CONFIG = {
 
     logo:"🎁 TÚI MÙ PTG",
 
-    title:"🎃SHOP TÚI MÙ UY TÍN-CHẤT LƯỢNG TUYỆT ĐỐI🎃 ",
+    title:"🎃SHOP TÚI MÙ UY TÍN-CHẤT LƯỢNG TUYỆT ĐỐI🎃",
 
-    subtitle:"Mở túi mù - nhận acc bất ngờ(ZALO 0907859891)🎁",
+    subtitle:"Mở túi mù - nhận acc bất ngờ (ZALO 0907859891)🎁",
 
     footer:"© 2026 SHOP TÚI MÙ CDANG",
 
@@ -969,13 +945,13 @@ const SHOP_CONFIG = {
         "Acc log game trị giá cao.",
 
         acc1:
-        "Acc bán riêng loại thường.",
+        "Acc Cần Cơ Khí - kho demo 3 acc.",
 
         acc2:
-        "Acc bán riêng loại hiếm.",
+        "Acc Clone 8XX-1XXKC - kho demo 12 acc.",
 
         acc3:
-        "Acc bán riêng loại cao cấp."
+        "Acc Reg Qua Game - kho demo 48 acc."
 
     },
 
@@ -991,11 +967,11 @@ const SHOP_CONFIG = {
 
         lucky:"🍀 LUCKY",
 
-        acc1:"CLONE CẦN CƠ KHÍ ⚙",
+        acc1:"⚙️ ACC CẦN CƠ KHÍ",
 
-        acc2:"CLONE KC 💎",
+        acc2:"🎮 ACC CLONE 8XX-1XXKC",
 
-        acc3:"ACC REG 🎭"
+        acc3:"🎮 ACC REG QUA GAME"
 
     },
 
@@ -1009,13 +985,15 @@ const SHOP_CONFIG = {
 
         legendary:100000,
 
-        lucky:1000000,
+        lucky:500000,
 
-        acc1:30000,
+        /* GIÁ ACC ĐÃ SỬA */
 
-        acc2:100000,
+        acc1:40000,
 
-        acc3:300000
+        acc2:13000,
+
+        acc3:4000
 
     }
 
@@ -1081,7 +1059,7 @@ const productOrder=[
 
 
 /* ============================================================
-                    3 Ô BÁN ACC
+                    BÁN ACC
 ============================================================ */
 
 const accOrder=[
@@ -1125,12 +1103,21 @@ function createProductCard(
     card.className =
     isAcc ? "acc-card" : "card";
 
+
     if(isAcc){
+
+        const iconMatch =
+        name.match(/^(\S+)/);
+
+        const icon =
+        iconMatch
+        ? iconMatch[1]
+        : "👤";
 
         card.innerHTML=`
 
             <div class="acc-icon">
-                ${name.split(" ")[0]}
+                ${icon}
             </div>
 
             <h2>
@@ -1249,8 +1236,6 @@ async function loadShop(){
         accContainer.innerHTML="";
 
 
-        /* TÚI MÙ */
-
         productOrder.forEach(product=>{
 
             const card =
@@ -1265,8 +1250,6 @@ async function loadShop(){
 
         });
 
-
-        /* BÁN ACC */
 
         accOrder.forEach(product=>{
 
