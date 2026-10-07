@@ -555,9 +555,9 @@ const demoSold = {
 
     acc1:2,
 
-    acc2:4,
+    acc2:0,
 
-    acc3:1
+    acc3:5
 
 };
 
@@ -576,13 +576,13 @@ const validPrices = {
 
     legendary:100000,
 
-    lucky:1000000,
+    lucky:500000,
 
-    acc1:30000,
+    acc1:40000,
 
-    acc2:100000,
+    acc2:15000,
 
-    acc3:300000
+    acc3:3000
 
 };
 
@@ -605,7 +605,7 @@ app.post("/api/login",(req,res)=>{
 
             success:false,
 
-            message:"Gmail không hợp lệ."
+            message:"Gmail không hợp lệ nhìn nó 36 quá."
 
         });
 
