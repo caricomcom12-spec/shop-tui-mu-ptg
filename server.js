@@ -446,14 +446,6 @@ const stock = {
         },
 
         {
-            username:"PTG_DEMO_VIP_03",
-            password:"vip333",
-            level:80,
-            rarity:"Cực hiếm",
-            info:"Acc VIP mẫu"
-        },
-
-        {
             username:"PTG_DEMO_VIP_04",
             password:"vip444",
             level:90,
@@ -482,14 +474,6 @@ const stock = {
             username:"PTG_DEMO_ULT_01",
             password:"ult111",
             level:70,
-            rarity:"Cực hiếm",
-            info:"Acc Ultra mẫu"
-        },
-
-        {
-            username:"PTG_DEMO_ULT_02",
-            password:"ult222",
-            level:80,
             rarity:"Cực hiếm",
             info:"Acc Ultra mẫu"
         },
