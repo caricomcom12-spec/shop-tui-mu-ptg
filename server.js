@@ -32,16 +32,15 @@ function createUID(){
 
 
 // ==================================================
-// KHO TÚI MÙ
-// TÚI 5K: 28 ACC DEMO
-// CÁC TÚI KHÁC: 5 ACC DEMO
+// KHO SẢN PHẨM
+// VIP + ULTRA ĐÃ BỎ
 // ==================================================
 
 const stock = {
 
-    // =========================
+    // ==================================================
     // TÚI 5K
-    // =========================
+    // ==================================================
 
     bag5k: [
 
@@ -84,10 +83,6 @@ const stock = {
             rarity:"Cực hiếm",
             info:"Acc demo 5K - acc mẫu đặc biệt"
         },
-
-        // =========================
-        // THÊM 23 ACC
-        // =========================
 
         {
             username:"PTG_DEMO_5K_06",
@@ -206,7 +201,7 @@ const stock = {
             password:"demo020",
             level:44,
             rarity:"Cực hiếm",
-            info:"Acc demo 5K - tài khoản mẫu"
+            info:"Acc demo 5K - nhiều vật phẩm"
         },
 
         {
@@ -276,9 +271,9 @@ const stock = {
     ],
 
 
-    // =========================
+    // ==================================================
     // TÂN BINH
-    // =========================
+    // ==================================================
 
     tanbinh: [
 
@@ -325,9 +320,9 @@ const stock = {
     ],
 
 
-    // =========================
+    // ==================================================
     // PREMIUM
-    // =========================
+    // ==================================================
 
     premium: [
 
@@ -374,9 +369,9 @@ const stock = {
     ],
 
 
-    // =========================
+    // ==================================================
     // LEGENDARY
-    // =========================
+    // ==================================================
 
     legendary: [
 
@@ -423,91 +418,9 @@ const stock = {
     ],
 
 
-    // =========================
-    // VIP
-    // =========================
-
-    vip: [
-
-        {
-            username:"PTG_DEMO_VIP_01",
-            password:"vip111",
-            level:60,
-            rarity:"Siêu hiếm",
-            info:"Acc VIP mẫu"
-        },
-
-        {
-            username:"PTG_DEMO_VIP_02",
-            password:"vip222",
-            level:70,
-            rarity:"Siêu hiếm",
-            info:"Acc VIP mẫu"
-        },
-
-        {
-            username:"PTG_DEMO_VIP_04",
-            password:"vip444",
-            level:90,
-            rarity:"Huyền thoại",
-            info:"Acc VIP mẫu"
-        },
-
-        {
-            username:"PTG_DEMO_VIP_05",
-            password:"vip555",
-            level:100,
-            rarity:"Huyền thoại",
-            info:"Acc VIP mẫu đặc biệt"
-        }
-
-    ],
-
-
-    // =========================
-    // ULTRA
-    // =========================
-
-    ultra: [
-
-        {
-            username:"PTG_DEMO_ULT_01",
-            password:"ult111",
-            level:70,
-            rarity:"Cực hiếm",
-            info:"Acc Ultra mẫu"
-        },
-
-        {
-            username:"PTG_DEMO_ULT_03",
-            password:"ult333",
-            level:90,
-            rarity:"Huyền thoại",
-            info:"Acc Ultra mẫu"
-        },
-
-        {
-            username:"PTG_DEMO_ULT_04",
-            password:"ult444",
-            level:100,
-            rarity:"Huyền thoại",
-            info:"Acc Ultra mẫu"
-        },
-
-        {
-            username:"PTG_DEMO_ULT_05",
-            password:"ult555",
-            level:120,
-            rarity:"Cực phẩm",
-            info:"Acc Ultra mẫu đặc biệt"
-        }
-
-    ],
-
-
-    // =========================
+    // ==================================================
     // LUCKY
-    // =========================
+    // ==================================================
 
     lucky: [
 
@@ -541,7 +454,82 @@ const stock = {
             level:120,
             rarity:"Cực phẩm",
             info:"Acc Lucky mẫu"
+        }
+
+    ],
+
+
+    // ==================================================
+    // ACC BÁN RIÊNG 1
+    // ==================================================
+
+    acc1: [
+
+        {
+            username:"ACC_BAN_01",
+            password:"demoacc001",
+            level:50,
+            rarity:"Hiếm",
+            info:"Acc bán riêng mẫu 01"
         },
+
+        {
+            username:"ACC_BAN_02",
+            password:"demoacc002",
+            level:60,
+            rarity:"Hiếm",
+            info:"Acc bán riêng mẫu 02"
+        }
+
+    ],
+
+
+    // ==================================================
+    // ACC BÁN RIÊNG 2
+    // ==================================================
+
+    acc2: [
+
+        {
+            username:"ACC_BAN_03",
+            password:"demoacc003",
+            level:70,
+            rarity:"Cực hiếm",
+            info:"Acc bán riêng mẫu 03"
+        },
+
+        {
+            username:"ACC_BAN_04",
+            password:"demoacc004",
+            level:80,
+            rarity:"Cực hiếm",
+            info:"Acc bán riêng mẫu 04"
+        }
+
+    ],
+
+
+    // ==================================================
+    // ACC BÁN RIÊNG 3
+    // ==================================================
+
+    acc3: [
+
+        {
+            username:"ACC_BAN_05",
+            password:"demoacc005",
+            level:90,
+            rarity:"Huyền thoại",
+            info:"Acc bán riêng mẫu 05"
+        },
+
+        {
+            username:"ACC_BAN_06",
+            password:"demoacc006",
+            level:100,
+            rarity:"Huyền thoại",
+            info:"Acc bán riêng mẫu 06"
+        }
 
     ]
 
@@ -550,30 +538,32 @@ const stock = {
 
 // ==================================================
 // LƯỢT BÁN DEMO
-// Đây là số hiển thị mô phỏng, KHÔNG phải doanh số thật.
+// CHỈ LÀ SỐ HIỂN THỊ MÔ PHỎNG
 // ==================================================
 
 const demoSold = {
 
-    bag5k: 7,
+    bag5k:7,
 
-    tanbinh: 3,
+    tanbinh:3,
 
-    premium: 2,
+    premium:2,
 
-    legendary: 0,
+    legendary:0,
 
-    vip: 1,
+    lucky:0,
 
-    ultra: 0,
+    acc1:2,
 
-    lucky: 0
+    acc2:4,
+
+    acc3:1
 
 };
 
 
 // ==================================================
-// GIÁ TÚI
+// GIÁ SẢN PHẨM
 // ==================================================
 
 const validPrices = {
@@ -586,11 +576,13 @@ const validPrices = {
 
     legendary:100000,
 
-    vip:200000,
+    lucky:1000000,
 
-    ultra:500000,
+    acc1:30000,
 
-    lucky:1000000
+    acc2:100000,
+
+    acc3:300000
 
 };
 
@@ -690,7 +682,7 @@ function findUserByUID(uid){
 
 
 // ==================================================
-// MUA / BỐC TÚI
+// MUA / BỐC TÚI / MUA ACC
 // ==================================================
 
 app.post("/api/buy",(req,res)=>{
@@ -750,7 +742,9 @@ app.post("/api/buy",(req,res)=>{
 
             code:"NOT_ENOUGH",
 
-            balance:user.balance
+            balance:user.balance,
+
+            message:"Số dư không đủ."
 
         });
 
@@ -768,7 +762,7 @@ app.post("/api/buy",(req,res)=>{
 
             code:"OUT_OF_STOCK",
 
-            message:"Túi này hiện đã hết acc."
+            message:"Sản phẩm này hiện đã hết acc."
 
         });
 
@@ -776,7 +770,7 @@ app.post("/api/buy",(req,res)=>{
 
 
     // ==============================================
-    // BỐC ACC
+    // LẤY ACC ĐẦU KHO
     // ==============================================
 
     const account =
@@ -842,7 +836,7 @@ app.post("/api/buy",(req,res)=>{
 
 
 // ==================================================
-// LỊCH SỬ CỦA UID
+// LỊCH SỬ
 // ==================================================
 
 app.get("/api/history",(req,res)=>{
