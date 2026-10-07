@@ -1,58 +1,699 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PT BAG SHOP - ADMIN</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b0f19;
+            color: white;
+        }
+
+        .container {
+            width: min(950px, 92%);
+            margin: 40px auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #151b2b;
+            border: 1px solid #29344d;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.25);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin: 8px 0;
+            border: 1px solid #35415e;
+            border-radius: 10px;
+            background: #0d1320;
+            color: white;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 8px;
+            border: 0;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: .88;
+        }
+
+        .money {
+            background: #16a34a;
+        }
+
+        .danger {
+            background: #dc2626;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #0d1320;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .history-item {
+            border: 1px solid #29344d;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 10px;
+            background: #0d1320;
+        }
+
+        .uid {
+            color: #60a5fa;
+        }
+
+        .balance {
+            color: #4ade80;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🔐 PT BAG SHOP - ADMIN PANEL</h1>
+
+
+    <!-- ============================= -->
+    <!-- ĐĂNG NHẬP ADMIN -->
+    <!-- ============================= -->
+
+    <div id="loginBox" class="card">
+
+        <h2>🔑 Đăng nhập Admin</h2>
+
+        <input
+            id="adminPassword"
+            type="password"
+            placeholder="Nhập mật khẩu Admin"
+        >
+
+        <button onclick="adminLogin()">
+            ĐĂNG NHẬP
+        </button>
+
+        <div id="loginResult" class="result"></div>
+
+    </div>
+
+
+    <!-- ============================= -->
+    <!-- ADMIN PANEL -->
+    <!-- ============================= -->
+
+    <div id="adminPanel" class="hidden">
+
+
+        <!-- TÌM USER -->
+
+        <div class="card">
+
+            <h2>👤 Tìm tài khoản</h2>
+
+            <input
+                id="searchUID"
+                type="text"
+                placeholder="Nhập UID, ví dụ: PT-XXXXXXXX"
+            >
+
+            <button onclick="searchUser()">
+                🔎 TÌM USER
+            </button>
+
+            <div id="userResult" class="result">
+                Chưa tìm tài khoản.
+            </div>
+
+        </div>
+
+
+        <!-- CỘNG TIỀN -->
+
+        <div class="card">
+
+            <h2>💰 Cộng tiền cho User</h2>
+
+            <input
+                id="moneyUID"
+                type="text"
+                placeholder="UID người dùng"
+            >
+
+            <input
+                id="moneyAmount"
+                type="number"
+                min="1"
+                placeholder="Số tiền muốn cộng"
+            >
+
+            <button
+                class="money"
+                onclick="addMoney()"
+            >
+                💵 CỘNG TIỀN
+            </button>
+
+            <div id="moneyResult" class="result"></div>
+
+        </div>
+
+
+        <!-- LỊCH SỬ -->
+
+        <div class="card">
+
+            <h2>📜 Lịch sử mua hàng</h2>
+
+            <input
+                id="historyUID"
+                type="text"
+                placeholder="UID người dùng"
+            >
+
+            <button onclick="getHistory()">
+                📜 XEM LỊCH SỬ
+            </button>
+
+            <div id="historyResult" class="result">
+                Chưa có dữ liệu.
+            </div>
+
+        </div>
+
+
+        <button
+            class="danger"
+            onclick="logout()"
+        >
+            🚪 ĐĂNG XUẤT ADMIN
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let adminToken = "";
+
+
 // ==================================================
-// ADMIN CỘNG TIỀN
+// ĐĂNG NHẬP ADMIN
 // ==================================================
 
-app.post(
-    "/api/admin/add-money",
-    checkAdmin,
-    (req, res) => {
+async function adminLogin() {
 
-        const uid =
-            String(req.body.uid || "")
-            .trim();
+    const password =
+        document.getElementById("adminPassword").value;
 
-        const amount =
-            Number(req.body.amount);
+    if (!password) {
 
-        // Kiểm tra số tiền
-        if (
-            !Number.isFinite(amount) ||
-            amount <= 0
-        ) {
-            return res.json({
-                success: false,
-                message: "Số tiền cộng quá ít."
-            });
-        }
+        document.getElementById("loginResult").textContent =
+            "❌ Vui lòng nhập mật khẩu.";
 
-        // Giới hạn tối đa mỗi lần cộng
-        if (amount > 100000000000) {
-            return res.json({
-                success: false,
-                message: "Số tiền cộng quá lớn."
-            });
-        }
-
-        // Tìm tài khoản theo UID
-        const found =
-            findUserByUID(uid);
-
-        if (!found) {
-            return res.json({
-                success: false,
-                message: "Không tìm thấy UID."
-            });
-        }
-
-        // Cộng tiền
-        found.balance += amount;
-
-        return res.json({
-            success: true,
-            message: "Cộng tiền thành công.",
-            uid: found.uid,
-            gmail: found.gmail,
-            balance: found.balance
-        });
+        return;
     }
-);
+
+
+    try {
+
+        const response =
+            await fetch("/api/admin/login", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    password: password
+                })
+
+            });
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            document.getElementById("loginResult").textContent =
+                "❌ " + (data.message || "Đăng nhập thất bại.");
+
+            return;
+        }
+
+
+        adminToken = data.token;
+
+
+        document.getElementById("loginBox")
+            .classList.add("hidden");
+
+        document.getElementById("adminPanel")
+            .classList.remove("hidden");
+
+
+    } catch (error) {
+
+        document.getElementById("loginResult").textContent =
+            "❌ Không thể kết nối server.";
+
+    }
+
+}
+
+
+// ==================================================
+// TÌM USER
+// ==================================================
+
+async function searchUser() {
+
+    const uid =
+        document.getElementById("searchUID").value.trim();
+
+
+    if (!uid) {
+
+        document.getElementById("userResult").textContent =
+            "❌ Nhập UID trước.";
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/admin/user?uid=" +
+                encodeURIComponent(uid),
+                {
+                    headers: {
+                        "x-admin-token": adminToken
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            document.getElementById("userResult").textContent =
+                "❌ " + (data.message || "Không tìm thấy user.");
+
+            return;
+        }
+
+
+        document.getElementById("moneyUID").value =
+            data.user.uid;
+
+        document.getElementById("historyUID").value =
+            data.user.uid;
+
+
+        document.getElementById("userResult").innerHTML = `
+
+            <b>📧 Gmail:</b>
+            ${escapeHTML(data.user.gmail)}
+
+            <br><br>
+
+            <b>🆔 UID:</b>
+            <span class="uid">
+                ${escapeHTML(data.user.uid)}
+            </span>
+
+            <br><br>
+
+            <b>💰 Số dư:</b>
+            <span class="balance">
+                ${Number(data.user.balance).toLocaleString("vi-VN")} VNĐ
+            </span>
+
+        `;
+
+
+    } catch (error) {
+
+        document.getElementById("userResult").textContent =
+            "❌ Lỗi kết nối server.";
+
+    }
+
+}
+
+
+// ==================================================
+// CỘNG TIỀN
+// ==================================================
+
+async function addMoney() {
+
+    const uid =
+        document.getElementById("moneyUID").value.trim();
+
+    const amount =
+        Number(
+            document.getElementById("moneyAmount").value
+        );
+
+
+    if (!uid) {
+
+        document.getElementById("moneyResult").textContent =
+            "❌ Chưa nhập UID.";
+
+        return;
+    }
+
+
+    if (!Number.isFinite(amount) || amount <= 0) {
+
+        document.getElementById("moneyResult").textContent =
+            "❌ Số tiền không hợp lệ.";
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch("/api/admin/add-money", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json",
+
+                    "x-admin-token":
+                        adminToken
+
+                },
+
+                body: JSON.stringify({
+
+                    uid: uid,
+
+                    amount: amount
+
+                })
+
+            });
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            document.getElementById("moneyResult").textContent =
+                "❌ " +
+                (data.message || "Cộng tiền thất bại.");
+
+            return;
+        }
+
+
+        document.getElementById("moneyResult").innerHTML = `
+
+            ✅ <b>Cộng tiền thành công!</b>
+
+            <br><br>
+
+            🆔 UID:
+            ${escapeHTML(data.uid)}
+
+            <br>
+
+            📧 Gmail:
+            ${escapeHTML(data.gmail)}
+
+            <br>
+
+            💵 Đã cộng:
+            ${amount.toLocaleString("vi-VN")} VNĐ
+
+            <br>
+
+            💰 Số dư mới:
+            <span class="balance">
+                ${Number(data.balance).toLocaleString("vi-VN")} VNĐ
+            </span>
+
+        `;
+
+
+        document.getElementById("moneyAmount").value = "";
+
+
+    } catch (error) {
+
+        document.getElementById("moneyResult").textContent =
+            "❌ Không thể kết nối server.";
+
+    }
+
+}
+
+
+// ==================================================
+// XEM LỊCH SỬ
+// ==================================================
+
+async function getHistory() {
+
+    const uid =
+        document.getElementById("historyUID").value.trim();
+
+
+    if (!uid) {
+
+        document.getElementById("historyResult").textContent =
+            "❌ Nhập UID trước.";
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/admin/history?uid=" +
+                encodeURIComponent(uid),
+                {
+                    headers: {
+                        "x-admin-token": adminToken
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            document.getElementById("historyResult").textContent =
+                "❌ " +
+                (data.message || "Không tìm thấy lịch sử.");
+
+            return;
+        }
+
+
+        if (!data.history || data.history.length === 0) {
+
+            document.getElementById("historyResult").textContent =
+                "📭 đéo má thg này chưa mua cc j hết á.";
+
+            return;
+        }
+
+
+        let html = `
+
+            <b>📧 Gmail:</b>
+            ${escapeHTML(data.gmail)}
+
+            <br>
+
+            <b>🆔 UID:</b>
+            ${escapeHTML(data.uid)}
+
+            <hr>
+
+        `;
+
+
+        data.history.forEach((item, index) => {
+
+            const account =
+                item.account || {};
+
+            html += `
+
+                <div class="history-item">
+
+                    <b>🎁 Đơn #${index + 1}</b>
+
+                    <br><br>
+
+                    📦 Túi:
+                    ${escapeHTML(item.product)}
+
+                    <br>
+
+                    💵 Giá:
+                    ${Number(item.price).toLocaleString("vi-VN")} VNĐ
+
+                    <br>
+
+                    👤 Account:
+                    ${escapeHTML(account.username || "")}
+
+                    <br>
+
+                    🔑 Password:
+                    ${escapeHTML(account.password || "")}
+
+                    <br>
+
+                    ⭐ Level:
+                    ${escapeHTML(String(account.level || ""))}
+
+                    <br>
+
+                    💎 Độ hiếm:
+                    ${escapeHTML(account.rarity || "")}
+
+                    <br>
+
+                    📝 Thông tin:
+                    ${escapeHTML(account.info || "")}
+
+                    <br><br>
+
+                    🕐 Thời gian:
+                    ${escapeHTML(item.time || "")}
+
+                </div>
+
+            `;
+
+        });
+
+
+        document.getElementById("historyResult").innerHTML =
+            html;
+
+
+    } catch (error) {
+
+        document.getElementById("historyResult").textContent =
+            "❌ Lỗi kết nối server.";
+
+    }
+
+}
+
+
+// ==================================================
+// ĐĂNG XUẤT
+// ==================================================
+
+function logout() {
+
+    adminToken = "";
+
+    document.getElementById("adminPanel")
+        .classList.add("hidden");
+
+    document.getElementById("loginBox")
+        .classList.remove("hidden");
+
+    document.getElementById("adminPassword").value = "";
+
+}
+
+
+// ==================================================
+// CHỐNG CHÈN HTML
+// ==================================================
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replaceAll("&", "&amp;")
+
+        .replaceAll("<", "&lt;")
+
+        .replaceAll(">", "&gt;")
+
+        .replaceAll('"', "&quot;")
+
+        .replaceAll("'", "&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
