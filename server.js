@@ -1,4 +1,3 @@
-```javascript
 const express = require("express");
 const crypto = require("crypto");
 const { Pool } = require("pg");
@@ -258,7 +257,7 @@ async function initDatabase() {
 
 
 // ==================================================
-// LOGIN GMAIL - LƯU UID VÀ SỐ DƯ TRONG DATABASE
+// ĐĂNG NHẬP GMAIL - GIỮ UID VÀ SỐ DƯ CŨ
 // ==================================================
 
 app.post("/api/login", async (req, res) => {
@@ -269,28 +268,35 @@ app.post("/api/login", async (req, res) => {
 
         if (!/^[^\s@]+@gmail\.com$/.test(gmail)) {
             return res.json({
-                success:false,
-                message:"Gmail không hợp lệ."
+                success: false,
+                message: "Gmail không hợp lệ."
             });
         }
 
-        const result = await pool.query(
+        // Chỉ tạo tài khoản mới nếu Gmail chưa tồn tại
+        await pool.query(
             `INSERT INTO users (gmail, uid, balance)
              VALUES ($1, $2, 0)
-             ON CONFLICT (gmail)
-             DO UPDATE SET gmail = EXCLUDED.gmail
-             RETURNING gmail, uid, balance`,
+             ON CONFLICT (gmail) DO NOTHING`,
             [gmail, createUID()]
+        );
+
+        // Lấy UID và số dư đã lưu
+        const result = await pool.query(
+            `SELECT gmail, uid, balance
+             FROM users
+             WHERE gmail = $1`,
+            [gmail]
         );
 
         const user = result.rows[0];
 
         res.json({
-            success:true,
-            user:{
-                gmail:user.gmail,
-                uid:user.uid,
-                balance:Number(user.balance)
+            success: true,
+            user: {
+                gmail: user.gmail,
+                uid: user.uid,
+                balance: Number(user.balance)
             }
         });
 
@@ -298,8 +304,52 @@ app.post("/api/login", async (req, res) => {
         console.error("LOGIN ERROR:", error);
 
         res.status(500).json({
-            success:false,
-            message:"Không thể đăng nhập."
+            success: false,
+            message: "Không thể đăng nhập."
+        });
+    }
+});
+
+
+// ==================================================
+// LẤY LẠI UID VÀ SỐ DƯ THEO UID
+// ==================================================
+
+app.get("/api/user/:uid", async (req, res) => {
+    try {
+        const uid = String(req.params.uid || "").trim();
+
+        const result = await pool.query(
+            `SELECT gmail, uid, balance
+             FROM users
+             WHERE uid = $1`,
+            [uid]
+        );
+
+        if (result.rowCount === 0) {
+            return res.json({
+                success: false,
+                message: "Không tìm thấy tài khoản."
+            });
+        }
+
+        const user = result.rows[0];
+
+        res.json({
+            success: true,
+            user: {
+                gmail: user.gmail,
+                uid: user.uid,
+                balance: Number(user.balance)
+            }
+        });
+
+    } catch (error) {
+        console.error("GET USER ERROR:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Không thể lấy thông tin tài khoản."
         });
     }
 });
