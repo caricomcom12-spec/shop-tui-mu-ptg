@@ -1,261 +1,148 @@
 const express = require("express");
+const crypto = require("crypto");
+const { Pool } = require("pg");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 app.use(express.static("public"));
 
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.DATABASE_URL
+        ? { rejectUnauthorized: false }
+        : false,
+    max: 5
+});
 
-// ==================================================
-// DATABASE TẠM
-// ==================================================
-
-const users = new Map();
-
-function createUID(){
-    const random = Math.random()
-        .toString(16)
-        .substring(2,10)
-        .toUpperCase();
-
-    return "PT-" + random;
+function createUID() {
+    return "PT-" + crypto.randomBytes(4).toString("hex").toUpperCase();
 }
 
 
 // ==================================================
-// KHO ACC DEMO
+// KHO ACC DEMO - GIá»® NGUYĂN TĂN, Máº¬T KHáº¨U VĂ€ GIĂ TRá»
 // ==================================================
 
 const stock = {
-
-    // ==================================================
-    // TÚI 5K
-    // ==================================================
-
-    bag5k: [
-        {username:"PTG_DEMO_5K_01",password:"demo123",level:12,rarity:"Thường",info:"Acc demo 5K - nhân vật cơ bản"},
-        {username:"PTG_DEMO_5K_02",password:"demo456",level:18,rarity:"Hiếm",info:"Acc demo 5K - có một số vật phẩm"},
-        {username:"PTG_DEMO_5K_03",password:"demo789",level:25,rarity:"Hiếm",info:"Acc demo 5K - nhiều trang phục"},
-        {username:"PTG_DEMO_5K_04",password:"demo999",level:31,rarity:"Siêu hiếm",info:"Acc demo 5K - nhiều vật phẩm"},
-        {username:"PTG_DEMO_5K_05",password:"demo000",level:40,rarity:"Cực hiếm",info:"Acc demo 5K - acc mẫu đặc biệt"},
-        {username:"PTG_DEMO_5K_06",password:"demo006",level:14,rarity:"Thường",info:"Acc demo 5K - tài khoản mẫu"},
-        {username:"PTG_DEMO_5K_07",password:"demo007",level:16,rarity:"Thường",info:"Acc demo 5K - tài khoản mẫu"},
-        {username:"PTG_DEMO_5K_08",password:"demo008",level:19,rarity:"Hiếm",info:"Acc demo 5K - có vật phẩm"},
-        {username:"PTG_DEMO_5K_09",password:"demo009",level:21,rarity:"Hiếm",info:"Acc demo 5K - có vật phẩm"},
-        {username:"PTG_DEMO_5K_10",password:"demo010",level:23,rarity:"Hiếm",info:"Acc demo 5K - tài khoản mẫu"},
-        {username:"PTG_DEMO_5K_11",password:"demo011",level:26,rarity:"Hiếm",info:"Acc demo 5K - nhiều vật phẩm"},
-        {username:"PTG_DEMO_5K_12",password:"demo012",level:28,rarity:"Siêu hiếm",info:"Acc demo 5K - tài khoản mẫu"},
-        {username:"PTG_DEMO_5K_13",password:"demo013",level:30,rarity:"Siêu hiếm",info:"Acc demo 5K - nhiều trang phục"},
-        {username:"PTG_DEMO_5K_14",password:"demo014",level:32,rarity:"Siêu hiếm",info:"Acc demo 5K - tài khoản mẫu"},
-        {username:"PTG_DEMO_5K_15",password:"demo015",level:34,rarity:"Siêu hiếm",info:"Acc demo 5K - nhiều vật phẩm"},
-        {username:"PTG_DEMO_5K_16",password:"demo016",level:36,rarity:"Cực hiếm",info:"Acc demo 5K - tài khoản mẫu"},
-        {username:"PTG_DEMO_5K_17",password:"demo017",level:38,rarity:"Cực hiếm",info:"Acc demo 5K - nhiều trang phục"},
-        {username:"PTG_DEMO_5K_18",password:"demo018",level:40,rarity:"Cực hiếm",info:"Acc demo 5K - nhiều vật phẩm"},
-        {username:"PTG_DEMO_5K_19",password:"demo019",level:42,rarity:"Cực hiếm",info:"Acc demo 5K - nhiều vật phẩm"},
-        {username:"PTG_DEMO_5K_20",password:"demo020",level:44,rarity:"Cực hiếm",info:"Acc demo 5K - nhiều vật phẩm"},
-        {username:"PTG_DEMO_5K_21",password:"demo021",level:46,rarity:"Cực hiếm",info:"Acc demo 5K - nhiều vật phẩm"},
-        {username:"PTG_DEMO_5K_22",password:"demo022",level:48,rarity:"Cực hiếm",info:"Acc demo 5K - tài khoản mẫu"},
-        {username:"PTG_DEMO_5K_23",password:"demo023",level:50,rarity:"Huyền thoại",info:"Acc demo 5K - tài khoản mẫu đặc biệt"},
-        {username:"PTG_DEMO_5K_24",password:"demo024",level:52,rarity:"Huyền thoại",info:"Acc demo 5K - nhiều vật phẩm"},
-        {username:"PTG_DEMO_5K_25",password:"demo025",level:54,rarity:"Huyền thoại",info:"Acc demo 5K - tài khoản mẫu đặc biệt"},
-        {username:"PTG_DEMO_5K_26",password:"demo026",level:56,rarity:"Huyền thoại",info:"Acc demo 5K - nhiều trang phục"},
-        {username:"PTG_DEMO_5K_27",password:"demo027",level:58,rarity:"Cực hiếm",info:"Acc demo 5K - tài khoản mẫu"},
-        {username:"PTG_DEMO_5K_28",password:"demo028",level:60,rarity:"Cực hiếm",info:"Acc demo 5K - tài khoản mẫu đặc biệt"}
-    ],
-
-
-    // ==================================================
-    // TÂN BINH
-    // ==================================================
-
+    bag5k: [],
     tanbinh: [
-        {username:"PTG_DEMO_TB_01",password:"tb111",level:10,rarity:"Thường",info:"Acc Tân Binh mẫu"},
-        {username:"PTG_DEMO_TB_02",password:"tb222",level:20,rarity:"Hiếm",info:"Acc Tân Binh mẫu"},
-        {username:"PTG_DEMO_TB_03",password:"tb333",level:27,rarity:"Hiếm",info:"Acc Tân Binh mẫu"},
-        {username:"PTG_DEMO_TB_04",password:"tb444",level:35,rarity:"Siêu hiếm",info:"Acc Tân Binh mẫu"},
-        {username:"PTG_DEMO_TB_05",password:"tb555",level:45,rarity:"Cực hiếm",info:"Acc Tân Binh mẫu đặc biệt"}
+        {username:"PTG_DEMO_TB_01",password:"tb111",level:10,rarity:"ThÆ°á»ng",info:"Acc TĂ¢n Binh máº«u"},
+        {username:"PTG_DEMO_TB_02",password:"tb222",level:20,rarity:"Hiáº¿m",info:"Acc TĂ¢n Binh máº«u"},
+        {username:"PTG_DEMO_TB_03",password:"tb333",level:27,rarity:"Hiáº¿m",info:"Acc TĂ¢n Binh máº«u"},
+        {username:"PTG_DEMO_TB_04",password:"tb444",level:35,rarity:"SiĂªu hiáº¿m",info:"Acc TĂ¢n Binh máº«u"},
+        {username:"PTG_DEMO_TB_05",password:"tb555",level:45,rarity:"Cá»±c hiáº¿m",info:"Acc TĂ¢n Binh máº«u Ä‘áº·c biá»‡t"}
     ],
-
-
-    // ==================================================
-    // PREMIUM
-    // ==================================================
-
     premium: [
-        {username:"PTG_DEMO_PRE_01",password:"pre111",level:35,rarity:"Hiếm",info:"Acc Premium mẫu"},
-        {username:"PTG_DEMO_PRE_02",password:"pre222",level:42,rarity:"Hiếm",info:"Acc Premium mẫu"},
-        {username:"PTG_DEMO_PRE_03",password:"pre333",level:50,rarity:"Siêu hiếm",info:"Acc Premium mẫu"},
-        {username:"PTG_DEMO_PRE_04",password:"pre444",level:58,rarity:"Siêu hiếm",info:"Acc Premium mẫu"},
-        {username:"PTG_DEMO_PRE_05",password:"pre555",level:65,rarity:"Cực hiếm",info:"Acc Premium mẫu đặc biệt"}
+        {username:"PTG_DEMO_PRE_01",password:"pre111",level:35,rarity:"Hiáº¿m",info:"Acc Premium máº«u"},
+        {username:"PTG_DEMO_PRE_02",password:"pre222",level:42,rarity:"Hiáº¿m",info:"Acc Premium máº«u"},
+        {username:"PTG_DEMO_PRE_03",password:"pre333",level:50,rarity:"SiĂªu hiáº¿m",info:"Acc Premium máº«u"},
+        {username:"PTG_DEMO_PRE_04",password:"pre444",level:58,rarity:"SiĂªu hiáº¿m",info:"Acc Premium máº«u"},
+        {username:"PTG_DEMO_PRE_05",password:"pre555",level:65,rarity:"Cá»±c hiáº¿m",info:"Acc Premium máº«u Ä‘áº·c biá»‡t"}
     ],
-
-
-    // ==================================================
-    // LEGENDARY
-    // ==================================================
-
     legendary: [
-        {username:"PTG_DEMO_LEG_01",password:"leg111",level:50,rarity:"Hiếm",info:"Acc Legendary mẫu"},
-        {username:"PTG_DEMO_LEG_02",password:"leg222",level:60,rarity:"Siêu hiếm",info:"Acc Legendary mẫu"},
-        {username:"PTG_DEMO_LEG_03",password:"leg333",level:70,rarity:"Siêu hiếm",info:"Acc Legendary mẫu"},
-        {username:"PTG_DEMO_LEG_04",password:"leg444",level:80,rarity:"Cực hiếm",info:"Acc Legendary mẫu"},
-        {username:"PTG_DEMO_LEG_05",password:"leg555",level:90,rarity:"Huyền thoại",info:"Acc Legendary mẫu đặc biệt"}
+        {username:"PTG_DEMO_LEG_01",password:"leg111",level:50,rarity:"Hiáº¿m",info:"Acc Legendary máº«u"},
+        {username:"PTG_DEMO_LEG_02",password:"leg222",level:60,rarity:"SiĂªu hiáº¿m",info:"Acc Legendary máº«u"},
+        {username:"PTG_DEMO_LEG_03",password:"leg333",level:70,rarity:"SiĂªu hiáº¿m",info:"Acc Legendary máº«u"},
+        {username:"PTG_DEMO_LEG_04",password:"leg444",level:80,rarity:"Cá»±c hiáº¿m",info:"Acc Legendary máº«u"},
+        {username:"PTG_DEMO_LEG_05",password:"leg555",level:90,rarity:"Huyá»n thoáº¡i",info:"Acc Legendary máº«u Ä‘áº·c biá»‡t"}
     ],
-
-
-    // ==================================================
-    // LUCKY
-    // ==================================================
-
     lucky: [
-        {username:"PTG_DEMO_LUCKY_01",password:"luck111",level:80,rarity:"Cực hiếm",info:"Acc Lucky mẫu"},
-        {username:"PTG_DEMO_LUCKY_02",password:"luck222",level:90,rarity:"Huyền thoại",info:"Acc Lucky mẫu"},
-        {username:"PTG_DEMO_LUCKY_03",password:"luck333",level:100,rarity:"Huyền thoại",info:"Acc Lucky mẫu"},
-        {username:"PTG_DEMO_LUCKY_04",password:"luck444",level:120,rarity:"Cực phẩm",info:"Acc Lucky mẫu"}
+        {username:"PTG_DEMO_LUCKY_01",password:"luck111",level:80,rarity:"Cá»±c hiáº¿m",info:"Acc Lucky máº«u"},
+        {username:"PTG_DEMO_LUCKY_02",password:"luck222",level:90,rarity:"Huyá»n thoáº¡i",info:"Acc Lucky máº«u"},
+        {username:"PTG_DEMO_LUCKY_03",password:"luck333",level:100,rarity:"Huyá»n thoáº¡i",info:"Acc Lucky máº«u"},
+        {username:"PTG_DEMO_LUCKY_04",password:"luck444",level:120,rarity:"Cá»±c pháº©m",info:"Acc Lucky máº«u"}
     ],
-
-
-    // ==================================================
-    // ⚙️ ACC CẦN CƠ KHÍ
-    // 40K - 3 ACC
-    // ==================================================
-
     acc1: [
-        {
-            username:"DEMO_COKHI_01",
-            password:"demo_cokhi_001",
-            level:50,
-            rarity:"Hiếm",
-            info:"Acc Cần Cơ Khí demo 01"
-        },
-        {
-            username:"DEMO_COKHI_02",
-            password:"demo_cokhi_002",
-            level:60,
-            rarity:"Cực hiếm",
-            info:"Acc Cần Cơ Khí demo 02"
-        },
-        {
-            username:"DEMO_COKHI_03",
-            password:"demo_cokhi_003",
-            level:70,
-            rarity:"Huyền thoại",
-            info:"Acc Cần Cơ Khí demo 03"
-        }
+        {username:"DEMO_COKHI_01",password:"demo_cokhi_001",level:50,rarity:"Hiáº¿m",info:"Acc Cáº§n CÆ¡ KhĂ­ demo 01"},
+        {username:"DEMO_COKHI_02",password:"demo_cokhi_002",level:60,rarity:"Cá»±c hiáº¿m",info:"Acc Cáº§n CÆ¡ KhĂ­ demo 02"},
+        {username:"DEMO_COKHI_03",password:"demo_cokhi_003",level:70,rarity:"Huyá»n thoáº¡i",info:"Acc Cáº§n CÆ¡ KhĂ­ demo 03"}
     ],
-
-
-    // ==================================================
-    // 🎮 ACC CLONE 8XX-1XXKC
-    // 13K - 12 ACC
-    // ==================================================
-
     acc2: [
-        {username:"DEMO_CLONE_01",password:"clone_demo_001",level:20,rarity:"Thường",info:"Acc Clone 8XX-1XXKC demo 01"},
-        {username:"DEMO_CLONE_02",password:"clone_demo_002",level:25,rarity:"Thường",info:"Acc Clone 8XX-1XXKC demo 02"},
-        {username:"DEMO_CLONE_03",password:"clone_demo_003",level:30,rarity:"Hiếm",info:"Acc Clone 8XX-1XXKC demo 03"},
-        {username:"DEMO_CLONE_04",password:"clone_demo_004",level:35,rarity:"Hiếm",info:"Acc Clone 8XX-1XXKC demo 04"},
-        {username:"DEMO_CLONE_05",password:"clone_demo_005",level:40,rarity:"Hiếm",info:"Acc Clone 8XX-1XXKC demo 05"},
-        {username:"DEMO_CLONE_06",password:"clone_demo_006",level:45,rarity:"Hiếm",info:"Acc Clone 8XX-1XXKC demo 06"},
-        {username:"DEMO_CLONE_07",password:"clone_demo_007",level:50,rarity:"Siêu hiếm",info:"Acc Clone 8XX-1XXKC demo 07"},
-        {username:"DEMO_CLONE_08",password:"clone_demo_008",level:55,rarity:"Siêu hiếm",info:"Acc Clone 8XX-1XXKC demo 08"},
-        {username:"DEMO_CLONE_09",password:"clone_demo_009",level:60,rarity:"Siêu hiếm",info:"Acc Clone 8XX-1XXKC demo 09"},
-        {username:"DEMO_CLONE_10",password:"clone_demo_010",level:65,rarity:"Cực hiếm",info:"Acc Clone 8XX-1XXKC demo 10"},
-        {username:"DEMO_CLONE_11",password:"clone_demo_011",level:70,rarity:"Cực hiếm",info:"Acc Clone 8XX-1XXKC demo 11"},
-        {username:"DEMO_CLONE_12",password:"clone_demo_012",level:75,rarity:"Cực hiếm",info:"Acc Clone 8XX-1XXKC demo 12"}
+        {username:"DEMO_CLONE_01",password:"clone_demo_001",level:20,rarity:"ThÆ°á»ng",info:"Acc Clone 8XX-1XXKC demo 01"},
+        {username:"DEMO_CLONE_02",password:"clone_demo_002",level:25,rarity:"ThÆ°á»ng",info:"Acc Clone 8XX-1XXKC demo 02"},
+        {username:"DEMO_CLONE_03",password:"clone_demo_003",level:30,rarity:"Hiáº¿m",info:"Acc Clone 8XX-1XXKC demo 03"},
+        {username:"DEMO_CLONE_04",password:"clone_demo_004",level:35,rarity:"Hiáº¿m",info:"Acc Clone 8XX-1XXKC demo 04"},
+        {username:"DEMO_CLONE_05",password:"clone_demo_005",level:40,rarity:"Hiáº¿m",info:"Acc Clone 8XX-1XXKC demo 05"},
+        {username:"DEMO_CLONE_06",password:"clone_demo_006",level:45,rarity:"Hiáº¿m",info:"Acc Clone 8XX-1XXKC demo 06"},
+        {username:"DEMO_CLONE_07",password:"clone_demo_007",level:50,rarity:"SiĂªu hiáº¿m",info:"Acc Clone 8XX-1XXKC demo 07"},
+        {username:"DEMO_CLONE_08",password:"clone_demo_008",level:55,rarity:"SiĂªu hiáº¿m",info:"Acc Clone 8XX-1XXKC demo 08"},
+        {username:"DEMO_CLONE_09",password:"clone_demo_009",level:60,rarity:"SiĂªu hiáº¿m",info:"Acc Clone 8XX-1XXKC demo 09"},
+        {username:"DEMO_CLONE_10",password:"clone_demo_010",level:65,rarity:"Cá»±c hiáº¿m",info:"Acc Clone 8XX-1XXKC demo 10"},
+        {username:"DEMO_CLONE_11",password:"clone_demo_011",level:70,rarity:"Cá»±c hiáº¿m",info:"Acc Clone 8XX-1XXKC demo 11"},
+        {username:"DEMO_CLONE_12",password:"clone_demo_012",level:75,rarity:"Cá»±c hiáº¿m",info:"Acc Clone 8XX-1XXKC demo 12"}
     ],
-
-
-    // ==================================================
-    // 🎮 ACC REG QUA GAME
-    // 4K - 48 ACC
-    // ==================================================
-
-    acc3: [
-        {username:"DEMO_REG_01",password:"reg_demo_001",level:10,rarity:"Thường",info:"Acc Reg Qua Game demo 01"},
-        {username:"DEMO_REG_02",password:"reg_demo_002",level:11,rarity:"Thường",info:"Acc Reg Qua Game demo 02"},
-        {username:"DEMO_REG_03",password:"reg_demo_003",level:12,rarity:"Thường",info:"Acc Reg Qua Game demo 03"},
-        {username:"DEMO_REG_04",password:"reg_demo_004",level:13,rarity:"Thường",info:"Acc Reg Qua Game demo 04"},
-        {username:"DEMO_REG_05",password:"reg_demo_005",level:14,rarity:"Thường",info:"Acc Reg Qua Game demo 05"},
-        {username:"DEMO_REG_06",password:"reg_demo_006",level:15,rarity:"Thường",info:"Acc Reg Qua Game demo 06"},
-        {username:"DEMO_REG_07",password:"reg_demo_007",level:16,rarity:"Thường",info:"Acc Reg Qua Game demo 07"},
-        {username:"DEMO_REG_08",password:"reg_demo_008",level:17,rarity:"Thường",info:"Acc Reg Qua Game demo 08"},
-        {username:"DEMO_REG_09",password:"reg_demo_009",level:18,rarity:"Thường",info:"Acc Reg Qua Game demo 09"},
-        {username:"DEMO_REG_10",password:"reg_demo_010",level:19,rarity:"Thường",info:"Acc Reg Qua Game demo 10"},
-        {username:"DEMO_REG_11",password:"reg_demo_011",level:20,rarity:"Hiếm",info:"Acc Reg Qua Game demo 11"},
-        {username:"DEMO_REG_12",password:"reg_demo_012",level:21,rarity:"Hiếm",info:"Acc Reg Qua Game demo 12"},
-        {username:"DEMO_REG_13",password:"reg_demo_013",level:22,rarity:"Hiếm",info:"Acc Reg Qua Game demo 13"},
-        {username:"DEMO_REG_14",password:"reg_demo_014",level:23,rarity:"Hiếm",info:"Acc Reg Qua Game demo 14"},
-        {username:"DEMO_REG_15",password:"reg_demo_015",level:24,rarity:"Hiếm",info:"Acc Reg Qua Game demo 15"},
-        {username:"DEMO_REG_16",password:"reg_demo_016",level:25,rarity:"Hiếm",info:"Acc Reg Qua Game demo 16"},
-        {username:"DEMO_REG_17",password:"reg_demo_017",level:26,rarity:"Hiếm",info:"Acc Reg Qua Game demo 17"},
-        {username:"DEMO_REG_18",password:"reg_demo_018",level:27,rarity:"Hiếm",info:"Acc Reg Qua Game demo 18"},
-        {username:"DEMO_REG_19",password:"reg_demo_019",level:28,rarity:"Hiếm",info:"Acc Reg Qua Game demo 19"},
-        {username:"DEMO_REG_20",password:"reg_demo_020",level:29,rarity:"Hiếm",info:"Acc Reg Qua Game demo 20"},
-        {username:"DEMO_REG_21",password:"reg_demo_021",level:30,rarity:"Hiếm",info:"Acc Reg Qua Game demo 21"},
-        {username:"DEMO_REG_22",password:"reg_demo_022",level:31,rarity:"Hiếm",info:"Acc Reg Qua Game demo 22"},
-        {username:"DEMO_REG_23",password:"reg_demo_023",level:32,rarity:"Hiếm",info:"Acc Reg Qua Game demo 23"},
-        {username:"DEMO_REG_24",password:"reg_demo_024",level:33,rarity:"Hiếm",info:"Acc Reg Qua Game demo 24"},
-        {username:"DEMO_REG_25",password:"reg_demo_025",level:34,rarity:"Siêu hiếm",info:"Acc Reg Qua Game demo 25"},
-        {username:"DEMO_REG_26",password:"reg_demo_026",level:35,rarity:"Siêu hiếm",info:"Acc Reg Qua Game demo 26"},
-        {username:"DEMO_REG_27",password:"reg_demo_027",level:36,rarity:"Siêu hiếm",info:"Acc Reg Qua Game demo 27"},
-        {username:"DEMO_REG_28",password:"reg_demo_028",level:37,rarity:"Siêu hiếm",info:"Acc Reg Qua Game demo 28"},
-        {username:"DEMO_REG_29",password:"reg_demo_029",level:38,rarity:"Siêu hiếm",info:"Acc Reg Qua Game demo 29"},
-        {username:"DEMO_REG_30",password:"reg_demo_030",level:39,rarity:"Siêu hiếm",info:"Acc Reg Qua Game demo 30"},
-        {username:"DEMO_REG_31",password:"reg_demo_031",level:40,rarity:"Siêu hiếm",info:"Acc Reg Qua Game demo 31"},
-        {username:"DEMO_REG_32",password:"reg_demo_032",level:41,rarity:"Siêu hiếm",info:"Acc Reg Qua Game demo 32"},
-        {username:"DEMO_REG_33",password:"reg_demo_033",level:42,rarity:"Siêu hiếm",info:"Acc Reg Qua Game demo 33"},
-        {username:"DEMO_REG_34",password:"reg_demo_034",level:43,rarity:"Siêu hiếm",info:"Acc Reg Qua Game demo 34"},
-        {username:"DEMO_REG_35",password:"reg_demo_035",level:44,rarity:"Siêu hiếm",info:"Acc Reg Qua Game demo 35"},
-        {username:"DEMO_REG_36",password:"reg_demo_036",level:45,rarity:"Siêu hiếm",info:"Acc Reg Qua Game demo 36"},
-        {username:"DEMO_REG_37",password:"reg_demo_037",level:46,rarity:"Cực hiếm",info:"Acc Reg Qua Game demo 37"},
-        {username:"DEMO_REG_38",password:"reg_demo_038",level:47,rarity:"Cực hiếm",info:"Acc Reg Qua Game demo 38"},
-        {username:"DEMO_REG_39",password:"reg_demo_039",level:48,rarity:"Cực hiếm",info:"Acc Reg Qua Game demo 39"},
-        {username:"DEMO_REG_40",password:"reg_demo_040",level:49,rarity:"Cực hiếm",info:"Acc Reg Qua Game demo 40"},
-        {username:"DEMO_REG_41",password:"reg_demo_041",level:50,rarity:"Cực hiếm",info:"Acc Reg Qua Game demo 41"},
-        {username:"DEMO_REG_42",password:"reg_demo_042",level:51,rarity:"Cực hiếm",info:"Acc Reg Qua Game demo 42"},
-        {username:"DEMO_REG_43",password:"reg_demo_043",level:52,rarity:"Cực hiếm",info:"Acc Reg Qua Game demo 43"},
-        {username:"DEMO_REG_44",password:"reg_demo_044",level:53,rarity:"Cực hiếm",info:"Acc Reg Qua Game demo 44"},
-        {username:"DEMO_REG_45",password:"reg_demo_045",level:54,rarity:"Cực hiếm",info:"Acc Reg Qua Game demo 45"},
-        {username:"DEMO_REG_46",password:"reg_demo_046",level:55,rarity:"Cực hiếm",info:"Acc Reg Qua Game demo 46"},
-        {username:"DEMO_REG_47",password:"reg_demo_047",level:56,rarity:"Huyền thoại",info:"Acc Reg Qua Game demo 47"},
-        {username:"DEMO_REG_48",password:"reg_demo_048",level:57,rarity:"Huyền thoại",info:"Acc Reg Qua Game demo 48"}
-    ]
+    acc3: []
 };
+
+// TĂºi 5K: giá»¯ nguyĂªn 28 máº«u, thá»© tá»± vĂ  thĂ´ng tin.
+const bag5kLevels = [12,18,25,31,40,14,16,19,21,23,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60];
+const bag5kRarities = [
+    "ThÆ°á»ng","Hiáº¿m","Hiáº¿m","SiĂªu hiáº¿m","Cá»±c hiáº¿m","ThÆ°á»ng","ThÆ°á»ng",
+    "Hiáº¿m","Hiáº¿m","Hiáº¿m","Hiáº¿m","SiĂªu hiáº¿m","SiĂªu hiáº¿m","SiĂªu hiáº¿m",
+    "SiĂªu hiáº¿m","Cá»±c hiáº¿m","Cá»±c hiáº¿m","Cá»±c hiáº¿m","Cá»±c hiáº¿m","Cá»±c hiáº¿m",
+    "Cá»±c hiáº¿m","Cá»±c hiáº¿m","Huyá»n thoáº¡i","Huyá»n thoáº¡i","Huyá»n thoáº¡i",
+    "Huyá»n thoáº¡i","Cá»±c hiáº¿m","Cá»±c hiáº¿m"
+];
+const bag5kInfo = [
+    "nhĂ¢n váº­t cÆ¡ báº£n","cĂ³ má»™t sá»‘ váº­t pháº©m","nhiá»u trang phá»¥c","nhiá»u váº­t pháº©m",
+    "acc máº«u Ä‘áº·c biá»‡t","tĂ i khoáº£n máº«u","tĂ i khoáº£n máº«u","cĂ³ váº­t pháº©m",
+    "cĂ³ váº­t pháº©m","tĂ i khoáº£n máº«u","nhiá»u váº­t pháº©m","tĂ i khoáº£n máº«u",
+    "nhiá»u trang phá»¥c","tĂ i khoáº£n máº«u","nhiá»u váº­t pháº©m","tĂ i khoáº£n máº«u",
+    "nhiá»u trang phá»¥c","nhiá»u váº­t pháº©m","nhiá»u váº­t pháº©m","nhiá»u váº­t pháº©m",
+    "nhiá»u váº­t pháº©m","tĂ i khoáº£n máº«u","tĂ i khoáº£n máº«u Ä‘áº·c biá»‡t","nhiá»u váº­t pháº©m",
+    "tĂ i khoáº£n máº«u Ä‘áº·c biá»‡t","nhiá»u trang phá»¥c","tĂ i khoáº£n máº«u",
+    "tĂ i khoáº£n máº«u Ä‘áº·c biá»‡t"
+];
+for (let i = 0; i < 28; i++) {
+    const n = String(i + 1).padStart(2, "0");
+    const pass = ["demo123","demo456","demo789","demo999","demo000"][i] ||
+        "demo" + String(i + 1).padStart(3, "0");
+    stock.bag5k.push({
+        username: "PTG_DEMO_5K_" + n,
+        password: pass,
+        level: bag5kLevels[i],
+        rarity: bag5kRarities[i],
+        info: "Acc demo 5K - " + bag5kInfo[i]
+    });
+}
+
+// Acc Reg Qua Game: giá»¯ nguyĂªn 48 máº«u.
+const regRarities = [
+    ...Array(10).fill("ThÆ°á»ng"),
+    ...Array(14).fill("Hiáº¿m"),
+    ...Array(12).fill("SiĂªu hiáº¿m"),
+    ...Array(10).fill("Cá»±c hiáº¿m"),
+    ...Array(2).fill("Huyá»n thoáº¡i")
+];
+for (let i = 1; i <= 48; i++) {
+    const n = String(i).padStart(2, "0");
+    stock.acc3.push({
+        username: "DEMO_REG_" + n,
+        password: "reg_demo_" + String(i).padStart(3, "0"),
+        level: i + 9,
+        rarity: regRarities[i - 1],
+        info: "Acc Reg Qua Game demo " + n
+    });
+}
 
 
 // ==================================================
-// LƯỢT BÁN DEMO
-// Chỉ dùng để hiển thị giao diện demo
+// LÆ¯á»¢T BĂN DEMO VĂ€ GIĂ Sáº¢N PHáº¨M
 // ==================================================
 
 const demoSold = {
-    bag5k:7,
-    tanbinh:3,
-    premium:2,
-    legendary:0,
-    lucky:0,
-
-    acc1:5,
-    acc2:0,
-    acc3:22
+    bag5k:7, tanbinh:3, premium:2, legendary:0, lucky:0,
+    acc1:5, acc2:0, acc3:22
 };
 
-
-// ==================================================
-// GIÁ SẢN PHẨM
-// ==================================================
-
 const validPrices = {
-
     bag5k:5000,
     tanbinh:20000,
     premium:50000,
     legendary:100000,
     lucky:500000,
-
-    // ACC
     acc1:40000,
     acc2:13000,
     acc3:4000
@@ -263,251 +150,248 @@ const validPrices = {
 
 
 // ==================================================
-// LOGIN
+// DATABASE: Táº O Báº¢NG Náº¾U CHÆ¯A CĂ“ + Náº P KHO MáºªU AN TOĂ€N
 // ==================================================
 
-app.post("/api/login",(req,res)=>{
-
-    const gmail = String(req.body.gmail || "")
-        .trim()
-        .toLowerCase();
-
-    if(!gmail.endsWith("@gmail.com")){
-
-        return res.json({
-            success:false,
-            message:"Gmail không hợp lệ."
-        });
-
+async function initDatabase() {
+    if (!process.env.DATABASE_URL) {
+        throw new Error("Thiáº¿u biáº¿n DATABASE_URL trong Render Environment.");
     }
 
-    let user = users.get(gmail);
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS users (
+            id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+            gmail TEXT UNIQUE NOT NULL,
+            uid TEXT UNIQUE NOT NULL,
+            balance BIGINT NOT NULL DEFAULT 0,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+    `);
 
-    if(!user){
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS stock (
+            id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+            product TEXT NOT NULL,
+            username TEXT NOT NULL,
+            password TEXT NOT NULL,
+            level INTEGER DEFAULT 0,
+            rarity TEXT DEFAULT '',
+            info TEXT DEFAULT '',
+            sold BOOLEAN NOT NULL DEFAULT FALSE,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+    `);
 
-        user = {
-            gmail:gmail,
-            uid:createUID(),
-            balance:0,
-            history:[]
-        };
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS purchase_history (
+            id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+            uid TEXT NOT NULL REFERENCES users(uid),
+            product TEXT NOT NULL,
+            price BIGINT NOT NULL,
+            account JSONB NOT NULL,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+    `);
 
-        users.set(gmail,user);
+    await pool.query(`
+        CREATE UNIQUE INDEX IF NOT EXISTS stock_product_username_uidx
+        ON stock(product, username)
+    `);
 
-    }
+    await pool.query(`
+        CREATE INDEX IF NOT EXISTS idx_purchase_uid
+        ON purchase_history(uid, created_at DESC)
+    `);
 
-    if(!user.history){
-        user.history=[];
-    }
-
-    return res.json({
-
-        success:true,
-
-        user:{
-            gmail:user.gmail,
-            uid:user.uid,
-            balance:user.balance
+    for (const [product, accounts] of Object.entries(stock)) {
+        for (const account of accounts) {
+            await pool.query(
+                `INSERT INTO stock
+                (product, username, password, level, rarity, info)
+                VALUES ($1,$2,$3,$4,$5,$6)
+                ON CONFLICT (product, username) DO NOTHING`,
+                [product, account.username, account.password,
+                 account.level, account.rarity, account.info]
+            );
         }
-
-    });
-
-});
-
-
-// ==================================================
-// TÌM USER THEO UID
-// ==================================================
-
-function findUserByUID(uid){
-
-    for(const user of users.values()){
-
-        if(user.uid === uid){
-            return user;
-        }
-
     }
 
-    return null;
+    console.log("Supabase connected; demo stock checked.");
 }
 
 
 // ==================================================
-// MUA SẢN PHẨM
+// LOGIN - KHĂ”NG OTP (LÆ¯U UID VĂ€ Sá» DÆ¯ TRONG DATABASE)
 // ==================================================
 
-app.post("/api/buy",(req,res)=>{
+app.post("/api/login", async (req, res) => {
+    try {
+        const gmail = String(req.body.gmail || "").trim().toLowerCase();
 
-    const uid = String(req.body.uid || "").trim();
+        if (!/^[^\s@]+@gmail\.com$/.test(gmail)) {
+            return res.json({ success:false, message:"Gmail khĂ´ng há»£p lá»‡." });
+        }
 
-    const product = String(req.body.product || "").trim();
+        const result = await pool.query(
+            `INSERT INTO users (gmail, uid, balance)
+             VALUES ($1, $2, 0)
+             ON CONFLICT (gmail) DO UPDATE SET gmail = EXCLUDED.gmail
+             RETURNING gmail, uid, balance`,
+            [gmail, createUID()]
+        );
 
-    const price = Number(req.body.price);
-
-    const user = findUserByUID(uid);
-
-
-    if(!user){
-
-        return res.json({
-
-            success:false,
-
-            message:"Phiên đăng nhập không hợp lệ."
-
+        const user = result.rows[0];
+        res.json({
+            success:true,
+            user:{
+                gmail:user.gmail,
+                uid:user.uid,
+                balance:Number(user.balance)
+            }
         });
-
+    } catch (error) {
+        console.error("LOGIN ERROR:", error);
+        res.status(500).json({ success:false, message:"KhĂ´ng thá»ƒ Ä‘Äƒng nháº­p." });
     }
-
-
-    // KIỂM TRA SẢN PHẨM + GIÁ
-
-    if(
-        !Object.prototype.hasOwnProperty.call(validPrices,product) ||
-        validPrices[product] !== price
-    ){
-
-        return res.json({
-
-            success:false,
-
-            message:"Sản phẩm không hợp lệ."
-
-        });
-
-    }
-
-
-    // KIỂM TRA SỐ DƯ
-
-    if(user.balance < price){
-
-        return res.json({
-
-            success:false,
-
-            code:"NOT_ENOUGH",
-
-            balance:user.balance,
-
-            message:"Số dư không đủ."
-
-        });
-
-    }
-
-
-    // KIỂM TRA KHO
-
-    if(!stock[product] || stock[product].length === 0){
-
-        return res.json({
-
-            success:false,
-
-            code:"OUT_OF_STOCK",
-
-            message:"Sản phẩm này hiện đã hết acc."
-
-        });
-
-    }
-
-
-    // LẤY ACC ĐẦU KHO
-
-    const account = stock[product].shift();
-
-
-    // TRỪ TIỀN
-
-    user.balance -= price;
-
-
-    // LƯU LỊCH SỬ
-
-    const historyItem = {
-
-        product:product,
-
-        price:price,
-
-        account:{
-
-            username:account.username,
-
-            password:account.password,
-
-            level:account.level,
-
-            rarity:account.rarity,
-
-            info:account.info
-
-        },
-
-        time:new Date().toISOString()
-
-    };
-
-
-    user.history.push(historyItem);
-
-
-    // TRẢ KẾT QUẢ
-
-    return res.json({
-
-        success:true,
-
-        account:account,
-
-        balance:user.balance,
-
-        history:historyItem
-
-    });
-
 });
 
 
 // ==================================================
-// LỊCH SỬ MUA
+// MUA HĂ€NG: TRANSACTION + KHĂ“A DĂ’NG Äá»‚ TRĂNH BĂN TRĂ™NG
 // ==================================================
 
-app.get("/api/history",(req,res)=>{
+app.post("/api/buy", async (req, res) => {
+    const uid = String(req.body.uid || "").trim();
+    const product = String(req.body.product || "").trim();
+    const price = Number(req.body.price);
 
-    const uid = String(req.query.uid || "").trim();
-
-    const user = findUserByUID(uid);
-
-
-    if(!user){
-
-        return res.json({
-
-            success:false,
-
-            message:"Không tìm thấy UID."
-
-        });
-
+    if (!Object.prototype.hasOwnProperty.call(validPrices, product) ||
+        validPrices[product] !== price) {
+        return res.json({ success:false, message:"Sáº£n pháº©m khĂ´ng há»£p lá»‡." });
     }
 
+    let client;
+    try {
+        client = await pool.connect();
+        await client.query("BEGIN");
 
-    return res.json({
+        const userResult = await client.query(
+            "SELECT gmail, uid, balance FROM users WHERE uid = $1 FOR UPDATE",
+            [uid]
+        );
 
-        success:true,
+        if (userResult.rowCount === 0) {
+            await client.query("ROLLBACK");
+            return res.json({ success:false, message:"PhiĂªn Ä‘Äƒng nháº­p khĂ´ng há»£p lá»‡." });
+        }
 
-        uid:user.uid,
+        const balance = Number(userResult.rows[0].balance);
+        if (balance < price) {
+            await client.query("ROLLBACK");
+            return res.json({
+                success:false, code:"NOT_ENOUGH",
+                balance, message:"Sá»‘ dÆ° khĂ´ng Ä‘á»§."
+            });
+        }
 
-        gmail:user.gmail,
+        const stockResult = await client.query(
+            `SELECT id, username, password, level, rarity, info
+             FROM stock
+             WHERE product = $1 AND sold = FALSE
+             ORDER BY id
+             LIMIT 1
+             FOR UPDATE SKIP LOCKED`,
+            [product]
+        );
 
-        history:user.history || []
+        if (stockResult.rowCount === 0) {
+            await client.query("ROLLBACK");
+            return res.json({
+                success:false, code:"OUT_OF_STOCK",
+                message:"Sáº£n pháº©m nĂ y hiá»‡n Ä‘Ă£ háº¿t acc."
+            });
+        }
 
-    });
+        const row = stockResult.rows[0];
+        const account = {
+            username:row.username,
+            password:row.password,
+            level:row.level,
+            rarity:row.rarity,
+            info:row.info
+        };
 
+        await client.query("UPDATE stock SET sold = TRUE WHERE id = $1", [row.id]);
+
+        const newBalance = balance - price;
+        await client.query(
+            "UPDATE users SET balance = $1 WHERE uid = $2",
+            [newBalance, uid]
+        );
+
+        const historyResult = await client.query(
+            `INSERT INTO purchase_history (uid, product, price, account)
+             VALUES ($1, $2, $3, $4)
+             RETURNING created_at`,
+            [uid, product, price, JSON.stringify(account)]
+        );
+
+        await client.query("COMMIT");
+
+        res.json({
+            success:true,
+            account,
+            balance:newBalance,
+            history:{
+                product, price, account,
+                time:historyResult.rows[0].created_at
+            }
+        });
+    } catch (error) {
+        if (client) {
+            try { await client.query("ROLLBACK"); } catch (_) {}
+        }
+        console.error("BUY ERROR:", error);
+        res.status(500).json({ success:false, message:"CĂ³ lá»—i khi mua sáº£n pháº©m." });
+    } finally {
+        if (client) client.release();
+    }
+});
+
+
+// ==================================================
+// Lá»CH Sá»¬ MUA
+// ==================================================
+
+app.get("/api/history", async (req, res) => {
+    try {
+        const uid = String(req.query.uid || "").trim();
+        const user = await pool.query(
+            "SELECT gmail, uid FROM users WHERE uid = $1",
+            [uid]
+        );
+
+        if (user.rowCount === 0) {
+            return res.json({ success:false, message:"KhĂ´ng tĂ¬m tháº¥y UID." });
+        }
+
+        const history = await pool.query(
+            `SELECT product, price, account, created_at AS time
+             FROM purchase_history WHERE uid = $1
+             ORDER BY created_at DESC`,
+            [uid]
+        );
+
+        res.json({
+            success:true,
+            uid:user.rows[0].uid,
+            gmail:user.rows[0].gmail,
+            history:history.rows
+        });
+    } catch (error) {
+        console.error("HISTORY ERROR:", error);
+        res.status(500).json({ success:false, message:"KhĂ´ng táº£i Ä‘Æ°á»£c lá»‹ch sá»­." });
+    }
 });
 
 
@@ -515,100 +399,61 @@ app.get("/api/history",(req,res)=>{
 // SHOP STATUS
 // ==================================================
 
-app.get("/api/status",(req,res)=>{
+app.get("/api/status", async (req, res) => {
+    try {
+        const result = await pool.query(
+            `SELECT product, COUNT(*)::int AS total
+             FROM stock WHERE sold = FALSE GROUP BY product`
+        );
 
-    const stockCount = {};
+        const stockCount = {};
+        for (const product of Object.keys(validPrices)) stockCount[product] = 0;
+        for (const row of result.rows) stockCount[row.product] = row.total;
 
-    for(const product in stock){
+        const userCount = await pool.query("SELECT COUNT(*)::int AS total FROM users");
 
-        stockCount[product] = stock[product].length;
-
-    }
-
-
-    res.json({
-
-        success:true,
-
-        message:"PT BAG SHOP đang hoạt động.",
-
-        users:users.size,
-
-        stock:stockCount,
-
-        demoSold:demoSold
-
-    });
-
-});
-
-
-// ==================================================
-// ADMIN
-// ==================================================
-
-const ADMIN_PASSWORD = "congdang86";
-
-const ADMIN_TOKEN = "PTG-ADMIN-SECRET-2026";
-
-
-// ==================================================
-// ADMIN LOGIN
-// ==================================================
-
-app.post("/api/admin/login",(req,res)=>{
-
-    const password = String(req.body.password || "");
-
-
-    if(password !== ADMIN_PASSWORD){
-
-        return res.json({
-
-            success:false,
-
-            message:"Sai mật khẩu Admin."
-
+        res.json({
+            success:true,
+            message:"PT BAG SHOP Ä‘ang hoáº¡t Ä‘á»™ng.",
+            users:userCount.rows[0].total,
+            stock:stockCount,
+            demoSold
         });
-
+    } catch (error) {
+        console.error("STATUS ERROR:", error);
+        res.status(500).json({ success:false, message:"KhĂ´ng táº£i Ä‘Æ°á»£c tráº¡ng thĂ¡i shop." });
     }
-
-
-    res.json({
-
-        success:true,
-
-        token:ADMIN_TOKEN
-
-    });
-
 });
 
 
 // ==================================================
-// KIỂM TRA ADMIN
+// ADMIN - Äá»ŒC BĂ Máº¬T Tá»ª RENDER ENVIRONMENT
 // ==================================================
 
-function checkAdmin(req,res,next){
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
 
-    const token = req.headers["x-admin-token"];
+app.post("/api/admin/login", (req, res) => {
+    if (!ADMIN_PASSWORD || !ADMIN_TOKEN) {
+        return res.status(503).json({
+            success:false, message:"Admin chÆ°a Ä‘Æ°á»£c cáº¥u hĂ¬nh trĂªn Render."
+        });
+    }
 
+    if (String(req.body.password || "") !== ADMIN_PASSWORD) {
+        return res.json({ success:false, message:"Sai máº­t kháº©u Admin." });
+    }
 
-    if(token !== ADMIN_TOKEN){
+    res.json({ success:true, token:ADMIN_TOKEN });
+});
 
+function checkAdmin(req, res, next) {
+    if (!ADMIN_TOKEN || req.headers["x-admin-token"] !== ADMIN_TOKEN) {
         return res.status(401).json({
-
-            success:false,
-
-            message:"Bạn không có quyền Admin."
-
+            success:false, message:"Báº¡n khĂ´ng cĂ³ quyá»n Admin."
         });
-
     }
-
-
     next();
-
 }
 
 
@@ -616,170 +461,111 @@ function checkAdmin(req,res,next){
 // ADMIN XEM USER
 // ==================================================
 
-app.get("/api/admin/user",checkAdmin,(req,res)=>{
+app.get("/api/admin/user", checkAdmin, async (req, res) => {
+    try {
+        const uid = String(req.query.uid || "").trim();
+        const result = await pool.query(
+            "SELECT gmail, uid, balance FROM users WHERE uid = $1",
+            [uid]
+        );
 
-    const uid = String(req.query.uid || "").trim();
-
-    const found = findUserByUID(uid);
-
-
-    if(!found){
-
-        return res.json({
-
-            success:false,
-
-            message:"Không tìm thấy UID."
-
-        });
-
-    }
-
-
-    res.json({
-
-        success:true,
-
-        user:{
-
-            gmail:found.gmail,
-
-            uid:found.uid,
-
-            balance:found.balance
-
+        if (result.rowCount === 0) {
+            return res.json({ success:false, message:"KhĂ´ng tĂ¬m tháº¥y UID." });
         }
 
-    });
-
+        const user = result.rows[0];
+        res.json({
+            success:true,
+            user:{
+                gmail:user.gmail,
+                uid:user.uid,
+                balance:Number(user.balance)
+            }
+        });
+    } catch (error) {
+        console.error("ADMIN USER ERROR:", error);
+        res.status(500).json({ success:false, message:"Lá»—i mĂ¡y chá»§." });
+    }
 });
 
 
 // ==================================================
-// ADMIN CỘNG TIỀN
+// ADMIN Cá»˜NG TIá»€N
 // ==================================================
 
-app.post("/api/admin/add-money",checkAdmin,(req,res)=>{
+app.post("/api/admin/add-money", checkAdmin, async (req, res) => {
+    try {
+        const uid = String(req.body.uid || "").trim();
+        const amount = Number(req.body.amount);
 
-    const uid = String(req.body.uid || "").trim();
+        if (!Number.isSafeInteger(amount) || amount <= 0 || amount > 100000000) {
+            return res.json({ success:false, message:"Sá»‘ tiá»n khĂ´ng há»£p lá»‡." });
+        }
 
-    const amount = Number(req.body.amount);
+        const result = await pool.query(
+            `UPDATE users SET balance = balance + $1
+             WHERE uid = $2 RETURNING balance`,
+            [amount, uid]
+        );
 
+        if (result.rowCount === 0) {
+            return res.json({ success:false, message:"KhĂ´ng tĂ¬m tháº¥y UID." });
+        }
 
-    if(!Number.isFinite(amount) || amount <= 0){
-
-        return res.json({
-
-            success:false,
-
-            message:"Số tiền không hợp lệ."
-
-        });
-
+        res.json({ success:true, balance:Number(result.rows[0].balance) });
+    } catch (error) {
+        console.error("ADMIN ADD MONEY ERROR:", error);
+        res.status(500).json({ success:false, message:"KhĂ´ng thá»ƒ cá»™ng tiá»n." });
     }
-
-
-    if(amount > 100000000){
-
-        return res.json({
-
-            success:false,
-
-            message:"Số tiền cộng quá lớn."
-
-        });
-
-    }
-
-
-    const found = findUserByUID(uid);
-
-
-    if(!found){
-
-        return res.json({
-
-            success:false,
-
-            message:"Không tìm thấy UID."
-
-        });
-
-    }
-
-
-    found.balance += amount;
-
-
-    res.json({
-
-        success:true,
-
-        balance:found.balance
-
-    });
-
 });
 
 
 // ==================================================
-// ADMIN XEM LỊCH SỬ
+// ADMIN XEM Lá»CH Sá»¬
 // ==================================================
 
-app.get("/api/admin/history",checkAdmin,(req,res)=>{
+app.get("/api/admin/history", checkAdmin, async (req, res) => {
+    try {
+        const uid = String(req.query.uid || "").trim();
+        const user = await pool.query(
+            "SELECT gmail, uid FROM users WHERE uid = $1",
+            [uid]
+        );
 
-    const uid = String(req.query.uid || "").trim();
+        if (user.rowCount === 0) {
+            return res.json({ success:false, message:"KhĂ´ng tĂ¬m tháº¥y UID." });
+        }
 
-    const found = findUserByUID(uid);
+        const history = await pool.query(
+            `SELECT product, price, account, created_at AS time
+             FROM purchase_history WHERE uid = $1
+             ORDER BY created_at DESC`,
+            [uid]
+        );
 
-
-    if(!found){
-
-        return res.json({
-
-            success:false,
-
-            message:"Không tìm thấy UID."
-
+        res.json({
+            success:true,
+            gmail:user.rows[0].gmail,
+            uid:user.rows[0].uid,
+            history:history.rows
         });
-
+    } catch (error) {
+        console.error("ADMIN HISTORY ERROR:", error);
+        res.status(500).json({ success:false, message:"KhĂ´ng táº£i Ä‘Æ°á»£c lá»‹ch sá»­ Admin." });
     }
-
-
-    res.json({
-
-        success:true,
-
-        gmail:found.gmail,
-
-        uid:found.uid,
-
-        history:found.history || []
-
-    });
-
 });
 
 
 // ==================================================
-// ADMIN PAGE
+// TRANG ADMIN VĂ€ TRANG CHá»¦
 // ==================================================
 
-app.get("/admin",(req,res)=>{
-
+app.get("/admin", (req, res) => {
     res.sendFile(__dirname + "/public/admin.html");
-
 });
 
-
-// ==================================================
-// TRANG CHỦ
-// ==================================================
-
-app.get("/",(req,res)=>{
-
+app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
-
 });
 
 
@@ -787,10 +573,13 @@ app.get("/",(req,res)=>{
 // START SERVER
 // ==================================================
 
-app.listen(PORT,"0.0.0.0",()=>{
-
-    console.log(
-        `PT BAG SHOP running on port ${PORT}`
-    );
-
-});
+initDatabase()
+    .then(() => {
+        app.listen(PORT, "0.0.0.0", () => {
+            console.log(`PT BAG SHOP running on port ${PORT}`);
+        });
+    })
+    .catch(error => {
+        console.error("DATABASE START ERROR:", error);
+        process.exit(1);
+    });
