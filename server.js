@@ -20,7 +20,6 @@ function createUID() {
     return "PT-" + crypto.randomBytes(4).toString("hex").toUpperCase();
 }
 
-
 // ==================================================
 // KHO ACC DEMO
 // ==================================================
@@ -60,22 +59,21 @@ const stock = {
         {username:"DEMO_COKHI_03",password:"demo_cokhi_003",level:70,rarity:"Huyền thoại",info:"Acc Cần Cơ Khí demo 03"}
     ],
     acc2: [
-        {username:"DEMO_CLONE_01",password:"clone_demo_001",level:20,rarity:"Thường",info:"Acc Clone 8XX-1XXKC demo 01"},
-        {username:"DEMO_CLONE_02",password:"clone_demo_002",level:25,rarity:"Thường",info:"Acc Clone 8XX-1XXKC demo 02"},
-        {username:"DEMO_CLONE_03",password:"clone_demo_003",level:30,rarity:"Hiếm",info:"Acc Clone 8XX-1XXKC demo 03"},
-        {username:"DEMO_CLONE_04",password:"clone_demo_004",level:35,rarity:"Hiếm",info:"Acc Clone 8XX-1XXKC demo 04"},
-        {username:"DEMO_CLONE_05",password:"clone_demo_005",level:40,rarity:"Hiếm",info:"Acc Clone 8XX-1XXKC demo 05"},
-        {username:"DEMO_CLONE_06",password:"clone_demo_006",level:45,rarity:"Hiếm",info:"Acc Clone 8XX-1XXKC demo 06"},
-        {username:"DEMO_CLONE_07",password:"clone_demo_007",level:50,rarity:"Siêu hiếm",info:"Acc Clone 8XX-1XXKC demo 07"},
-        {username:"DEMO_CLONE_08",password:"clone_demo_008",level:55,rarity:"Siêu hiếm",info:"Acc Clone 8XX-1XXKC demo 08"},
-        {username:"DEMO_CLONE_09",password:"clone_demo_009",level:60,rarity:"Siêu hiếm",info:"Acc Clone 8XX-1XXKC demo 09"},
-        {username:"DEMO_CLONE_10",password:"clone_demo_010",level:65,rarity:"Cực hiếm",info:"Acc Clone 8XX-1XXKC demo 10"},
-        {username:"DEMO_CLONE_11",password:"clone_demo_011",level:70,rarity:"Cực hiếm",info:"Acc Clone 8XX-1XXKC demo 11"},
-        {username:"DEMO_CLONE_12",password:"clone_demo_012",level:75,rarity:"Cực hiếm",info:"Acc Clone 8XX-1XXKC demo 12"}
+        {username:"DEMO_CLONE_01",password:"clone_demo_001",level:20,rarity:"Thường",info:"Acc Clone demo 01"},
+        {username:"DEMO_CLONE_02",password:"clone_demo_002",level:25,rarity:"Thường",info:"Acc Clone demo 02"},
+        {username:"DEMO_CLONE_03",password:"clone_demo_003",level:30,rarity:"Hiếm",info:"Acc Clone demo 03"},
+        {username:"DEMO_CLONE_04",password:"clone_demo_004",level:35,rarity:"Hiếm",info:"Acc Clone demo 04"},
+        {username:"DEMO_CLONE_05",password:"clone_demo_005",level:40,rarity:"Hiếm",info:"Acc Clone demo 05"},
+        {username:"DEMO_CLONE_06",password:"clone_demo_006",level:45,rarity:"Hiếm",info:"Acc Clone demo 06"},
+        {username:"DEMO_CLONE_07",password:"clone_demo_007",level:50,rarity:"Siêu hiếm",info:"Acc Clone demo 07"},
+        {username:"DEMO_CLONE_08",password:"clone_demo_008",level:55,rarity:"Siêu hiếm",info:"Acc Clone demo 08"},
+        {username:"DEMO_CLONE_09",password:"clone_demo_009",level:60,rarity:"Siêu hiếm",info:"Acc Clone demo 09"},
+        {username:"DEMO_CLONE_10",password:"clone_demo_010",level:65,rarity:"Cực hiếm",info:"Acc Clone demo 10"},
+        {username:"DEMO_CLONE_11",password:"clone_demo_011",level:70,rarity:"Cực hiếm",info:"Acc Clone demo 11"},
+        {username:"DEMO_CLONE_12",password:"clone_demo_012",level:75,rarity:"Cực hiếm",info:"Acc Clone demo 12"}
     ],
     acc3: []
 };
-
 
 // ==================================================
 // TÚI 5K - 28 ACC MẪU
@@ -107,7 +105,6 @@ const bag5kInfo = [
 
 for (let i = 0; i < 28; i++) {
     const n = String(i + 1).padStart(2, "0");
-
     const pass = [
         "demo123","demo456","demo789","demo999","demo000"
     ][i] || "demo" + String(i + 1).padStart(3, "0");
@@ -120,7 +117,6 @@ for (let i = 0; i < 28; i++) {
         info: "Acc demo 5K - " + bag5kInfo[i]
     });
 }
-
 
 // ==================================================
 // ACC REG QUA GAME - 48 ACC MẪU
@@ -146,7 +142,6 @@ for (let i = 1; i <= 48; i++) {
     });
 }
 
-
 // ==================================================
 // LƯỢT BÁN DEMO
 // ==================================================
@@ -161,7 +156,6 @@ const demoSold = {
     acc2:0,
     acc3:22
 };
-
 
 // ==================================================
 // GIÁ SẢN PHẨM
@@ -178,9 +172,38 @@ const validPrices = {
     acc3:4000
 };
 
+// ==================================================
+// VÒNG QUAY FREE - 18 Ô
+// ==================================================
+
+const DEFAULT_FREE_PRIZES = Array.from(
+    { length: 18 },
+    (_, i) => "Phần quà số " + String(i + 1).padStart(2, "0")
+);
+
+function chooseFreePrize(prizes) {
+    const totalWeight = prizes.reduce(
+        (sum, prize) => sum + Number(prize.weight),
+        0
+    );
+
+    if (!Number.isSafeInteger(totalWeight) || totalWeight <= 0) {
+        throw new Error("Tổng tỉ lệ không hợp lệ.");
+    }
+
+    let random = crypto.randomInt(1, totalWeight + 1);
+
+    for (const prize of prizes) {
+        random -= Number(prize.weight);
+
+        if (random <= 0) return prize;
+    }
+
+    return prizes[prizes.length - 1];
+}
 
 // ==================================================
-// KẾT NỐI SUPABASE VÀ TẠO BẢNG NẾU CHƯA CÓ
+// KẾT NỐI SUPABASE VÀ TẠO BẢNG
 // ==================================================
 
 async function initDatabase() {
@@ -224,6 +247,27 @@ async function initDatabase() {
     `);
 
     await pool.query(`
+        CREATE TABLE IF NOT EXISTS free_wheel_prizes (
+            slot INTEGER PRIMARY KEY,
+            label TEXT NOT NULL,
+            weight INTEGER NOT NULL DEFAULT 1,
+            updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+    `);
+
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS free_wheel_history (
+            id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+            uid TEXT NOT NULL REFERENCES users(uid),
+            slot INTEGER NOT NULL,
+            prize TEXT NOT NULL,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+            spin_day DATE NOT NULL DEFAULT CURRENT_DATE,
+            UNIQUE(uid, spin_day)
+        )
+    `);
+
+    await pool.query(`
         CREATE UNIQUE INDEX IF NOT EXISTS stock_product_username_uidx
         ON stock(product, username)
     `);
@@ -252,19 +296,25 @@ async function initDatabase() {
         }
     }
 
-    console.log("Supabase connected; demo stock checked.");
+    for (let i = 0; i < DEFAULT_FREE_PRIZES.length; i++) {
+        await pool.query(
+            `INSERT INTO free_wheel_prizes (slot, label, weight)
+             VALUES ($1, $2, 1)
+             ON CONFLICT (slot) DO NOTHING`,
+            [i + 1, DEFAULT_FREE_PRIZES[i]]
+        );
+    }
+
+    console.log("Supabase connected; database initialized.");
 }
 
-
 // ==================================================
-// ĐĂNG NHẬP GMAIL - GIỮ UID VÀ SỐ DƯ CŨ
+// ĐĂNG NHẬP GMAIL
 // ==================================================
 
 app.post("/api/login", async (req, res) => {
     try {
-        const gmail = String(req.body.gmail || "")
-            .trim()
-            .toLowerCase();
+        const gmail = String(req.body.gmail || "").trim().toLowerCase();
 
         if (!/^[^\s@]+@gmail\.com$/.test(gmail)) {
             return res.json({
@@ -273,7 +323,6 @@ app.post("/api/login", async (req, res) => {
             });
         }
 
-        // Chỉ tạo tài khoản mới nếu Gmail chưa tồn tại
         await pool.query(
             `INSERT INTO users (gmail, uid, balance)
              VALUES ($1, $2, 0)
@@ -281,11 +330,8 @@ app.post("/api/login", async (req, res) => {
             [gmail, createUID()]
         );
 
-        // Lấy UID và số dư đã lưu
         const result = await pool.query(
-            `SELECT gmail, uid, balance
-             FROM users
-             WHERE gmail = $1`,
+            `SELECT gmail, uid, balance FROM users WHERE gmail = $1`,
             [gmail]
         );
 
@@ -302,7 +348,6 @@ app.post("/api/login", async (req, res) => {
 
     } catch (error) {
         console.error("LOGIN ERROR:", error);
-
         res.status(500).json({
             success: false,
             message: "Không thể đăng nhập."
@@ -310,9 +355,8 @@ app.post("/api/login", async (req, res) => {
     }
 });
 
-
 // ==================================================
-// LẤY LẠI UID VÀ SỐ DƯ THEO UID
+// LẤY THÔNG TIN USER
 // ==================================================
 
 app.get("/api/user/:uid", async (req, res) => {
@@ -320,9 +364,7 @@ app.get("/api/user/:uid", async (req, res) => {
         const uid = String(req.params.uid || "").trim();
 
         const result = await pool.query(
-            `SELECT gmail, uid, balance
-             FROM users
-             WHERE uid = $1`,
+            `SELECT gmail, uid, balance FROM users WHERE uid = $1`,
             [uid]
         );
 
@@ -346,7 +388,6 @@ app.get("/api/user/:uid", async (req, res) => {
 
     } catch (error) {
         console.error("GET USER ERROR:", error);
-
         res.status(500).json({
             success: false,
             message: "Không thể lấy thông tin tài khoản."
@@ -354,6 +395,275 @@ app.get("/api/user/:uid", async (req, res) => {
     }
 });
 
+// ==================================================
+// VÒNG QUAY FREE - LẤY 18 Ô
+// ==================================================
+
+app.get("/api/wheel/free", async (req, res) => {
+    try {
+        const result = await pool.query(
+            `SELECT slot, label, weight
+             FROM free_wheel_prizes
+             ORDER BY slot`
+        );
+
+        res.json({
+            success: true,
+            prizes: result.rows
+        });
+
+    } catch (error) {
+        console.error("FREE WHEEL LOAD ERROR:", error);
+        res.status(500).json({
+            success: false,
+            message: "Không tải được vòng quay."
+        });
+    }
+});
+
+// ==================================================
+// VÒNG QUAY FREE - QUAY MỘT LẦN MỖI NGÀY
+// ==================================================
+
+app.post("/api/wheel/free/spin", async (req, res) => {
+    const uid = String(req.body.uid || "").trim();
+    let client;
+
+    if (!uid) {
+        return res.json({
+            success: false,
+            message: "Thiếu UID."
+        });
+    }
+
+    try {
+        client = await pool.connect();
+        await client.query("BEGIN");
+
+        const user = await client.query(
+            `SELECT uid FROM users WHERE uid = $1 FOR UPDATE`,
+            [uid]
+        );
+
+        if (user.rowCount === 0) {
+            await client.query("ROLLBACK");
+            return res.json({
+                success: false,
+                message: "Không tìm thấy tài khoản."
+            });
+        }
+
+        const alreadySpun = await client.query(
+            `SELECT id
+             FROM free_wheel_history
+             WHERE uid = $1 AND spin_day = CURRENT_DATE`,
+            [uid]
+        );
+
+        if (alreadySpun.rowCount > 0) {
+            await client.query("ROLLBACK");
+            return res.json({
+                success: false,
+                code: "ALREADY_SPUN",
+                message: "Bạn đã sử dụng lượt FREE hôm nay."
+            });
+        }
+
+        const prizeResult = await client.query(
+            `SELECT slot, label, weight
+             FROM free_wheel_prizes
+             ORDER BY slot`
+        );
+
+        if (
+            prizeResult.rows.length !== 18 ||
+            prizeResult.rows.some(p =>
+                !Number.isSafeInteger(Number(p.weight)) ||
+                Number(p.weight) < 1
+            )
+        ) {
+            await client.query("ROLLBACK");
+            return res.json({
+                success: false,
+                message: "Cấu hình vòng quay chưa hợp lệ."
+            });
+        }
+
+        const prize = chooseFreePrize(prizeResult.rows);
+
+        await client.query(
+            `INSERT INTO free_wheel_history (uid, slot, prize)
+             VALUES ($1, $2, $3)`,
+            [uid, prize.slot, prize.label]
+        );
+
+        await client.query("COMMIT");
+
+        res.json({
+            success: true,
+            slot: Number(prize.slot),
+            prize: prize.label,
+            message: "Quay FREE thành công!"
+        });
+
+    } catch (error) {
+        if (client) {
+            try {
+                await client.query("ROLLBACK");
+            } catch (_) {}
+        }
+
+        if (error.code === "23505") {
+            return res.json({
+                success: false,
+                code: "ALREADY_SPUN",
+                message: "Bạn đã quay FREE hôm nay."
+            });
+        }
+
+        console.error("FREE WHEEL SPIN ERROR:", error);
+        res.status(500).json({
+            success: false,
+            message: "Không thể quay vòng quay."
+        });
+
+    } finally {
+        if (client) client.release();
+    }
+});
+
+// ==================================================
+// ADMIN - XEM TỈ LỆ VÒNG QUAY FREE
+// ==================================================
+
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
+
+app.get("/api/admin/wheel/free", checkAdmin, async (req, res) => {
+    try {
+        const result = await pool.query(
+            `SELECT slot, label, weight
+             FROM free_wheel_prizes
+             ORDER BY slot`
+        );
+
+        res.json({
+            success: true,
+            prizes: result.rows
+        });
+
+    } catch (error) {
+        console.error("ADMIN WHEEL LOAD ERROR:", error);
+        res.status(500).json({
+            success: false,
+            message: "Không tải được cấu hình vòng quay."
+        });
+    }
+});
+
+// ==================================================
+// ADMIN - CẬP NHẬT 18 Ô VÀ TỈ LỆ FREE
+// ==================================================
+
+app.post("/api/admin/wheel/free", checkAdmin, async (req, res) => {
+    const prizes = req.body.prizes;
+
+    if (!Array.isArray(prizes) || prizes.length !== 18) {
+        return res.json({
+            success: false,
+            message: "Phải gửi đủ 18 ô."
+        });
+    }
+
+    for (let i = 0; i < prizes.length; i++) {
+        const item = prizes[i];
+        const label = String(item.label || "").trim();
+        const weight = Number(item.weight);
+
+        if (
+            Number(item.slot) !== i + 1 ||
+            !label ||
+            label.length > 100 ||
+            !Number.isSafeInteger(weight) ||
+            weight < 1 ||
+            weight > 100000
+        ) {
+            return res.json({
+                success: false,
+                message: "Ô số " + (i + 1) + " có dữ liệu không hợp lệ."
+            });
+        }
+    }
+
+    const client = await pool.connect();
+
+    try {
+        await client.query("BEGIN");
+
+        for (const item of prizes) {
+            await client.query(
+                `UPDATE free_wheel_prizes
+                 SET label = $1, weight = $2, updated_at = NOW()
+                 WHERE slot = $3`,
+                [
+                    String(item.label).trim(),
+                    Number(item.weight),
+                    Number(item.slot)
+                ]
+            );
+        }
+
+        await client.query("COMMIT");
+
+        res.json({
+            success: true,
+            message: "Đã lưu cấu hình 18 ô FREE."
+        });
+
+    } catch (error) {
+        await client.query("ROLLBACK");
+        console.error("ADMIN WHEEL SAVE ERROR:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Không thể lưu cấu hình."
+        });
+
+    } finally {
+        client.release();
+    }
+});
+
+// ==================================================
+// ADMIN - XEM LỊCH SỬ QUAY FREE
+// ==================================================
+
+app.get("/api/admin/wheel/history", checkAdmin, async (req, res) => {
+    try {
+        const uid = String(req.query.uid || "").trim();
+
+        const result = await pool.query(
+            `SELECT uid, slot, prize, created_at
+             FROM free_wheel_history
+             WHERE ($1 = '' OR uid = $1)
+             ORDER BY created_at DESC
+             LIMIT 100`,
+            [uid]
+        );
+
+        res.json({
+            success: true,
+            history: result.rows
+        });
+
+    } catch (error) {
+        console.error("ADMIN WHEEL HISTORY ERROR:", error);
+        res.status(500).json({
+            success: false,
+            message: "Không tải được lịch sử quay."
+        });
+    }
+});
 
 // ==================================================
 // MUA SẢN PHẨM - KHÓA KHO, CHỐNG BÁN TRÙNG
@@ -369,8 +679,8 @@ app.post("/api/buy", async (req, res) => {
         validPrices[product] !== price
     ) {
         return res.json({
-            success:false,
-            message:"Sản phẩm không hợp lệ."
+            success: false,
+            message: "Sản phẩm không hợp lệ."
         });
     }
 
@@ -378,7 +688,6 @@ app.post("/api/buy", async (req, res) => {
 
     try {
         client = await pool.connect();
-
         await client.query("BEGIN");
 
         const userResult = await client.query(
@@ -391,10 +700,9 @@ app.post("/api/buy", async (req, res) => {
 
         if (userResult.rowCount === 0) {
             await client.query("ROLLBACK");
-
             return res.json({
-                success:false,
-                message:"Phiên đăng nhập không hợp lệ."
+                success: false,
+                message: "Phiên đăng nhập không hợp lệ."
             });
         }
 
@@ -402,12 +710,11 @@ app.post("/api/buy", async (req, res) => {
 
         if (balance < price) {
             await client.query("ROLLBACK");
-
             return res.json({
-                success:false,
-                code:"NOT_ENOUGH",
-                balance:balance,
-                message:"Số dư không đủ."
+                success: false,
+                code: "NOT_ENOUGH",
+                balance,
+                message: "Số dư không đủ."
             });
         }
 
@@ -423,22 +730,21 @@ app.post("/api/buy", async (req, res) => {
 
         if (stockResult.rowCount === 0) {
             await client.query("ROLLBACK");
-
             return res.json({
-                success:false,
-                code:"OUT_OF_STOCK",
-                message:"Sản phẩm này hiện đã hết acc."
+                success: false,
+                code: "OUT_OF_STOCK",
+                message: "Sản phẩm này hiện đã hết acc."
             });
         }
 
         const row = stockResult.rows[0];
 
         const account = {
-            username:row.username,
-            password:row.password,
-            level:row.level,
-            rarity:row.rarity,
-            info:row.info
+            username: row.username,
+            password: row.password,
+            level: row.level,
+            rarity: row.rarity,
+            info: row.info
         };
 
         await client.query(
@@ -464,14 +770,14 @@ app.post("/api/buy", async (req, res) => {
         await client.query("COMMIT");
 
         res.json({
-            success:true,
-            account:account,
-            balance:newBalance,
-            history:{
-                product:product,
-                price:price,
-                account:account,
-                time:historyResult.rows[0].created_at
+            success: true,
+            account,
+            balance: newBalance,
+            history: {
+                product,
+                price,
+                account,
+                time: historyResult.rows[0].created_at
             }
         });
 
@@ -483,19 +789,15 @@ app.post("/api/buy", async (req, res) => {
         }
 
         console.error("BUY ERROR:", error);
-
         res.status(500).json({
-            success:false,
-            message:"Có lỗi khi mua sản phẩm."
+            success: false,
+            message: "Có lỗi khi mua sản phẩm."
         });
 
     } finally {
-        if (client) {
-            client.release();
-        }
+        if (client) client.release();
     }
 });
-
 
 // ==================================================
 // LỊCH SỬ MUA
@@ -512,8 +814,8 @@ app.get("/api/history", async (req, res) => {
 
         if (user.rowCount === 0) {
             return res.json({
-                success:false,
-                message:"Không tìm thấy UID."
+                success: false,
+                message: "Không tìm thấy UID."
             });
         }
 
@@ -526,22 +828,20 @@ app.get("/api/history", async (req, res) => {
         );
 
         res.json({
-            success:true,
-            uid:user.rows[0].uid,
-            gmail:user.rows[0].gmail,
-            history:history.rows
+            success: true,
+            uid: user.rows[0].uid,
+            gmail: user.rows[0].gmail,
+            history: history.rows
         });
 
     } catch (error) {
         console.error("HISTORY ERROR:", error);
-
         res.status(500).json({
-            success:false,
-            message:"Không tải được lịch sử."
+            success: false,
+            message: "Không tải được lịch sử."
         });
     }
 });
-
 
 // ==================================================
 // SHOP STATUS
@@ -571,31 +871,21 @@ app.get("/api/status", async (req, res) => {
         );
 
         res.json({
-            success:true,
-            message:"PT BAG SHOP đang hoạt động.",
-            users:userCount.rows[0].total,
-            stock:stockCount,
-            demoSold:demoSold
+            success: true,
+            message: "PT BAG SHOP đang hoạt động.",
+            users: userCount.rows[0].total,
+            stock: stockCount,
+            demoSold
         });
 
     } catch (error) {
         console.error("STATUS ERROR:", error);
-
         res.status(500).json({
-            success:false,
-            message:"Không tải được trạng thái shop."
+            success: false,
+            message: "Không tải được trạng thái shop."
         });
     }
 });
-
-
-// ==================================================
-// ADMIN - DÙNG BIẾN MÔI TRƯỜNG RENDER
-// ==================================================
-
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
-
 
 // ==================================================
 // ADMIN LOGIN
@@ -604,8 +894,8 @@ const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
 app.post("/api/admin/login", (req, res) => {
     if (!ADMIN_PASSWORD || !ADMIN_TOKEN) {
         return res.status(503).json({
-            success:false,
-            message:"Admin chưa được cấu hình trên Render."
+            success: false,
+            message: "Admin chưa được cấu hình trên Render."
         });
     }
 
@@ -613,17 +903,16 @@ app.post("/api/admin/login", (req, res) => {
 
     if (password !== ADMIN_PASSWORD) {
         return res.json({
-            success:false,
-            message:"Sai mật khẩu Admin."
+            success: false,
+            message: "Sai mật khẩu Admin."
         });
     }
 
     res.json({
-        success:true,
-        token:ADMIN_TOKEN
+        success: true,
+        token: ADMIN_TOKEN
     });
 });
-
 
 // ==================================================
 // KIỂM TRA ADMIN
@@ -634,14 +923,13 @@ function checkAdmin(req, res, next) {
 
     if (!ADMIN_TOKEN || token !== ADMIN_TOKEN) {
         return res.status(401).json({
-            success:false,
-            message:"Bạn không có quyền Admin."
+            success: false,
+            message: "Bạn không có quyền Admin."
         });
     }
 
     next();
 }
-
 
 // ==================================================
 // ADMIN XEM USER
@@ -660,32 +948,30 @@ app.get("/api/admin/user", checkAdmin, async (req, res) => {
 
         if (result.rowCount === 0) {
             return res.json({
-                success:false,
-                message:"Không tìm thấy UID."
+                success: false,
+                message: "Không tìm thấy UID."
             });
         }
 
         const user = result.rows[0];
 
         res.json({
-            success:true,
-            user:{
-                gmail:user.gmail,
-                uid:user.uid,
-                balance:Number(user.balance)
+            success: true,
+            user: {
+                gmail: user.gmail,
+                uid: user.uid,
+                balance: Number(user.balance)
             }
         });
 
     } catch (error) {
         console.error("ADMIN USER ERROR:", error);
-
         res.status(500).json({
-            success:false,
-            message:"Lỗi máy chủ."
+            success: false,
+            message: "Lỗi máy chủ."
         });
     }
 });
-
 
 // ==================================================
 // ADMIN CỘNG TIỀN
@@ -702,8 +988,8 @@ app.post("/api/admin/add-money", checkAdmin, async (req, res) => {
             amount > 100000000
         ) {
             return res.json({
-                success:false,
-                message:"Số tiền không hợp lệ."
+                success: false,
+                message: "Số tiền không hợp lệ."
             });
         }
 
@@ -711,32 +997,32 @@ app.post("/api/admin/add-money", checkAdmin, async (req, res) => {
             `UPDATE users
              SET balance = balance + $1
              WHERE uid = $2
-             RETURNING balance`,
+             RETURNING gmail, uid, balance`,
             [amount, uid]
         );
 
         if (result.rowCount === 0) {
             return res.json({
-                success:false,
-                message:"Không tìm thấy UID."
+                success: false,
+                message: "Không tìm thấy UID."
             });
         }
 
         res.json({
-            success:true,
-            balance:Number(result.rows[0].balance)
+            success: true,
+            uid: result.rows[0].uid,
+            gmail: result.rows[0].gmail,
+            balance: Number(result.rows[0].balance)
         });
 
     } catch (error) {
         console.error("ADMIN ADD MONEY ERROR:", error);
-
         res.status(500).json({
-            success:false,
-            message:"Không thể cộng tiền."
+            success: false,
+            message: "Không thể cộng tiền."
         });
     }
 });
-
 
 // ==================================================
 // ADMIN XEM LỊCH SỬ
@@ -753,8 +1039,8 @@ app.get("/api/admin/history", checkAdmin, async (req, res) => {
 
         if (user.rowCount === 0) {
             return res.json({
-                success:false,
-                message:"Không tìm thấy UID."
+                success: false,
+                message: "Không tìm thấy UID."
             });
         }
 
@@ -767,22 +1053,20 @@ app.get("/api/admin/history", checkAdmin, async (req, res) => {
         );
 
         res.json({
-            success:true,
-            gmail:user.rows[0].gmail,
-            uid:user.rows[0].uid,
-            history:history.rows
+            success: true,
+            gmail: user.rows[0].gmail,
+            uid: user.rows[0].uid,
+            history: history.rows
         });
 
     } catch (error) {
         console.error("ADMIN HISTORY ERROR:", error);
-
         res.status(500).json({
-            success:false,
-            message:"Không tải được lịch sử Admin."
+            success: false,
+            message: "Không tải được lịch sử Admin."
         });
     }
 });
-
 
 // ==================================================
 // TRANG ADMIN
@@ -792,7 +1076,6 @@ app.get("/admin", (req, res) => {
     res.sendFile(__dirname + "/public/admin.html");
 });
 
-
 // ==================================================
 // TRANG CHỦ
 // ==================================================
@@ -800,7 +1083,6 @@ app.get("/admin", (req, res) => {
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
-
 
 // ==================================================
 // START SERVER
