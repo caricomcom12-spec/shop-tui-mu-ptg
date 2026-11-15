@@ -1,242 +1,920 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TÚI MÙ ACC PLAY TOGETHER</title>
+<title> TÚI MÙ ACC PLAY TOGETHER</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:radial-gradient(circle at top,#172554 0%,#020617 45%,#000 100%);color:white;min-height:100vh}
-button{cursor:pointer}
-header{padding:15px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.45);backdrop-filter:blur(14px);position:sticky;top:0;z-index:20}
-.logo{font-size:20px;font-weight:900;color:#60a5fa}
-.account-btn{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:white;padding:7px 12px;border-radius:30px}
-.avatar{width:33px;height:33px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#7c3aed);display:flex;justify-content:center;align-items:center;font-weight:bold}
-.container{width:min(1150px,94%);margin:auto;padding:30px 0 50px}
-.hero{text-align:center;margin-bottom:28px}
-.hero h1{font-size:clamp(30px,6vw,52px);font-weight:900;background:linear-gradient(90deg,#60a5fa,#c084fc,#f472b6);-webkit-background-clip:text;color:transparent}
-.hero p{color:#94a3b8;margin-top:8px}
-.section-title{display:flex;align-items:center;gap:10px;margin:25px 0 13px;font-size:19px;font-weight:900}
-.section-title span{color:#64748b;font-size:12px;font-weight:normal}
-.products{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.card{position:relative;background:rgba(15,23,42,.86);border:1px solid rgba(255,255,255,.1);border-radius:15px;padding:15px;overflow:hidden;transition:.25s}
-.card:hover{transform:translateY(-4px);border-color:rgba(96,165,250,.65);box-shadow:0 12px 35px rgba(0,0,0,.35)}
-.card h2{font-size:17px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.price{font-size:20px;font-weight:900;color:#38bdf8;margin:7px 0}
-.description{min-height:43px;color:#94a3b8;font-size:12px;line-height:1.4;margin-bottom:8px}
-.stock{font-size:12px;color:#94a3b8;margin-bottom:5px}
-.sold-demo{font-size:11px;color:#fbbf24;font-weight:bold;margin-bottom:9px}
-.buy-btn{width:100%;padding:9px;border:none;border-radius:9px;color:white;font-weight:bold;font-size:12px;background:linear-gradient(90deg,#2563eb,#7c3aed);transition:.2s}
-.buy-btn:hover{filter:brightness(1.15);transform:scale(1.02)}
-.buy-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.acc-section{margin-top:32px}
-.acc-products{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
-.acc-card{background:linear-gradient(145deg,rgba(30,41,59,.95),rgba(15,23,42,.9));border:1px solid rgba(168,85,247,.25);border-radius:17px;padding:18px;transition:.25s}
-.acc-card:hover{transform:translateY(-5px);border-color:#a855f7;box-shadow:0 15px 45px rgba(124,58,237,.18)}
-.acc-icon{font-size:30px;margin-bottom:5px}
-.acc-card h2{font-size:19px;margin-bottom:5px}
-.acc-card .price{color:#c084fc}
-.acc-card .description{min-height:40px}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(7px);z-index:100;justify-content:center;align-items:center;padding:20px}
-.modal{width:min(470px,100%);max-height:90vh;overflow-y:auto;background:#0f172a;border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:25px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:popup .2s ease}
-@keyframes popup{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
-.modal h2{margin-bottom:15px}
-.modal input{width:100%;padding:13px;border-radius:10px;border:1px solid #334155;background:#020617;color:white;outline:none;margin:8px 0}
-.modal button{border:none;border-radius:10px;padding:12px;font-weight:bold}
-.primary{width:100%;background:#2563eb;color:white;margin-top:8px}
-.close{background:#334155;color:white;width:100%;margin-top:8px}
-.danger{background:#dc2626;color:white;width:100%;margin-top:10px}
-.success{color:#4ade80;margin:12px 0;line-height:1.6}
-.warning{color:#fbbf24;line-height:1.6;margin:10px 0}
-.account-info{background:rgba(255,255,255,.05);border-radius:14px;padding:15px;line-height:1.9;margin:15px 0}
-.uid-box{display:flex;gap:8px;align-items:center;margin-top:5px}
-.uid-box code{flex:1;background:#020617;padding:10px;border-radius:8px;color:#60a5fa;overflow:hidden;text-overflow:ellipsis}
-.copy-btn{background:#2563eb;color:white;white-space:nowrap}
-.history-list{max-height:500px;overflow-y:auto;margin-top:12px}
-.history-item{background:rgba(255,255,255,.05);padding:15px;border-radius:12px;margin-bottom:10px;font-size:13px;line-height:1.8;border:1px solid rgba(255,255,255,.06)}
-.history-item .rarity{color:#c084fc;font-weight:bold}
-.account-result{background:linear-gradient(145deg,rgba(30,41,59,.9),rgba(15,23,42,.95));border:1px solid rgba(96,165,250,.25);border-radius:16px;padding:17px;margin-top:12px}
-.account-row{display:flex;justify-content:space-between;gap:15px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)}
-.account-row:last-child{border-bottom:none}
-.account-label{color:#94a3b8}
-.account-value{color:white;text-align:right;word-break:break-word}
-.account-value.green{color:#4ade80;font-weight:bold}
-.account-value.purple{color:#c084fc;font-weight:bold}
-.copy-account{width:100%;background:#16a34a;color:white;margin-top:12px}
-.login-note{color:#94a3b8;font-size:13px;line-height:1.5;margin-top:10px}
-.notice-box{white-space:pre-line;line-height:1.6}
-footer{text-align:center;color:#64748b;padding:25px;border-top:1px solid rgba(255,255,255,.08)}
 
-/* VÒNG QUAY 18 Ô */
-.wheel-section{margin-top:35px;padding:20px;background:rgba(15,23,42,.9);border:1px solid rgba(96,165,250,.25);border-radius:18px;text-align:center}
-.wheel-section h2{margin-bottom:10px}
-.wheel-note{color:#94a3b8;font-size:13px;margin-bottom:18px}
-.wheel-canvas-wrap{width:min(440px,100%);margin:15px auto;position:relative}
-#wheelCanvas{width:100%;display:block;transition:transform 5s cubic-bezier(.12,.75,.15,1)}
-.wheel-pointer{position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:2;font-size:35px}
-.wheel-button{width:100%;max-width:300px;padding:14px;border:0;border-radius:12px;background:linear-gradient(90deg,#2563eb,#9333ea);color:white;font-weight:bold;font-size:16px}
-.wheel-button:disabled{opacity:.5;cursor:not-allowed}
-#wheelResult{margin-top:15px;padding:12px;border-radius:10px;background:#020617;line-height:1.7;white-space:pre-line}
-
-@media(max-width:850px){.products{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:600px){
-header{padding:12px}
-.logo{font-size:16px}
-.account-btn span{display:none}
-.container{padding-top:22px}
-.products{grid-template-columns:repeat(2,1fr);gap:9px}
-.card{padding:12px;border-radius:13px}
-.card h2{font-size:15px}
-.price{font-size:18px}
-.description{font-size:11px}
-.acc-products{grid-template-columns:1fr}
-.account-row{flex-direction:column;gap:2px}
-.account-value{text-align:left}
-.wheel-section{padding:14px}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
 }
+
+body{
+    background:
+    radial-gradient(circle at top,#172554 0%,#020617 45%,#000 100%);
+    color:white;
+    min-height:100vh;
+}
+
+button{
+    cursor:pointer;
+}
+
+header{
+    padding:15px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid rgba(255,255,255,.12);
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(14px);
+    position:sticky;
+    top:0;
+    z-index:20;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:900;
+    color:#60a5fa;
+}
+
+.account-btn{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.15);
+    color:white;
+    padding:7px 12px;
+    border-radius:30px;
+}
+
+.avatar{
+    width:33px;
+    height:33px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.container{
+    width:min(1150px,94%);
+    margin:auto;
+    padding:30px 0 50px;
+}
+
+.hero{
+    text-align:center;
+    margin-bottom:28px;
+}
+
+.hero h1{
+    font-size:clamp(30px,6vw,52px);
+    font-weight:900;
+    background:linear-gradient(90deg,#60a5fa,#c084fc,#f472b6);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.hero p{
+    color:#94a3b8;
+    margin-top:8px;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:25px 0 13px;
+    font-size:19px;
+    font-weight:900;
+}
+
+.section-title span{
+    color:#64748b;
+    font-size:12px;
+    font-weight:normal;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+}
+
+.card{
+    position:relative;
+    background:rgba(15,23,42,.86);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:15px;
+    padding:15px;
+    overflow:hidden;
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(96,165,250,.65);
+    box-shadow:0 12px 35px rgba(0,0,0,.35);
+}
+
+.card h2{
+    font-size:17px;
+    margin-bottom:4px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.price{
+    font-size:20px;
+    font-weight:900;
+    color:#38bdf8;
+    margin:7px 0;
+}
+
+.description{
+    min-height:43px;
+    color:#94a3b8;
+    font-size:12px;
+    line-height:1.4;
+    margin-bottom:8px;
+}
+
+.stock{
+    font-size:12px;
+    color:#94a3b8;
+    margin-bottom:5px;
+}
+
+.sold-demo{
+    font-size:11px;
+    color:#fbbf24;
+    font-weight:bold;
+    margin-bottom:9px;
+}
+
+.buy-btn{
+    width:100%;
+    padding:9px;
+    border:none;
+    border-radius:9px;
+    color:white;
+    font-weight:bold;
+    font-size:12px;
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    transition:.2s;
+}
+
+.buy-btn:hover{
+    filter:brightness(1.15);
+    transform:scale(1.02);
+}
+
+.buy-btn:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+    transform:none;
+}
+
+.acc-section{
+    margin-top:32px;
+}
+
+.acc-products{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.acc-card{
+    background:
+    linear-gradient(
+        145deg,
+        rgba(30,41,59,.95),
+        rgba(15,23,42,.9)
+    );
+    border:1px solid rgba(168,85,247,.25);
+    border-radius:17px;
+    padding:18px;
+    transition:.25s;
+}
+
+.acc-card:hover{
+    transform:translateY(-5px);
+    border-color:#a855f7;
+    box-shadow:0 15px 45px rgba(124,58,237,.18);
+}
+
+.acc-icon{
+    font-size:30px;
+    margin-bottom:5px;
+}
+
+.acc-card h2{
+    font-size:19px;
+    margin-bottom:5px;
+}
+
+.acc-card .price{
+    color:#c084fc;
+}
+
+.acc-card .description{
+    min-height:40px;
+}
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(7px);
+    z-index:100;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.modal{
+    width:min(470px,100%);
+    max-height:90vh;
+    overflow-y:auto;
+    background:#0f172a;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+    animation:popup .2s ease;
+}
+
+@keyframes popup{
+    from{
+        opacity:0;
+        transform:scale(.92);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.modal h2{
+    margin-bottom:15px;
+}
+
+.modal input{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:1px solid #334155;
+    background:#020617;
+    color:white;
+    outline:none;
+    margin:8px 0;
+}
+
+.modal button{
+    border:none;
+    border-radius:10px;
+    padding:12px;
+    font-weight:bold;
+}
+
+.primary{
+    width:100%;
+    background:#2563eb;
+    color:white;
+    margin-top:8px;
+}
+
+.close{
+    background:#334155;
+    color:white;
+    width:100%;
+    margin-top:8px;
+}
+
+.danger{
+    background:#dc2626;
+    color:white;
+    width:100%;
+    margin-top:10px;
+}
+
+.success{
+    color:#4ade80;
+    margin:12px 0;
+    line-height:1.6;
+}
+
+.warning{
+    color:#fbbf24;
+    line-height:1.6;
+    margin:10px 0;
+}
+
+.account-info{
+    background:rgba(255,255,255,.05);
+    border-radius:14px;
+    padding:15px;
+    line-height:1.9;
+    margin:15px 0;
+}
+
+.uid-box{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    margin-top:5px;
+}
+
+.uid-box code{
+    flex:1;
+    background:#020617;
+    padding:10px;
+    border-radius:8px;
+    color:#60a5fa;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.copy-btn{
+    background:#2563eb;
+    color:white;
+    white-space:nowrap;
+}
+
+.history-list{
+    max-height:500px;
+    overflow-y:auto;
+    margin-top:12px;
+}
+
+.history-item{
+    background:rgba(255,255,255,.05);
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:10px;
+    font-size:13px;
+    line-height:1.8;
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.history-item .rarity{
+    color:#c084fc;
+    font-weight:bold;
+}
+
+.account-result{
+    background:
+    linear-gradient(
+        145deg,
+        rgba(30,41,59,.9),
+        rgba(15,23,42,.95)
+    );
+    border:1px solid rgba(96,165,250,.25);
+    border-radius:16px;
+    padding:17px;
+    margin-top:12px;
+}
+
+.account-row{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:7px 0;
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.account-row:last-child{
+    border-bottom:none;
+}
+
+.account-label{
+    color:#94a3b8;
+}
+
+.account-value{
+    color:white;
+    text-align:right;
+    word-break:break-word;
+}
+
+.account-value.green{
+    color:#4ade80;
+    font-weight:bold;
+}
+
+.account-value.purple{
+    color:#c084fc;
+    font-weight:bold;
+}
+
+.copy-account{
+    width:100%;
+    background:#16a34a;
+    color:white;
+    margin-top:12px;
+}
+
+.login-note{
+    color:#94a3b8;
+    font-size:13px;
+    line-height:1.5;
+    margin-top:10px;
+}
+
+.notice-box{
+    white-space:pre-line;
+    line-height:1.6;
+}
+
+footer{
+    text-align:center;
+    color:#64748b;
+    padding:25px;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+@media(max-width:850px){
+
+    .products{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    header{
+        padding:12px;
+    }
+
+    .logo{
+        font-size:16px;
+    }
+
+    .account-btn span{
+        display:none;
+    }
+
+    .container{
+        padding-top:22px;
+    }
+
+    .products{
+        grid-template-columns:repeat(2,1fr);
+        gap:9px;
+    }
+
+    .card{
+        padding:12px;
+        border-radius:13px;
+    }
+
+    .card h2{
+        font-size:15px;
+    }
+
+    .price{
+        font-size:18px;
+    }
+
+    .description{
+        font-size:11px;
+    }
+
+    .acc-products{
+        grid-template-columns:1fr;
+    }
+
+    .account-row{
+        flex-direction:column;
+        gap:2px;
+    }
+
+    .account-value{
+        text-align:left;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-<div class="logo" id="shopLogo">🎁 TÚI MÙ ACC PTG</div>
+
+<div class="logo" id="shopLogo">
+    🎁 TÚI MÙ ACC PTG
+</div>
+
 <button class="account-btn" onclick="openAccount()">
-    <div class="avatar" id="headerAvatar">?</div>
-    <span id="headerAccountText">Đăng nhập</span>
+
+    <div class="avatar" id="headerAvatar">
+        ?
+    </div>
+
+    <span id="headerAccountText">
+        Đăng nhập
+    </span>
+
 </button>
+
 </header>
+
 
 <main class="container">
 
 <section class="hero">
-    <h1 id="shopTitle">TÚI MÙ ACC PLAY TOGETHER</h1>
-    <p id="shopSubtitle">Mở túi mù - nhận acc bất ngờ 🎁</p>
+
+    <h1 id="shopTitle">
+        TÚI MÙ ACC PLAY TOGETHER
+    </h1>
+
+    <p id="shopSubtitle">
+        Mở túi mù - nhận acc bất ngờ 🎁
+    </p>
+
 </section>
 
-<div class="section-title">🎁 TÚI MÙ <span>Random acc từ kho</span></div>
-<section class="products" id="products"></section>
 
-<div class="acc-section">
-    <div class="section-title">👤 BÁN ACC <span>Acc bán riêng</span></div>
-    <section class="acc-products" id="accProducts"></section>
+<!-- TÚI MÙ -->
+
+<div class="section-title">
+    🎁 TÚI MÙ
+    <span>Random acc từ kho</span>
 </div>
 
-<!-- VÒNG QUAY MIỄN PHÍ -->
-<section class="wheel-section">
-    <h2>🎡 VÒNG QUAY MAY MẮN</h2>
-    <p class="wheel-note">18 ô phần quà • Mỗi tài khoản được quay miễn phí 1 lần/ngày</p>
-    <div class="wheel-canvas-wrap">
-        <div class="wheel-pointer">🔻</div>
-        <canvas id="wheelCanvas" width="600" height="600"></canvas>
+<section class="products" id="products"></section>
+
+
+<!-- BÁN ACC -->
+
+<div class="acc-section">
+
+    <div class="section-title">
+        👤 BÁN ACC
+        <span>Acc bán riêng</span>
     </div>
-    <button class="wheel-button" id="freeWheelButton" onclick="spinFreeWheel()">🎁 QUAY MIỄN PHÍ</button>
-    <div id="wheelResult">Đăng nhập để tham gia vòng quay.</div>
-</section>
+
+    <section class="acc-products" id="accProducts"></section>
+
+</div>
 
 </main>
 
+
 <footer>
-    <div id="footerText">© 2026 Túi Mù Acc PTG</div>
+
+    <div id="footerText">
+        © 2026 Túi Mù Acc PTG
+    </div>
+
 </footer>
 
+
 <!-- LOGIN -->
+
 <div class="overlay" id="loginOverlay">
+
 <div class="modal">
+
     <h2>🔐 Đăng nhập</h2>
-    <p class="login-note">Nhập Gmail để tạo tài khoản shop. Không nhập mật khẩu Gmail.</p>
-    <input id="gmailInput" type="email" placeholder="Nhập Gmail...">
-    <button class="primary" onclick="login()">ĐĂNG NHẬP</button>
-    <button class="close" onclick="closeModal('loginOverlay')">ĐÓNG</button>
+
+    <p class="login-note">
+        Nhập Gmail để tạo tài khoản shop.
+        Không nhập mật khẩu Gmail.
+    </p>
+
+    <input
+        id="gmailInput"
+        type="email"
+        placeholder="Nhập Gmail..."
+    >
+
+    <button class="primary" onclick="login()">
+        ĐĂNG NHẬP
+    </button>
+
+    <button class="close" onclick="closeModal('loginOverlay')">
+        ĐÓNG
+    </button>
+
 </div>
+
 </div>
+
 
 <!-- ACCOUNT -->
+
 <div class="overlay" id="accountOverlay">
+
 <div class="modal">
+
     <h2>👤 Tài khoản</h2>
+
     <div class="account-info">
-        <div><b>Gmail:</b> <span id="accountGmail">---</span></div>
+
         <div>
-            <b>UID khách:</b>
-            <div class="uid-box">
-                <code id="accountUID">---</code>
-                <button class="copy-btn" onclick="copyUID()">📋 SAO CHÉP</button>
-            </div>
+            <b>Gmail:</b>
+            <span id="accountGmail">---</span>
         </div>
-        <div><b>💰 Số dư:</b> <span id="accountBalance">0đ</span></div>
+
+        <div>
+
+            <b>UID khách:</b>
+
+            <div class="uid-box">
+
+                <code id="accountUID">---</code>
+
+                <button
+                    class="copy-btn"
+                    onclick="copyUID()"
+                >
+                    📋 SAO CHÉP
+                </button>
+
+            </div>
+
+        </div>
+
+        <div>
+            <b>💰 Số dư:</b>
+            <span id="accountBalance">0đ</span>
+        </div>
+
     </div>
-    <button class="primary" onclick="showHistory()">📜 LỊCH SỬ MUA / BỐC</button>
-    <button class="danger" onclick="logout()">ĐĂNG XUẤT</button>
-    <button class="close" onclick="closeModal('accountOverlay')">ĐÓNG</button>
+
+    <button class="primary" onclick="showHistory()">
+        📜 LỊCH SỬ MUA / BỐC
+    </button>
+
+    <button class="danger" onclick="logout()">
+        ĐĂNG XUẤT
+    </button>
+
+    <button class="close" onclick="closeModal('accountOverlay')">
+        ĐÓNG
+    </button>
+
 </div>
+
 </div>
+
 
 <!-- HISTORY -->
+
 <div class="overlay" id="historyOverlay">
+
 <div class="modal">
+
     <h2>📜 Lịch sử mua / bốc</h2>
-    <div id="historyList" class="history-list">Đang tải...</div>
-    <button class="close" onclick="closeModal('historyOverlay')">ĐÓNG</button>
+
+    <div id="historyList" class="history-list">
+        Đang tải...
+    </div>
+
+    <button class="close" onclick="closeModal('historyOverlay')">
+        ĐÓNG
+    </button>
+
 </div>
+
 </div>
+
 
 <!-- NOTICE -->
+
 <div class="overlay" id="noticeOverlay">
+
 <div class="modal">
+
     <h2>📢 THÔNG BÁO</h2>
+
     <div id="noticeText" class="notice-box"></div>
-    <button class="primary" onclick="closeModal('noticeOverlay')">ĐÃ HIỂU</button>
+
+    <button
+        class="primary"
+        onclick="closeModal('noticeOverlay')"
+    >
+        ĐÃ HIỂU
+    </button>
+
 </div>
+
 </div>
+
 
 <!-- KHÔNG ĐỦ TIỀN -->
+
 <div class="overlay" id="balanceOverlay">
+
 <div class="modal">
+
     <h2>⚠️ KHÔNG ĐỦ SỐ DƯ</h2>
-    <div class="warning">Tài khoản của bạn không đủ tiền để mua sản phẩm này.</div>
-    <div class="account-info">
-        <div><b>UID:</b> <span id="balanceUID">---</span></div>
-        <div><b>Số dư hiện tại:</b> <span id="balanceCurrent">0đ</span></div>
-        <br>
-        <div><b>💰 Nạp tiền qua Zalo:</b><br><strong id="zaloNumber"></strong></div>
+
+    <div class="warning">
+        Tài khoản của bạn không đủ tiền để
+        mua sản phẩm này.
     </div>
-    <button class="close" onclick="closeModal('balanceOverlay')">ĐÓNG</button>
-</div>
+
+    <div class="account-info">
+
+        <div>
+            <b>UID:</b>
+            <span id="balanceUID">---</span>
+        </div>
+
+        <div>
+            <b>Số dư hiện tại:</b>
+            <span id="balanceCurrent">0đ</span>
+        </div>
+
+        <br>
+
+        <div>
+            <b>💰 Nạp tiền qua Zalo:</b>
+            <br>
+            <strong id="zaloNumber"></strong>
+        </div>
+
+    </div>
+
+    <button
+        class="close"
+        onclick="closeModal('balanceOverlay')"
+    >
+        ĐÓNG
+    </button>
+
 </div>
 
+</div>
+
+
 <!-- THÀNH CÔNG -->
+
 <div class="overlay" id="successOverlay">
+
 <div class="modal">
+
     <h2>🎉 NHẬN ACC THÀNH CÔNG</h2>
-    <div class="success">Chúc mừng! Bạn đã nhận được tài khoản:</div>
+
+    <div class="success">
+        Chúc mừng! Bạn đã nhận được tài khoản:
+    </div>
+
     <div class="account-info">
-        <div><b>🎁 Sản phẩm:</b> <span id="successProduct">---</span></div>
-        <div><b>💰 Giá:</b> <span id="successPrice">---</span></div>
+
+        <div>
+            <b>🎁 Sản phẩm:</b>
+            <span id="successProduct">---</span>
+        </div>
+
+        <div>
+            <b>💰 Giá:</b>
+            <span id="successPrice">---</span>
+        </div>
+
     </div>
+
     <div class="account-result">
-        <div class="account-row"><span class="account-label">👤 Username</span><span class="account-value green" id="successUsername">---</span></div>
-        <div class="account-row"><span class="account-label">🔑 Password</span><span class="account-value green" id="successPassword">---</span></div>
-        <div class="account-row"><span class="account-label">⭐ Level</span><span class="account-value" id="successLevel">---</span></div>
-        <div class="account-row"><span class="account-label">💎 Độ hiếm</span><span class="account-value purple" id="successRarity">---</span></div>
-        <div class="account-row"><span class="account-label">📝 Thông tin</span><span class="account-value" id="successInfo">---</span></div>
+
+        <div class="account-row">
+
+            <span class="account-label">
+                👤 Username
+            </span>
+
+            <span
+                class="account-value green"
+                id="successUsername"
+            >
+                ---
+            </span>
+
+        </div>
+
+        <div class="account-row">
+
+            <span class="account-label">
+                🔑 Password
+            </span>
+
+            <span
+                class="account-value green"
+                id="successPassword"
+            >
+                ---
+            </span>
+
+        </div>
+
+        <div class="account-row">
+
+            <span class="account-label">
+                ⭐ Level
+            </span>
+
+            <span
+                class="account-value"
+                id="successLevel"
+            >
+                ---
+            </span>
+
+        </div>
+
+        <div class="account-row">
+
+            <span class="account-label">
+                💎 Độ hiếm
+            </span>
+
+            <span
+                class="account-value purple"
+                id="successRarity"
+            >
+                ---
+            </span>
+
+        </div>
+
+        <div class="account-row">
+
+            <span class="account-label">
+                📝 Thông tin
+            </span>
+
+            <span
+                class="account-value"
+                id="successInfo"
+            >
+                ---
+            </span>
+
+        </div>
+
     </div>
-    <button class="copy-account" onclick="copyAccount()">📋 COPY THÔNG TIN ACC</button>
-    <div class="account-info"><b>💵 Số dư còn lại:</b> <span id="successBalance">---</span></div>
-    <button class="close" onclick="closeModal('successOverlay')">ĐÓNG</button>
+
+    <button
+        class="copy-account"
+        onclick="copyAccount()"
+    >
+        📋 COPY THÔNG TIN ACC
+    </button>
+
+    <div class="account-info">
+
+        <b>💵 Số dư còn lại:</b>
+
+        <span id="successBalance">
+            ---
+        </span>
+
+    </div>
+
+    <button
+        class="close"
+        onclick="closeModal('successOverlay')"
+    >
+        ĐÓNG
+    </button>
+
 </div>
+
 </div>
+
 
 <script>
 
-/* CẤU HÌNH SHOP */
+/* ============================================================
+                    CẤU HÌNH SHOP
+============================================================ */
+
 const SHOP_CONFIG = {
+
     logo:"🎁 TÚI MÙ PTG",
+
     title:"SHOP ACC CDANG",
+
     subtitle:"💸Mở túi mù - nhận acc bất ngờ (zalo 0907859891)🎁",
+
     footer:"© 2026 SHOP TÚI MÙ CDANG",
+
     notice:`📢 THÔNG BÁO SHOP
 
 🎁 Chào mừng bạn đến với Công Đặng Shop Acc!
@@ -246,517 +924,1117 @@ const SHOP_CONFIG = {
 ⚠️ Vui lòng kiểm tra kỹ thông tin sau khi nhận.
 
 ❤️ Cảm ơn bạn đã ủng hộ shop!`,
+
     zalo:"0907859891",
+
     descriptions:{
-        bag5k:"Random clone cần câu, cuốc, clone KC, reg.",
-        tanbinh:"Random clone cần câu, cuốc, reg.",
-        premium:"Acc cao cấp, ít dính reg.",
-        legendary:"Acc hiếm, clone đủ dùng.",
-        lucky:"Acc log game trị giá cao.",
-        acc1:"Acc Cần Cơ Khí - kho 3 acc.",
-        acc2:"Acc Clone 8XX-1XXKC - kho 12 acc.",
-        acc3:"Acc Reg Qua Game - kho 48 acc."
+
+        bag5k:
+        "Random clone cần câu, cuốc, clone KC, reg.",
+
+        tanbinh:
+        "Random clone cần câu, cuốc, reg.",
+
+        premium:
+        "Acc cao cấp, ít dính reg.",
+
+        legendary:
+        "Acc hiếm, clone đủ dùng.",
+
+        lucky:
+        "Acc log game trị giá cao.",
+
+        acc1:
+        "Acc Cần Cơ Khí - kho 3 acc.",
+
+        acc2:
+        "Acc Clone 8XX-1XXKC - kho 12 acc.",
+
+        acc3:
+        "Acc Reg Qua Game - kho 48 acc."
+
     },
+
     names:{
+
         bag5k:"🎁 TÚI 5K",
+
         tanbinh:"🥉 TÂN BINH",
+
         premium:"💎 PREMIUM",
+
         legendary:"🔥 LEGENDARY",
+
         lucky:"🍀 LUCKY",
+
         acc1:"⚙️ ACC CẦN CƠ KHÍ",
+
         acc2:"🎮 ACC CLONE 8XX-1XXKC",
+
         acc3:"🎮 ACC REG QUA GAME"
+
     },
+
     prices:{
+
         bag5k:5000,
+
         tanbinh:20000,
+
         premium:50000,
+
         legendary:100000,
+
         lucky:500000,
+
+        /* GIÁ ACC ĐÃ SỬA */
+
         acc1:40000,
+
         acc2:13000,
+
         acc3:4000
+
     }
+
 };
 
+
+/* ============================================================
+                    BIẾN
+============================================================ */
+
 let currentUser=null;
+
 let lastAccount=null;
 
+
+/* ============================================================
+                    FORMAT TIỀN
+============================================================ */
+
 function formatMoney(number){
+
     return Number(number).toLocaleString("vi-VN")+"đ";
+
 }
 
-document.getElementById("shopLogo").textContent=SHOP_CONFIG.logo;
-document.getElementById("shopTitle").textContent=SHOP_CONFIG.title;
-document.getElementById("shopSubtitle").textContent=SHOP_CONFIG.subtitle;
-document.getElementById("footerText").textContent=SHOP_CONFIG.footer;
-document.getElementById("noticeText").textContent=SHOP_CONFIG.notice;
-document.getElementById("zaloNumber").textContent=SHOP_CONFIG.zalo;
 
-const productOrder=["bag5k","tanbinh","premium","legendary","lucky"];
-const accOrder=["acc1","acc2","acc3"];
+/* ============================================================
+                    CONFIG HIỂN THỊ
+============================================================ */
 
-function createProductCard(product,stock,demoSold,isAcc=false){
-    const price=SHOP_CONFIG.prices[product];
-    const name=SHOP_CONFIG.names[product];
-    const description=SHOP_CONFIG.descriptions[product];
-    const amount=stock[product]??0;
-    const sold=demoSold[product]??0;
-    const card=document.createElement("div");
-    card.className=isAcc?"acc-card":"card";
+document.getElementById("shopLogo").textContent =
+SHOP_CONFIG.logo;
+
+document.getElementById("shopTitle").textContent =
+SHOP_CONFIG.title;
+
+document.getElementById("shopSubtitle").textContent =
+SHOP_CONFIG.subtitle;
+
+document.getElementById("footerText").textContent =
+SHOP_CONFIG.footer;
+
+document.getElementById("noticeText").textContent =
+SHOP_CONFIG.notice;
+
+document.getElementById("zaloNumber").textContent =
+SHOP_CONFIG.zalo;
+
+
+/* ============================================================
+                    TÚI MÙ
+============================================================ */
+
+const productOrder=[
+
+    "bag5k",
+    "tanbinh",
+    "premium",
+    "legendary",
+    "lucky"
+
+];
+
+
+/* ============================================================
+                    BÁN ACC
+============================================================ */
+
+const accOrder=[
+
+    "acc1",
+    "acc2",
+    "acc3"
+
+];
+
+
+/* ============================================================
+                    TẠO CARD
+============================================================ */
+
+function createProductCard(
+    product,
+    stock,
+    demoSold,
+    isAcc=false
+){
+
+    const price =
+    SHOP_CONFIG.prices[product];
+
+    const name =
+    SHOP_CONFIG.names[product];
+
+    const description =
+    SHOP_CONFIG.descriptions[product];
+
+    const amount =
+    stock[product] ?? 0;
+
+    const sold =
+    demoSold[product] ?? 0;
+
+    const card =
+    document.createElement("div");
+
+    card.className =
+    isAcc ? "acc-card" : "card";
+
 
     if(isAcc){
-        const iconMatch=name.match(/^(\S+)/);
-        const icon=iconMatch?iconMatch[1]:"👤";
+
+        const iconMatch =
+        name.match(/^(\S+)/);
+
+        const icon =
+        iconMatch
+        ? iconMatch[1]
+        : "👤";
+
         card.innerHTML=`
-            <div class="acc-icon">${icon}</div>
-            <h2>${name.substring(name.indexOf(" ")+1)}</h2>
-            <div class="price">${formatMoney(price)}</div>
-            <div class="description">${description}</div>
-            <div class="stock">📦 Còn lại: ${amount} acc</div>
-            <div class="sold-demo">🔥 Đã bán (lượt bán): ${sold} lượt</div>
-            <button class="buy-btn" onclick="buyProduct('${product}')" ${amount<=0?"disabled":""}>
-                ${amount<=0?"HẾT ACC":"🛒 MUA ACC"}
-            </button>`;
+
+            <div class="acc-icon">
+                ${icon}
+            </div>
+
+            <h2>
+                ${name.substring(
+                    name.indexOf(" ")+1
+                )}
+            </h2>
+
+            <div class="price">
+                ${formatMoney(price)}
+            </div>
+
+            <div class="description">
+                ${description}
+            </div>
+
+            <div class="stock">
+                📦 Còn lại:
+                ${amount} acc
+            </div>
+
+            <div class="sold-demo">
+                🔥 Đã bán (lượt bán):
+                ${sold} lượt
+            </div>
+
+            <button
+                class="buy-btn"
+                onclick="buyProduct('${product}')"
+                ${amount<=0?"disabled":""}
+            >
+                ${
+                    amount<=0
+                    ?"HẾT ACC"
+                    :"🛒 MUA ACC"
+                }
+            </button>
+
+        `;
+
     }else{
+
         card.innerHTML=`
-            <h2>${name}</h2>
-            <div class="price">${formatMoney(price)}</div>
-            <div class="description">${description}</div>
-            <div class="stock">📦 Còn lại: ${amount} acc</div>
-            <div class="sold-demo">🔥 Đã bán (lượt bán): ${sold} lượt</div>
-            <button class="buy-btn" onclick="buyProduct('${product}')" ${amount<=0?"disabled":""}>
-                ${amount<=0?"HẾT ACC":"🎁 BỐC TÚI"}
-            </button>`;
+
+            <h2>
+                ${name}
+            </h2>
+
+            <div class="price">
+                ${formatMoney(price)}
+            </div>
+
+            <div class="description">
+                ${description}
+            </div>
+
+            <div class="stock">
+                📦 Còn lại:
+                ${amount} acc
+            </div>
+
+            <div class="sold-demo">
+                🔥 Đã bán (lượt bán):
+                ${sold} lượt
+            </div>
+
+            <button
+                class="buy-btn"
+                onclick="buyProduct('${product}')"
+                ${amount<=0?"disabled":""}
+            >
+                ${
+                    amount<=0
+                    ?"HẾT ACC"
+                    :"🎁 BỐC TÚI"
+                }
+            </button>
+
+        `;
+
     }
+
     return card;
+
 }
+
+
+/* ============================================================
+                    LOAD SHOP
+============================================================ */
 
 async function loadShop(){
+
     try{
-        const response=await fetch("/api/status");
-        const data=await response.json();
-        const stock=data.stock||{};
-        const demoSold=data.demoSold||{};
-        const container=document.getElementById("products");
-        const accContainer=document.getElementById("accProducts");
+
+        const response =
+        await fetch("/api/status");
+
+        const data =
+        await response.json();
+
+        const stock =
+        data.stock || {};
+
+        const demoSold =
+        data.demoSold || {};
+
+        const container =
+        document.getElementById("products");
+
+        const accContainer =
+        document.getElementById("accProducts");
+
         container.innerHTML="";
+
         accContainer.innerHTML="";
+
+
         productOrder.forEach(product=>{
-            container.appendChild(createProductCard(product,stock,demoSold,false));
+
+            const card =
+            createProductCard(
+                product,
+                stock,
+                demoSold,
+                false
+            );
+
+            container.appendChild(card);
+
         });
+
+
         accOrder.forEach(product=>{
-            accContainer.appendChild(createProductCard(product,stock,demoSold,true));
+
+            const card =
+            createProductCard(
+                product,
+                stock,
+                demoSold,
+                true
+            );
+
+            accContainer.appendChild(card);
+
         });
+
+
     }catch(error){
+
         console.error(error);
-        document.getElementById("products").innerHTML=`
-            <div style="grid-column:1/-1;text-align:center;padding:30px;color:#f87171">
-                Không thể tải shop. Hãy kiểm tra server.
-            </div>`;
+
+        document.getElementById(
+            "products"
+        ).innerHTML=`
+
+            <div style="
+                grid-column:1/-1;
+                text-align:center;
+                padding:30px;
+                color:#f87171;
+            ">
+
+                Không thể tải shop.
+                Hãy kiểm tra server.
+
+            </div>
+
+        `;
+
     }
+
 }
+
+
+/* ============================================================
+                    MODAL
+============================================================ */
 
 function openModal(id){
-    document.getElementById(id).style.display="flex";
+
+    document.getElementById(id)
+    .style.display="flex";
+
 }
+
+
 function closeModal(id){
-    document.getElementById(id).style.display="none";
+
+    document.getElementById(id)
+    .style.display="none";
+
 }
+
+
+/* ============================================================
+                    ACCOUNT
+============================================================ */
 
 function openAccount(){
+
     if(!currentUser){
+
         openModal("loginOverlay");
+
         return;
+
     }
+
     updateAccountUI();
+
     openModal("accountOverlay");
+
 }
+
 
 function updateAccountUI(){
+
     if(!currentUser)return;
-    document.getElementById("accountGmail").textContent=currentUser.gmail;
-    document.getElementById("accountUID").textContent=currentUser.uid;
-    document.getElementById("accountBalance").textContent=formatMoney(currentUser.balance);
-    document.getElementById("headerAvatar").textContent=currentUser.gmail.charAt(0).toUpperCase();
-    document.getElementById("headerAccountText").textContent=currentUser.gmail;
+
+    document.getElementById(
+        "accountGmail"
+    ).textContent=
+    currentUser.gmail;
+
+    document.getElementById(
+        "accountUID"
+    ).textContent=
+    currentUser.uid;
+
+    document.getElementById(
+        "accountBalance"
+    ).textContent=
+    formatMoney(
+        currentUser.balance
+    );
+
+    const firstLetter =
+    currentUser.gmail
+    .charAt(0)
+    .toUpperCase();
+
+    document.getElementById(
+        "headerAvatar"
+    ).textContent=
+    firstLetter;
+
+    document.getElementById(
+        "headerAccountText"
+    ).textContent=
+    currentUser.gmail;
+
 }
+
+
+/* ============================================================
+                    LOGIN
+============================================================ */
 
 async function login(){
-    const gmail=document.getElementById("gmailInput").value.trim();
+
+    const gmail =
+    document.getElementById(
+        "gmailInput"
+    ).value.trim();
+
     if(!gmail){
+
         alert("Vui lòng nhập Gmail.");
+
         return;
+
     }
+
     try{
-        const response=await fetch("/api/login",{
+
+        const response =
+        await fetch("/api/login",{
+
             method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({gmail:gmail})
+
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
+
+            body:JSON.stringify({
+                gmail:gmail
+            })
+
         });
-        const data=await response.json();
+
+        const data =
+        await response.json();
+
         if(!data.success){
-            alert(data.message||"Đăng nhập thất bại.");
+
+            alert(
+                data.message ||
+                "Đăng nhập thất bại."
+            );
+
             return;
+
         }
-        currentUser=data.user;
-        document.getElementById("gmailInput").value="";
+
+        currentUser =
+        data.user;
+
+        document.getElementById(
+            "gmailInput"
+        ).value="";
+
         closeModal("loginOverlay");
+
         updateAccountUI();
-        alert("Đăng nhập thành công!\n\nUID của bạn: "+currentUser.uid);
-        document.getElementById("wheelResult").textContent="Đã đăng nhập. Bạn có thể tham gia vòng quay miễn phí.";
+
+        alert(
+            "Đăng nhập thành công!\n\n"+
+            "UID của bạn: "+
+            currentUser.uid
+        );
+
     }catch(error){
+
         console.error(error);
-        alert("Không thể kết nối server.");
+
+        alert(
+            "Không thể kết nối server."
+        );
+
     }
+
 }
+
+
+/* ============================================================
+                    LOGOUT
+============================================================ */
 
 function logout(){
+
     currentUser=null;
+
     lastAccount=null;
-    document.getElementById("headerAvatar").textContent="?";
-    document.getElementById("headerAccountText").textContent="Đăng nhập";
-    document.getElementById("wheelResult").textContent="Đăng nhập để tham gia vòng quay.";
+
+    document.getElementById(
+        "headerAvatar"
+    ).textContent="?";
+
+    document.getElementById(
+        "headerAccountText"
+    ).textContent="Đăng nhập";
+
     closeModal("accountOverlay");
+
 }
+
+
+/* ============================================================
+                    COPY UID
+============================================================ */
 
 async function copyUID(){
+
     if(!currentUser)return;
+
     try{
-        await navigator.clipboard.writeText(currentUser.uid);
+
+        await navigator.clipboard.writeText(
+            currentUser.uid
+        );
+
         alert("Đã copy UID.");
+
     }catch{
-        alert("UID của bạn: "+currentUser.uid);
+
+        alert(
+            "UID của bạn: "+
+            currentUser.uid
+        );
+
     }
+
 }
+
+
+/* ============================================================
+                    MUA / BỐC
+============================================================ */
 
 async function buyProduct(product){
+
     if(!currentUser){
+
         openModal("loginOverlay");
+
         return;
+
     }
 
-    const price=SHOP_CONFIG.prices[product];
+    const price =
+    SHOP_CONFIG.prices[product];
 
-    if(Number(currentUser.balance)<price){
-        document.getElementById("balanceUID").textContent=currentUser.uid;
-        document.getElementById("balanceCurrent").textContent=formatMoney(currentUser.balance);
-        openModal("balanceOverlay");
+    if(
+        Number(currentUser.balance)
+        <price
+    ){
+
+        document.getElementById(
+            "balanceUID"
+        ).textContent=
+        currentUser.uid;
+
+        document.getElementById(
+            "balanceCurrent"
+        ).textContent=
+        formatMoney(
+            currentUser.balance
+        );
+
+        openModal(
+            "balanceOverlay"
+        );
+
         return;
+
     }
 
-    const isAcc=accOrder.includes(product);
-    const actionText=isAcc?"mua":"bốc";
-    const confirmBuy=confirm("Bạn có chắc muốn "+actionText+" "+SHOP_CONFIG.names[product]+" với giá "+formatMoney(price)+"?");
+
+    const isAcc =
+    accOrder.includes(product);
+
+    const actionText =
+    isAcc
+    ?"mua"
+    :"bốc";
+
+
+    const confirmBuy =
+    confirm(
+
+        "Bạn có chắc muốn "+
+        actionText+" "+
+        SHOP_CONFIG.names[product]+
+        " với giá "+
+        formatMoney(price)+"?"
+
+    );
+
     if(!confirmBuy)return;
 
+
     try{
-        const response=await fetch("/api/buy",{
+
+        const response =
+        await fetch("/api/buy",{
+
             method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({uid:currentUser.uid,product:product,price:price})
+
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
+
+            body:JSON.stringify({
+
+                uid:
+                currentUser.uid,
+
+                product:
+                product,
+
+                price:
+                price
+
+            })
+
         });
-        const data=await response.json();
+
+        const data =
+        await response.json();
+
 
         if(!data.success){
-            if(data.code==="NOT_ENOUGH"){
-                currentUser.balance=data.balance??currentUser.balance;
-                document.getElementById("balanceUID").textContent=currentUser.uid;
-                document.getElementById("balanceCurrent").textContent=formatMoney(currentUser.balance);
-                openModal("balanceOverlay");
+
+            if(
+                data.code===
+                "NOT_ENOUGH"
+            ){
+
+                currentUser.balance =
+                data.balance ??
+                currentUser.balance;
+
+                document.getElementById(
+                    "balanceUID"
+                ).textContent=
+                currentUser.uid;
+
+                document.getElementById(
+                    "balanceCurrent"
+                ).textContent=
+                formatMoney(
+                    currentUser.balance
+                );
+
+                openModal(
+                    "balanceOverlay"
+                );
+
                 return;
+
             }
-            if(data.code==="OUT_OF_STOCK"){
-                alert("Sản phẩm này đã hết acc.");
+
+
+            if(
+                data.code===
+                "OUT_OF_STOCK"
+            ){
+
+                alert(
+                    "Sản phẩm này đã hết acc."
+                );
+
                 loadShop();
+
                 return;
+
             }
-            alert(data.message||"Không thể mua sản phẩm.");
+
+
+            alert(
+                data.message ||
+                "Không thể mua sản phẩm."
+            );
+
             return;
+
         }
 
-        currentUser.balance=data.balance;
-        lastAccount=data.account;
-        const account=data.account;
 
-        document.getElementById("successProduct").textContent=SHOP_CONFIG.names[product];
-        document.getElementById("successPrice").textContent=formatMoney(price);
-        document.getElementById("successUsername").textContent=account.username||"---";
-        document.getElementById("successPassword").textContent=account.password||"---";
-        document.getElementById("successLevel").textContent=account.level??"---";
-        document.getElementById("successRarity").textContent=account.rarity||"---";
-        document.getElementById("successInfo").textContent=account.info||"---";
-        document.getElementById("successBalance").textContent=formatMoney(data.balance);
+        currentUser.balance =
+        data.balance;
 
-        openModal("successOverlay");
+        const account =
+        data.account;
+
+        lastAccount =
+        account;
+
+
+        document.getElementById(
+            "successProduct"
+        ).textContent=
+        SHOP_CONFIG.names[product];
+
+
+        document.getElementById(
+            "successPrice"
+        ).textContent=
+        formatMoney(price);
+
+
+        document.getElementById(
+            "successUsername"
+        ).textContent=
+        account.username || "---";
+
+
+        document.getElementById(
+            "successPassword"
+        ).textContent=
+        account.password || "---";
+
+
+        document.getElementById(
+            "successLevel"
+        ).textContent=
+        account.level ?? "---";
+
+
+        document.getElementById(
+            "successRarity"
+        ).textContent=
+        account.rarity || "---";
+
+
+        document.getElementById(
+            "successInfo"
+        ).textContent=
+        account.info || "---";
+
+
+        document.getElementById(
+            "successBalance"
+        ).textContent=
+        formatMoney(
+            data.balance
+        );
+
+
+        openModal(
+            "successOverlay"
+        );
+
+
         loadShop();
+
         updateAccountUI();
 
+
     }catch(error){
+
         console.error(error);
-        alert("Không thể kết nối tới server.");
+
+        alert(
+            "Không thể kết nối tới server."
+        );
+
     }
+
 }
+
+
+/* ============================================================
+                    COPY ACC
+============================================================ */
 
 async function copyAccount(){
+
     if(!lastAccount)return;
-    const text="Username: "+(lastAccount.username||"")+
-        "\nPassword: "+(lastAccount.password||"")+
-        "\nLevel: "+(lastAccount.level??"")+
-        "\nĐộ hiếm: "+(lastAccount.rarity||"")+
-        "\nThông tin: "+(lastAccount.info||"");
+
+    const text=
+
+        "Username: "+
+        (lastAccount.username || "")+
+
+        "\nPassword: "+
+        (lastAccount.password || "")+
+
+        "\nLevel: "+
+        (lastAccount.level ?? "")+
+
+        "\nĐộ hiếm: "+
+        (lastAccount.rarity || "")+
+
+        "\nThông tin: "+
+        (lastAccount.info || "");
+
+
     try{
-        await navigator.clipboard.writeText(text);
-        alert("Đã copy thông tin acc.");
+
+        await navigator.clipboard.writeText(
+            text
+        );
+
+        alert(
+            "Đã copy thông tin acc."
+        );
+
     }catch{
+
         alert(text);
+
     }
+
 }
+
+
+/* ============================================================
+                    LỊCH SỬ
+============================================================ */
 
 async function showHistory(){
+
     if(!currentUser)return;
-    closeModal("accountOverlay");
-    openModal("historyOverlay");
-    const list=document.getElementById("historyList");
-    list.textContent="Đang tải lịch sử...";
+
+    closeModal(
+        "accountOverlay"
+    );
+
+    openModal(
+        "historyOverlay"
+    );
+
+    const list =
+    document.getElementById(
+        "historyList"
+    );
+
+    list.innerHTML=
+    "Đang tải lịch sử...";
+
 
     try{
-        const response=await fetch("/api/history?uid="+encodeURIComponent(currentUser.uid));
-        const data=await response.json();
+
+        const response =
+        await fetch(
+            "/api/history?uid="+
+            encodeURIComponent(
+                currentUser.uid
+            )
+        );
+
+        const data =
+        await response.json();
+
 
         if(!data.success){
-            list.textContent=data.message||"Không thể tải lịch sử.";
+
+            list.innerHTML=
+            data.message ||
+            "Không thể tải lịch sử.";
+
             return;
+
         }
 
-        const history=data.history||[];
+
+        const history =
+        data.history || [];
+
 
         if(history.length===0){
-            list.innerHTML=`<div style="text-align:center;color:#94a3b8;padding:20px">Chưa có lịch sử mua / bốc.</div>`;
+
+            list.innerHTML=`
+
+                <div style="
+                    text-align:center;
+                    color:#94a3b8;
+                    padding:20px;
+                ">
+
+                    Chưa có lịch sử mua / bốc.
+
+                </div>
+
+            `;
+
             return;
+
         }
+
 
         list.innerHTML="";
-        [...history].reverse().forEach(item=>{
-            const account=item.account||{};
-            const name=SHOP_CONFIG.names[item.product]||item.product;
-            const div=document.createElement("div");
-            div.className="history-item";
+
+
+        [...history]
+        .reverse()
+        .forEach(item=>{
+
+            const account =
+            item.account || {};
+
+            const name =
+            SHOP_CONFIG.names[
+                item.product
+            ] ||
+            item.product;
+
+
+            const div =
+            document.createElement(
+                "div"
+            );
+
+            div.className=
+            "history-item";
+
+
             div.innerHTML=`
-                <b>${name}</b><br>
-                💰 Giá: ${formatMoney(item.price)}<br>
-                👤 Username: <span style="color:#4ade80;font-weight:bold">${account.username||"---"}</span><br>
-                🔑 Password: <span style="color:#4ade80">${account.password||"---"}</span><br>
-                ⭐ Level: ${account.level??"---"}<br>
-                💎 Độ hiếm: <span class="rarity">${account.rarity||"---"}</span><br>
-                📝 Thông tin: ${account.info||"---"}<br>
-                🕒 Thời gian: ${formatDate(item.time)}`;
+
+                <b>
+                    ${name}
+                </b>
+
+                <br>
+
+                💰 Giá:
+                ${formatMoney(item.price)}
+
+                <br>
+
+                👤 Username:
+                <span style="
+                    color:#4ade80;
+                    font-weight:bold;
+                ">
+                    ${account.username || "---"}
+                </span>
+
+                <br>
+
+                🔑 Password:
+                <span style="
+                    color:#4ade80;
+                ">
+                    ${account.password || "---"}
+                </span>
+
+                <br>
+
+                ⭐ Level:
+                ${account.level ?? "---"}
+
+                <br>
+
+                💎 Độ hiếm:
+                <span class="rarity">
+                    ${account.rarity || "---"}
+                </span>
+
+                <br>
+
+                📝 Thông tin:
+                ${account.info || "---"}
+
+                <br>
+
+                🕒 Thời gian:
+                ${formatDate(item.time)}
+
+            `;
+
+
             list.appendChild(div);
+
         });
+
+
     }catch(error){
+
         console.error(error);
-        list.textContent="Không thể kết nối server.";
+
+        list.innerHTML=
+        "Không thể kết nối server.";
+
     }
+
 }
+
+
+/* ============================================================
+                    FORMAT NGÀY
+============================================================ */
 
 function formatDate(time){
+
     if(!time)return"---";
-    return new Date(time).toLocaleString("vi-VN");
+
+    const date=
+    new Date(time);
+
+    return date.toLocaleString(
+        "vi-VN"
+    );
+
 }
 
-/* VÒNG QUAY MIỄN PHÍ 18 Ô */
-let wheelPrizes=[];
-let wheelSpinning=false;
-let wheelRotation=0;
 
-function drawWheel(){
-    const canvas=document.getElementById("wheelCanvas");
-    if(!canvas)return;
-    const ctx=canvas.getContext("2d");
-    const center=300;
-    const radius=285;
-    ctx.clearRect(0,0,600,600);
+/* ============================================================
+                    CLICK NGOÀI MODAL
+============================================================ */
 
-    if(!wheelPrizes.length){
-        ctx.beginPath();
-        ctx.arc(center,center,radius,0,Math.PI*2);
-        ctx.fillStyle="#1e293b";
-        ctx.fill();
-        ctx.fillStyle="white";
-        ctx.font="bold 24px Arial";
-        ctx.textAlign="center";
-        ctx.fillText("ĐANG TẢI...",center,center);
-        return;
-    }
+document
+.querySelectorAll(".overlay")
+.forEach(overlay=>{
 
-    const angle=Math.PI*2/wheelPrizes.length;
+    overlay.addEventListener(
+        "click",
+        function(event){
 
-    wheelPrizes.forEach((prize,index)=>{
-        const start=-Math.PI/2+index*angle;
-        const end=start+angle;
+            if(
+                event.target===
+                overlay
+            ){
 
-        ctx.beginPath();
-        ctx.moveTo(center,center);
-        ctx.arc(center,center,radius,start,end);
-        ctx.closePath();
-        ctx.fillStyle=index%2===0?"#2563eb":"#7c3aed";
-        ctx.fill();
-        ctx.strokeStyle="#ffffff";
-        ctx.lineWidth=2;
-        ctx.stroke();
+                overlay.style.display=
+                "none";
 
-        ctx.save();
-        ctx.translate(center,center);
-        ctx.rotate(start+angle/2);
-        ctx.textAlign="right";
-        ctx.fillStyle="white";
-        ctx.font="bold 17px Arial";
-
-        let label=String(prize.label||"Phần quà");
-        if(label.length>19)label=label.substring(0,17)+"...";
-        ctx.fillText(label,radius-18,6);
-        ctx.restore();
-    });
-
-    ctx.beginPath();
-    ctx.arc(center,center,43,0,Math.PI*2);
-    ctx.fillStyle="#facc15";
-    ctx.fill();
-    ctx.fillStyle="#111827";
-    ctx.font="bold 22px Arial";
-    ctx.textAlign="center";
-    ctx.textBaseline="middle";
-    ctx.fillText("PTG",center,center);
-}
-
-async function loadFreeWheel(){
-    const result=document.getElementById("wheelResult");
-    try{
-        const response=await fetch("/api/wheel/free");
-        const data=await response.json();
-
-        if(!data.success){
-            result.textContent=data.message||"Không tải được vòng quay.";
-            return;
-        }
-
-        wheelPrizes=data.prizes||[];
-        drawWheel();
-
-        if(wheelPrizes.length!==18){
-            result.textContent="Server chưa có đủ 18 phần quà.";
-        }
-    }catch(error){
-        console.error(error);
-        result.textContent="Không thể kết nối vòng quay.";
-    }
-}
-
-async function spinFreeWheel(){
-    if(wheelSpinning)return;
-
-    const result=document.getElementById("wheelResult");
-    const button=document.getElementById("freeWheelButton");
-
-    if(!currentUser){
-        openModal("loginOverlay");
-        return;
-    }
-
-    if(wheelPrizes.length!==18){
-        result.textContent="Vòng quay chưa tải đủ 18 ô.";
-        await loadFreeWheel();
-        return;
-    }
-
-    wheelSpinning=true;
-    button.disabled=true;
-    result.textContent="🎡 Đang quay...";
-
-    try{
-        const response=await fetch("/api/wheel/free/spin",{
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({uid:currentUser.uid})
-        });
-
-        const data=await response.json();
-
-        if(!data.success){
-            result.textContent=data.message||"Không thể quay.";
-            wheelSpinning=false;
-
-            if(data.code==="ALREADY_SPUN"){
-                button.disabled=true;
-            }else{
-                button.disabled=false;
             }
-            return;
+
         }
+    );
 
-        const slot=Number(data.slot);
+});
 
-        // Hỗ trợ server trả slot từ 1 đến 18 hoặc từ 0 đến 17
-        const index=slot>=1&&slot<=18?slot-1:slot;
 
-        if(!Number.isInteger(index)||index<0||index>=18){
-            result.textContent="Kết quả server không hợp lệ.";
-            wheelSpinning=false;
-            button.disabled=false;
-            return;
-        }
+/* ============================================================
+                    THÔNG BÁO
+============================================================ */
 
-        const canvas=document.getElementById("wheelCanvas");
-        const anglePerSlot=360/18;
-        const targetAngle=360-(index*anglePerSlot+anglePerSlot/2);
-        const currentAngle=wheelRotation%360;
-        const extraAngle=(targetAngle-currentAngle+360)%360;
+window.addEventListener(
+    "load",
+    function(){
 
-        wheelRotation+=360*6+extraAngle;
-        canvas.style.transform=`rotate(${wheelRotation}deg)`;
+        setTimeout(
+            ()=>{
+                openModal(
+                    "noticeOverlay"
+                );
+            },
+            400
+        );
 
-        setTimeout(()=>{
-            const prizeLabel=typeof data.prize==="object"
-                ?(data.prize.label||wheelPrizes[index].label)
-                :(data.prize||wheelPrizes[index].label);
-
-            result.textContent=
-                "🎉 CHÚC MỪNG!\n"+
-                "🎁 Phần quà: "+prizeLabel+"\n"+
-                (data.message||"Bạn đã sử dụng lượt quay miễn phí hôm nay.");
-
-            wheelSpinning=false;
-            button.disabled=true;
-        },5100);
-
-    }catch(error){
-        console.error(error);
-        result.textContent="Không thể kết nối server.";
-        wheelSpinning=false;
-        button.disabled=false;
     }
-}
+);
 
-/* CLICK NGOÀI MODAL */
-document.querySelectorAll(".overlay").forEach(overlay=>{
-    overlay.addEventListener("click",function(event){
-        if(event.target===overlay){
-            overlay.style.display="none";
-        }
-    });
-});
 
-/* THÔNG BÁO */
-window.addEventListener("load",function(){
-    setTimeout(()=>{
-        openModal("noticeOverlay");
-    },400);
-});
+/* ============================================================
+                    KHỞI ĐỘNG
+============================================================ */
 
-/* KHỞI ĐỘNG */
 loadShop();
-loadFreeWheel();
 
 </script>
+
 </body>
 </html>
