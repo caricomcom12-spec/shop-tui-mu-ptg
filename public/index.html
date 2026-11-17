@@ -7,7 +7,7 @@
 
 <style>
 /* ==========================================
-   CSS THUẦN - GIAO DIỆN MỚI - TỐI ƯU TỐC ĐỘ
+   CSS THUẦN - TỐI ƯU TỐC ĐỘ & HIỆU ỨNG MƯỢT
 ========================================== */
 *{
     box-sizing:border-box;
@@ -20,7 +20,7 @@ body{
     background: radial-gradient(circle at top, #172554 0%, #020617 45%, #000 100%);
     color:white;
     min-height:100vh;
-    padding-bottom: 70px; /* Chừa chỗ cho menu mobile */
+    padding-bottom: 70px; 
 }
 
 button, a{
@@ -41,470 +41,211 @@ header{
     z-index:40;
 }
 
-.logo-box{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
+.logo-box{ display:flex; align-items:center; gap:10px; }
+.logo-icon{ font-size:28px; color:#8b5cf6; text-shadow:0 0 10px rgba(139,92,246,.8); }
+.logo-text h1{ font-size:18px; font-weight:900; font-style:italic; letter-spacing:1px; }
+.logo-text p{ font-size:10px; color:#94a3b8; text-transform:uppercase; }
 
-.logo-icon{
-    font-size:28px;
-    color:#8b5cf6;
-    text-shadow:0 0 10px rgba(139,92,246,.8);
-}
-
-.logo-text h1{
-    font-size:18px;
-    font-weight:900;
-    font-style:italic;
-    letter-spacing:1px;
-}
-
-.logo-text p{
-    font-size:10px;
-    color:#94a3b8;
-    text-transform:uppercase;
-}
-
-.header-nav{
-    display:none;
-    gap:20px;
-    font-size:14px;
-    font-weight:bold;
-    color:#cbd5e1;
-}
-
+.header-nav{ display:none; gap:20px; font-size:14px; font-weight:bold; color:#cbd5e1; }
 .header-nav a:hover{ color:white; }
-
 .header-nav .active{
-    color:white;
-    background:rgba(37,99,235,.2);
-    padding:6px 15px;
-    border-radius:20px;
-    border:1px solid rgba(59,130,246,.5);
+    color:white; background:rgba(37,99,235,.2); padding:6px 15px;
+    border-radius:20px; border:1px solid rgba(59,130,246,.5);
 }
 
-.header-right{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
+.header-right{ display:flex; align-items:center; gap:10px; }
 .admin-btn{
-    display:none;
-    background:rgba(251,191,36,.1);
-    color:#fbbf24;
-    border:1px solid rgba(251,191,36,.5);
-    padding:6px 15px;
-    border-radius:20px;
-    font-size:13px;
-    font-weight:bold;
+    display:none; background:rgba(251,191,36,.1); color:#fbbf24;
+    border:1px solid rgba(251,191,36,.5); padding:6px 15px;
+    border-radius:20px; font-size:13px; font-weight:bold;
 }
 
 .account-btn{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.1);
-    color:white;
-    padding:5px 12px;
-    border-radius:30px;
-    transition:.2s;
+    display:flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);
+    color:white; padding:5px 12px; border-radius:30px; transition:.2s;
 }
-
 .account-btn:hover{ border-color:#8b5cf6; }
 
 .avatar{
-    width:30px;
-    height:30px;
-    border-radius:50%;
+    width:30px; height:30px; border-radius:50%;
     background:linear-gradient(135deg,#2563eb,#7c3aed);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-weight:bold;
-    font-size:14px;
+    display:flex; justify-content:center; align-items:center;
+    font-weight:bold; font-size:14px;
 }
 
 /* --- CONTAINER --- */
-.container{
-    width:min(1150px,94%);
-    margin:auto;
-    padding:20px 0 50px;
-}
+.container{ width:min(1150px,94%); margin:auto; padding:20px 0 50px; }
 
 /* --- HERO BANNER --- */
 .hero{
-    position:relative;
-    border-radius:16px;
-    overflow:hidden;
-    border:1px solid rgba(255,255,255,.1);
-    min-height:250px;
-    display:flex;
-    align-items:center;
-    padding:30px;
-    margin-bottom:30px;
-    /* ĐÃ GẮN ẢNH ANIME NAM CỦA BẠN VÀO ĐÂY */
+    position:relative; border-radius:16px; overflow:hidden;
+    border:1px solid rgba(255,255,255,.1); min-height:250px;
+    display:flex; align-items:center; padding:30px; margin-bottom:30px;
+    /* ẢNH ANIME NAM CỦA BẠN */
     background-image: linear-gradient(to right, rgba(10,10,22,.95), rgba(10,10,22,.4)), url('https://anhavatardep.com/wp-content/uploads/2024/12/anh-anime-nam-14.jpg');
-    background-size:cover;
-    background-position:center top;
+    background-size:cover; background-position:center top;
 }
 
-.hero-content{
-    position:relative;
-    z-index:10;
-    max-width:500px;
-}
-
-.hero h2{
-    font-size:clamp(28px,5vw,45px);
-    font-weight:900;
-    font-style:italic;
-    line-height:1.2;
-    margin-bottom:10px;
-}
-
-.hero h2 span{
-    color:#8b5cf6;
-    text-shadow:0 0 10px rgba(139,92,246,.8);
-}
-
-.hero p{
-    font-size:14px;
-    font-weight:bold;
-    color:#e2e8f0;
-    margin-bottom:15px;
-}
-
-.hero ul{
-    list-style:none;
-    font-size:13px;
-    color:#cbd5e1;
-    margin-bottom:20px;
-    display:none;
-}
-
+.hero-content{ position:relative; z-index:10; max-width:500px; }
+.hero h2{ font-size:clamp(28px,5vw,45px); font-weight:900; font-style:italic; line-height:1.2; margin-bottom:10px; }
+.hero h2 span{ color:#8b5cf6; text-shadow:0 0 10px rgba(139,92,246,.8); }
+.hero p{ font-size:14px; font-weight:bold; color:#e2e8f0; margin-bottom:15px; }
+.hero ul{ list-style:none; font-size:13px; color:#cbd5e1; margin-bottom:20px; display:none; }
 .hero ul li{ margin-bottom:6px; }
 .hero ul li i{ color:#3b82f6; margin-right:8px; }
 
 .hero-btn{
-    display:inline-block;
-    border:2px solid #8b5cf6;
-    color:white;
-    font-weight:bold;
-    padding:8px 20px;
-    border-radius:8px;
-    transition:.3s;
-    box-shadow:0 0 15px rgba(139,92,246,.4);
+    display:inline-block; border:2px solid #8b5cf6; color:white;
+    font-weight:bold; padding:8px 20px; border-radius:8px;
+    transition:.3s; box-shadow:0 0 15px rgba(139,92,246,.4);
 }
-
 .hero-btn:hover{ background:rgba(139,92,246,.2); }
 
 /* --- GRID LAYOUT --- */
-.main-grid{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:25px;
-}
+.main-grid{ display:grid; grid-template-columns:1fr; gap:25px; }
 
 /* --- SECTION TITLE --- */
-.section-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-}
-
-.section-title h3{
-    font-size:18px;
-    font-weight:bold;
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-.section-title a{
-    font-size:13px;
-    color:#8b5cf6;
-}
+.section-title{ display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
+.section-title h3{ font-size:18px; font-weight:bold; display:flex; align-items:center; gap:8px; }
+.section-title a{ font-size:13px; color:#8b5cf6; }
 
 /* --- PRODUCT CARDS --- */
-.products-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-}
-
+.products-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
 .card{
-    background:#131824;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:12px;
-    padding:15px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    transition:.3s;
-    position:relative;
-    overflow:hidden;
+    background:#131824; border:1px solid rgba(255,255,255,.1);
+    border-radius:12px; padding:15px; display:flex; flex-direction:column;
+    align-items:center; transition:.3s; position:relative; overflow:hidden;
 }
-
-.card:hover{
-    transform:translateY(-5px);
-    border-color:#8b5cf6;
-    box-shadow:0 10px 25px -5px rgba(139,92,246,.4);
-}
-
-.card img{
-    width:70px;
-    height:70px;
-    object-fit:contain;
-    margin-bottom:10px;
-    transition:.3s;
-    filter:drop-shadow(0 0 8px rgba(59,130,246,.5));
-}
-
+.card:hover{ transform:translateY(-5px); border-color:#8b5cf6; box-shadow:0 10px 25px -5px rgba(139,92,246,.4); }
+.card img{ width:70px; height:70px; object-fit:contain; margin-bottom:10px; transition:.3s; filter:drop-shadow(0 0 8px rgba(59,130,246,.5)); }
 .card:hover img{ transform:scale(1.1); }
-
-.card h4{
-    font-size:14px;
-    font-weight:bold;
-    text-align:center;
-    margin-bottom:5px;
-}
-
-.card .price{
-    font-size:16px;
-    font-weight:900;
-    color:#fbbf24;
-    margin-bottom:5px;
-}
-
-.card .desc{
-    font-size:11px;
-    color:#94a3b8;
-    text-align:center;
-    margin-bottom:8px;
-    height:32px;
-    overflow:hidden;
-}
-
-.card .stock, .card .sold{
-    font-size:11px;
-    color:#94a3b8;
-    margin-bottom:3px;
-}
-
-.card .sold{
-    color:#fbbf24;
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
+.card h4{ font-size:14px; font-weight:bold; text-align:center; margin-bottom:5px; }
+.card .price{ font-size:16px; font-weight:900; color:#fbbf24; margin-bottom:5px; }
+.card .desc{ font-size:11px; color:#94a3b8; text-align:center; margin-bottom:8px; height:32px; overflow:hidden; }
+.card .stock, .card .sold{ font-size:11px; color:#94a3b8; margin-bottom:3px; }
+.card .sold{ color:#fbbf24; font-weight:bold; margin-bottom:10px; }
 .buy-btn{
-    width:100%;
-    padding:8px;
-    border:none;
-    border-radius:20px;
-    color:white;
-    font-weight:bold;
-    font-size:12px;
-    background:linear-gradient(90deg,#2563eb,#7c3aed);
-    transition:.2s;
+    width:100%; padding:8px; border:none; border-radius:20px;
+    color:white; font-weight:bold; font-size:12px;
+    background:linear-gradient(90deg,#2563eb,#7c3aed); transition:.2s;
 }
-
 .buy-btn:hover{ opacity:.9; }
 .buy-btn:disabled{ opacity:.5; cursor:not-allowed; }
 
 /* --- SIDEBAR --- */
-.sidebar{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-}
-
-.box{
-    background:#131824;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:12px;
-    padding:20px;
-}
-
-.box h3{
-    font-size:15px;
-    font-weight:bold;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-bottom:12px;
-    border-bottom:1px solid rgba(255,255,255,.1);
-    padding-bottom:10px;
-}
-
-.box p{
-    font-size:12px;
-    color:#94a3b8;
-    margin-bottom:15px;
-}
-
+.sidebar{ display:flex; flex-direction:column; gap:20px; }
+.box{ background:#131824; border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:20px; }
+.box h3{ font-size:15px; font-weight:bold; display:flex; align-items:center; gap:8px; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,.1); padding-bottom:10px; }
+.box p{ font-size:12px; color:#94a3b8; margin-bottom:15px; }
 .login-btn{
-    width:100%;
-    background:linear-gradient(90deg,#2563eb,#7c3aed);
-    color:white;
-    font-weight:bold;
-    padding:10px;
-    border:none;
-    border-radius:8px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:8px;
+    width:100%; background:linear-gradient(90deg,#2563eb,#7c3aed);
+    color:white; font-weight:bold; padding:10px; border:none; border-radius:8px;
+    display:flex; justify-content:center; align-items:center; gap:8px;
     box-shadow:0 0 15px rgba(59,130,246,.3);
 }
-
-.stat-row{
-    display:flex;
-    justify-content:space-between;
-    font-size:13px;
-    margin-bottom:10px;
-}
-
+.stat-row{ display:flex; justify-content:space-between; font-size:13px; margin-bottom:10px; }
 .stat-row span:first-child{ color:#94a3b8; }
 .stat-row span:last-child{ font-weight:bold; }
-
-.status-active{
-    background:rgba(34,197,94,.2);
-    color:#4ade80;
-    padding:2px 8px;
-    border-radius:20px;
-    font-size:11px;
-}
+.status-active{ background:rgba(34,197,94,.2); color:#4ade80; padding:2px 8px; border-radius:20px; font-size:11px; }
 
 /* --- FEATURES BAR --- */
 .features-bar{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-    background:#131824;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:12px;
-    padding:15px;
-    margin-top:30px;
+    display:grid; grid-template-columns:repeat(2,1fr); gap:15px;
+    background:#131824; border:1px solid rgba(255,255,255,.1);
+    border-radius:12px; padding:15px; margin-top:30px;
 }
-
-.feature-item{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
+.feature-item{ display:flex; align-items:center; gap:10px; }
 .feature-item i{ font-size:20px; color:#3b82f6; }
 .feature-item h4{ font-size:13px; font-weight:bold; }
 .feature-item p{ font-size:10px; color:#94a3b8; }
 
 /* --- FOOTER --- */
-footer{
-    border-top:1px solid rgba(255,255,255,.1);
-    margin-top:40px;
-    padding:20px 0;
-    text-align:center;
-}
-
-.footer-content{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:15px;
-}
-
-.footer-text{
-    font-size:12px;
-    color:#8b5cf6;
-    font-style:italic;
-    font-weight:bold;
-}
+footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px 0; text-align:center; }
+.footer-content{ display:flex; flex-direction:column; align-items:center; gap:15px; }
+.footer-text{ font-size:12px; color:#8b5cf6; font-style:italic; font-weight:bold; }
 
 /* --- MOBILE NAV --- */
 .mobile-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#0a0a16;
-    border-top:1px solid rgba(255,255,255,.1);
-    display:flex;
-    justify-content:space-around;
-    padding:8px 0;
-    z-index:40;
+    position:fixed; bottom:0; left:0; width:100%;
+    background:#0a0a16; border-top:1px solid rgba(255,255,255,.1);
+    display:flex; justify-content:space-around; padding:8px 0; z-index:40;
 }
-
-.mobile-nav a{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    color:#94a3b8;
-    font-size:10px;
-    gap:4px;
-}
-
+.mobile-nav a{ display:flex; flex-direction:column; align-items:center; color:#94a3b8; font-size:10px; gap:4px; }
 .mobile-nav a.active{ color:#8b5cf6; }
 .mobile-nav i{ font-size:18px; }
 
-/* --- MODALS --- */
+/* ==========================================
+   HIỆU ỨNG MODAL MƯỢT MÀ (PHÓNG TO TỪ 70% LÊN 100%)
+========================================== */
 .overlay{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.85);
+    background:rgba(0,0,0,.8);
     z-index:100;
     justify-content:center;
     align-items:center;
     padding:20px;
+    /* Hiệu ứng mờ dần cho nền đen */
+    animation: fadeInBg 0.3s ease-out forwards;
+}
+
+@keyframes fadeInBg {
+    from { background: rgba(0,0,0,0); }
+    to { background: rgba(0,0,0,.8); }
 }
 
 .modal{
-    width:min(450px,100%);
+    width:min(400px,100%);
     max-height:90vh;
     overflow-y:auto;
     background:#131824;
     border:1px solid rgba(255,255,255,.15);
     border-radius:16px;
-    padding:25px;
-    box-shadow:0 20px 50px rgba(0,0,0,.5);
+    padding:20px;
+    box-shadow:0 20px 50px rgba(0,0,0,.6);
+    
+    /* Hiệu ứng phóng to từ 70% lên 100% + mờ dần */
+    animation: popInModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transform-origin: center;
 }
 
+@keyframes popInModal {
+    0% {
+        opacity: 0;
+        transform: scale(0.7) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Tinh chỉnh lại Modal cho gọn gàng hơn */
 .modal h2{
-    font-size:18px;
+    font-size:16px;
     margin-bottom:15px;
     display:flex;
     align-items:center;
     gap:8px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
 }
 
 .modal input{
-    width:100%;
-    padding:12px;
-    border-radius:8px;
-    border:1px solid #334155;
-    background:#020617;
-    color:white;
-    outline:none;
-    margin-bottom:15px;
+    width:100%; padding:10px; border-radius:8px;
+    border:1px solid #334155; background:#020617;
+    color:white; outline:none; margin-bottom:12px;
+    font-size: 14px;
 }
-
 .modal input:focus{ border-color:#8b5cf6; }
 
 .modal-btn{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    font-weight:bold;
-    margin-bottom:10px;
-    color:white;
-    transition:.2s;
+    width:100%; padding:10px; border:none; border-radius:8px;
+    font-weight:bold; margin-bottom:8px; color:white;
+    transition:.2s; font-size: 13px;
 }
-
 .modal-btn.primary{ background:#2563eb; }
 .modal-btn.primary:hover{ background:#1d4ed8; }
 .modal-btn.danger{ background:#dc2626; }
@@ -515,20 +256,14 @@ footer{
 .modal-btn.close:hover{ background:#475569; }
 
 .info-box{
-    background:#020617;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:10px;
-    padding:15px;
-    margin-bottom:15px;
-    font-size:13px;
-    line-height:1.8;
+    background:#020617; border:1px solid rgba(255,255,255,.1);
+    border-radius:10px; padding:12px; margin-bottom:12px;
+    font-size:12px; line-height:1.6;
 }
 
 .info-row{
-    display:flex;
-    justify-content:space-between;
-    border-bottom:1px solid rgba(255,255,255,.05);
-    padding:6px 0;
+    display:flex; justify-content:space-between;
+    border-bottom:1px solid rgba(255,255,255,.05); padding:6px 0;
 }
 .info-row:last-child{ border-bottom:none; }
 
@@ -560,10 +295,10 @@ footer{
 <!-- HEADER -->
 <header>
     <div class="logo-box">
-        <div class="logo-icon">🛍️</div>
+        <div class="logo-icon">😎👌</div>
         <div class="logo-text">
-            <h1 id="shopLogo">PT BAG SHOP</h1>
-            <p>Uy Tín - Nhanh Chóng - Giá Tốt</p>
+            <h1 id="shopLogo">Shop CDANG</h1>
+            <p>Giá Tốt</p>
         </div>
     </div>
 
@@ -713,7 +448,7 @@ footer{
 </nav>
 
 <!-- ========================================== -->
-<!-- MODALS (GIỮ NGUYÊN ID VÀ LOGIC) -->
+<!-- MODALS -->
 <!-- ========================================== -->
 
 <!-- LOGIN -->
@@ -811,12 +546,9 @@ footer{
 </div>
 
 <!-- ========================================== -->
-<!-- SCRIPT (GIỮ NGUYÊN LOGIC CỦA BẠN) -->
+<!-- SCRIPT (GIỮ NGUYÊN LOGIC) -->
 <!-- ========================================== -->
 <script>
-    /* ============================================================
-                        CẤU HÌNH SHOP
-    ============================================================ */
     const SHOP_CONFIG = {
         logo:"🎁 TÚI MÙ PTG",
         title:"SHOP ACC CDANG",
@@ -853,16 +585,10 @@ footer{
             acc3:"🎮 ACC REG QUA GAME"
         },
         prices:{
-            bag5k:5000,
-            tanbinh:20000,
-            premium:50000,
-            legendary:100000,
-            lucky:500000,
-            acc1:40000,
-            acc2:13000,
-            acc3:4000
+            bag5k:5000, tanbinh:20000, premium:50000,
+            legendary:100000, lucky:500000, acc1:40000,
+            acc2:13000, acc3:4000
         },
-        // LINK ẢNH SẢN PHẨM (Bạn có thể thay đổi nếu muốn)
         images: {
             bag5k: "https://cdn-icons-png.flaticon.com/512/3003/3003728.png",
             tanbinh: "https://cdn-icons-png.flaticon.com/512/4140/4140048.png",
@@ -875,22 +601,11 @@ footer{
         }
     };
 
-    /* ============================================================
-                        BIẾN
-    ============================================================ */
     let currentUser=null;
     let lastAccount=null;
 
-    /* ============================================================
-                        FORMAT TIỀN
-    ============================================================ */
-    function formatMoney(number){
-        return Number(number).toLocaleString("vi-VN")+"đ";
-    }
+    function formatMoney(number){ return Number(number).toLocaleString("vi-VN")+"đ"; }
 
-    /* ============================================================
-                        CONFIG HIỂN THỊ
-    ============================================================ */
     document.getElementById("shopLogo").textContent = SHOP_CONFIG.logo;
     document.getElementById("shopTitle").innerHTML = SHOP_CONFIG.title.replace("CDANG", "<span>CDANG</span>");
     document.getElementById("shopSubtitle").textContent = SHOP_CONFIG.subtitle;
@@ -898,27 +613,19 @@ footer{
     document.getElementById("noticeText").textContent = SHOP_CONFIG.notice;
     document.getElementById("zaloNumber").textContent = SHOP_CONFIG.zalo;
 
-    /* ============================================================
-                        TÚI MÙ & BÁN ACC
-    ============================================================ */
     const productOrder=["bag5k","tanbinh","premium","legendary","lucky"];
     const accOrder=["acc1","acc2","acc3"];
 
-    /* ============================================================
-                        TẠO CARD
-    ============================================================ */
     function createProductCard(product, stock, demoSold, isAcc=false){
         const price = SHOP_CONFIG.prices[product];
         const name = SHOP_CONFIG.names[product];
         const description = SHOP_CONFIG.descriptions[product];
         const amount = stock[product] ?? 0;
         const sold = demoSold[product] ?? 0;
-        
         const imgSrc = SHOP_CONFIG.images[product] || "https://cdn-icons-png.flaticon.com/512/3003/3003728.png";
         
         const card = document.createElement("div");
         card.className = "card";
-
         const cleanName = name.substring(name.indexOf(" ")+1);
 
         card.innerHTML = `
@@ -935,9 +642,6 @@ footer{
         return card;
     }
 
-    /* ============================================================
-                        LOAD SHOP
-    ============================================================ */
     async function loadShop(){
         try{
             const response = await fetch("/api/status");
@@ -951,13 +655,11 @@ footer{
             accContainer.innerHTML="";
 
             productOrder.forEach(product=>{
-                const card = createProductCard(product, stock, demoSold, false);
-                container.appendChild(card);
+                container.appendChild(createProductCard(product, stock, demoSold, false));
             });
 
             accOrder.forEach(product=>{
-                const card = createProductCard(product, stock, demoSold, true);
-                accContainer.appendChild(card);
+                accContainer.appendChild(createProductCard(product, stock, demoSold, true));
             });
 
         }catch(error){
@@ -970,9 +672,6 @@ footer{
         }
     }
 
-    /* ============================================================
-                        MODAL
-    ============================================================ */
     function openModal(id){
         document.getElementById(id).style.display = "flex";
     }
@@ -981,9 +680,6 @@ footer{
         document.getElementById(id).style.display = "none";
     }
 
-    /* ============================================================
-                        ACCOUNT
-    ============================================================ */
     function openAccount(){
         if(!currentUser){
             openModal("loginOverlay");
@@ -1009,15 +705,9 @@ footer{
         document.getElementById("login-box").style.display = "none";
     }
 
-    /* ============================================================
-                        LOGIN
-    ============================================================ */
     async function login(){
         const gmail = document.getElementById("gmailInput").value.trim();
-        if(!gmail){
-            alert("Vui lòng nhập Gmail.");
-            return;
-        }
+        if(!gmail){ alert("Vui lòng nhập Gmail."); return; }
         try{
             const response = await fetch("/api/login",{
                 method:"POST",
@@ -1025,10 +715,7 @@ footer{
                 body:JSON.stringify({gmail:gmail})
             });
             const data = await response.json();
-            if(!data.success){
-                alert(data.message || "Đăng nhập thất bại.");
-                return;
-            }
+            if(!data.success){ alert(data.message || "Đăng nhập thất bại."); return; }
             currentUser = data.user;
             document.getElementById("gmailInput").value="";
             closeModal("loginOverlay");
@@ -1040,43 +727,27 @@ footer{
         }
     }
 
-    /* ============================================================
-                        LOGOUT
-    ============================================================ */
     function logout(){
         currentUser=null;
         lastAccount=null;
         document.getElementById("headerAvatar").textContent="?";
-        
         const textEl = document.getElementById("headerAccountText");
         textEl.textContent="Đăng nhập";
         textEl.style.display="none";
-
         document.getElementById("login-box").style.display = "block";
         closeModal("accountOverlay");
     }
 
-    /* ============================================================
-                        COPY UID
-    ============================================================ */
     async function copyUID(){
         if(!currentUser)return;
         try{
             await navigator.clipboard.writeText(currentUser.uid);
             alert("Đã copy UID.");
-        }catch{
-            alert("UID của bạn: "+currentUser.uid);
-        }
+        }catch{ alert("UID của bạn: "+currentUser.uid); }
     }
 
-    /* ============================================================
-                        MUA / BỐC
-    ============================================================ */
     async function buyProduct(product){
-        if(!currentUser){
-            openModal("loginOverlay");
-            return;
-        }
+        if(!currentUser){ openModal("loginOverlay"); return; }
         const price = SHOP_CONFIG.prices[product];
         if(Number(currentUser.balance) < price){
             document.getElementById("balanceUID").textContent = currentUser.uid;
@@ -1087,19 +758,13 @@ footer{
 
         const isAcc = accOrder.includes(product);
         const actionText = isAcc ? "mua" : "bốc";
-        const confirmBuy = confirm("Bạn có chắc muốn "+actionText+" "+SHOP_CONFIG.names[product]+" với giá "+formatMoney(price)+"?");
-
-        if(!confirmBuy)return;
+        if(!confirm("Bạn có chắc muốn "+actionText+" "+SHOP_CONFIG.names[product]+" với giá "+formatMoney(price)+"?")) return;
 
         try{
             const response = await fetch("/api/buy",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
-                body:JSON.stringify({
-                    uid: currentUser.uid,
-                    product: product,
-                    price: price
-                })
+                body:JSON.stringify({ uid: currentUser.uid, product: product, price: price })
             });
             const data = await response.json();
 
@@ -1143,28 +808,15 @@ footer{
         }
     }
 
-    /* ============================================================
-                        COPY ACC
-    ============================================================ */
     async function copyAccount(){
         if(!lastAccount)return;
-        const text=
-            "Username: "+(lastAccount.username || "")+
-            "\nPassword: "+(lastAccount.password || "")+
-            "\nLevel: "+(lastAccount.level ?? "")+
-            "\nĐộ hiếm: "+(lastAccount.rarity || "")+
-            "\nThông tin: "+(lastAccount.info || "");
+        const text = "Username: "+(lastAccount.username || "")+"\nPassword: "+(lastAccount.password || "")+"\nLevel: "+(lastAccount.level ?? "")+"\nĐộ hiếm: "+(lastAccount.rarity || "")+"\nThông tin: "+(lastAccount.info || "");
         try{
             await navigator.clipboard.writeText(text);
             alert("Đã copy thông tin acc.");
-        }catch{
-            alert(text);
-        }
+        }catch{ alert(text); }
     }
 
-    /* ============================================================
-                        LỊCH SỬ
-    ============================================================ */
     async function showHistory(){
         if(!currentUser)return;
         closeModal("accountOverlay");
@@ -1217,18 +869,12 @@ footer{
         }
     }
 
-    /* ============================================================
-                        FORMAT NGÀY
-    ============================================================ */
     function formatDate(time){
         if(!time)return"---";
         const date=new Date(time);
         return date.toLocaleString("vi-VN");
     }
 
-    /* ============================================================
-                        CLICK NGOÀI MODAL
-    ============================================================ */
     document.querySelectorAll(".overlay").forEach(overlay=>{
         overlay.addEventListener("click", function(event){
             if(event.target === overlay){
@@ -1237,18 +883,10 @@ footer{
         });
     });
 
-    /* ============================================================
-                        THÔNG BÁO KHI LOAD
-    ============================================================ */
     window.addEventListener("load", function(){
-        setTimeout(()=>{
-            openModal("noticeOverlay");
-        }, 400);
+        setTimeout(()=>{ openModal("noticeOverlay"); }, 400);
     });
 
-    /* ============================================================
-                        KHỞI ĐỘNG
-    ============================================================ */
     loadShop();
 </script>
 </body>
