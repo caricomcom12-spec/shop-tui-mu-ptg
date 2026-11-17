@@ -3,546 +3,866 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PT BAG SHOP - Túi Mù Acc Play Together</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,800&display=swap" rel="stylesheet">
-    <style>
-        /* ================= BIẾN MÀU SẮC ================= */
-        :root {
-            --bg-body: #060713;
-            --bg-card: #0f1123;
-            --bg-card-hover: #181b36;
-            --primary: #a855f7;
-            --primary-glow: rgba(168, 85, 247, 0.5);
-            --blue: #3b82f6;
-            --blue-glow: rgba(59, 130, 246, 0.5);
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --gold: #fbbf24;
-            --border-color: #23264a;
-        }
+    <title> TÚI MÙ ACC PLAY TOGETHER</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            padding-bottom: 80px; /* Chừa chỗ cho thanh menu dưới trên mobile */
-            background-image: radial-gradient(circle at 50% 0%, #1a103c 0%, #060713 60%);
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-
-        a { text-decoration: none; color: inherit; }
-
-        /* ================= HEADER ================= */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: rgba(6, 7, 19, 0.85);
-            backdrop-filter: blur(12px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(168, 85, 247, 0.2);
-        }
-
-        .logo-box { display: flex; align-items: center; gap: 10px; }
-        .logo-icon { font-size: 28px; filter: drop-shadow(0 0 8px var(--primary)); }
-        
-        .logo-text {
-            font-size: 22px;
-            font-weight: 800;
-            font-style: italic;
-            color: var(--primary);
-            text-shadow: 0 0 10px var(--primary-glow);
-            line-height: 1.1;
-        }
-        .logo-text span { color: var(--text-main); text-shadow: none; }
-        .logo-sub { font-size: 9px; color: var(--text-muted); font-style: normal; letter-spacing: 1px; display: block; margin-top: 2px;}
-
-        .desktop-nav { display: none; gap: 25px; align-items: center; }
-        .desktop-nav a {
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: 0.3s;
-        }
-        .desktop-nav a:hover, .desktop-nav a.active {
-            color: var(--text-main);
-            text-shadow: 0 0 8px var(--primary);
-        }
-
-        .btn-admin {
-            background: transparent;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(251, 191, 36, 0.2);
-            transition: 0.3s;
-        }
-        .btn-admin:hover { background: rgba(251, 191, 36, 0.1); box-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
-        
-        .mobile-menu-btn { font-size: 24px; color: var(--primary); cursor: pointer; }
-
-        /* ================= LAYOUT CHÍNH ================= */
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* ================= BANNER ================= */
-        .banner {
-            background: linear-gradient(135deg, #130b29, #2a105c, #130b29);
-            border-radius: 20px;
-            padding: 35px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            box-shadow: inset 0 0 30px rgba(168, 85, 247, 0.1), 0 0 20px rgba(0,0,0,0.5);
-        }
-        .banner::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 60%);
-            pointer-events: none;
-        }
-
-        .banner h1 {
-            font-size: 32px;
-            font-weight: 800;
-            font-style: italic;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            background: linear-gradient(to right, #fff, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
-            position: relative; z-index: 2;
-        }
-        .banner p { font-size: 14px; margin-bottom: 20px; color: #d1d5db; position: relative; z-index: 2; }
-        
-        .btn-buy-now {
-            background: linear-gradient(90deg, var(--blue), var(--primary));
-            color: white; border: none; padding: 12px 40px; border-radius: 30px;
-            font-weight: 800; font-size: 16px; cursor: pointer;
-            box-shadow: 0 0 20px var(--primary-glow);
-            position: relative; z-index: 2; transition: 0.3s;
-        }
-        .btn-buy-now:hover { transform: scale(1.05); }
-
-        /* ================= FEATURES BAR ================= */
-        .features-bar {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            background: var(--bg-card);
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .feature-item {
-            display: flex; align-items: center; gap: 10px;
-            font-size: 12px; font-weight: 600; color: #e2e8f0;
-        }
-        .feature-item span { font-size: 18px; filter: drop-shadow(0 0 5px var(--primary)); }
-
-        /* ================= SẢN PHẨM ================= */
-        .section-title {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 15px; font-size: 18px; font-weight: 800; text-transform: uppercase;
-        }
-        .section-title span:last-child { font-size: 12px; color: var(--primary); cursor: pointer; text-transform: none; }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .product-card {
-            background: linear-gradient(180deg, var(--bg-card) 0%, #0a0b18 100%);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-            transition: 0.3s;
-            display: flex; flex-direction: column; justify-content: space-between;
-        }
-        .product-card:hover {
-            border-color: rgba(168, 85, 247, 0.5);
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
-            transform: translateY(-5px);
-        }
-
-        .product-img-box {
-            width: 100%; height: 110px; margin: 0 auto 10px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .product-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
-        
-        /* Icon tạm thời nếu chưa có ảnh */
-        .product-icon-placeholder {
-            font-size: 60px;
-            filter: drop-shadow(0 0 15px var(--primary));
-            animation: float 3s ease-in-out infinite;
-        }
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .product-title { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
-        .product-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
-        .product-price {
-            font-size: 18px; font-weight: 800; color: var(--gold);
-            margin-bottom: 15px; text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
-        }
-
-        .btn-buy {
-            width: 100%; background: linear-gradient(90deg, #4f46e5, #9333ea);
-            color: white; border: none; padding: 10px; border-radius: 10px;
-            font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s;
-            display: flex; align-items: center; justify-content: center; gap: 5px;
-        }
-        .btn-buy:hover { background: linear-gradient(90deg, #4338ca, #7e22ce); box-shadow: 0 0 15px var(--primary-glow); }
-
-        /* ================= SIDEBAR (DESKTOP) ================= */
-        .sidebar { display: none; flex-direction: column; gap: 20px; }
-
-        .widget {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .widget-title {
-            font-size: 15px; font-weight: 800; margin-bottom: 15px;
-            display: flex; align-items: center; gap: 10px;
-        }
-
-        .btn-google {
-            width: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            color: white; border: none; padding: 12px; border-radius: 10px;
-            font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px;
-            cursor: pointer; box-shadow: 0 0 15px var(--blue-glow); transition: 0.3s;
-        }
-        .btn-google:hover { transform: scale(1.02); }
-
-        /* ================= BOTTOM NAV (MOBILE) ================= */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: rgba(15, 17, 35, 0.95); backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(168, 85, 247, 0.2);
-            display: flex; justify-content: space-around; padding: 10px 0 15px; z-index: 100;
-        }
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
-            color: var(--text-muted); font-size: 10px; font-weight: 600; transition: 0.3s;
-        }
-        .nav-item span:first-child { font-size: 20px; }
-        .nav-item.active { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
-
-        /* ================= RESPONSIVE (MÁY TÍNH) ================= */
-        @media (min-width: 768px) {
-            body { padding-bottom: 0; }
-            .bottom-nav { display: none; }
-            .desktop-nav { display: flex; }
-            .mobile-menu-btn { display: none; }
-            
-            .container {
-                display: grid;
-                grid-template-columns: 2.5fr 1fr;
-                align-items: start;
-                gap: 25px;
-                padding: 25px;
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'sans-serif'] },
+                    colors: {
+                        bgDark: '#0a0a16',
+                        cardDark: '#131824',
+                        neonPurple: '#8b5cf6',
+                        neonBlue: '#3b82f6',
+                        gold: '#fbbf24'
+                    }
+                }
             }
-            .main-content { grid-column: 1; }
-            .sidebar { display: flex; grid-column: 2; }
-            
-            .product-grid { grid-template-columns: repeat(3, 1fr); }
-            .features-bar { grid-template-columns: repeat(4, 1fr); }
-            
-            .banner { padding: 60px 40px; text-align: left; }
-            .banner h1 { font-size: 48px; }
-            .banner p { font-size: 16px; }
+        }
+    </script>
+    <style>
+        /* Hiệu ứng phát sáng */
+        .text-glow { text-shadow: 0 0 10px rgba(139, 92, 246, 0.8), 0 0 20px rgba(139, 92, 246, 0.4); }
+        .box-glow { box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
+        .box-glow-purple { box-shadow: 0 0 15px rgba(139, 92, 246, 0.4); }
+        
+        /* Ẩn thanh cuộn ngang của menu mobile */
+        ::-webkit-scrollbar { display: none; }
+        
+        /* Hiệu ứng hover cho thẻ sản phẩm */
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.4);
+            border-color: #8b5cf6;
         }
 
-        @media (min-width: 1024px) {
-            .product-grid { grid-template-columns: repeat(5, 1fr); }
+        /* Ảnh nền Hero Banner (Bạn thay link ảnh nhân vật vào đây) */
+        .hero-bg {
+            background-image: linear-gradient(to right, rgba(10, 10, 22, 0.95), rgba(10, 10, 22, 0.4)), url('https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
         }
 
-        footer {
-            text-align: center; padding: 20px; color: var(--text-muted);
-            font-size: 12px; border-top: 1px solid var(--border-color); margin-top: 30px;
+        /* Custom Scrollbar cho Modal */
+        .modal-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .modal-scroll::-webkit-scrollbar-track {
+            background: #0a0a16; 
+        }
+        .modal-scroll::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 10px;
         }
     </style>
 </head>
-<body>
+<body class="bg-bgDark text-white font-sans pb-20 lg:pb-0">
 
     <!-- HEADER -->
-    <header>
-        <div class="logo-box">
-            <div class="logo-icon">🛍️</div>
-            <div>
-                <div class="logo-text">PT BAG <span>SHOP</span></div>
-                <div class="logo-sub">Uy Tín - Nhanh Chóng - Giá Tốt</div>
-            </div>
-        </div>
-        
-        <nav class="desktop-nav">
-            <a href="#" class="active">🏠 Trang Chủ</a>
-            <a href="#shop">🛒 Sản Phẩm</a>
-            <a href="#">🕒 Lịch Sử</a>
-            <a href="#">🎧 Hỗ Trợ</a>
-            <a href="/admin" class="btn-admin">👑 Admin</a>
-        </nav>
-        <div class="mobile-menu-btn">☰</div>
-    </header>
-
-    <!-- CONTAINER CHÍNH -->
-    <div class="container">
-        
-        <!-- CỘT TRÁI (NỘI DUNG) -->
-        <div class="main-content">
-            
-            <!-- BANNER -->
-            <div class="banner">
-                <h1>TÚI MÙ ACC<br>PLAY TOGETHER</h1>
-                <p>Mở túi mù - Nhận acc bất ngờ 🎁</p>
-                <button class="btn-buy-now">MUA NGAY ➔</button>
-            </div>
-
-            <!-- TIỆN ÍCH -->
-            <div class="features-bar" style="margin-top: 20px;">
-                <div class="feature-item"><span>🛡️</span> Uy Tín 100%</div>
-                <div class="feature-item"><span>⚡</span> Giao Dịch Siêu Nhanh</div>
-                <div class="feature-item"><span>🎧</span> Hỗ Trợ 24/7</div>
-                <div class="feature-item"><span>👑</span> Giá Tốt Nhất</div>
-            </div>
-
-            <!-- DANH SÁCH SẢN PHẨM -->
-            <div id="shop" style="margin-top: 30px;">
-                <div class="section-title">
-                    <span>🎁 SẢN PHẨM NỔI BẬT</span>
-                    <span>Xem tất cả ➔</span>
+    <header class="border-b border-gray-800 bg-[#0a0a16]/90 backdrop-blur-md sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-2">
+                <div class="text-3xl text-neonPurple drop-shadow-[0_0_8px_rgba(139,92,246,0.8)]">
+                    <i class="fa-solid fa-bag-shopping"></i>
                 </div>
+                <div>
+                    <h1 class="text-xl font-black italic tracking-wider text-white" id="shopLogo">PT BAG SHOP</h1>
+                    <p class="text-[10px] text-gray-400 font-semibold tracking-widest uppercase">Uy Tín - Nhanh Chóng - Giá Tốt</p>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-gray-300">
+                <a href="/" class="flex items-center gap-2 text-white bg-blue-600/20 px-4 py-2 rounded-full border border-blue-500/50 box-glow">
+                    <i class="fa-solid fa-house"></i> Trang Chủ
+                </a>
+                <a href="#san-pham" class="flex items-center gap-2 hover:text-white transition"><i class="fa-solid fa-cart-shopping"></i> Sản Phẩm</a>
+                <a href="#" onclick="showHistory()" class="flex items-center gap-2 hover:text-white transition"><i class="fa-solid fa-clock-rotate-left"></i> Lịch Sử</a>
+                <a href="#" class="flex items-center gap-2 hover:text-white transition"><i class="fa-solid fa-headset"></i> Hỗ Trợ</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-3">
+                <a href="/admin" class="hidden lg:flex items-center gap-2 bg-yellow-500/10 text-gold border border-yellow-500/50 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-yellow-500/20 transition">
+                    <i class="fa-solid fa-crown"></i> Admin
+                </a>
                 
-                <div class="product-grid">
-                    
-                    <!-- SP 1 -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <!-- NẾU CÓ ẢNH: <img src="img/balo.png" alt="Túi 5K"> -->
-                            <div class="product-icon-placeholder">🎒</div>
-                        </div>
-                        <div>
-                            <div class="product-title">Túi 5K</div>
-                            <div class="product-desc">- 28 Acc Mẫu</div>
-                            <div class="product-price">5.000 đ</div>
-                        </div>
-                        <button class="btn-buy" onclick="buyItem('tui5k', 5000)">🛒 Mua Ngay</button>
-                    </div>
-
-                    <!-- SP 2 -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <!-- NẾU CÓ ẢNH: <img src="img/tanbinh.png" alt="Acc Tân Binh"> -->
-                            <div class="product-icon-placeholder">👦</div>
-                        </div>
-                        <div>
-                            <div class="product-title">Acc Tân Binh</div>
-                            <div class="product-desc">(Level 10 - 45)</div>
-                            <div class="product-price">20.000 đ</div>
-                        </div>
-                        <button class="btn-buy" onclick="buyItem('tanbinh', 20000)">🛒 Mua Ngay</button>
-                    </div>
-
-                    <!-- SP 3 -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <!-- NẾU CÓ ẢNH: <img src="img/premium.png" alt="Acc Premium"> -->
-                            <div class="product-icon-placeholder">👑</div>
-                        </div>
-                        <div>
-                            <div class="product-title">Acc Premium</div>
-                            <div class="product-desc">(Level 35 - 65)</div>
-                            <div class="product-price">50.000 đ</div>
-                        </div>
-                        <button class="btn-buy" onclick="buyItem('premium', 50000)">🛒 Mua Ngay</button>
-                    </div>
-
-                    <!-- SP 4 -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <!-- NẾU CÓ ẢNH: <img src="img/legendary.png" alt="Acc Legendary"> -->
-                            <div class="product-icon-placeholder">🔥</div>
-                        </div>
-                        <div>
-                            <div class="product-title">Acc Legendary</div>
-                            <div class="product-desc">(Level 50 - 90)</div>
-                            <div class="product-price">100.000 đ</div>
-                        </div>
-                        <button class="btn-buy" onclick="buyItem('legendary', 100000)">🛒 Mua Ngay</button>
-                    </div>
-
-                    <!-- SP 5 -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <!-- NẾU CÓ ẢNH: <img src="img/lucky.png" alt="Acc Lucky"> -->
-                            <div class="product-icon-placeholder">💎</div>
-                        </div>
-                        <div>
-                            <div class="product-title">Acc Lucky</div>
-                            <div class="product-desc">(Level 80 - 120)</div>
-                            <div class="product-price">500.000 đ</div>
-                        </div>
-                        <button class="btn-buy" onclick="buyItem('lucky', 500000)">🛒 Mua Ngay</button>
-                    </div>
-
-                    <!-- SP 6 -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <!-- NẾU CÓ ẢNH: <img src="img/acc3.png" alt="Acc Reg Quà Game"> -->
-                            <div class="product-icon-placeholder">🎁</div>
-                        </div>
-                        <div>
-                            <div class="product-title">Acc Reg Quà Game</div>
-                            <div class="product-desc">(48 Acc)</div>
-                            <div class="product-price">4.000 đ</div>
-                        </div>
-                        <button class="btn-buy" onclick="buyItem('regqua', 4000)">🛒 Mua Ngay</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- CỘT PHẢI (SIDEBAR - CHỈ HIỆN TRÊN MÁY TÍNH) -->
-        <aside class="sidebar">
-            <!-- Đăng nhập -->
-            <div class="widget">
-                <div class="widget-title">👤 Đăng nhập tài khoản</div>
-                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px; line-height: 1.5;">Đăng nhập để mua hàng và quản lý tài khoản của bạn!</p>
-                <button class="btn-google" onclick="loginGoogle()">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20" style="background: white; border-radius: 50%; padding: 2px;" alt="G">
-                    Đăng nhập bằng Gmail
+                <!-- Nút Account (Đã gắn sự kiện openAccount) -->
+                <button class="account-btn flex items-center gap-2 bg-gray-800/50 border border-gray-700 hover:border-neonPurple px-3 py-1.5 rounded-full transition" onclick="openAccount()">
+                    <div class="avatar w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center font-bold text-sm" id="headerAvatar">?</div>
+                    <span id="headerAccountText" class="text-sm font-semibold hidden sm:block">Đăng nhập</span>
                 </button>
             </div>
+        </div>
+    </header>
 
-            <!-- Thông tin shop -->
-            <div class="widget">
-                <div class="widget-title">📊 Thông Tin Shop</div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px;">
-                    <span style="color: var(--text-muted);">👥 Người dùng</span>
-                    <span style="font-weight: 800;">1.248+</span>
+    <!-- MAIN CONTENT -->
+    <main class="container mx-auto px-4 mt-6">
+        
+        <!-- HERO BANNER -->
+        <div class="relative rounded-2xl overflow-hidden border border-gray-800 hero-bg min-h-[300px] lg:min-h-[400px] flex items-center p-6 lg:p-12 mb-8">
+            <div class="relative z-10 max-w-lg">
+                <h2 class="text-4xl lg:text-6xl font-black italic text-white leading-tight mb-2" id="shopTitle">
+                    TÚI MÙ <span class="text-neonPurple text-glow">ACC</span><br>PLAY TOGETHER
+                </h2>
+                <p class="text-sm lg:text-lg font-bold text-gray-200 mb-4 tracking-wide" id="shopSubtitle">
+                    Mở túi mù - Nhận acc bất ngờ 🎁
+                </p>
+                <ul class="text-xs lg:text-sm text-gray-300 space-y-2 mb-6 hidden md:block">
+                    <li><i class="fa-solid fa-circle-check text-neonBlue mr-2"></i> Acc chất lượng - Giá tốt</li>
+                    <li><i class="fa-solid fa-circle-check text-neonBlue mr-2"></i> Giao dịch siêu nhanh</li>
+                    <li><i class="fa-solid fa-circle-check text-neonBlue mr-2"></i> Bảo mật tuyệt đối</li>
+                </ul>
+                <a href="#san-pham" class="inline-block bg-transparent border-2 border-neonPurple text-white font-bold px-6 py-2 rounded-lg hover:bg-neonPurple/20 transition box-glow-purple">
+                    MUA NGAY <i class="fa-solid fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- GRID LAYOUT -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- CỘT TRÁI: SẢN PHẨM -->
+            <div class="lg:col-span-2" id="san-pham">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-gift text-gold"></i> TÚI MÙ NỔI BẬT
+                    </h3>
+                    <a href="#" class="text-sm text-neonPurple hover:text-white transition">Xem tất cả <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 13px;">
-                    <span style="color: var(--text-muted);">🛒 Đã bán</span>
-                    <span style="font-weight: 800;">28.750+</span>
+
+                <!-- Danh sách Túi Mù (JS render vào đây) -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="products">
+                    <!-- JS sẽ tự động render các thẻ card vào đây -->
                 </div>
-                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; padding: 6px 12px; border-radius: 20px; font-size: 11px; display: inline-block; font-weight: 700;">🟢 Đang hoạt động</div>
+
+                <!-- BÁN ACC RIÊNG -->
+                <div class="mt-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-user-astronaut text-neonBlue"></i> BÁN ACC RIÊNG
+                        </h3>
+                    </div>
+                    <!-- Danh sách Acc (JS render vào đây) -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="accProducts">
+                        <!-- JS sẽ tự động render các thẻ card vào đây -->
+                    </div>
+                </div>
             </div>
 
-            <!-- Lịch sử mua -->
-            <div class="widget">
-                <div class="widget-title">🕒 Lịch Sử Mua Gần Đây</div>
-                <div style="font-size: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 10px;">
-                    <div style="font-weight: 700; color: #e2e8f0;">nv***@gmail.com</div>
-                    <div style="color: var(--text-muted); display: flex; justify-content: space-between; margin-top: 4px;">
-                        <span>Mua Túi 5K</span> <span>2 phút trước</span>
+            <!-- CỘT PHẢI: SIDEBAR -->
+            <div class="lg:col-span-1 space-y-6">
+                
+                <!-- KHỐI ĐĂNG NHẬP -->
+                <div class="bg-cardDark border border-gray-800 rounded-xl p-5" id="login-box">
+                    <h3 class="text-lg font-bold flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-user text-neonBlue"></i> Đăng nhập tài khoản
+                    </h3>
+                    <p class="text-xs text-gray-400 mb-4">Đăng nhập để mua hàng và quản lý tài khoản của bạn!</p>
+                    <button onclick="openModal('loginOverlay')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-2.5 rounded-lg flex items-center justify-center gap-3 hover:opacity-90 transition box-glow">
+                        <i class="fa-brands fa-google"></i> Đăng nhập ngay
+                    </button>
+                </div>
+
+                <!-- KHỐI THỐNG KÊ SHOP -->
+                <div class="bg-cardDark border border-gray-800 rounded-xl p-5">
+                    <h3 class="text-sm font-bold flex items-center gap-2 mb-4 border-b border-gray-800 pb-2">
+                        <i class="fa-solid fa-chart-simple text-neonBlue"></i> Thông Tin Shop
+                    </h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400 flex items-center gap-2"><i class="fa-solid fa-users text-neonBlue"></i> Người dùng</span>
+                            <span class="font-bold">1.248+</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400 flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-neonBlue"></i> Đã bán</span>
+                            <span class="font-bold">28.750+</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400 flex items-center gap-2"><i class="fa-solid fa-circle text-green-500 text-[10px]"></i> Trạng thái</span>
+                            <span class="bg-green-500/20 text-green-400 text-xs px-2 py-0.5 rounded-full font-bold">Đang hoạt động</span>
+                        </div>
                     </div>
                 </div>
-                <div style="font-size: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 10px;">
-                    <div style="font-weight: 700; color: #e2e8f0;">tru***@gmail.com</div>
-                    <div style="color: var(--text-muted); display: flex; justify-content: space-between; margin-top: 4px;">
-                        <span>Mua Acc Premium</span> <span>5 phút trước</span>
+
+                <!-- KHỐI LỊCH SỬ MUA (Giao diện tĩnh) -->
+                <div class="bg-cardDark border border-gray-800 rounded-xl p-5">
+                    <h3 class="text-sm font-bold flex items-center gap-2 mb-4 border-b border-gray-800 pb-2">
+                        <i class="fa-solid fa-clock-rotate-left text-neonBlue"></i> Lịch Sử Mua Gần Đây
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between text-xs">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-crown text-gold text-lg"></i>
+                                <div>
+                                    <p class="font-bold text-gray-200">nv***@gmail.com</p>
+                                    <p class="text-gray-500">Mua Túi 5K</p>
+                                </div>
+                            </div>
+                            <span class="text-gray-500">2 phút trước</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-crown text-gold text-lg"></i>
+                                <div>
+                                    <p class="font-bold text-gray-200">tru***@gmail.com</p>
+                                    <p class="text-gray-500">Mua Acc Premium</p>
+                                </div>
+                            </div>
+                            <span class="text-gray-500">5 phút trước</span>
+                        </div>
                     </div>
                 </div>
-                <div style="font-size: 12px;">
-                    <div style="font-weight: 700; color: #e2e8f0;">duy***@gmail.com</div>
-                    <div style="color: var(--text-muted); display: flex; justify-content: space-between; margin-top: 4px;">
-                        <span>Mua Acc Lucky</span> <span>8 phút trước</span>
-                    </div>
+
+            </div>
+        </div>
+
+        <!-- FEATURES BAR -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 bg-cardDark border border-gray-800 rounded-xl p-4">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-bolt text-2xl text-neonBlue"></i>
+                <div>
+                    <h4 class="text-sm font-bold">Giao dịch siêu tốc</h4>
+                    <p class="text-[10px] text-gray-400">Chỉ trong vài giây</p>
                 </div>
             </div>
-        </aside>
-    </div>
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-shield-halved text-2xl text-neonBlue"></i>
+                <div>
+                    <h4 class="text-sm font-bold">Bảo mật tuyệt đối</h4>
+                    <p class="text-[10px] text-gray-400">An toàn tuyệt đối</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-headset text-2xl text-neonBlue"></i>
+                <div>
+                    <h4 class="text-sm font-bold">Hỗ trợ 24/7</h4>
+                    <p class="text-[10px] text-gray-400">Luôn bên bạn</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-gem text-2xl text-neonBlue"></i>
+                <div>
+                    <h4 class="text-sm font-bold">Giá tốt nhất</h4>
+                    <p class="text-[10px] text-gray-400">Tiết kiệm tối đa</p>
+                </div>
+            </div>
+        </div>
 
-    <!-- THANH MENU DƯỚI (CHỈ HIỆN TRÊN ĐIỆN THOẠI) -->
-    <div class="bottom-nav">
-        <a href="#" class="nav-item active">
-            <span>🏠</span><span>Trang Chủ</span>
-        </a>
-        <a href="#shop" class="nav-item">
-            <span>🛒</span><span>Shop</span>
-        </a>
-        <a href="#" class="nav-item">
-            <span>🕒</span><span>Lịch Sử</span>
-        </a>
-        <a href="#" class="nav-item">
-            <span>👤</span><span>Tài Khoản</span>
-        </a>
-        <a href="/admin" class="nav-item">
-            <span>👑</span><span>Admin</span>
-        </a>
-    </div>
+    </main>
 
-    <footer>
-        © 2025 PT BAG SHOP. All rights reserved.
+    <!-- FOOTER -->
+    <footer class="border-t border-gray-800 mt-10 py-6 text-center">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-crown text-gold text-2xl"></i>
+                <div class="text-left">
+                    <h2 class="text-lg font-black italic">PT BAG SHOP</h2>
+                    <p class="text-[10px] text-gray-400">Uy Tín Tạo Nên Thương Hiệu</p>
+                </div>
+            </div>
+            <p class="text-sm text-neonPurple italic font-semibold">Cảm ơn bạn đã tin tưởng shop! <i class="fa-regular fa-heart"></i></p>
+            <div class="flex items-center gap-4 text-gray-400">
+                <a href="#" class="hover:text-white"><i class="fa-brands fa-facebook text-xl"></i></a>
+                <a href="#" class="hover:text-white"><i class="fa-brands fa-youtube text-xl"></i></a>
+                <a href="#" class="hover:text-white"><i class="fa-brands fa-tiktok text-xl"></i></a>
+            </div>
+        </div>
+        <p class="text-[10px] text-gray-600 mt-4" id="footerText">© 2026 Túi Mù Acc PTG</p>
     </footer>
 
+    <!-- MOBILE BOTTOM NAVIGATION -->
+    <nav class="lg:hidden fixed bottom-0 w-full bg-[#0a0a16] border-t border-gray-800 flex justify-around items-center py-2 z-40 pb-safe">
+        <a href="/" class="flex flex-col items-center text-neonPurple">
+            <i class="fa-solid fa-house text-lg mb-1"></i>
+            <span class="text-[10px] font-bold">Trang Chủ</span>
+        </a>
+        <a href="#san-pham" class="flex flex-col items-center text-gray-400 hover:text-white transition">
+            <i class="fa-solid fa-cart-shopping text-lg mb-1"></i>
+            <span class="text-[10px]">Shop</span>
+        </a>
+        <a href="#" onclick="showHistory()" class="flex flex-col items-center text-gray-400 hover:text-white transition">
+            <i class="fa-solid fa-clock-rotate-left text-lg mb-1"></i>
+            <span class="text-[10px]">Lịch Sử</span>
+        </a>
+        <a href="#" onclick="openAccount()" class="flex flex-col items-center text-gray-400 hover:text-white transition">
+            <i class="fa-solid fa-user text-lg mb-1"></i>
+            <span class="text-[10px]">Tài Khoản</span>
+        </a>
+        <a href="/admin" class="flex flex-col items-center text-gray-400 hover:text-white transition">
+            <i class="fa-solid fa-crown text-lg mb-1"></i>
+            <span class="text-[10px]">Admin</span>
+        </a>
+    </nav>
+
+
     <!-- ========================================== -->
-    <!-- PHẦN JAVASCRIPT (BẠN CẦN NỐI API VÀO ĐÂY)  -->
+    <!-- MODALS (GIỮ NGUYÊN ID VÀ LOGIC) -->
+    <!-- ========================================== -->
+
+    <!-- LOGIN -->
+    <div class="overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden justify-center items-center p-4" id="loginOverlay">
+        <div class="bg-cardDark border border-gray-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            <h2 class="text-xl font-bold mb-4"><i class="fa-solid fa-lock text-neonBlue mr-2"></i> Đăng nhập</h2>
+            <p class="text-xs text-gray-400 mb-4">Nhập Gmail để tạo tài khoản shop. Không nhập mật khẩu Gmail.</p>
+            <input id="gmailInput" type="email" placeholder="Nhập Gmail..." class="w-full bg-bgDark border border-gray-700 rounded-lg p-3 text-white outline-none focus:border-neonPurple mb-4">
+            <button class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg mb-2 transition" onclick="login()">ĐĂNG NHẬP</button>
+            <button class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 rounded-lg transition" onclick="closeModal('loginOverlay')">ĐÓNG</button>
+        </div>
+    </div>
+
+    <!-- ACCOUNT -->
+    <div class="overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden justify-center items-center p-4" id="accountOverlay">
+        <div class="bg-cardDark border border-gray-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            <h2 class="text-xl font-bold mb-4"><i class="fa-solid fa-user text-neonBlue mr-2"></i> Tài khoản</h2>
+            <div class="bg-bgDark rounded-xl p-4 mb-4 border border-gray-800">
+                <div class="mb-2"><b>Gmail:</b> <span id="accountGmail" class="text-gray-300">---</span></div>
+                <div class="mb-2">
+                    <b>UID khách:</b>
+                    <div class="flex gap-2 mt-1">
+                        <code id="accountUID" class="flex-1 bg-black p-2 rounded text-neonBlue overflow-hidden text-ellipsis">---</code>
+                        <button class="bg-blue-600 text-white px-3 rounded text-xs font-bold" onclick="copyUID()">SAO CHÉP</button>
+                    </div>
+                </div>
+                <div><b>💰 Số dư:</b> <span id="accountBalance" class="text-gold font-bold">0đ</span></div>
+            </div>
+            <button class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg mb-2 transition" onclick="showHistory()"><i class="fa-solid fa-clock-rotate-left mr-2"></i> LỊCH SỬ MUA / BỐC</button>
+            <button class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-lg mb-2 transition" onclick="logout()">ĐĂNG XUẤT</button>
+            <button class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 rounded-lg transition" onclick="closeModal('accountOverlay')">ĐÓNG</button>
+        </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden justify-center items-center p-4" id="historyOverlay">
+        <div class="bg-cardDark border border-gray-700 rounded-2xl p-6 w-full max-w-lg shadow-2xl">
+            <h2 class="text-xl font-bold mb-4"><i class="fa-solid fa-clock-rotate-left text-neonBlue mr-2"></i> Lịch sử mua / bốc</h2>
+            <div id="historyList" class="max-h-[60vh] overflow-y-auto modal-scroll text-sm text-gray-300 space-y-3">
+                Đang tải...
+            </div>
+            <button class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 rounded-lg mt-4 transition" onclick="closeModal('historyOverlay')">ĐÓNG</button>
+        </div>
+    </div>
+
+    <!-- NOTICE -->
+    <div class="overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden justify-center items-center p-4" id="noticeOverlay">
+        <div class="bg-cardDark border border-gray-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            <h2 class="text-xl font-bold mb-4"><i class="fa-solid fa-bullhorn text-gold mr-2"></i> THÔNG BÁO</h2>
+            <div id="noticeText" class="text-sm text-gray-300 whitespace-pre-line leading-relaxed mb-4"></div>
+            <button class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition" onclick="closeModal('noticeOverlay')">ĐÃ HIỂU</button>
+        </div>
+    </div>
+
+    <!-- KHÔNG ĐỦ TIỀN -->
+    <div class="overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden justify-center items-center p-4" id="balanceOverlay">
+        <div class="bg-cardDark border border-gray-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            <h2 class="text-xl font-bold mb-4 text-red-500"><i class="fa-solid fa-triangle-exclamation mr-2"></i> KHÔNG ĐỦ SỐ DƯ</h2>
+            <div class="text-sm text-gray-300 mb-4">Tài khoản của bạn không đủ tiền để mua sản phẩm này.</div>
+            <div class="bg-bgDark rounded-xl p-4 mb-4 border border-gray-800 text-sm">
+                <div class="mb-2"><b>UID:</b> <span id="balanceUID" class="text-gray-300">---</span></div>
+                <div class="mb-2"><b>Số dư hiện tại:</b> <span id="balanceCurrent" class="text-gold font-bold">0đ</span></div>
+                <hr class="border-gray-700 my-2">
+                <div><b>💰 Nạp tiền qua Zalo:</b> <br><strong id="zaloNumber" class="text-neonPurple text-lg"></strong></div>
+            </div>
+            <button class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 rounded-lg transition" onclick="closeModal('balanceOverlay')">ĐÓNG</button>
+        </div>
+    </div>
+
+    <!-- THÀNH CÔNG -->
+    <div class="overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden justify-center items-center p-4" id="successOverlay">
+        <div class="bg-cardDark border border-gray-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            <h2 class="text-xl font-bold mb-4 text-green-400"><i class="fa-solid fa-circle-check mr-2"></i> NHẬN ACC THÀNH CÔNG</h2>
+            <div class="text-sm text-gray-300 mb-4">Chúc mừng! Bạn đã nhận được tài khoản:</div>
+            
+            <div class="bg-bgDark rounded-xl p-4 mb-4 border border-gray-800 text-sm">
+                <div class="mb-2"><b>🎁 Sản phẩm:</b> <span id="successProduct" class="text-neonPurple font-bold">---</span></div>
+                <div><b>💰 Giá:</b> <span id="successPrice" class="text-gold font-bold">---</span></div>
+            </div>
+
+            <div class="bg-bgDark rounded-xl p-4 mb-4 border border-gray-800 text-sm">
+                <div class="flex justify-between border-b border-gray-800 py-2">
+                    <span class="text-gray-400">👤 Username</span>
+                    <span class="text-green-400 font-bold" id="successUsername">---</span>
+                </div>
+                <div class="flex justify-between border-b border-gray-800 py-2">
+                    <span class="text-gray-400">🔑 Password</span>
+                    <span class="text-green-400 font-bold" id="successPassword">---</span>
+                </div>
+                <div class="flex justify-between border-b border-gray-800 py-2">
+                    <span class="text-gray-400">⭐ Level</span>
+                    <span class="text-white" id="successLevel">---</span>
+                </div>
+                <div class="flex justify-between border-b border-gray-800 py-2">
+                    <span class="text-gray-400">💎 Độ hiếm</span>
+                    <span class="text-neonPurple font-bold" id="successRarity">---</span>
+                </div>
+                <div class="flex justify-between py-2">
+                    <span class="text-gray-400">📝 Thông tin</span>
+                    <span class="text-white text-right" id="successInfo">---</span>
+                </div>
+            </div>
+
+            <button class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-lg mb-2 transition" onclick="copyAccount()">📋 COPY THÔNG TIN ACC</button>
+            
+            <div class="bg-bgDark rounded-xl p-3 mb-4 border border-gray-800 text-sm text-center">
+                <b>💵 Số dư còn lại:</b> <span id="successBalance" class="text-gold font-bold">---</span>
+            </div>
+
+            <button class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 rounded-lg transition" onclick="closeModal('successOverlay')">ĐÓNG</button>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SCRIPT (GIỮ NGUYÊN LOGIC CỦA BẠN) -->
     <!-- ========================================== -->
     <script>
-        // 1. HÀM ĐĂNG NHẬP GOOGLE
-        function loginGoogle() {
-            alert("Đang gọi chức năng đăng nhập Google...");
-            
-            // TODO: DÁN CODE API ĐĂNG NHẬP CỦA BẠN VÀO ĐÂY
-            // Ví dụ: window.location.href = '/auth/google';
+        /* ============================================================
+                            CẤU HÌNH SHOP
+        ============================================================ */
+        const SHOP_CONFIG = {
+            logo:"🎁 TÚI MÙ PTG",
+            title:"SHOP ACC CDANG",
+            subtitle:"💸Mở túi mù - nhận acc bất ngờ (zalo 0907859891)🎁",
+            footer:"© 2026 SHOP TÚI MÙ CDANG",
+            notice:`📢 THÔNG BÁO SHOP
+
+🎁 Chào mừng bạn đến với Công Đặng Shop Acc!
+💰 Nạp tiền liên hệ Zalo: 0907859891
+🎁 Acc túi mù được bốc ngẫu nhiên.
+👤 Acc bán riêng được lấy trực tiếp từ kho.
+⚠️ Vui lòng kiểm tra kỹ thông tin sau khi nhận.
+
+❤️ Cảm ơn bạn đã ủng hộ shop!`,
+            zalo:"0907859891",
+            descriptions:{
+                bag5k:"Random clone cần câu, cuốc, clone KC, reg.",
+                tanbinh:"Random clone cần câu, cuốc, reg.",
+                premium:"Acc cao cấp, ít dính reg.",
+                legendary:"Acc hiếm, clone đủ dùng.",
+                lucky:"Acc log game trị giá cao.",
+                acc1:"Acc Cần Cơ Khí - kho 3 acc.",
+                acc2:"Acc Clone 8XX-1XXKC - kho 12 acc.",
+                acc3:"Acc Reg Qua Game - kho 48 acc."
+            },
+            names:{
+                bag5k:"🎁 TÚI 5K",
+                tanbinh:"🥉 TÂN BINH",
+                premium:"💎 PREMIUM",
+                legendary:"🔥 LEGENDARY",
+                lucky:"🍀 LUCKY",
+                acc1:"⚙️ ACC CẦN CƠ KHÍ",
+                acc2:"🎮 ACC CLONE 8XX-1XXKC",
+                acc3:"🎮 ACC REG QUA GAME"
+            },
+            prices:{
+                bag5k:5000,
+                tanbinh:20000,
+                premium:50000,
+                legendary:100000,
+                lucky:500000,
+                acc1:40000,
+                acc2:13000,
+                acc3:4000
+            }
+        };
+
+        /* ============================================================
+                            BIẾN
+        ============================================================ */
+        let currentUser=null;
+        let lastAccount=null;
+
+        /* ============================================================
+                            FORMAT TIỀN
+        ============================================================ */
+        function formatMoney(number){
+            return Number(number).toLocaleString("vi-VN")+"đ";
         }
 
-        // 2. HÀM MUA HÀNG
-        function buyItem(itemId, price) {
-            alert(`Bạn đang mua: ${itemId} với giá ${price}đ`);
+        /* ============================================================
+                            CONFIG HIỂN THỊ
+        ============================================================ */
+        // Cập nhật text vào các thẻ HTML mới
+        document.getElementById("shopLogo").textContent = SHOP_CONFIG.logo;
+        document.getElementById("shopTitle").innerHTML = SHOP_CONFIG.title.replace("CDANG", "<span class='text-neonPurple text-glow'>CDANG</span>"); // Highlight chữ CDANG
+        document.getElementById("shopSubtitle").textContent = SHOP_CONFIG.subtitle;
+        document.getElementById("footerText").textContent = SHOP_CONFIG.footer;
+        document.getElementById("noticeText").textContent = SHOP_CONFIG.notice;
+        document.getElementById("zaloNumber").textContent = SHOP_CONFIG.zalo;
+
+        /* ============================================================
+                            TÚI MÙ & BÁN ACC
+        ============================================================ */
+        const productOrder=["bag5k","tanbinh","premium","legendary","lucky"];
+        const accOrder=["acc1","acc2","acc3"];
+
+        /* ============================================================
+                            TẠO CARD (ĐÃ ĐỔI SANG TAILWIND)
+        ============================================================ */
+        function createProductCard(product, stock, demoSold, isAcc=false){
+            const price = SHOP_CONFIG.prices[product];
+            const name = SHOP_CONFIG.names[product];
+            const description = SHOP_CONFIG.descriptions[product];
+            const amount = stock[product] ?? 0;
+            const sold = demoSold[product] ?? 0;
             
-            // TODO: DÁN CODE API MUA HÀNG CỦA BẠN VÀO ĐÂY
-            // Ví dụ:
-            // fetch('/api/buy', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify({ item: itemId, price: price })
-            // })
-            // .then(res => res.json())
-            // .then(data => {
-            //     if(data.success) {
-            //         alert("Mua thành công! Tài khoản: " + data.account);
-            //     } else {
-            //         alert("Lỗi: " + data.message);
-            //     }
-            // });
+            const card = document.createElement("div");
+            
+            // Style chung cho thẻ card
+            card.className = "bg-cardDark border border-gray-800 rounded-xl p-4 flex flex-col items-center transition duration-300 product-card relative overflow-hidden group cursor-pointer";
+
+            // Lấy icon từ tên (ví dụ: "🎁 TÚI 5K" -> "🎁")
+            const iconMatch = name.match(/^(\S+)/);
+            const icon = iconMatch ? iconMatch[1] : "👤";
+            const cleanName = name.substring(name.indexOf(" ")+1);
+
+            if(isAcc){
+                card.innerHTML = `
+                    <div class="text-4xl mb-2 group-hover:scale-110 transition drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">${icon}</div>
+                    <h2 class="text-sm font-bold text-center mb-1">${cleanName}</h2>
+                    <div class="text-gold font-bold text-lg mb-2">${formatMoney(price)}</div>
+                    <div class="text-xs text-gray-400 text-center mb-2 h-8 overflow-hidden">${description}</div>
+                    <div class="text-[11px] text-gray-500 mb-1">📦 Còn lại: ${amount} acc</div>
+                    <div class="text-[11px] text-gold font-bold mb-3">🔥 Đã bán: ${sold} lượt</div>
+                    <button class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold py-2 rounded-full hover:opacity-90 transition flex items-center justify-center gap-2 ${amount<=0 ? 'opacity-50 cursor-not-allowed' : ''}" 
+                        onclick="buyProduct('${product}')" ${amount<=0?"disabled":""}>
+                        ${amount<=0 ? "HẾT ACC" : "<i class='fa-solid fa-cart-shopping'></i> MUA ACC"}
+                    </button>
+                `;
+            } else {
+                card.innerHTML = `
+                    <div class="text-4xl mb-2 group-hover:scale-110 transition drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">${icon}</div>
+                    <h2 class="text-sm font-bold text-center mb-1">${cleanName}</h2>
+                    <div class="text-gold font-bold text-lg mb-2">${formatMoney(price)}</div>
+                    <div class="text-xs text-gray-400 text-center mb-2 h-8 overflow-hidden">${description}</div>
+                    <div class="text-[11px] text-gray-500 mb-1">📦 Còn lại: ${amount} acc</div>
+                    <div class="text-[11px] text-gold font-bold mb-3">🔥 Đã bán: ${sold} lượt</div>
+                    <button class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold py-2 rounded-full hover:opacity-90 transition flex items-center justify-center gap-2 ${amount<=0 ? 'opacity-50 cursor-not-allowed' : ''}" 
+                        onclick="buyProduct('${product}')" ${amount<=0?"disabled":""}>
+                        ${amount<=0 ? "HẾT ACC" : "<i class='fa-solid fa-gift'></i> BỐC TÚI"}
+                    </button>
+                `;
+            }
+            return card;
         }
+
+        /* ============================================================
+                            LOAD SHOP
+        ============================================================ */
+        async function loadShop(){
+            try{
+                const response = await fetch("/api/status");
+                const data = await response.json();
+                const stock = data.stock || {};
+                const demoSold = data.demoSold || {};
+                const container = document.getElementById("products");
+                const accContainer = document.getElementById("accProducts");
+                
+                container.innerHTML="";
+                accContainer.innerHTML="";
+
+                productOrder.forEach(product=>{
+                    const card = createProductCard(product, stock, demoSold, false);
+                    container.appendChild(card);
+                });
+
+                accOrder.forEach(product=>{
+                    const card = createProductCard(product, stock, demoSold, true);
+                    accContainer.appendChild(card);
+                });
+
+            }catch(error){
+                console.error(error);
+                document.getElementById("products").innerHTML=`
+                    <div class="col-span-full text-center p-8 text-red-500 bg-red-500/10 rounded-xl border border-red-500/20">
+                        <i class="fa-solid fa-triangle-exclamation text-2xl mb-2"></i><br>
+                        Không thể tải shop. Hãy kiểm tra server.
+                    </div>
+                `;
+            }
+        }
+
+        /* ============================================================
+                            MODAL
+        ============================================================ */
+        function openModal(id){
+            document.getElementById(id).classList.remove("hidden");
+            document.getElementById(id).classList.add("flex");
+        }
+
+        function closeModal(id){
+            document.getElementById(id).classList.add("hidden");
+            document.getElementById(id).classList.remove("flex");
+        }
+
+        /* ============================================================
+                            ACCOUNT
+        ============================================================ */
+        function openAccount(){
+            if(!currentUser){
+                openModal("loginOverlay");
+                return;
+            }
+            updateAccountUI();
+            openModal("accountOverlay");
+        }
+
+        function updateAccountUI(){
+            if(!currentUser)return;
+            document.getElementById("accountGmail").textContent = currentUser.gmail;
+            document.getElementById("accountUID").textContent = currentUser.uid;
+            document.getElementById("accountBalance").textContent = formatMoney(currentUser.balance);
+            
+            const firstLetter = currentUser.gmail.charAt(0).toUpperCase();
+            document.getElementById("headerAvatar").textContent = firstLetter;
+            document.getElementById("headerAccountText").textContent = currentUser.gmail;
+            
+            // Ẩn box đăng nhập, hiện thông tin user (nếu cần)
+            document.getElementById("login-box").classList.add("hidden");
+        }
+
+        /* ============================================================
+                            LOGIN
+        ============================================================ */
+        async function login(){
+            const gmail = document.getElementById("gmailInput").value.trim();
+            if(!gmail){
+                alert("Vui lòng nhập Gmail.");
+                return;
+            }
+            try{
+                const response = await fetch("/api/login",{
+                    method:"POST",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify({gmail:gmail})
+                });
+                const data = await response.json();
+                if(!data.success){
+                    alert(data.message || "Đăng nhập thất bại.");
+                    return;
+                }
+                currentUser = data.user;
+                document.getElementById("gmailInput").value="";
+                closeModal("loginOverlay");
+                updateAccountUI();
+                alert("Đăng nhập thành công!\n\nUID của bạn: "+currentUser.uid);
+            }catch(error){
+                console.error(error);
+                alert("Không thể kết nối server.");
+            }
+        }
+
+        /* ============================================================
+                            LOGOUT
+        ============================================================ */
+        function logout(){
+            currentUser=null;
+            lastAccount=null;
+            document.getElementById("headerAvatar").textContent="?";
+            document.getElementById("headerAccountText").textContent="Đăng nhập";
+            document.getElementById("login-box").classList.remove("hidden");
+            closeModal("accountOverlay");
+        }
+
+        /* ============================================================
+                            COPY UID
+        ============================================================ */
+        async function copyUID(){
+            if(!currentUser)return;
+            try{
+                await navigator.clipboard.writeText(currentUser.uid);
+                alert("Đã copy UID.");
+            }catch{
+                alert("UID của bạn: "+currentUser.uid);
+            }
+        }
+
+        /* ============================================================
+                            MUA / BỐC
+        ============================================================ */
+        async function buyProduct(product){
+            if(!currentUser){
+                openModal("loginOverlay");
+                return;
+            }
+            const price = SHOP_CONFIG.prices[product];
+            if(Number(currentUser.balance) < price){
+                document.getElementById("balanceUID").textContent = currentUser.uid;
+                document.getElementById("balanceCurrent").textContent = formatMoney(currentUser.balance);
+                openModal("balanceOverlay");
+                return;
+            }
+
+            const isAcc = accOrder.includes(product);
+            const actionText = isAcc ? "mua" : "bốc";
+            const confirmBuy = confirm("Bạn có chắc muốn "+actionText+" "+SHOP_CONFIG.names[product]+" với giá "+formatMoney(price)+"?");
+
+            if(!confirmBuy)return;
+
+            try{
+                const response = await fetch("/api/buy",{
+                    method:"POST",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify({
+                        uid: currentUser.uid,
+                        product: product,
+                        price: price
+                    })
+                });
+                const data = await response.json();
+
+                if(!data.success){
+                    if(data.code === "NOT_ENOUGH"){
+                        currentUser.balance = data.balance ?? currentUser.balance;
+                        document.getElementById("balanceUID").textContent = currentUser.uid;
+                        document.getElementById("balanceCurrent").textContent = formatMoney(currentUser.balance);
+                        openModal("balanceOverlay");
+                        return;
+                    }
+                    if(data.code === "OUT_OF_STOCK"){
+                        alert("Sản phẩm này đã hết acc.");
+                        loadShop();
+                        return;
+                    }
+                    alert(data.message || "Không thể mua sản phẩm.");
+                    return;
+                }
+
+                currentUser.balance = data.balance;
+                const account = data.account;
+                lastAccount = account;
+
+                document.getElementById("successProduct").textContent = SHOP_CONFIG.names[product];
+                document.getElementById("successPrice").textContent = formatMoney(price);
+                document.getElementById("successUsername").textContent = account.username || "---";
+                document.getElementById("successPassword").textContent = account.password || "---";
+                document.getElementById("successLevel").textContent = account.level ?? "---";
+                document.getElementById("successRarity").textContent = account.rarity || "---";
+                document.getElementById("successInfo").textContent = account.info || "---";
+                document.getElementById("successBalance").textContent = formatMoney(data.balance);
+
+                openModal("successOverlay");
+                loadShop();
+                updateAccountUI();
+
+            }catch(error){
+                console.error(error);
+                alert("Không thể kết nối tới server.");
+            }
+        }
+
+        /* ============================================================
+                            COPY ACC
+        ============================================================ */
+        async function copyAccount(){
+            if(!lastAccount)return;
+            const text=
+                "Username: "+(lastAccount.username || "")+
+                "\nPassword: "+(lastAccount.password || "")+
+                "\nLevel: "+(lastAccount.level ?? "")+
+                "\nĐộ hiếm: "+(lastAccount.rarity || "")+
+                "\nThông tin: "+(lastAccount.info || "");
+            try{
+                await navigator.clipboard.writeText(text);
+                alert("Đã copy thông tin acc.");
+            }catch{
+                alert(text);
+            }
+        }
+
+        /* ============================================================
+                            LỊCH SỬ
+        ============================================================ */
+        async function showHistory(){
+            if(!currentUser)return;
+            closeModal("accountOverlay");
+            openModal("historyOverlay");
+            const list = document.getElementById("historyList");
+            list.innerHTML="Đang tải lịch sử...";
+
+            try{
+                const response = await fetch("/api/history?uid="+encodeURIComponent(currentUser.uid));
+                const data = await response.json();
+
+                if(!data.success){
+                    list.innerHTML=data.message || "Không thể tải lịch sử.";
+                    return;
+                }
+                const history = data.history || [];
+                if(history.length===0){
+                    list.innerHTML=`<div class="text-center text-gray-500 py-6">Chưa có lịch sử mua / bốc.</div>`;
+                    return;
+                }
+
+                list.innerHTML="";
+                [...history].reverse().forEach(item=>{
+                    const account = item.account || {};
+                    const name = SHOP_CONFIG.names[item.product] || item.product;
+                    const div = document.createElement("div");
+                    div.className = "bg-bgDark border border-gray-800 rounded-xl p-4 mb-3 text-sm leading-relaxed";
+                    
+                    div.innerHTML = `
+                        <b class="text-neonPurple text-base">${name}</b><br>
+                        💰 Giá: <span class="text-gold">${formatMoney(item.price)}</span><br>
+                        👤 Username: <span class="text-green-400 font-bold">${account.username || "---"}</span><br>
+                        🔑 Password: <span class="text-green-400">${account.password || "---"}</span><br>
+                        ⭐ Level: ${account.level ?? "---"}<br>
+                        💎 Độ hiếm: <span class="text-neonPurple font-bold">${account.rarity || "---"}</span><br>
+                        📝 Thông tin: ${account.info || "---"}<br>
+                        🕒 Thời gian: <span class="text-gray-500">${formatDate(item.time)}</span>
+                    `;
+                    list.appendChild(div);
+                });
+
+            }catch(error){
+                console.error(error);
+                list.innerHTML="Không thể kết nối server.";
+            }
+        }
+
+        /* ============================================================
+                            FORMAT NGÀY
+        ============================================================ */
+        function formatDate(time){
+            if(!time)return"---";
+            const date=new Date(time);
+            return date.toLocaleString("vi-VN");
+        }
+
+        /* ============================================================
+                            CLICK NGOÀI MODAL
+        ============================================================ */
+        document.querySelectorAll(".overlay").forEach(overlay=>{
+            overlay.addEventListener("click", function(event){
+                if(event.target === overlay){
+                    overlay.classList.add("hidden");
+                    overlay.classList.remove("flex");
+                }
+            });
+        });
+
+        /* ============================================================
+                            THÔNG BÁO KHI LOAD
+        ============================================================ */
+        window.addEventListener("load", function(){
+            setTimeout(()=>{
+                openModal("noticeOverlay");
+            }, 400);
+        });
+
+        /* ============================================================
+                            KHỞI ĐỘNG
+        ============================================================ */
+        loadShop();
     </script>
 </body>
 </html>
