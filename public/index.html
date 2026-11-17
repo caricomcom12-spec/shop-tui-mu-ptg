@@ -86,6 +86,8 @@ header{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-
 .notice-box{white-space:pre-line;line-height:1.6}
 
 .right{display:flex;align-items:center;gap:10px}
+.burger{display:none;background:none;border:none;color:var(--neon);font-size:32px;line-height:1;text-shadow:0 0 10px var(--neon)}
+.trust-top{display:none}
 .admin-btn{padding:9px 16px;border-radius:14px;border:1.5px solid var(--gold);color:var(--gold);font-weight:800;font-size:14px;background:rgba(250,204,21,.08);box-shadow:0 0 12px rgba(250,204,21,.3)}
 .theme{display:flex;align-items:center;gap:6px;background:none;border:none;color:#fff;font-size:16px}
 .topnav a.on{border-color:var(--blue);background:rgba(59,130,246,.22);color:#fff}
@@ -121,7 +123,12 @@ body.light .theme,body.light .topnav a.on,body.light .brand .tagline,body.light 
 body.light .account-btn{color:#0f172a}
 @media(max-width:1000px){.layout{grid-template-columns:1fr}.info-panel{display:none}.side .login-panel{margin-top:0}.products{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:760px){
-.topnav,.tagline,.admin-btn,.theme{display:none}
+.topnav,.admin-btn,.theme,.account-btn,.subline,.f-brand,.f-thanks{display:none}
+.tagline{font-size:10.5px}
+.burger{display:block}
+.trust-top{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:12px;padding:10px 6px;border:1px solid var(--line);border-radius:16px;background:var(--panel);font-size:11px;font-weight:600;line-height:1.25}
+.trust-top div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px}
+.trust-top b{font-size:24px}
 .info-panel{display:none}
 footer{flex-direction:column;text-align:center}.f-right{align-items:center}
 header{padding:10px 12px}.logo{font-size:19px}
@@ -130,12 +137,15 @@ header{padding:10px 12px}.logo{font-size:19px}
 .panel{padding:14px 10px}
 .card,.products .card{padding:7px;border-radius:13px}
 .card h2,.products .card h2{font-size:11.5px}
-.price{font-size:14px}
-.description{display:none}
-.stock,.sold-demo{font-size:10px}
+.price{font-size:15px}
+.description{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:9.5px;min-height:0;margin-bottom:6px}
+.stock,.sold-demo{display:none}
 .buy-btn{font-size:11px;padding:8px 2px}
 .acc-card .pic{max-width:none}
-.trust{grid-template-columns:repeat(2,1fr)}
+.trust{grid-template-columns:repeat(4,1fr);gap:4px;padding:10px 6px}
+.trust div{flex-direction:column;text-align:center;gap:2px;font-size:10.5px}
+.trust small{display:none}
+.trust b{font-size:22px}
 .account-row{flex-direction:column;gap:2px}.account-value{text-align:left}
 .bottomnav{display:flex;position:fixed;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:30;justify-content:space-around;padding:8px 4px;border-radius:20px;border:1px solid var(--line);background:rgba(8,10,34,.94);backdrop-filter:blur(14px);box-shadow:0 0 22px rgba(99,102,241,.4)}
 .bottomnav a,.bottomnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:var(--mut);font-size:11px;font-weight:600}
@@ -160,6 +170,7 @@ header{padding:10px 12px}.logo{font-size:19px}
 <div class="right">
   <a class="admin-btn" href="/admin">👑 Admin</a>
   <button class="theme" onclick="toggleTheme()" aria-label="Đổi sáng/tối">☀️</button>
+  <button class="burger" onclick="openAccount()" aria-label="Tài khoản">☰</button>
   <button class="account-btn" onclick="openAccount()">
     <div class="avatar" id="headerAvatar">?</div>
     <span id="headerAccountText">Đăng nhập</span>
@@ -178,6 +189,12 @@ header{padding:10px 12px}.logo{font-size:19px}
   </section>
   <h1 id="shopTitle" class="sr">TÚI MÙ ACC PLAY TOGETHER</h1>
   <p id="shopSubtitle" class="subline"></p>
+  <div class="trust-top">
+    <div><b>🛡️</b><span>Uy Tín<br>100%</span></div>
+    <div><b>⚡</b><span>Giao Dịch<br>Siêu Nhanh</span></div>
+    <div><b>🎧</b><span>Hỗ Trợ<br>24/7</span></div>
+    <div><b>👑</b><span>Giá Tốt<br>Nhất</span></div>
+  </div>
 
   <section class="panel" id="shop">
     <div class="sec"><div>⭐ Sản Phẩm Nổi Bật</div><a href="#acc" class="all">Xem tất cả →</a></div>
@@ -407,7 +424,7 @@ function createProductCard(product,stock,demoSold,isAcc=false){
     <div class="stock">📦 Còn lại: ${amount} acc</div>
     <div class="sold-demo">🔥 Đã bán (lượt bán): ${sold} lượt</div>
     <button class="buy-btn" onclick="buyProduct('${product}')" ${amount<=0?"disabled":""}>
-      ${amount<=0?"HẾT ACC":(isAcc?"🛒 MUA ACC":"🎁 BỐC TÚI")}
+      ${amount<=0?"HẾT ACC":"🛒 Mua Ngay"}
     </button>`;
   return card;
 }
