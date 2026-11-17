@@ -1,439 +1,828 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> TÚI MÙ ACC PLAY TOGETHER</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> TÚI MÙ ACC PLAY TOGETHER</title>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://anhavatardep.com/wp-content/uploads/2024/12/anh-anime-nam-14.jpg">
-    <!-- Google Fonts -->
-    <link href="https://anhavatardep.com/wp-content/uploads/2024/12/anh-anime-nam-14.jpg" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Montserrat', 'sans-serif'] },
-                    colors: {
-                        bgDark: '#0a0a16',
-                        cardDark: '#131824',
-                        neonPurple: '#8b5cf6',
-                        neonBlue: '#3b82f6',
-                        gold: '#fbbf24'
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Hiệu ứng phát sáng */
-        .text-glow { text-shadow: 0 0 10px rgba(139, 92, 246, 0.8), 0 0 20px rgba(139, 92, 246, 0.4); }
-        .box-glow { box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
-        .box-glow-purple { box-shadow: 0 0 15px rgba(139, 92, 246, 0.4); }
-        
-        /* Ẩn thanh cuộn ngang của menu mobile */
-        ::-webkit-scrollbar { display: none; }
-        
-        /* Hiệu ứng hover cho thẻ sản phẩm */
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.4);
-            border-color: #8b5cf6;
-        }
+<style>
+/* ==========================================
+   CSS THUẦN - GIAO DIỆN MỚI - TỐI ƯU TỐC ĐỘ
+========================================== */
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
 
-        /* Ảnh nền Hero Banner (Bạn thay link ảnh nhân vật vào đây) */
-        .hero-bg {
-            background-image: linear-gradient(to right, rgba(10, 10, 22, 0.95), rgba(10, 10, 22, 0.4)), url('https://anhavatardep.com/wp-content/uploads/2024/12/anh-anime-nam-14.jpg');
-            background-size: cover;
-            background-position: center;
-        }
+body{
+    background: radial-gradient(circle at top, #172554 0%, #020617 45%, #000 100%);
+    color:white;
+    min-height:100vh;
+    padding-bottom: 70px; /* Chừa chỗ cho menu mobile */
+}
 
-        /* Custom Scrollbar cho Modal */
-        .modal-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
-        .modal-scroll::-webkit-scrollbar-track {
-            background: #0a0a16; 
-        }
-        .modal-scroll::-webkit-scrollbar-thumb {
-            background: #334155; 
-            border-radius: 10px;
-        }
-    </style>
+button, a{
+    cursor:pointer;
+    text-decoration: none;
+}
+
+/* --- HEADER --- */
+header{
+    padding:12px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid rgba(255,255,255,.12);
+    background:rgba(10,10,22,.95);
+    position:sticky;
+    top:0;
+    z-index:40;
+}
+
+.logo-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    font-size:28px;
+    color:#8b5cf6;
+    text-shadow:0 0 10px rgba(139,92,246,.8);
+}
+
+.logo-text h1{
+    font-size:18px;
+    font-weight:900;
+    font-style:italic;
+    letter-spacing:1px;
+}
+
+.logo-text p{
+    font-size:10px;
+    color:#94a3b8;
+    text-transform:uppercase;
+}
+
+.header-nav{
+    display:none;
+    gap:20px;
+    font-size:14px;
+    font-weight:bold;
+    color:#cbd5e1;
+}
+
+.header-nav a:hover{ color:white; }
+
+.header-nav .active{
+    color:white;
+    background:rgba(37,99,235,.2);
+    padding:6px 15px;
+    border-radius:20px;
+    border:1px solid rgba(59,130,246,.5);
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.admin-btn{
+    display:none;
+    background:rgba(251,191,36,.1);
+    color:#fbbf24;
+    border:1px solid rgba(251,191,36,.5);
+    padding:6px 15px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.account-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);
+    color:white;
+    padding:5px 12px;
+    border-radius:30px;
+    transition:.2s;
+}
+
+.account-btn:hover{ border-color:#8b5cf6; }
+
+.avatar{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    font-size:14px;
+}
+
+/* --- CONTAINER --- */
+.container{
+    width:min(1150px,94%);
+    margin:auto;
+    padding:20px 0 50px;
+}
+
+/* --- HERO BANNER --- */
+.hero{
+    position:relative;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.1);
+    min-height:250px;
+    display:flex;
+    align-items:center;
+    padding:30px;
+    margin-bottom:30px;
+    /* ĐÃ GẮN ẢNH ANIME NAM CỦA BẠN VÀO ĐÂY */
+    background-image: linear-gradient(to right, rgba(10,10,22,.95), rgba(10,10,22,.4)), url('https://anhavatardep.com/wp-content/uploads/2024/12/anh-anime-nam-14.jpg');
+    background-size:cover;
+    background-position:center top;
+}
+
+.hero-content{
+    position:relative;
+    z-index:10;
+    max-width:500px;
+}
+
+.hero h2{
+    font-size:clamp(28px,5vw,45px);
+    font-weight:900;
+    font-style:italic;
+    line-height:1.2;
+    margin-bottom:10px;
+}
+
+.hero h2 span{
+    color:#8b5cf6;
+    text-shadow:0 0 10px rgba(139,92,246,.8);
+}
+
+.hero p{
+    font-size:14px;
+    font-weight:bold;
+    color:#e2e8f0;
+    margin-bottom:15px;
+}
+
+.hero ul{
+    list-style:none;
+    font-size:13px;
+    color:#cbd5e1;
+    margin-bottom:20px;
+    display:none;
+}
+
+.hero ul li{ margin-bottom:6px; }
+.hero ul li i{ color:#3b82f6; margin-right:8px; }
+
+.hero-btn{
+    display:inline-block;
+    border:2px solid #8b5cf6;
+    color:white;
+    font-weight:bold;
+    padding:8px 20px;
+    border-radius:8px;
+    transition:.3s;
+    box-shadow:0 0 15px rgba(139,92,246,.4);
+}
+
+.hero-btn:hover{ background:rgba(139,92,246,.2); }
+
+/* --- GRID LAYOUT --- */
+.main-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:25px;
+}
+
+/* --- SECTION TITLE --- */
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.section-title h3{
+    font-size:18px;
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.section-title a{
+    font-size:13px;
+    color:#8b5cf6;
+}
+
+/* --- PRODUCT CARDS --- */
+.products-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.card{
+    background:#131824;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:12px;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    transition:.3s;
+    position:relative;
+    overflow:hidden;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:#8b5cf6;
+    box-shadow:0 10px 25px -5px rgba(139,92,246,.4);
+}
+
+.card img{
+    width:70px;
+    height:70px;
+    object-fit:contain;
+    margin-bottom:10px;
+    transition:.3s;
+    filter:drop-shadow(0 0 8px rgba(59,130,246,.5));
+}
+
+.card:hover img{ transform:scale(1.1); }
+
+.card h4{
+    font-size:14px;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:5px;
+}
+
+.card .price{
+    font-size:16px;
+    font-weight:900;
+    color:#fbbf24;
+    margin-bottom:5px;
+}
+
+.card .desc{
+    font-size:11px;
+    color:#94a3b8;
+    text-align:center;
+    margin-bottom:8px;
+    height:32px;
+    overflow:hidden;
+}
+
+.card .stock, .card .sold{
+    font-size:11px;
+    color:#94a3b8;
+    margin-bottom:3px;
+}
+
+.card .sold{
+    color:#fbbf24;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.buy-btn{
+    width:100%;
+    padding:8px;
+    border:none;
+    border-radius:20px;
+    color:white;
+    font-weight:bold;
+    font-size:12px;
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    transition:.2s;
+}
+
+.buy-btn:hover{ opacity:.9; }
+.buy-btn:disabled{ opacity:.5; cursor:not-allowed; }
+
+/* --- SIDEBAR --- */
+.sidebar{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.box{
+    background:#131824;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:12px;
+    padding:20px;
+}
+
+.box h3{
+    font-size:15px;
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:12px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+    padding-bottom:10px;
+}
+
+.box p{
+    font-size:12px;
+    color:#94a3b8;
+    margin-bottom:15px;
+}
+
+.login-btn{
+    width:100%;
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    color:white;
+    font-weight:bold;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    box-shadow:0 0 15px rgba(59,130,246,.3);
+}
+
+.stat-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+.stat-row span:first-child{ color:#94a3b8; }
+.stat-row span:last-child{ font-weight:bold; }
+
+.status-active{
+    background:rgba(34,197,94,.2);
+    color:#4ade80;
+    padding:2px 8px;
+    border-radius:20px;
+    font-size:11px;
+}
+
+/* --- FEATURES BAR --- */
+.features-bar{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    background:#131824;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:12px;
+    padding:15px;
+    margin-top:30px;
+}
+
+.feature-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.feature-item i{ font-size:20px; color:#3b82f6; }
+.feature-item h4{ font-size:13px; font-weight:bold; }
+.feature-item p{ font-size:10px; color:#94a3b8; }
+
+/* --- FOOTER --- */
+footer{
+    border-top:1px solid rgba(255,255,255,.1);
+    margin-top:40px;
+    padding:20px 0;
+    text-align:center;
+}
+
+.footer-content{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+}
+
+.footer-text{
+    font-size:12px;
+    color:#8b5cf6;
+    font-style:italic;
+    font-weight:bold;
+}
+
+/* --- MOBILE NAV --- */
+.mobile-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#0a0a16;
+    border-top:1px solid rgba(255,255,255,.1);
+    display:flex;
+    justify-content:space-around;
+    padding:8px 0;
+    z-index:40;
+}
+
+.mobile-nav a{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    color:#94a3b8;
+    font-size:10px;
+    gap:4px;
+}
+
+.mobile-nav a.active{ color:#8b5cf6; }
+.mobile-nav i{ font-size:18px; }
+
+/* --- MODALS --- */
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.85);
+    z-index:100;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.modal{
+    width:min(450px,100%);
+    max-height:90vh;
+    overflow-y:auto;
+    background:#131824;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:16px;
+    padding:25px;
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+}
+
+.modal h2{
+    font-size:18px;
+    margin-bottom:15px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.modal input{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #334155;
+    background:#020617;
+    color:white;
+    outline:none;
+    margin-bottom:15px;
+}
+
+.modal input:focus{ border-color:#8b5cf6; }
+
+.modal-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    margin-bottom:10px;
+    color:white;
+    transition:.2s;
+}
+
+.modal-btn.primary{ background:#2563eb; }
+.modal-btn.primary:hover{ background:#1d4ed8; }
+.modal-btn.danger{ background:#dc2626; }
+.modal-btn.danger:hover{ background:#b91c1c; }
+.modal-btn.success{ background:#16a34a; }
+.modal-btn.success:hover{ background:#15803d; }
+.modal-btn.close{ background:#334155; margin-bottom:0; }
+.modal-btn.close:hover{ background:#475569; }
+
+.info-box{
+    background:#020617;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:15px;
+    font-size:13px;
+    line-height:1.8;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    border-bottom:1px solid rgba(255,255,255,.05);
+    padding:6px 0;
+}
+.info-row:last-child{ border-bottom:none; }
+
+.text-green{ color:#4ade80; font-weight:bold; }
+.text-purple{ color:#c084fc; font-weight:bold; }
+.text-gold{ color:#fbbf24; font-weight:bold; }
+
+/* --- RESPONSIVE --- */
+@media(min-width:768px){
+    .products-grid{ grid-template-columns:repeat(3,1fr); }
+    .features-bar{ grid-template-columns:repeat(4,1fr); }
+    .hero ul{ display:block; }
+    .footer-content{ flex-direction:row; justify-content:space-between; }
+}
+
+@media(min-width:1024px){
+    body{ padding-bottom:0; }
+    .header-nav{ display:flex; }
+    .admin-btn{ display:flex; }
+    .mobile-nav{ display:none; }
+    .main-grid{ grid-template-columns:2fr 1fr; }
+    .hero{ min-height:350px; padding:40px; }
+}
+</style>
 </head>
-<body class="bg-bgDark text-white font-sans pb-20 lg:pb-0">
 
-    <!-- HEADER -->
-    <header class="border-b border-gray-800 bg-[#0a0a16]/90 backdrop-blur-md sticky top-0 z-40">
-        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <!-- Logo -->
-            <a href="/" class="flex items-center gap-2">
-                <div class="text-3xl text-neonPurple drop-shadow-[0_0_8px_rgba(139,92,246,0.8)]">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-black italic tracking-wider text-white" id="shopLogo">PT BAG SHOP</h1>
-                    <p class="text-[10px] text-gray-400 font-semibold tracking-widest uppercase">Uy Tín - Nhanh Chóng - Giá Tốt</p>
-                </div>
-            </a>
+<body>
 
-            <!-- Desktop Nav -->
-            <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-gray-300">
-                <a href="/" class="flex items-center gap-2 text-white bg-blue-600/20 px-4 py-2 rounded-full border border-blue-500/50 box-glow">
-                    <i class="fa-solid fa-house"></i> Trang Chủ
-                </a>
-                <a href="#san-pham" class="flex items-center gap-2 hover:text-white transition"><i class="fa-solid fa-cart-shopping"></i> Sản Phẩm</a>
-                <a href="#" onclick="showHistory()" class="flex items-center gap-2 hover:text-white transition"><i class="fa-solid fa-clock-rotate-left"></i> Lịch Sử</a>
-                <a href="#" class="flex items-center gap-2 hover:text-white transition"><i class="fa-solid fa-headset"></i> Hỗ Trợ</a>
-            </nav>
-
-            <!-- Right Actions -->
-            <div class="flex items-center gap-3">
-                <a href="/admin" class="hidden lg:flex items-center gap-2 bg-yellow-500/10 text-gold border border-yellow-500/50 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-yellow-500/20 transition">
-                    <i class="fa-solid fa-crown"></i> Admin
-                </a>
-                
-                <!-- Nút Account (Đã gắn sự kiện openAccount) -->
-                <button class="account-btn flex items-center gap-2 bg-gray-800/50 border border-gray-700 hover:border-neonPurple px-3 py-1.5 rounded-full transition" onclick="openAccount()">
-                    <div class="avatar w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center font-bold text-sm" id="headerAvatar">?</div>
-                    <span id="headerAccountText" class="text-sm font-semibold hidden sm:block">Đăng nhập</span>
-                </button>
-            </div>
+<!-- HEADER -->
+<header>
+    <div class="logo-box">
+        <div class="logo-icon">🛍️</div>
+        <div class="logo-text">
+            <h1 id="shopLogo">PT BAG SHOP</h1>
+            <p>Uy Tín - Nhanh Chóng - Giá Tốt</p>
         </div>
-    </header>
+    </div>
 
-    <!-- MAIN CONTENT -->
-    <main class="container mx-auto px-4 mt-6">
-        
-        <!-- HERO BANNER -->
-        <div class="relative rounded-2xl overflow-hidden border border-gray-800 hero-bg min-h-[300px] lg:min-h-[400px] flex items-center p-6 lg:p-12 mb-8">
-            <div class="relative z-10 max-w-lg">
-                <h2 class="text-4xl lg:text-6xl font-black italic text-white leading-tight mb-2" id="shopTitle">
-                    TÚI MÙ <span class="text-neonPurple text-glow">ACC</span><br>PLAY TOGETHER
-                </h2>
-                <p class="text-sm lg:text-lg font-bold text-gray-200 mb-4 tracking-wide" id="shopSubtitle">
-                    Mở túi mù - Nhận acc bất ngờ 🎁
-                </p>
-                <ul class="text-xs lg:text-sm text-gray-300 space-y-2 mb-6 hidden md:block">
-                    <li><i class="fa-solid fa-circle-check text-neonBlue mr-2"></i> Acc chất lượng - Giá tốt</li>
-                    <li><i class="fa-solid fa-circle-check text-neonBlue mr-2"></i> Giao dịch siêu nhanh</li>
-                    <li><i class="fa-solid fa-circle-check text-neonBlue mr-2"></i> Bảo mật tuyệt đối</li>
-                </ul>
-                <a href="#san-pham" class="inline-block bg-transparent border-2 border-neonPurple text-white font-bold px-6 py-2 rounded-lg hover:bg-neonPurple/20 transition box-glow-purple">
-                    MUA NGAY <i class="fa-solid fa-arrow-right ml-1"></i>
-                </a>
-            </div>
-        </div>
-
-        <!-- GRID LAYOUT -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            <!-- CỘT TRÁI: SẢN PHẨM -->
-            <div class="lg:col-span-2" id="san-pham">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-gift text-gold"></i> TÚI MÙ NỔI BẬT
-                    </h3>
-                    <a href="#" class="text-sm text-neonPurple hover:text-white transition">Xem tất cả <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-
-                <!-- Danh sách Túi Mù (JS render vào đây) -->
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="products">
-                    <!-- JS sẽ tự động render các thẻ card vào đây -->
-                </div>
-
-                <!-- BÁN ACC RIÊNG -->
-                <div class="mt-8">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-bold flex items-center gap-2">
-                            <i class="fa-solid fa-user-astronaut text-neonBlue"></i> BÁN ACC RIÊNG
-                        </h3>
-                    </div>
-                    <!-- Danh sách Acc (JS render vào đây) -->
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="accProducts">
-                        <!-- JS sẽ tự động render các thẻ card vào đây -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- CỘT PHẢI: SIDEBAR -->
-            <div class="lg:col-span-1 space-y-6">
-                
-                <!-- KHỐI ĐĂNG NHẬP -->
-                <div class="bg-cardDark border border-gray-800 rounded-xl p-5" id="login-box">
-                    <h3 class="text-lg font-bold flex items-center gap-2 mb-2">
-                        <i class="fa-solid fa-user text-neonBlue"></i> Đăng nhập tài khoản
-                    </h3>
-                    <p class="text-xs text-gray-400 mb-4">Đăng nhập để mua hàng và quản lý tài khoản của bạn!</p>
-                    <button onclick="openModal('loginOverlay')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-2.5 rounded-lg flex items-center justify-center gap-3 hover:opacity-90 transition box-glow">
-                        <i class="fa-brands fa-google"></i> Đăng nhập ngay
-                    </button>
-                </div>
-
-                <!-- KHỐI THỐNG KÊ SHOP -->
-                <div class="bg-cardDark border border-gray-800 rounded-xl p-5">
-                    <h3 class="text-sm font-bold flex items-center gap-2 mb-4 border-b border-gray-800 pb-2">
-                        <i class="fa-solid fa-chart-simple text-neonBlue"></i> Thông Tin Shop
-                    </h3>
-                    <div class="space-y-3 text-sm">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-400 flex items-center gap-2"><i class="fa-solid fa-users text-neonBlue"></i> Người dùng</span>
-                            <span class="font-bold">1.248+</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-400 flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-neonBlue"></i> Đã bán</span>
-                            <span class="font-bold">28.750+</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-400 flex items-center gap-2"><i class="fa-solid fa-circle text-green-500 text-[10px]"></i> Trạng thái</span>
-                            <span class="bg-green-500/20 text-green-400 text-xs px-2 py-0.5 rounded-full font-bold">Đang hoạt động</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- KHỐI LỊCH SỬ MUA (Giao diện tĩnh) -->
-                <div class="bg-cardDark border border-gray-800 rounded-xl p-5">
-                    <h3 class="text-sm font-bold flex items-center gap-2 mb-4 border-b border-gray-800 pb-2">
-                        <i class="fa-solid fa-clock-rotate-left text-neonBlue"></i> Lịch Sử Mua Gần Đây
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between text-xs">
-                            <div class="flex items-center gap-3">
-                                <i class="fa-solid fa-crown text-gold text-lg"></i>
-                                <div>
-                                    <p class="font-bold text-gray-200">nv***@gmail.com</p>
-                                    <p class="text-gray-500">Mua Túi 5K</p>
-                                </div>
-                            </div>
-                            <span class="text-gray-500">2 phút trước</span>
-                        </div>
-                        <div class="flex items-center justify-between text-xs">
-                            <div class="flex items-center gap-3">
-                                <i class="fa-solid fa-crown text-gold text-lg"></i>
-                                <div>
-                                    <p class="font-bold text-gray-200">tru***@gmail.com</p>
-                                    <p class="text-gray-500">Mua Acc Premium</p>
-                                </div>
-                            </div>
-                            <span class="text-gray-500">5 phút trước</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- FEATURES BAR -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 bg-cardDark border border-gray-800 rounded-xl p-4">
-            <div class="flex items-center gap-3">
-                <i class="fa-solid fa-bolt text-2xl text-neonBlue"></i>
-                <div>
-                    <h4 class="text-sm font-bold">Giao dịch siêu tốc</h4>
-                    <p class="text-[10px] text-gray-400">Chỉ trong vài giây</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <i class="fa-solid fa-shield-halved text-2xl text-neonBlue"></i>
-                <div>
-                    <h4 class="text-sm font-bold">Bảo mật tuyệt đối</h4>
-                    <p class="text-[10px] text-gray-400">An toàn tuyệt đối</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <i class="fa-solid fa-headset text-2xl text-neonBlue"></i>
-                <div>
-                    <h4 class="text-sm font-bold">Hỗ trợ 24/7</h4>
-                    <p class="text-[10px] text-gray-400">Luôn bên bạn</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <i class="fa-solid fa-gem text-2xl text-neonBlue"></i>
-                <div>
-                    <h4 class="text-sm font-bold">Giá tốt nhất</h4>
-                    <p class="text-[10px] text-gray-400">Tiết kiệm tối đa</p>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="border-t border-gray-800 mt-10 py-6 text-center">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-crown text-gold text-2xl"></i>
-                <div class="text-left">
-                    <h2 class="text-lg font-black italic">PT BAG SHOP</h2>
-                    <p class="text-[10px] text-gray-400">Uy Tín Tạo Nên Thương Hiệu</p>
-                </div>
-            </div>
-            <p class="text-sm text-neonPurple italic font-semibold">Cảm ơn bạn đã tin tưởng shop! <i class="fa-regular fa-heart"></i></p>
-            <div class="flex items-center gap-4 text-gray-400">
-                <a href="#" class="hover:text-white"><i class="fa-brands fa-facebook text-xl"></i></a>
-                <a href="#" class="hover:text-white"><i class="fa-brands fa-youtube text-xl"></i></a>
-                <a href="#" class="hover:text-white"><i class="fa-brands fa-tiktok text-xl"></i></a>
-            </div>
-        </div>
-        <p class="text-[10px] text-gray-600 mt-4" id="footerText">© 2026 Túi Mù Acc PTG</p>
-    </footer>
-
-    <!-- MOBILE BOTTOM NAVIGATION -->
-    <nav class="lg:hidden fixed bottom-0 w-full bg-[#0a0a16] border-t border-gray-800 flex justify-around items-center py-2 z-40 pb-safe">
-        <a href="/" class="flex flex-col items-center text-neonPurple">
-            <i class="fa-solid fa-house text-lg mb-1"></i>
-            <span class="text-[10px] font-bold">Trang Chủ</span>
-        </a>
-        <a href="#san-pham" class="flex flex-col items-center text-gray-400 hover:text-white transition">
-            <i class="fa-solid fa-cart-shopping text-lg mb-1"></i>
-            <span class="text-[10px]">Shop</span>
-        </a>
-        <a href="#" onclick="showHistory()" class="flex flex-col items-center text-gray-400 hover:text-white transition">
-            <i class="fa-solid fa-clock-rotate-left text-lg mb-1"></i>
-            <span class="text-[10px]">Lịch Sử</span>
-        </a>
-        <a href="#" onclick="openAccount()" class="flex flex-col items-center text-gray-400 hover:text-white transition">
-            <i class="fa-solid fa-user text-lg mb-1"></i>
-            <span class="text-[10px]">Tài Khoản</span>
-        </a>
-        <a href="/admin" class="flex flex-col items-center text-gray-400 hover:text-white transition">
-            <i class="fa-solid fa-crown text-lg mb-1"></i>
-            <span class="text-[10px]">Admin</span>
-        </a>
+    <nav class="header-nav">
+        <a href="/" class="active">🏠 Trang Chủ</a>
+        <a href="#san-pham">🛒 Sản Phẩm</a>
+        <a href="#" onclick="showHistory()">🕒 Lịch Sử</a>
+        <a href="#">🎧 Hỗ Trợ</a>
     </nav>
 
+    <div class="header-right">
+        <a href="/admin" class="admin-btn">👑 Admin</a>
+        <button class="account-btn" onclick="openAccount()">
+            <div class="avatar" id="headerAvatar">?</div>
+            <span id="headerAccountText" style="font-size:13px; font-weight:bold; display:none;">Đăng nhập</span>
+        </button>
+    </div>
+</header>
 
-    <!-- ========================================== -->
-    <!-- MODALS (GIỮ NGUYÊN ID VÀ LOGIC) -->
-    <!-- ========================================== -->
-
-    <!-- LOGIN -->
-    <div class="overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden justify-center items-center p-4" id="loginOverlay">
-        <div class="bg-cardDark border border-gray-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
-            <h2 class="text-xl font-bold mb-4"><i class="fa-solid fa-lock text-neonBlue mr-2"></i> Đăng nhập</h2>
-            <p class="text-xs text-gray-400 mb-4">Nhập Gmail để tạo tài khoản shop. Không nhập mật khẩu Gmail.</p>
-            <input id="gmailInput" type="email" placeholder="Nhập Gmail..." class="w-full bg-bgDark border border-gray-700 rounded-lg p-3 text-white outline-none focus:border-neonPurple mb-4">
-            <button class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg mb-2 transition" onclick="login()">ĐĂNG NHẬP</button>
-            <button class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 rounded-lg transition" onclick="closeModal('loginOverlay')">ĐÓNG</button>
+<!-- MAIN -->
+<main class="container">
+    
+    <!-- HERO BANNER -->
+    <div class="hero">
+        <div class="hero-content">
+            <h2 id="shopTitle">TÚI MÙ <span>ACC</span><br>PLAY TOGETHER</h2>
+            <p id="shopSubtitle">Mở túi mù - Nhận acc bất ngờ 🎁</p>
+            <ul>
+                <li>✔️ Acc chất lượng - Giá tốt</li>
+                <li>✔️ Giao dịch siêu nhanh</li>
+                <li>✔️ Bảo mật tuyệt đối</li>
+            </ul>
+            <a href="#san-pham" class="hero-btn">MUA NGAY ➔</a>
         </div>
     </div>
 
-    <!-- ACCOUNT -->
-    <div class="overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden justify-center items-center p-4" id="accountOverlay">
-        <div class="bg-cardDark border border-gray-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
-            <h2 class="text-xl font-bold mb-4"><i class="fa-solid fa-user text-neonBlue mr-2"></i> Tài khoản</h2>
-            <div class="bg-bgDark rounded-xl p-4 mb-4 border border-gray-800">
-                <div class="mb-2"><b>Gmail:</b> <span id="accountGmail" class="text-gray-300">---</span></div>
-                <div class="mb-2">
-                    <b>UID khách:</b>
-                    <div class="flex gap-2 mt-1">
-                        <code id="accountUID" class="flex-1 bg-black p-2 rounded text-neonBlue overflow-hidden text-ellipsis">---</code>
-                        <button class="bg-blue-600 text-white px-3 rounded text-xs font-bold" onclick="copyUID()">SAO CHÉP</button>
+    <!-- GRID -->
+    <div class="main-grid">
+        
+        <!-- LEFT: PRODUCTS -->
+        <div id="san-pham">
+            <div class="section-title">
+                <h3>🎁 TÚI MÙ NỔI BẬT</h3>
+                <a href="#">Xem tất cả ➔</a>
+            </div>
+            <div class="products-grid" id="products"></div>
+
+            <div class="section-title" style="margin-top:30px;">
+                <h3>👤 BÁN ACC RIÊNG</h3>
+            </div>
+            <div class="products-grid" id="accProducts"></div>
+        </div>
+
+        <!-- RIGHT: SIDEBAR -->
+        <div class="sidebar">
+            
+            <div class="box" id="login-box">
+                <h3>👤 Đăng nhập tài khoản</h3>
+                <p>Đăng nhập để mua hàng và quản lý tài khoản của bạn!</p>
+                <button class="login-btn" onclick="openModal('loginOverlay')">
+                    <i>G</i> Đăng nhập ngay
+                </button>
+            </div>
+
+            <div class="box">
+                <h3>📊 Thông Tin Shop</h3>
+                <div class="stat-row">
+                    <span>👥 Người dùng</span>
+                    <span>1.248+</span>
+                </div>
+                <div class="stat-row">
+                    <span>🛒 Đã bán</span>
+                    <span>28.750+</span>
+                </div>
+                <div class="stat-row">
+                    <span>🟢 Trạng thái</span>
+                    <span class="status-active">Đang hoạt động</span>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3>🕒 Lịch Sử Gần Đây</h3>
+                <div style="font-size:12px; display:flex; flex-direction:column; gap:10px;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <div>👑 <b>nv***@gmail.com</b><br><span style="color:#94a3b8;">Mua Túi 5K</span></div>
+                        <span style="color:#64748b;">2 phút trước</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <div>👑 <b>tru***@gmail.com</b><br><span style="color:#94a3b8;">Mua Acc Premium</span></div>
+                        <span style="color:#64748b;">5 phút trước</span>
                     </div>
                 </div>
-                <div><b>💰 Số dư:</b> <span id="accountBalance" class="text-gold font-bold">0đ</span></div>
             </div>
-            <button class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg mb-2 transition" onclick="showHistory()"><i class="fa-solid fa-clock-rotate-left mr-2"></i> LỊCH SỬ MUA / BỐC</button>
-            <button class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-lg mb-2 transition" onclick="logout()">ĐĂNG XUẤT</button>
-            <button class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 rounded-lg transition" onclick="closeModal('accountOverlay')">ĐÓNG</button>
+
         </div>
     </div>
 
-    <!-- HISTORY -->
-    <div class="overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden justify-center items-center p-4" id="historyOverlay">
-        <div class="bg-cardDark border border-gray-700 rounded-2xl p-6 w-full max-w-lg shadow-2xl">
-            <h2 class="text-xl font-bold mb-4"><i class="fa-solid fa-clock-rotate-left text-neonBlue mr-2"></i> Lịch sử mua / bốc</h2>
-            <div id="historyList" class="max-h-[60vh] overflow-y-auto modal-scroll text-sm text-gray-300 space-y-3">
-                Đang tải...
-            </div>
-            <button class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 rounded-lg mt-4 transition" onclick="closeModal('historyOverlay')">ĐÓNG</button>
+    <!-- FEATURES -->
+    <div class="features-bar">
+        <div class="feature-item">
+            <span style="font-size:20px;">⚡</span>
+            <div><h4>Giao dịch siêu tốc</h4><p>Chỉ trong vài giây</p></div>
+        </div>
+        <div class="feature-item">
+            <span style="font-size:20px;">🛡️</span>
+            <div><h4>Bảo mật tuyệt đối</h4><p>An toàn tuyệt đối</p></div>
+        </div>
+        <div class="feature-item">
+            <span style="font-size:20px;">🎧</span>
+            <div><h4>Hỗ trợ 24/7</h4><p>Luôn bên bạn</p></div>
+        </div>
+        <div class="feature-item">
+            <span style="font-size:20px;">💎</span>
+            <div><h4>Giá tốt nhất</h4><p>Tiết kiệm tối đa</p></div>
         </div>
     </div>
 
-    <!-- NOTICE -->
-    <div class="overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden justify-center items-center p-4" id="noticeOverlay">
-        <div class="bg-cardDark border border-gray-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
-            <h2 class="text-xl font-bold mb-4"><i class="fa-solid fa-bullhorn text-gold mr-2"></i> THÔNG BÁO</h2>
-            <div id="noticeText" class="text-sm text-gray-300 whitespace-pre-line leading-relaxed mb-4"></div>
-            <button class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition" onclick="closeModal('noticeOverlay')">ĐÃ HIỂU</button>
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container footer-content">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:24px;">👑</span>
+            <div style="text-align:left;">
+                <h2 style="font-size:16px; font-weight:900; font-style:italic;">PT BAG SHOP</h2>
+                <p style="font-size:10px; color:#94a3b8;">Uy Tín Tạo Nên Thương Hiệu</p>
+            </div>
+        </div>
+        <p class="footer-text">Cảm ơn bạn đã tin tưởng shop! ♡</p>
+        <div style="display:flex; gap:15px; font-size:20px;">
+            <a href="#" style="color:#94a3b8;">📘</a>
+            <a href="#" style="color:#94a3b8;">▶️</a>
+            <a href="#" style="color:#94a3b8;">🎵</a>
         </div>
     </div>
+    <p style="font-size:10px; color:#475569; margin-top:15px;" id="footerText">© 2026 Túi Mù Acc PTG</p>
+</footer>
 
-    <!-- KHÔNG ĐỦ TIỀN -->
-    <div class="overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden justify-center items-center p-4" id="balanceOverlay">
-        <div class="bg-cardDark border border-gray-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
-            <h2 class="text-xl font-bold mb-4 text-red-500"><i class="fa-solid fa-triangle-exclamation mr-2"></i> KHÔNG ĐỦ SỐ DƯ</h2>
-            <div class="text-sm text-gray-300 mb-4">Tài khoản của bạn không đủ tiền để mua sản phẩm này.</div>
-            <div class="bg-bgDark rounded-xl p-4 mb-4 border border-gray-800 text-sm">
-                <div class="mb-2"><b>UID:</b> <span id="balanceUID" class="text-gray-300">---</span></div>
-                <div class="mb-2"><b>Số dư hiện tại:</b> <span id="balanceCurrent" class="text-gold font-bold">0đ</span></div>
-                <hr class="border-gray-700 my-2">
-                <div><b>💰 Nạp tiền qua Zalo:</b> <br><strong id="zaloNumber" class="text-neonPurple text-lg"></strong></div>
-            </div>
-            <button class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 rounded-lg transition" onclick="closeModal('balanceOverlay')">ĐÓNG</button>
-        </div>
+<!-- MOBILE NAV -->
+<nav class="mobile-nav">
+    <a href="/" class="active"><span>🏠</span>Trang Chủ</a>
+    <a href="#san-pham"><span>🛒</span>Shop</a>
+    <a href="#" onclick="showHistory()"><span>🕒</span>Lịch Sử</a>
+    <a href="#" onclick="openAccount()"><span>👤</span>Tài Khoản</a>
+    <a href="/admin"><span>👑</span>Admin</a>
+</nav>
+
+<!-- ========================================== -->
+<!-- MODALS (GIỮ NGUYÊN ID VÀ LOGIC) -->
+<!-- ========================================== -->
+
+<!-- LOGIN -->
+<div class="overlay" id="loginOverlay">
+    <div class="modal">
+        <h2>🔐 Đăng nhập</h2>
+        <p style="font-size:12px; color:#94a3b8; margin-bottom:15px;">Nhập Gmail để tạo tài khoản shop. Không nhập mật khẩu Gmail.</p>
+        <input id="gmailInput" type="email" placeholder="Nhập Gmail...">
+        <button class="modal-btn primary" onclick="login()">ĐĂNG NHẬP</button>
+        <button class="modal-btn close" onclick="closeModal('loginOverlay')">ĐÓNG</button>
     </div>
+</div>
 
-    <!-- THÀNH CÔNG -->
-    <div class="overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden justify-center items-center p-4" id="successOverlay">
-        <div class="bg-cardDark border border-gray-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
-            <h2 class="text-xl font-bold mb-4 text-green-400"><i class="fa-solid fa-circle-check mr-2"></i> NHẬN ACC THÀNH CÔNG</h2>
-            <div class="text-sm text-gray-300 mb-4">Chúc mừng! Bạn đã nhận được tài khoản:</div>
-            
-            <div class="bg-bgDark rounded-xl p-4 mb-4 border border-gray-800 text-sm">
-                <div class="mb-2"><b>🎁 Sản phẩm:</b> <span id="successProduct" class="text-neonPurple font-bold">---</span></div>
-                <div><b>💰 Giá:</b> <span id="successPrice" class="text-gold font-bold">---</span></div>
+<!-- ACCOUNT -->
+<div class="overlay" id="accountOverlay">
+    <div class="modal">
+        <h2>👤 Tài khoản</h2>
+        <div class="info-box">
+            <div><b>Gmail:</b> <span id="accountGmail" style="color:#cbd5e1;">---</span></div>
+            <div style="margin:8px 0;"><b>UID khách:</b></div>
+            <div style="display:flex; gap:8px;">
+                <code id="accountUID" style="flex:1; background:#000; padding:8px; border-radius:6px; color:#3b82f6; overflow:hidden; text-overflow:ellipsis;">---</code>
+                <button style="background:#2563eb; color:white; border:none; padding:0 10px; border-radius:6px; font-weight:bold; font-size:11px;" onclick="copyUID()">SAO CHÉP</button>
             </div>
-
-            <div class="bg-bgDark rounded-xl p-4 mb-4 border border-gray-800 text-sm">
-                <div class="flex justify-between border-b border-gray-800 py-2">
-                    <span class="text-gray-400">👤 Username</span>
-                    <span class="text-green-400 font-bold" id="successUsername">---</span>
-                </div>
-                <div class="flex justify-between border-b border-gray-800 py-2">
-                    <span class="text-gray-400">🔑 Password</span>
-                    <span class="text-green-400 font-bold" id="successPassword">---</span>
-                </div>
-                <div class="flex justify-between border-b border-gray-800 py-2">
-                    <span class="text-gray-400">⭐ Level</span>
-                    <span class="text-white" id="successLevel">---</span>
-                </div>
-                <div class="flex justify-between border-b border-gray-800 py-2">
-                    <span class="text-gray-400">💎 Độ hiếm</span>
-                    <span class="text-neonPurple font-bold" id="successRarity">---</span>
-                </div>
-                <div class="flex justify-between py-2">
-                    <span class="text-gray-400">📝 Thông tin</span>
-                    <span class="text-white text-right" id="successInfo">---</span>
-                </div>
-            </div>
-
-            <button class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-lg mb-2 transition" onclick="copyAccount()">📋 COPY THÔNG TIN ACC</button>
-            
-            <div class="bg-bgDark rounded-xl p-3 mb-4 border border-gray-800 text-sm text-center">
-                <b>💵 Số dư còn lại:</b> <span id="successBalance" class="text-gold font-bold">---</span>
-            </div>
-
-            <button class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 rounded-lg transition" onclick="closeModal('successOverlay')">ĐÓNG</button>
+            <div style="margin-top:8px;"><b>💰 Số dư:</b> <span id="accountBalance" class="text-gold">0đ</span></div>
         </div>
+        <button class="modal-btn primary" onclick="showHistory()">📜 LỊCH SỬ MUA / BỐC</button>
+        <button class="modal-btn danger" onclick="logout()">ĐĂNG XUẤT</button>
+        <button class="modal-btn close" onclick="closeModal('accountOverlay')">ĐÓNG</button>
     </div>
+</div>
 
+<!-- HISTORY -->
+<div class="overlay" id="historyOverlay">
+    <div class="modal">
+        <h2>📜 Lịch sử mua / bốc</h2>
+        <div id="historyList" style="font-size:13px; color:#cbd5e1; max-height:50vh; overflow-y:auto; margin-bottom:15px;">
+            Đang tải...
+        </div>
+        <button class="modal-btn close" onclick="closeModal('historyOverlay')">ĐÓNG</button>
+    </div>
+</div>
 
-    <!-- ========================================== -->
-    <!-- SCRIPT (GIỮ NGUYÊN LOGIC CỦA BẠN) -->
-    <!-- ========================================== -->
-    <script>
-        /* ============================================================
-                            CẤU HÌNH SHOP
-        ============================================================ */
-        const SHOP_CONFIG = {
-            logo:"🎁 TÚI MÙ PTG",
-            title:"SHOP ACC CDANG",
-            subtitle:"💸Mở túi mù - nhận acc bất ngờ (zalo 0907859891)🎁",
-            footer:"© 2026 SHOP TÚI MÙ CDANG",
-            notice:`📢 THÔNG BÁO SHOP
+<!-- NOTICE -->
+<div class="overlay" id="noticeOverlay">
+    <div class="modal">
+        <h2>📢 THÔNG BÁO</h2>
+        <div id="noticeText" style="font-size:13px; color:#cbd5e1; white-space:pre-line; line-height:1.6; margin-bottom:15px;"></div>
+        <button class="modal-btn primary" onclick="closeModal('noticeOverlay')">ĐÃ HIỂU</button>
+    </div>
+</div>
+
+<!-- KHÔNG ĐỦ TIỀN -->
+<div class="overlay" id="balanceOverlay">
+    <div class="modal">
+        <h2 style="color:#ef4444;">⚠️ KHÔNG ĐỦ SỐ DƯ</h2>
+        <p style="font-size:13px; color:#cbd5e1; margin-bottom:15px;">Tài khoản của bạn không đủ tiền để mua sản phẩm này.</p>
+        <div class="info-box">
+            <div><b>UID:</b> <span id="balanceUID" style="color:#cbd5e1;">---</span></div>
+            <div style="margin-top:5px;"><b>Số dư hiện tại:</b> <span id="balanceCurrent" class="text-gold">0đ</span></div>
+            <hr style="border-color:#334155; margin:10px 0;">
+            <div><b>💰 Nạp tiền qua Zalo:</b> <br><strong id="zaloNumber" style="color:#8b5cf6; font-size:16px;"></strong></div>
+        </div>
+        <button class="modal-btn close" onclick="closeModal('balanceOverlay')">ĐÓNG</button>
+    </div>
+</div>
+
+<!-- THÀNH CÔNG -->
+<div class="overlay" id="successOverlay">
+    <div class="modal">
+        <h2 style="color:#4ade80;">🎉 NHẬN ACC THÀNH CÔNG</h2>
+        <p style="font-size:13px; color:#cbd5e1; margin-bottom:15px;">Chúc mừng! Bạn đã nhận được tài khoản:</p>
+        
+        <div class="info-box">
+            <div><b>🎁 Sản phẩm:</b> <span id="successProduct" class="text-purple">---</span></div>
+            <div style="margin-top:5px;"><b>💰 Giá:</b> <span id="successPrice" class="text-gold">---</span></div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-row"><span>👤 Username</span><span class="text-green" id="successUsername">---</span></div>
+            <div class="info-row"><span>🔑 Password</span><span class="text-green" id="successPassword">---</span></div>
+            <div class="info-row"><span>⭐ Level</span><span id="successLevel">---</span></div>
+            <div class="info-row"><span>💎 Độ hiếm</span><span class="text-purple" id="successRarity">---</span></div>
+            <div class="info-row"><span>📝 Thông tin</span><span id="successInfo" style="text-align:right;">---</span></div>
+        </div>
+
+        <button class="modal-btn success" onclick="copyAccount()">📋 COPY THÔNG TIN ACC</button>
+        
+        <div class="info-box" style="text-align:center;">
+            <b>💵 Số dư còn lại:</b> <span id="successBalance" class="text-gold">---</span>
+        </div>
+
+        <button class="modal-btn close" onclick="closeModal('successOverlay')">ĐÓNG</button>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- SCRIPT (GIỮ NGUYÊN LOGIC CỦA BẠN) -->
+<!-- ========================================== -->
+<script>
+    /* ============================================================
+                        CẤU HÌNH SHOP
+    ============================================================ */
+    const SHOP_CONFIG = {
+        logo:"🎁 TÚI MÙ PTG",
+        title:"SHOP ACC CDANG",
+        subtitle:"💸Mở túi mù - nhận acc bất ngờ (zalo 0907859891)🎁",
+        footer:"© 2026 SHOP TÚI MÙ CDANG",
+        notice:`📢 THÔNG BÁO SHOP
 
 🎁 Chào mừng bạn đến với Công Đặng Shop Acc!
 💰 Nạp tiền liên hệ Zalo: 0907859891
@@ -442,427 +831,425 @@
 ⚠️ Vui lòng kiểm tra kỹ thông tin sau khi nhận.
 
 ❤️ Cảm ơn bạn đã ủng hộ shop!`,
-            zalo:"0907859891",
-            descriptions:{
-                bag5k:"Random clone cần câu, cuốc, clone KC, reg.",
-                tanbinh:"Random clone cần câu, cuốc, reg.",
-                premium:"Acc cao cấp, ít dính reg.",
-                legendary:"Acc hiếm, clone đủ dùng.",
-                lucky:"Acc log game trị giá cao.",
-                acc1:"Acc Cần Cơ Khí - kho 3 acc.",
-                acc2:"Acc Clone 8XX-1XXKC - kho 12 acc.",
-                acc3:"Acc Reg Qua Game - kho 48 acc."
-            },
-            names:{
-                bag5k:"🎁 TÚI 5K",
-                tanbinh:"🥉 TÂN BINH",
-                premium:"💎 PREMIUM",
-                legendary:"🔥 LEGENDARY",
-                lucky:"🍀 LUCKY",
-                acc1:"⚙️ ACC CẦN CƠ KHÍ",
-                acc2:"🎮 ACC CLONE 8XX-1XXKC",
-                acc3:"🎮 ACC REG QUA GAME"
-            },
-            prices:{
-                bag5k:5000,
-                tanbinh:20000,
-                premium:50000,
-                legendary:100000,
-                lucky:500000,
-                acc1:40000,
-                acc2:13000,
-                acc3:4000
-            }
-        };
-
-        /* ============================================================
-                            BIẾN
-        ============================================================ */
-        let currentUser=null;
-        let lastAccount=null;
-
-        /* ============================================================
-                            FORMAT TIỀN
-        ============================================================ */
-        function formatMoney(number){
-            return Number(number).toLocaleString("vi-VN")+"đ";
+        zalo:"0907859891",
+        descriptions:{
+            bag5k:"Random clone cần câu, cuốc, clone KC, reg.",
+            tanbinh:"Random clone cần câu, cuốc, reg.",
+            premium:"Acc cao cấp, ít dính reg.",
+            legendary:"Acc hiếm, clone đủ dùng.",
+            lucky:"Acc log game trị giá cao.",
+            acc1:"Acc Cần Cơ Khí - kho 3 acc.",
+            acc2:"Acc Clone 8XX-1XXKC - kho 12 acc.",
+            acc3:"Acc Reg Qua Game - kho 48 acc."
+        },
+        names:{
+            bag5k:"🎁 TÚI 5K",
+            tanbinh:"🥉 TÂN BINH",
+            premium:"💎 PREMIUM",
+            legendary:"🔥 LEGENDARY",
+            lucky:"🍀 LUCKY",
+            acc1:"⚙️ ACC CẦN CƠ KHÍ",
+            acc2:"🎮 ACC CLONE 8XX-1XXKC",
+            acc3:"🎮 ACC REG QUA GAME"
+        },
+        prices:{
+            bag5k:5000,
+            tanbinh:20000,
+            premium:50000,
+            legendary:100000,
+            lucky:500000,
+            acc1:40000,
+            acc2:13000,
+            acc3:4000
+        },
+        // LINK ẢNH SẢN PHẨM (Bạn có thể thay đổi nếu muốn)
+        images: {
+            bag5k: "https://cdn-icons-png.flaticon.com/512/3003/3003728.png",
+            tanbinh: "https://cdn-icons-png.flaticon.com/512/4140/4140048.png",
+            premium: "https://cdn-icons-png.flaticon.com/512/2583/2583344.png",
+            legendary: "https://cdn-icons-png.flaticon.com/512/2583/2583434.png",
+            lucky: "https://cdn-icons-png.flaticon.com/512/2583/2583319.png",
+            acc1: "https://cdn-icons-png.flaticon.com/512/2666/2666505.png",
+            acc2: "https://cdn-icons-png.flaticon.com/512/2666/2666505.png",
+            acc3: "https://cdn-icons-png.flaticon.com/512/2666/2666505.png"
         }
+    };
 
-        /* ============================================================
-                            CONFIG HIỂN THỊ
-        ============================================================ */
-        // Cập nhật text vào các thẻ HTML mới
-        document.getElementById("shopLogo").textContent = SHOP_CONFIG.logo;
-        document.getElementById("shopTitle").innerHTML = SHOP_CONFIG.title.replace("CDANG", "<span class='text-neonPurple text-glow'>CDANG</span>"); // Highlight chữ CDANG
-        document.getElementById("shopSubtitle").textContent = SHOP_CONFIG.subtitle;
-        document.getElementById("footerText").textContent = SHOP_CONFIG.footer;
-        document.getElementById("noticeText").textContent = SHOP_CONFIG.notice;
-        document.getElementById("zaloNumber").textContent = SHOP_CONFIG.zalo;
+    /* ============================================================
+                        BIẾN
+    ============================================================ */
+    let currentUser=null;
+    let lastAccount=null;
 
-        /* ============================================================
-                            TÚI MÙ & BÁN ACC
-        ============================================================ */
-        const productOrder=["bag5k","tanbinh","premium","legendary","lucky"];
-        const accOrder=["acc1","acc2","acc3"];
+    /* ============================================================
+                        FORMAT TIỀN
+    ============================================================ */
+    function formatMoney(number){
+        return Number(number).toLocaleString("vi-VN")+"đ";
+    }
 
-        /* ============================================================
-                            TẠO CARD (ĐÃ ĐỔI SANG TAILWIND)
-        ============================================================ */
-        function createProductCard(product, stock, demoSold, isAcc=false){
-            const price = SHOP_CONFIG.prices[product];
-            const name = SHOP_CONFIG.names[product];
-            const description = SHOP_CONFIG.descriptions[product];
-            const amount = stock[product] ?? 0;
-            const sold = demoSold[product] ?? 0;
+    /* ============================================================
+                        CONFIG HIỂN THỊ
+    ============================================================ */
+    document.getElementById("shopLogo").textContent = SHOP_CONFIG.logo;
+    document.getElementById("shopTitle").innerHTML = SHOP_CONFIG.title.replace("CDANG", "<span>CDANG</span>");
+    document.getElementById("shopSubtitle").textContent = SHOP_CONFIG.subtitle;
+    document.getElementById("footerText").textContent = SHOP_CONFIG.footer;
+    document.getElementById("noticeText").textContent = SHOP_CONFIG.notice;
+    document.getElementById("zaloNumber").textContent = SHOP_CONFIG.zalo;
+
+    /* ============================================================
+                        TÚI MÙ & BÁN ACC
+    ============================================================ */
+    const productOrder=["bag5k","tanbinh","premium","legendary","lucky"];
+    const accOrder=["acc1","acc2","acc3"];
+
+    /* ============================================================
+                        TẠO CARD
+    ============================================================ */
+    function createProductCard(product, stock, demoSold, isAcc=false){
+        const price = SHOP_CONFIG.prices[product];
+        const name = SHOP_CONFIG.names[product];
+        const description = SHOP_CONFIG.descriptions[product];
+        const amount = stock[product] ?? 0;
+        const sold = demoSold[product] ?? 0;
+        
+        const imgSrc = SHOP_CONFIG.images[product] || "https://cdn-icons-png.flaticon.com/512/3003/3003728.png";
+        
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const cleanName = name.substring(name.indexOf(" ")+1);
+
+        card.innerHTML = `
+            <img src="${imgSrc}" alt="${cleanName}">
+            <h4>${cleanName}</h4>
+            <div class="price">${formatMoney(price)}</div>
+            <div class="desc">${description}</div>
+            <div class="stock">📦 Còn lại: ${amount} acc</div>
+            <div class="sold">🔥 Đã bán: ${sold} lượt</div>
+            <button class="buy-btn" onclick="buyProduct('${product}')" ${amount<=0?"disabled":""}>
+                ${amount<=0 ? "HẾT ACC" : (isAcc ? "🛒 MUA ACC" : "🎁 BỐC TÚI")}
+            </button>
+        `;
+        return card;
+    }
+
+    /* ============================================================
+                        LOAD SHOP
+    ============================================================ */
+    async function loadShop(){
+        try{
+            const response = await fetch("/api/status");
+            const data = await response.json();
+            const stock = data.stock || {};
+            const demoSold = data.demoSold || {};
+            const container = document.getElementById("products");
+            const accContainer = document.getElementById("accProducts");
             
-            const card = document.createElement("div");
-            
-            // Style chung cho thẻ card
-            card.className = "bg-cardDark border border-gray-800 rounded-xl p-4 flex flex-col items-center transition duration-300 product-card relative overflow-hidden group cursor-pointer";
+            container.innerHTML="";
+            accContainer.innerHTML="";
 
-            // Lấy icon từ tên (ví dụ: "🎁 TÚI 5K" -> "🎁")
-            const iconMatch = name.match(/^(\S+)/);
-            const icon = iconMatch ? iconMatch[1] : "👤";
-            const cleanName = name.substring(name.indexOf(" ")+1);
-
-            if(isAcc){
-                card.innerHTML = `
-                    <div class="text-4xl mb-2 group-hover:scale-110 transition drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">${icon}</div>
-                    <h2 class="text-sm font-bold text-center mb-1">${cleanName}</h2>
-                    <div class="text-gold font-bold text-lg mb-2">${formatMoney(price)}</div>
-                    <div class="text-xs text-gray-400 text-center mb-2 h-8 overflow-hidden">${description}</div>
-                    <div class="text-[11px] text-gray-500 mb-1">📦 Còn lại: ${amount} acc</div>
-                    <div class="text-[11px] text-gold font-bold mb-3">🔥 Đã bán: ${sold} lượt</div>
-                    <button class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold py-2 rounded-full hover:opacity-90 transition flex items-center justify-center gap-2 ${amount<=0 ? 'opacity-50 cursor-not-allowed' : ''}" 
-                        onclick="buyProduct('${product}')" ${amount<=0?"disabled":""}>
-                        ${amount<=0 ? "HẾT ACC" : "<i class='fa-solid fa-cart-shopping'></i> MUA ACC"}
-                    </button>
-                `;
-            } else {
-                card.innerHTML = `
-                    <div class="text-4xl mb-2 group-hover:scale-110 transition drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">${icon}</div>
-                    <h2 class="text-sm font-bold text-center mb-1">${cleanName}</h2>
-                    <div class="text-gold font-bold text-lg mb-2">${formatMoney(price)}</div>
-                    <div class="text-xs text-gray-400 text-center mb-2 h-8 overflow-hidden">${description}</div>
-                    <div class="text-[11px] text-gray-500 mb-1">📦 Còn lại: ${amount} acc</div>
-                    <div class="text-[11px] text-gold font-bold mb-3">🔥 Đã bán: ${sold} lượt</div>
-                    <button class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold py-2 rounded-full hover:opacity-90 transition flex items-center justify-center gap-2 ${amount<=0 ? 'opacity-50 cursor-not-allowed' : ''}" 
-                        onclick="buyProduct('${product}')" ${amount<=0?"disabled":""}>
-                        ${amount<=0 ? "HẾT ACC" : "<i class='fa-solid fa-gift'></i> BỐC TÚI"}
-                    </button>
-                `;
-            }
-            return card;
-        }
-
-        /* ============================================================
-                            LOAD SHOP
-        ============================================================ */
-        async function loadShop(){
-            try{
-                const response = await fetch("/api/status");
-                const data = await response.json();
-                const stock = data.stock || {};
-                const demoSold = data.demoSold || {};
-                const container = document.getElementById("products");
-                const accContainer = document.getElementById("accProducts");
-                
-                container.innerHTML="";
-                accContainer.innerHTML="";
-
-                productOrder.forEach(product=>{
-                    const card = createProductCard(product, stock, demoSold, false);
-                    container.appendChild(card);
-                });
-
-                accOrder.forEach(product=>{
-                    const card = createProductCard(product, stock, demoSold, true);
-                    accContainer.appendChild(card);
-                });
-
-            }catch(error){
-                console.error(error);
-                document.getElementById("products").innerHTML=`
-                    <div class="col-span-full text-center p-8 text-red-500 bg-red-500/10 rounded-xl border border-red-500/20">
-                        <i class="fa-solid fa-triangle-exclamation text-2xl mb-2"></i><br>
-                        Không thể tải shop. Hãy kiểm tra server.
-                    </div>
-                `;
-            }
-        }
-
-        /* ============================================================
-                            MODAL
-        ============================================================ */
-        function openModal(id){
-            document.getElementById(id).classList.remove("hidden");
-            document.getElementById(id).classList.add("flex");
-        }
-
-        function closeModal(id){
-            document.getElementById(id).classList.add("hidden");
-            document.getElementById(id).classList.remove("flex");
-        }
-
-        /* ============================================================
-                            ACCOUNT
-        ============================================================ */
-        function openAccount(){
-            if(!currentUser){
-                openModal("loginOverlay");
-                return;
-            }
-            updateAccountUI();
-            openModal("accountOverlay");
-        }
-
-        function updateAccountUI(){
-            if(!currentUser)return;
-            document.getElementById("accountGmail").textContent = currentUser.gmail;
-            document.getElementById("accountUID").textContent = currentUser.uid;
-            document.getElementById("accountBalance").textContent = formatMoney(currentUser.balance);
-            
-            const firstLetter = currentUser.gmail.charAt(0).toUpperCase();
-            document.getElementById("headerAvatar").textContent = firstLetter;
-            document.getElementById("headerAccountText").textContent = currentUser.gmail;
-            
-            // Ẩn box đăng nhập, hiện thông tin user (nếu cần)
-            document.getElementById("login-box").classList.add("hidden");
-        }
-
-        /* ============================================================
-                            LOGIN
-        ============================================================ */
-        async function login(){
-            const gmail = document.getElementById("gmailInput").value.trim();
-            if(!gmail){
-                alert("Vui lòng nhập Gmail.");
-                return;
-            }
-            try{
-                const response = await fetch("/api/login",{
-                    method:"POST",
-                    headers:{"Content-Type":"application/json"},
-                    body:JSON.stringify({gmail:gmail})
-                });
-                const data = await response.json();
-                if(!data.success){
-                    alert(data.message || "Đăng nhập thất bại.");
-                    return;
-                }
-                currentUser = data.user;
-                document.getElementById("gmailInput").value="";
-                closeModal("loginOverlay");
-                updateAccountUI();
-                alert("Đăng nhập thành công!\n\nUID của bạn: "+currentUser.uid);
-            }catch(error){
-                console.error(error);
-                alert("Không thể kết nối server.");
-            }
-        }
-
-        /* ============================================================
-                            LOGOUT
-        ============================================================ */
-        function logout(){
-            currentUser=null;
-            lastAccount=null;
-            document.getElementById("headerAvatar").textContent="?";
-            document.getElementById("headerAccountText").textContent="Đăng nhập";
-            document.getElementById("login-box").classList.remove("hidden");
-            closeModal("accountOverlay");
-        }
-
-        /* ============================================================
-                            COPY UID
-        ============================================================ */
-        async function copyUID(){
-            if(!currentUser)return;
-            try{
-                await navigator.clipboard.writeText(currentUser.uid);
-                alert("Đã copy UID.");
-            }catch{
-                alert("UID của bạn: "+currentUser.uid);
-            }
-        }
-
-        /* ============================================================
-                            MUA / BỐC
-        ============================================================ */
-        async function buyProduct(product){
-            if(!currentUser){
-                openModal("loginOverlay");
-                return;
-            }
-            const price = SHOP_CONFIG.prices[product];
-            if(Number(currentUser.balance) < price){
-                document.getElementById("balanceUID").textContent = currentUser.uid;
-                document.getElementById("balanceCurrent").textContent = formatMoney(currentUser.balance);
-                openModal("balanceOverlay");
-                return;
-            }
-
-            const isAcc = accOrder.includes(product);
-            const actionText = isAcc ? "mua" : "bốc";
-            const confirmBuy = confirm("Bạn có chắc muốn "+actionText+" "+SHOP_CONFIG.names[product]+" với giá "+formatMoney(price)+"?");
-
-            if(!confirmBuy)return;
-
-            try{
-                const response = await fetch("/api/buy",{
-                    method:"POST",
-                    headers:{"Content-Type":"application/json"},
-                    body:JSON.stringify({
-                        uid: currentUser.uid,
-                        product: product,
-                        price: price
-                    })
-                });
-                const data = await response.json();
-
-                if(!data.success){
-                    if(data.code === "NOT_ENOUGH"){
-                        currentUser.balance = data.balance ?? currentUser.balance;
-                        document.getElementById("balanceUID").textContent = currentUser.uid;
-                        document.getElementById("balanceCurrent").textContent = formatMoney(currentUser.balance);
-                        openModal("balanceOverlay");
-                        return;
-                    }
-                    if(data.code === "OUT_OF_STOCK"){
-                        alert("Sản phẩm này đã hết acc.");
-                        loadShop();
-                        return;
-                    }
-                    alert(data.message || "Không thể mua sản phẩm.");
-                    return;
-                }
-
-                currentUser.balance = data.balance;
-                const account = data.account;
-                lastAccount = account;
-
-                document.getElementById("successProduct").textContent = SHOP_CONFIG.names[product];
-                document.getElementById("successPrice").textContent = formatMoney(price);
-                document.getElementById("successUsername").textContent = account.username || "---";
-                document.getElementById("successPassword").textContent = account.password || "---";
-                document.getElementById("successLevel").textContent = account.level ?? "---";
-                document.getElementById("successRarity").textContent = account.rarity || "---";
-                document.getElementById("successInfo").textContent = account.info || "---";
-                document.getElementById("successBalance").textContent = formatMoney(data.balance);
-
-                openModal("successOverlay");
-                loadShop();
-                updateAccountUI();
-
-            }catch(error){
-                console.error(error);
-                alert("Không thể kết nối tới server.");
-            }
-        }
-
-        /* ============================================================
-                            COPY ACC
-        ============================================================ */
-        async function copyAccount(){
-            if(!lastAccount)return;
-            const text=
-                "Username: "+(lastAccount.username || "")+
-                "\nPassword: "+(lastAccount.password || "")+
-                "\nLevel: "+(lastAccount.level ?? "")+
-                "\nĐộ hiếm: "+(lastAccount.rarity || "")+
-                "\nThông tin: "+(lastAccount.info || "");
-            try{
-                await navigator.clipboard.writeText(text);
-                alert("Đã copy thông tin acc.");
-            }catch{
-                alert(text);
-            }
-        }
-
-        /* ============================================================
-                            LỊCH SỬ
-        ============================================================ */
-        async function showHistory(){
-            if(!currentUser)return;
-            closeModal("accountOverlay");
-            openModal("historyOverlay");
-            const list = document.getElementById("historyList");
-            list.innerHTML="Đang tải lịch sử...";
-
-            try{
-                const response = await fetch("/api/history?uid="+encodeURIComponent(currentUser.uid));
-                const data = await response.json();
-
-                if(!data.success){
-                    list.innerHTML=data.message || "Không thể tải lịch sử.";
-                    return;
-                }
-                const history = data.history || [];
-                if(history.length===0){
-                    list.innerHTML=`<div class="text-center text-gray-500 py-6">Chưa có lịch sử mua / bốc.</div>`;
-                    return;
-                }
-
-                list.innerHTML="";
-                [...history].reverse().forEach(item=>{
-                    const account = item.account || {};
-                    const name = SHOP_CONFIG.names[item.product] || item.product;
-                    const div = document.createElement("div");
-                    div.className = "bg-bgDark border border-gray-800 rounded-xl p-4 mb-3 text-sm leading-relaxed";
-                    
-                    div.innerHTML = `
-                        <b class="text-neonPurple text-base">${name}</b><br>
-                        💰 Giá: <span class="text-gold">${formatMoney(item.price)}</span><br>
-                        👤 Username: <span class="text-green-400 font-bold">${account.username || "---"}</span><br>
-                        🔑 Password: <span class="text-green-400">${account.password || "---"}</span><br>
-                        ⭐ Level: ${account.level ?? "---"}<br>
-                        💎 Độ hiếm: <span class="text-neonPurple font-bold">${account.rarity || "---"}</span><br>
-                        📝 Thông tin: ${account.info || "---"}<br>
-                        🕒 Thời gian: <span class="text-gray-500">${formatDate(item.time)}</span>
-                    `;
-                    list.appendChild(div);
-                });
-
-            }catch(error){
-                console.error(error);
-                list.innerHTML="Không thể kết nối server.";
-            }
-        }
-
-        /* ============================================================
-                            FORMAT NGÀY
-        ============================================================ */
-        function formatDate(time){
-            if(!time)return"---";
-            const date=new Date(time);
-            return date.toLocaleString("vi-VN");
-        }
-
-        /* ============================================================
-                            CLICK NGOÀI MODAL
-        ============================================================ */
-        document.querySelectorAll(".overlay").forEach(overlay=>{
-            overlay.addEventListener("click", function(event){
-                if(event.target === overlay){
-                    overlay.classList.add("hidden");
-                    overlay.classList.remove("flex");
-                }
+            productOrder.forEach(product=>{
+                const card = createProductCard(product, stock, demoSold, false);
+                container.appendChild(card);
             });
-        });
 
-        /* ============================================================
-                            THÔNG BÁO KHI LOAD
-        ============================================================ */
-        window.addEventListener("load", function(){
-            setTimeout(()=>{
-                openModal("noticeOverlay");
-            }, 400);
-        });
+            accOrder.forEach(product=>{
+                const card = createProductCard(product, stock, demoSold, true);
+                accContainer.appendChild(card);
+            });
 
-        /* ============================================================
-                            KHỞI ĐỘNG
-        ============================================================ */
-        loadShop();
-    </script>
+        }catch(error){
+            console.error(error);
+            document.getElementById("products").innerHTML=`
+                <div style="grid-column:1/-1; text-align:center; padding:20px; color:#ef4444;">
+                    Không thể tải shop. Hãy kiểm tra server.
+                </div>
+            `;
+        }
+    }
+
+    /* ============================================================
+                        MODAL
+    ============================================================ */
+    function openModal(id){
+        document.getElementById(id).style.display = "flex";
+    }
+
+    function closeModal(id){
+        document.getElementById(id).style.display = "none";
+    }
+
+    /* ============================================================
+                        ACCOUNT
+    ============================================================ */
+    function openAccount(){
+        if(!currentUser){
+            openModal("loginOverlay");
+            return;
+        }
+        updateAccountUI();
+        openModal("accountOverlay");
+    }
+
+    function updateAccountUI(){
+        if(!currentUser)return;
+        document.getElementById("accountGmail").textContent = currentUser.gmail;
+        document.getElementById("accountUID").textContent = currentUser.uid;
+        document.getElementById("accountBalance").textContent = formatMoney(currentUser.balance);
+        
+        const firstLetter = currentUser.gmail.charAt(0).toUpperCase();
+        document.getElementById("headerAvatar").textContent = firstLetter;
+        
+        const textEl = document.getElementById("headerAccountText");
+        textEl.textContent = currentUser.gmail;
+        textEl.style.display = "block";
+
+        document.getElementById("login-box").style.display = "none";
+    }
+
+    /* ============================================================
+                        LOGIN
+    ============================================================ */
+    async function login(){
+        const gmail = document.getElementById("gmailInput").value.trim();
+        if(!gmail){
+            alert("Vui lòng nhập Gmail.");
+            return;
+        }
+        try{
+            const response = await fetch("/api/login",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({gmail:gmail})
+            });
+            const data = await response.json();
+            if(!data.success){
+                alert(data.message || "Đăng nhập thất bại.");
+                return;
+            }
+            currentUser = data.user;
+            document.getElementById("gmailInput").value="";
+            closeModal("loginOverlay");
+            updateAccountUI();
+            alert("Đăng nhập thành công!\n\nUID của bạn: "+currentUser.uid);
+        }catch(error){
+            console.error(error);
+            alert("Không thể kết nối server.");
+        }
+    }
+
+    /* ============================================================
+                        LOGOUT
+    ============================================================ */
+    function logout(){
+        currentUser=null;
+        lastAccount=null;
+        document.getElementById("headerAvatar").textContent="?";
+        
+        const textEl = document.getElementById("headerAccountText");
+        textEl.textContent="Đăng nhập";
+        textEl.style.display="none";
+
+        document.getElementById("login-box").style.display = "block";
+        closeModal("accountOverlay");
+    }
+
+    /* ============================================================
+                        COPY UID
+    ============================================================ */
+    async function copyUID(){
+        if(!currentUser)return;
+        try{
+            await navigator.clipboard.writeText(currentUser.uid);
+            alert("Đã copy UID.");
+        }catch{
+            alert("UID của bạn: "+currentUser.uid);
+        }
+    }
+
+    /* ============================================================
+                        MUA / BỐC
+    ============================================================ */
+    async function buyProduct(product){
+        if(!currentUser){
+            openModal("loginOverlay");
+            return;
+        }
+        const price = SHOP_CONFIG.prices[product];
+        if(Number(currentUser.balance) < price){
+            document.getElementById("balanceUID").textContent = currentUser.uid;
+            document.getElementById("balanceCurrent").textContent = formatMoney(currentUser.balance);
+            openModal("balanceOverlay");
+            return;
+        }
+
+        const isAcc = accOrder.includes(product);
+        const actionText = isAcc ? "mua" : "bốc";
+        const confirmBuy = confirm("Bạn có chắc muốn "+actionText+" "+SHOP_CONFIG.names[product]+" với giá "+formatMoney(price)+"?");
+
+        if(!confirmBuy)return;
+
+        try{
+            const response = await fetch("/api/buy",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({
+                    uid: currentUser.uid,
+                    product: product,
+                    price: price
+                })
+            });
+            const data = await response.json();
+
+            if(!data.success){
+                if(data.code === "NOT_ENOUGH"){
+                    currentUser.balance = data.balance ?? currentUser.balance;
+                    document.getElementById("balanceUID").textContent = currentUser.uid;
+                    document.getElementById("balanceCurrent").textContent = formatMoney(currentUser.balance);
+                    openModal("balanceOverlay");
+                    return;
+                }
+                if(data.code === "OUT_OF_STOCK"){
+                    alert("Sản phẩm này đã hết acc.");
+                    loadShop();
+                    return;
+                }
+                alert(data.message || "Không thể mua sản phẩm.");
+                return;
+            }
+
+            currentUser.balance = data.balance;
+            const account = data.account;
+            lastAccount = account;
+
+            document.getElementById("successProduct").textContent = SHOP_CONFIG.names[product];
+            document.getElementById("successPrice").textContent = formatMoney(price);
+            document.getElementById("successUsername").textContent = account.username || "---";
+            document.getElementById("successPassword").textContent = account.password || "---";
+            document.getElementById("successLevel").textContent = account.level ?? "---";
+            document.getElementById("successRarity").textContent = account.rarity || "---";
+            document.getElementById("successInfo").textContent = account.info || "---";
+            document.getElementById("successBalance").textContent = formatMoney(data.balance);
+
+            openModal("successOverlay");
+            loadShop();
+            updateAccountUI();
+
+        }catch(error){
+            console.error(error);
+            alert("Không thể kết nối tới server.");
+        }
+    }
+
+    /* ============================================================
+                        COPY ACC
+    ============================================================ */
+    async function copyAccount(){
+        if(!lastAccount)return;
+        const text=
+            "Username: "+(lastAccount.username || "")+
+            "\nPassword: "+(lastAccount.password || "")+
+            "\nLevel: "+(lastAccount.level ?? "")+
+            "\nĐộ hiếm: "+(lastAccount.rarity || "")+
+            "\nThông tin: "+(lastAccount.info || "");
+        try{
+            await navigator.clipboard.writeText(text);
+            alert("Đã copy thông tin acc.");
+        }catch{
+            alert(text);
+        }
+    }
+
+    /* ============================================================
+                        LỊCH SỬ
+    ============================================================ */
+    async function showHistory(){
+        if(!currentUser)return;
+        closeModal("accountOverlay");
+        openModal("historyOverlay");
+        const list = document.getElementById("historyList");
+        list.innerHTML="Đang tải lịch sử...";
+
+        try{
+            const response = await fetch("/api/history?uid="+encodeURIComponent(currentUser.uid));
+            const data = await response.json();
+
+            if(!data.success){
+                list.innerHTML=data.message || "Không thể tải lịch sử.";
+                return;
+            }
+            const history = data.history || [];
+            if(history.length===0){
+                list.innerHTML=`<div style="text-align:center; color:#64748b; padding:20px;">Chưa có lịch sử mua / bốc.</div>`;
+                return;
+            }
+
+            list.innerHTML="";
+            [...history].reverse().forEach(item=>{
+                const account = item.account || {};
+                const name = SHOP_CONFIG.names[item.product] || item.product;
+                const div = document.createElement("div");
+                div.style.background = "#020617";
+                div.style.border = "1px solid rgba(255,255,255,0.1)";
+                div.style.borderRadius = "8px";
+                div.style.padding = "12px";
+                div.style.marginBottom = "10px";
+                div.style.lineHeight = "1.6";
+                
+                div.innerHTML = `
+                    <b style="color:#8b5cf6; font-size:14px;">${name}</b><br>
+                    💰 Giá: <span class="text-gold">${formatMoney(item.price)}</span><br>
+                    👤 Username: <span class="text-green">${account.username || "---"}</span><br>
+                    🔑 Password: <span class="text-green">${account.password || "---"}</span><br>
+                    ⭐ Level: ${account.level ?? "---"}<br>
+                    💎 Độ hiếm: <span class="text-purple">${account.rarity || "---"}</span><br>
+                    📝 Thông tin: ${account.info || "---"}<br>
+                    🕒 Thời gian: <span style="color:#64748b;">${formatDate(item.time)}</span>
+                `;
+                list.appendChild(div);
+            });
+
+        }catch(error){
+            console.error(error);
+            list.innerHTML="Không thể kết nối server.";
+        }
+    }
+
+    /* ============================================================
+                        FORMAT NGÀY
+    ============================================================ */
+    function formatDate(time){
+        if(!time)return"---";
+        const date=new Date(time);
+        return date.toLocaleString("vi-VN");
+    }
+
+    /* ============================================================
+                        CLICK NGOÀI MODAL
+    ============================================================ */
+    document.querySelectorAll(".overlay").forEach(overlay=>{
+        overlay.addEventListener("click", function(event){
+            if(event.target === overlay){
+                overlay.style.display = "none";
+            }
+        });
+    });
+
+    /* ============================================================
+                        THÔNG BÁO KHI LOAD
+    ============================================================ */
+    window.addEventListener("load", function(){
+        setTimeout(()=>{
+            openModal("noticeOverlay");
+        }, 400);
+    });
+
+    /* ============================================================
+                        KHỞI ĐỘNG
+    ============================================================ */
+    loadShop();
+</script>
 </body>
 </html>
