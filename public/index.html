@@ -365,32 +365,23 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
 
             <div class="box">
                 <h3>📊 Thông Tin Shop</h3>
-                <div class="stat-row">
+                <div class="stat-row" id="rowUsers" style="display:none">
                     <span>👥 Người dùng</span>
-                    <span>1.248+</span>
+                    <span id="statUsers">0</span>
                 </div>
                 <div class="stat-row">
                     <span>🛒 Đã bán</span>
-                    <span>28.750+</span>
+                    <span id="statSold">...</span>
                 </div>
                 <div class="stat-row">
                     <span>🟢 Trạng thái</span>
-                    <span class="status-active">Đang hoạt động</span>
+                    <span class="status-active" id="liveText">Đang kết nối...</span>
                 </div>
             </div>
 
-            <div class="box">
+            <div class="box" id="recentBox" style="display:none">
                 <h3>🕒 Lịch Sử Gần Đây</h3>
-                <div style="font-size:12px; display:flex; flex-direction:column; gap:10px;">
-                    <div style="display:flex; justify-content:space-between;">
-                        <div>👑 <b>nv***@gmail.com</b><br><span style="color:#94a3b8;">Mua Túi 5K</span></div>
-                        <span style="color:#64748b;">2 phút trước</span>
-                    </div>
-                    <div style="display:flex; justify-content:space-between;">
-                        <div>👑 <b>tru***@gmail.com</b><br><span style="color:#94a3b8;">Mua Acc Premium</span></div>
-                        <span style="color:#64748b;">5 phút trước</span>
-                    </div>
-                </div>
+                <div id="recentList" style="font-size:12px; display:flex; flex-direction:column; gap:10px;"></div>
             </div>
 
         </div>
@@ -886,6 +877,29 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
     window.addEventListener("load", function(){
         setTimeout(()=>{ openModal("noticeOverlay"); }, 400);
     });
+
+    /* ===== THÔNG TIN SHOP (số thật) ===== */
+    function esc(t){return String(t).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+    function maskMail(m){m=String(m||"");const i=m.indexOf("@");if(i<1)return m.slice(0,2)+"***";return m.slice(0,Math.min(2,i))+"***"+m.slice(i);}
+    function timeAgo(t){const s=(Date.now()-new Date(t).getTime())/1000;if(!isFinite(s)||s<0)return"";if(s<60)return"vừa xong";if(s<3600)return Math.floor(s/60)+" phút trước";if(s<86400)return Math.floor(s/3600)+" giờ trước";return Math.floor(s/86400)+" ngày trước";}
+    async function loadStats(){
+        let users=null,sold=null,recent=[],ok=false;
+        try{const r=await fetch("/api/stats");if(r.ok){const d=await r.json();if(d&&d.users!=null)users=Number(d.users);if(d&&d.sold!=null)sold=Number(d.sold);recent=Array.isArray(d&&d.recent)?d.recent:[];ok=true;}}catch(e){}
+        if(sold===null){try{const r=await fetch("/api/status");const d=await r.json();sold=Object.values(d.demoSold||{}).reduce((a,b)=>a+Number(b||0),0);ok=true;}catch(e){}}
+        document.getElementById("rowUsers").style.display=users===null?"none":"flex";
+        if(users!==null)document.getElementById("statUsers").textContent=users.toLocaleString("vi-VN");
+        document.getElementById("statSold").textContent=sold===null?"---":sold.toLocaleString("vi-VN");
+        document.getElementById("liveText").textContent=ok?"Đang hoạt động":"Mất kết nối";
+        document.getElementById("recentBox").style.display=recent.length?"block":"none";
+        document.getElementById("recentList").innerHTML=recent.slice(0,5).map(x=>{
+            const n=SHOP_CONFIG.names[x.item]||x.item||"";
+            const clean=n.indexOf(" ")>-1?n.substring(n.indexOf(" ")+1):n;
+            return `<div style="display:flex; justify-content:space-between;"><div>👑 <b>${esc(maskMail(x.mail))}</b><br><span style="color:#94a3b8;">Mua ${esc(clean)}</span></div><span style="color:#64748b;">${esc(timeAgo(x.time))}</span></div>`;
+        }).join("");
+    }
+    const _loadShopGoc=loadShop;
+    loadShop=async function(){await _loadShopGoc();loadStats();};
+    setInterval(loadStats,60000);
 
     loadShop();
 </script>
