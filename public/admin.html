@@ -3,297 +3,321 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PT BAG SHOP - ADMIN</title>
+<title>PT BAG SHOP | AKATSUKI ADMIN</title>
 <style>
-:root{--bg:#080609;--panel:#170d13;--panel2:#211019;--red:#e11d48;--red2:#991b1b;--text:#fff1f2;--muted:#c5aeb6;--border:rgba(239,68,68,.28)}
+:root{
+  --bg:#080708;--panel:#141012;--panel2:#1b1417;--red:#c51f35;
+  --red2:#ff344e;--text:#f7eeee;--muted:#a9959a;--line:rgba(255,255,255,.09);
+  --gold:#d8b36a;--green:#61d6a2;--shadow:0 18px 55px rgba(0,0,0,.4)
+}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;color:var(--text);font-family:Arial,sans-serif;background:radial-gradient(ellipse at 12% 8%,#42101d 0,transparent 34%),radial-gradient(ellipse at 90% 90%,#300b16 0,transparent 35%),var(--bg)}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 80% 0%,#351018 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;min-height:100vh}
 button,input{font:inherit}
-button{border:0;cursor:pointer;color:white;border-radius:12px;padding:13px 18px;font-weight:800;background:linear-gradient(135deg,#e11d48,#7f1d1d);box-shadow:0 5px 22px #e11d4830;transition:.22s}
-button:hover{transform:translateY(-2px);filter:brightness(1.15)}
-button:active{transform:scale(.98)}
-input{width:100%;padding:14px;margin:7px 0;border:1px solid #713044;border-radius:11px;outline:none;background:#0c080c;color:white}
-input:focus{border-color:#fb345d;box-shadow:0 0 0 3px #e11d4820}
+button{cursor:pointer}
 .hidden{display:none!important}
-.muted{color:var(--muted)}
-/* Intro */
-#intro{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 50% 50%,#54101d 0%,#16070d 42%,#030204 100%);transition:opacity .8s,visibility .8s}
+#intro{position:fixed;inset:0;z-index:1000;background:#050405;display:grid;place-items:center;overflow:hidden;transition:opacity .8s,visibility .8s}
 #intro.done{opacity:0;visibility:hidden;pointer-events:none}
-.intro-glow{position:absolute;width:min(650px,70vw);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#b91c1c38,transparent 68%);animation:pulseGlow 2s infinite alternate}
-.intro-cloud{position:absolute;width:230px;height:85px;border:2px solid #ef444455;border-radius:50%;background:linear-gradient(90deg,#26050c,#790e20,#21050c);box-shadow:0 0 35px #dc262655;opacity:.65;animation:cloudMove 7s linear infinite}
-.intro-cloud:before,.intro-cloud:after{content:"";position:absolute;width:85px;height:65px;border-radius:50%;background:#4a0b17;border-top:2px solid #ef444477;top:-30px}
-.intro-cloud:before{left:35px}.intro-cloud:after{right:25px;top:20px}
-.cloud-one{top:18%;left:-280px}.cloud-two{bottom:18%;right:-280px;animation-delay:-3s}.cloud-three{top:65%;left:-300px;animation-delay:-5s;transform:scale(.7)}
-.intro-content{position:relative;z-index:3;text-align:center;padding:25px;animation:introAppear 1.2s both}
-.sharingan{width:145px;height:145px;margin:0 auto 28px;border-radius:50%;position:relative;border:7px solid #7f1d1d;background:radial-gradient(circle,#080303 0 12%,#ef4444 13% 20%,#170303 21% 27%,#dc2626 28% 67%,#270407 68%);box-shadow:0 0 20px #ef4444,0 0 65px #dc262688,inset 0 0 22px #000;animation:eyePulse 1.5s infinite alternate}
-.sharingan:before{content:"";position:absolute;inset:17px;border:2px solid #250308;border-radius:50%}
-.sharingan:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#050204;top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 5px #080204}
-.tomoe{position:absolute;width:17px;height:28px;background:#090204;border-radius:80% 20% 70% 30%;left:50%;top:9px;transform-origin:50% 63px}
-.tomoe:nth-child(1){transform:translateX(-50%) rotate(0deg)}.tomoe:nth-child(2){transform:translateX(-50%) rotate(120deg)}.tomoe:nth-child(3){transform:translateX(-50%) rotate(240deg)}
-.intro-title{margin:0;font-size:clamp(30px,6vw,58px);font-weight:1000;letter-spacing:4px;text-shadow:0 0 10px #ef4444,0 0 35px #dc2626}
-.intro-sub{color:#ff9aaa;letter-spacing:5px;margin:12px 0 25px;font-size:13px}
-.intro-loading{width:min(280px,70vw);height:4px;margin:20px auto;border-radius:20px;background:#43101c;overflow:hidden}
-.intro-loading span{display:block;width:100%;height:100%;background:#ef4444;transform-origin:left;animation:loadingBar 3.2s linear forwards;box-shadow:0 0 15px #ef4444}
-.intro-status{font-size:12px;color:#d8a5ae;letter-spacing:2px}
-.skip-intro{position:absolute;z-index:5;right:22px;bottom:22px;padding:10px 17px;background:#1a080e;border:1px solid #a52a43;box-shadow:none}
-@keyframes eyePulse{to{box-shadow:0 0 35px #ef4444,0 0 90px #dc2626}}
-@keyframes pulseGlow{to{transform:scale(1.25);opacity:.55}}
-@keyframes cloudMove{to{translate:120vw 0}}
-@keyframes introAppear{from{opacity:0;transform:translateY(25px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes loadingBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-/* Admin */
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:18px 5%;border-bottom:1px solid var(--border);background:#090609dd;position:sticky;top:0;z-index:10;backdrop-filter:blur(15px)}
-.brand{font-size:21px;font-weight:1000;letter-spacing:1px;text-shadow:0 0 15px #ef4444}
-.brand small{display:block;color:#fb7185;font-size:10px;letter-spacing:4px;margin-top:5px}
-.top-right{display:flex;align-items:center;gap:12px}.online{color:#4ade80;font-size:12px}
-.wrap{width:min(1150px,92%);margin:30px auto}
-.hero{padding:28px;border:1px solid var(--border);border-radius:20px;background:radial-gradient(circle at 90% 20%,#7f1d1d55,transparent 35%),linear-gradient(130deg,#29101a,#100a0e);box-shadow:0 12px 40px #0008;margin-bottom:22px;animation:cardIn .6s both}
-.hero h1{font-size:clamp(25px,4vw,38px);margin:0 0 10px}.hero p{color:#d9b9c2;margin:0}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.card{background:linear-gradient(145deg,#1d1018,#100b0f);border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:0 12px 30px #0005;animation:cardIn .55s both}
-.card h2{margin:0 0 14px;font-size:19px}
-.card p{color:var(--muted);font-size:13px}
-.result{margin-top:14px;padding:14px;border-radius:11px;background:#0b080b;border:1px solid #4b202e;white-space:pre-wrap;word-break:break-word;line-height:1.7}
-.money{background:linear-gradient(135deg,#16a34a,#166534)}
-.danger{background:linear-gradient(135deg,#dc2626,#7f1d1d)}
-.uid{color:#fda4af;font-weight:bold}.balance{color:#4ade80;font-size:20px;font-weight:bold}
-.history-item{border:1px solid #542333;border-radius:12px;padding:14px;margin-top:10px;background:#100a0e}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.actions button{width:auto}
-.login-wrap{max-width:440px;margin:8vh auto;padding:0 18px}
-.login-card{text-align:center}
-.login-card .sigil{font-size:48px;filter:drop-shadow(0 0 15px #ef4444)}
-.login-card button{width:100%;margin-top:10px}
-.footer{text-align:center;color:#8e6874;font-size:12px;padding:30px 10px}
-#loginResult:empty,#userResult:empty,#moneyResult:empty{display:none}
-@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:700px){.grid{grid-template-columns:1fr}.topbar{padding:14px 4%}.brand{font-size:17px}.top-right{gap:7px}.top-right button{padding:10px;font-size:12px}.hero{padding:22px}.card{padding:18px}}
+.intro-video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;opacity:.48;pointer-events:none}
+.intro-backdrop{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.95),rgba(8,0,0,.48),rgba(0,0,0,.92)),url('https://img.youtube.com/vi/4EXQrUumyIE/maxresdefault.jpg') center/cover;animation:backdropZoom 7s ease both}
+.intro-vignette{position:absolute;inset:0;background:radial-gradient(ellipse,transparent 15%,rgba(0,0,0,.75) 80%)}
+.intro-content{position:relative;z-index:2;text-align:center;padding:24px;animation:introRise 1s ease both}
+.intro-kicker{color:#f06a78;letter-spacing:.48em;font-size:11px;font-weight:800}
+.intro-title{font-family:Georgia,serif;font-size:clamp(38px,8vw,88px);letter-spacing:.12em;margin:14px 0 4px;text-shadow:0 0 24px #c51f35}
+.intro-sub{color:#e6c9cc;letter-spacing:.32em;font-size:12px}
+.eye-wrap{width:180px;height:76px;margin:25px auto 20px;position:relative;overflow:hidden;filter:drop-shadow(0 0 18px #f11)}
+.eye{position:absolute;width:108px;height:55px;border-radius:100% 0 100% 0;left:36px;top:10px;background:#f3e4df;transform:rotate(45deg) scaleY(.04);transform-origin:center;animation:eyeOpen 1.2s .6s ease forwards}
+.iris{position:absolute;width:35px;height:35px;border-radius:50%;background:radial-gradient(circle,#100 0 15%,#c40022 18% 60%,#65000f 72%);left:72px;top:20px;opacity:0;animation:irisShow .5s 1.6s forwards}
+.iris:before,.iris:after{content:"";position:absolute;width:7px;height:7px;background:#050405;border-radius:50%;top:4px;left:5px;box-shadow:18px 9px 0 #050405}
+.eye-line{position:absolute;height:3px;width:150px;background:#d92740;top:38px;left:15px;box-shadow:0 0 18px #f00}
+.intro-loading{height:2px;width:min(280px,70vw);background:#3a1a20;margin:28px auto 0;overflow:hidden}
+.intro-loading:after{content:"";display:block;height:100%;width:35%;background:#ed3048;animation:loading 3.4s ease-in-out forwards}
+.skip{position:absolute;right:26px;top:24px;z-index:3;border:1px solid #ffffff55;color:#fff;background:#130b0dcc;padding:10px 17px;border-radius:30px;letter-spacing:.08em;font-size:11px}
+@keyframes eyeOpen{to{transform:rotate(45deg) scaleY(1)}}
+@keyframes irisShow{to{opacity:1}}
+@keyframes loading{to{width:100%}}
+@keyframes introRise{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
+@keyframes backdropZoom{from{transform:scale(1.1);filter:brightness(.45)}to{transform:scale(1);filter:brightness(.8)}}
+.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid var(--line);background:#0b0809d9;backdrop-filter:blur(14px);position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:13px;font-weight:900;letter-spacing:.1em}
+.brand-mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#ec314b,#590b19);display:grid;place-items:center;font-size:22px;box-shadow:0 7px 24px #a10f2c55}
+.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:.25em;margin-top:4px}
+.top-right{display:flex;align-items:center;gap:12px}
+.online{font-size:11px;color:#8ee5bb;border:1px solid #34785b66;background:#10241c;padding:8px 12px;border-radius:30px}
+.logout{border:1px solid #71303a;background:#271016;color:#ffdce1;border-radius:12px;padding:10px 14px}
+.layout{display:grid;grid-template-columns:245px minmax(0,1fr);max-width:1500px;margin:auto;min-height:calc(100vh - 76px)}
+.sidebar{padding:26px 16px;border-right:1px solid var(--line);background:#0c090a}
+.side-label{font-size:10px;letter-spacing:.22em;color:#806d72;padding:0 13px;margin:12px 0}
+.nav-btn{width:100%;display:flex;align-items:center;gap:12px;padding:14px 13px;border:1px solid transparent;border-radius:13px;background:transparent;color:#c7b8bb;text-align:left;margin:5px 0;transition:.2s}
+.nav-btn:hover,.nav-btn.active{background:linear-gradient(100deg,#4a101c88,#211014);border-color:#8c283b;color:#fff;transform:translateX(2px)}
+.nav-icon{width:25px;text-align:center;font-size:17px}
+.side-note{margin:30px 5px 0;padding:16px;border:1px solid #54202a;border-radius:15px;background:linear-gradient(145deg,#281016,#100b0d)}
+.side-note b{display:block;color:#f0b9c0;font-size:12px;margin-bottom:7px}
+.side-note span{color:#a88e94;font-size:11px;line-height:1.6}
+main{padding:30px;min-width:0}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin-bottom:25px}
+.eyebrow{font-size:10px;color:#ed6477;letter-spacing:.28em;font-weight:800}
+h1{font-size:clamp(25px,4vw,36px);margin:8px 0 5px}
+.sub{color:var(--muted);font-size:13px}
+.clock{color:#c6aeb3;font-size:12px;text-align:right}
+.panel{background:linear-gradient(145deg,#1a1316,#100d0e);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow)}
+.hero{position:relative;overflow:hidden;min-height:220px;background:linear-gradient(90deg,rgba(15,5,8,.96) 0%,rgba(37,8,17,.78) 48%,rgba(12,5,8,.48) 100%),url('https://img.youtube.com/vi/4EXQrUumyIE/maxresdefault.jpg') right 35%/cover;border-color:#61212e}
+.hero:after{content:"";position:absolute;right:9%;top:-70px;width:240px;height:240px;border-radius:50%;border:1px solid #d7334d44;box-shadow:0 0 0 22px #d7334d0d,0 0 0 50px #d7334d09}
+.hero-inner{position:relative;z-index:1;max-width:650px}
+.hero h2{font-family:Georgia,serif;font-size:clamp(27px,4vw,42px);margin:10px 0}
+.hero p{color:#c9afb4;line-height:1.7;font-size:13px;max-width:520px}
+.hero-tag{display:inline-flex;padding:7px 11px;border:1px solid #a53a4e;border-radius:30px;color:#f1b8c0;font-size:10px;letter-spacing:.16em}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:18px 0}
+.stat{padding:19px;border:1px solid var(--line);border-radius:17px;background:#151012}
+.stat-icon{font-size:21px}
+.stat strong{display:block;font-size:18px;margin:13px 0 4px}
+.stat span{color:var(--muted);font-size:11px}
+.section-title{font-size:17px;margin:0 0 7px}
+.section-desc{font-size:12px;color:var(--muted);margin:0 0 18px}
+.content-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.field{display:block;margin:12px 0 7px;color:#d7c5c9;font-size:12px}
+input{width:100%;padding:13px 14px;border:1px solid #49323a;background:#0c090a;color:#fff;border-radius:12px;outline:none;transition:.2s}
+input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
+.action{border:0;border-radius:12px;padding:12px 17px;background:linear-gradient(100deg,#a5122c,#e3324c);color:white;font-weight:800;letter-spacing:.06em;margin-top:13px;box-shadow:0 8px 20px #a5122c30}
+.action:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.action:disabled{opacity:.55;cursor:wait;transform:none}
+.result{margin-top:15px;padding:14px;border-radius:12px;background:#0d090b;border:1px solid #332329;color:#d9c9cc;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
+.result:empty{display:none}
+.user-balance{color:#f4c978;font-weight:900}
+.uid{color:#ff8292;font-weight:800}
+.history-item{padding:15px 0;border-bottom:1px solid var(--line)}
+.history-item:last-child{border-bottom:0}
+.history-item b{color:#f1c3c9}
+.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.info-box{padding:18px;background:#100c0e;border:1px solid var(--line);border-radius:15px}
+.info-box b{display:block;margin-bottom:7px}
+.info-box span{font-size:12px;color:var(--muted);line-height:1.6}
+#loginBox{max-width:480px;margin:10vh auto;padding:32px}
+.login-mark{width:65px;height:65px;border-radius:20px;background:linear-gradient(145deg,#e6324d,#530c1a);display:grid;place-items:center;font-size:31px;margin-bottom:22px}
+.login-title{font-family:Georgia,serif;font-size:28px;margin:0 0 8px}
+.login-hint{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:24px}
+.footer{text-align:center;color:#6e5a60;font-size:10px;letter-spacing:.16em;padding:20px;border-top:1px solid var(--line)}
+.toast{position:fixed;right:22px;bottom:22px;z-index:50;padding:14px 18px;background:#211116;border:1px solid #873044;border-radius:13px;box-shadow:var(--shadow);max-width:calc(100vw - 44px);font-size:13px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{display:flex;gap:6px;overflow:auto;padding:10px;border-right:0;border-bottom:1px solid var(--line)}.side-label,.side-note{display:none}.nav-btn{width:auto;white-space:nowrap;padding:11px 13px;margin:0}.nav-icon{width:auto}.stats{grid-template-columns:1fr}.topbar{padding:0 16px}.layout main{padding:18px}}
+@media(max-width:580px){.content-grid,.info-grid{grid-template-columns:1fr}.page-head{align-items:flex-start;flex-direction:column}.clock{text-align:left}.topbar{height:66px}.brand{font-size:12px}.online{display:none}main{padding:14px}.hero{min-height:240px}.hero:after{right:-120px}.panel{padding:18px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-
-<!-- INTRO AKATSUKI / SHARINGAN -->
 <div id="intro">
-  <div class="intro-glow"></div>
-  <div class="intro-cloud cloud-one"></div>
-  <div class="intro-cloud cloud-two"></div>
-  <div class="intro-cloud cloud-three"></div>
+  <iframe class="intro-video" src="https://www.youtube-nocookie.com/embed/4EXQrUumyIE?autoplay=1&mute=1&controls=0&rel=0&playsinline=1&modestbranding=1&loop=1&playlist=4EXQrUumyIE" title="Itachi Sharingan intro" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <div class="intro-backdrop"></div><div class="intro-vignette"></div>
+  <button class="skip" onclick="skipIntro()">BỎ QUA INTRO ↗</button>
   <div class="intro-content">
-    <div class="sharingan">
-      <i class="tomoe"></i><i class="tomoe"></i><i class="tomoe"></i>
-    </div>
-    <h1 class="intro-title">PT BAG SHOP</h1>
-    <div class="intro-sub">AKATSUKI • ADMIN PANEL</div>
-    <div class="intro-loading"><span></span></div>
-    <div class="intro-status">ĐANG ĐÁNH THỨC SHARINGAN...</div>
+    <div class="intro-kicker">AKATSUKI · PT BAG SHOP</div>
+    <div class="eye-wrap"><div class="eye"></div><div class="iris"></div><div class="eye-line"></div></div>
+    <div class="intro-title">UCHIHA ITACHI</div>
+    <div class="intro-sub">SHARINGAN AWAKENING</div>
+    <div class="intro-loading"></div>
   </div>
-  <button class="skip-intro" onclick="skipIntro()">BỎ QUA ✕</button>
 </div>
 
 <header class="topbar">
-  <div class="brand">☁ PT BAG SHOP<small>AKATSUKI ADMIN PANEL</small></div>
-  <div class="top-right">
-    <span class="online">● SYSTEM ONLINE</span>
-    <button id="headerLogout" class="danger hidden" onclick="logout()">ĐĂNG XUẤT</button>
-  </div>
+  <div class="brand"><div class="brand-mark">☁</div><div>PT BAG SHOP<small>AKATSUKI ADMIN SYSTEM</small></div></div>
+  <div class="top-right"><span class="online">● ADMIN CONSOLE</span><button id="headerLogout" class="logout hidden" onclick="logout()">ĐĂNG XUẤT ↗</button></div>
 </header>
 
-<main class="wrap">
-  <section class="hero">
-    <h1>ADMIN CONTROL CENTER</h1>
-    <p>“Trong bóng tối, mọi dữ liệu đều được kiểm soát.”</p>
-  </section>
+<section id="loginBox" class="panel">
+  <div class="login-mark">☁</div>
+  <div class="eyebrow">RESTRICTED AREA · AKATSUKI</div>
+  <h1 class="login-title">Đăng nhập quản trị</h1>
+  <p class="login-hint">Nhập mật khẩu Admin để truy cập bảng điều khiển PT BAG SHOP. Kết nối được xác thực qua máy chủ.</p>
+  <label class="field" for="adminPassword">MẬT KHẨU ADMIN</label>
+  <input id="adminPassword" type="password" placeholder="Nhập mật khẩu Admin" autocomplete="current-password">
+  <button id="loginButton" class="action" style="width:100%" onclick="adminLogin()">✦ ĐĂNG NHẬP HỆ THỐNG</button>
+  <div id="loginResult" class="result"></div>
+</section>
 
-  <section id="loginBox" class="login-wrap">
-    <div class="card login-card">
-      <div class="sigil">🔴</div>
-      <h2>ĐĂNG NHẬP ADMIN</h2>
-      <p>Chỉ quản trị viên được phép truy cập hệ thống.</p>
-      <input id="adminPassword" type="password" placeholder="Nhập mật khẩu Admin" autocomplete="current-password">
-      <button onclick="adminLogin()">⚔ ĐĂNG NHẬP HỆ THỐNG</button>
-      <div id="loginResult" class="result"></div>
-    </div>
-  </section>
-
-  <section id="adminPanel" class="hidden">
-    <div class="grid">
-      <div class="card">
-        <h2>👤 TÌM TÀI KHOẢN</h2>
-        <p>Tra cứu thông tin người dùng bằng UID.</p>
-        <input id="searchUID" type="text" placeholder="Nhập UID, ví dụ: PT-XXXXXXXX">
-        <button onclick="searchUser()">⌕ TÌM USER</button>
-        <div id="userResult" class="result">Chưa tìm tài khoản.</div>
+<div id="adminPanel" class="layout hidden">
+  <aside class="sidebar">
+    <div class="side-label">CONTROL CENTER</div>
+    <button class="nav-btn active" data-page="overview" onclick="showPage('overview',this)"><span class="nav-icon">⌂</span>Tổng quan</button>
+    <button class="nav-btn" data-page="topup" onclick="showPage('topup',this)"><span class="nav-icon">＋</span>Cộng tiền</button>
+    <button class="nav-btn" data-page="users" onclick="showPage('users',this)"><span class="nav-icon">♙</span>Tra cứu user</button>
+    <button class="nav-btn" data-page="history" onclick="showPage('history',this)"><span class="nav-icon">▤</span>Lịch sử</button>
+    <button class="nav-btn" data-page="about" onclick="showPage('about',this)"><span class="nav-icon">ⓘ</span>Thông tin</button>
+    <div class="side-note"><b>☁ THE AKATSUKI</b><span>Hệ thống quản trị PT BAG SHOP. Kiểm tra UID cẩn thận trước khi cộng tiền.</span></div>
+  </aside>
+  <main>
+    <section id="page-overview" class="page">
+      <div class="page-head"><div><div class="eyebrow">WELCOME BACK · ADMIN</div><h1>Bảng điều khiển</h1><div class="sub">Quản lý tài khoản, số dư và lịch sử giao dịch.</div></div><div class="clock" id="currentTime">AKATSUKI CONTROL</div></div>
+      <div class="panel hero"><div class="hero-inner"><span class="hero-tag">☁ FIRE · SHADOW · CONTROL</span><h2>“Trong bóng tối,<br>mọi thứ đều được kiểm soát.”</h2><p>Chào mừng đến khu vực quản trị. Chọn chức năng ở thanh bên để tra cứu người dùng, cộng số dư hoặc kiểm tra lịch sử mua hàng.</p></div></div>
+      <div class="stats">
+        <div class="stat"><div class="stat-icon">♙</div><strong>TRA CỨU USER</strong><span>Tìm khách hàng bằng UID</span></div>
+        <div class="stat"><div class="stat-icon">✦</div><strong>CỘNG SỐ DƯ</strong><span>Nạp tiền vào ví người dùng</span></div>
+        <div class="stat"><div class="stat-icon">▤</div><strong>LỊCH SỬ GIAO DỊCH</strong><span>Kiểm tra đơn theo UID</span></div>
       </div>
+      <div class="content-grid">
+        <div class="panel"><h3 class="section-title">Tra cứu nhanh</h3><p class="section-desc">Nhập UID để mở thông tin tài khoản.</p><input id="quickUID" placeholder="PT-XXXXXXXX"><button class="action" onclick="quickSearch()">⌕ TRA CỨU NGAY</button></div>
+        <div class="panel"><h3 class="section-title">Trạng thái quản trị</h3><p class="section-desc">Phiên đăng nhập hiện tại đang hoạt động.</p><div class="result">● Đã xác thực Admin<br>● Kết nối API qua máy chủ shop<br>● Dữ liệu số dư được xử lý bởi backend</div></div>
+      </div>
+    </section>
 
-      <div class="card">
-        <h2>💰 CỘNG TIỀN USER</h2>
-        <p>Nhập UID và số tiền cần cộng vào số dư.</p>
-        <input id="moneyUID" type="text" placeholder="UID người dùng">
-        <input id="moneyAmount" type="number" min="1" step="1" placeholder="Số tiền muốn cộng (VNĐ)">
-        <button class="money" onclick="addMoney()">＋ CỘNG TIỀN</button>
+    <section id="page-topup" class="page hidden">
+      <div class="page-head"><div><div class="eyebrow">WALLET MANAGEMENT</div><h1>Cộng tiền khách hàng</h1><div class="sub">Cộng số dư theo UID người dùng.</div></div></div>
+      <div class="panel">
+        <h3 class="section-title">＋ Nạp tiền vào ví</h3><p class="section-desc">Hãy xác nhận đúng UID và số tiền trước khi thực hiện.</p>
+        <label class="field" for="moneyUID">UID NGƯỜI DÙNG</label><input id="moneyUID" placeholder="Ví dụ: PT-XXXXXXXX">
+        <label class="field" for="moneyAmount">SỐ TIỀN CẦN CỘNG (VNĐ)</label><input id="moneyAmount" type="number" min="1" step="1" placeholder="Nhập số tiền">
+        <button class="action" onclick="addMoney()">＋ XÁC NHẬN CỘNG TIỀN</button>
         <div id="moneyResult" class="result"></div>
       </div>
+    </section>
 
-      <div class="card" style="grid-column:1/-1">
-        <h2>📜 LỊCH SỬ GIAO DỊCH</h2>
-        <p>Xem lịch sử giao dịch theo UID.</p>
-        <input id="historyUID" type="text" placeholder="UID người dùng">
-        <button onclick="getHistory()">⌕ XEM LỊCH SỬ</button>
+    <section id="page-users" class="page hidden">
+      <div class="page-head"><div><div class="eyebrow">USER DATABASE</div><h1>Tra cứu tài khoản</h1><div class="sub">Xem Gmail, UID và số dư hiện tại.</div></div></div>
+      <div class="panel">
+        <h3 class="section-title">♙ Tìm người dùng</h3><p class="section-desc">Nhập UID chính xác để xem thông tin.</p>
+        <label class="field" for="searchUID">UID NGƯỜI DÙNG</label><input id="searchUID" placeholder="PT-XXXXXXXX">
+        <button class="action" onclick="searchUser()">⌕ TÌM USER</button>
+        <div id="userResult" class="result">Chưa tìm tài khoản.</div>
+      </div>
+    </section>
+
+    <section id="page-history" class="page hidden">
+      <div class="page-head"><div><div class="eyebrow">TRANSACTION RECORDS</div><h1>Lịch sử giao dịch</h1><div class="sub">Xem các đơn mua hàng theo UID.</div></div></div>
+      <div class="panel">
+        <h3 class="section-title">▤ Lịch sử mua hàng</h3><p class="section-desc">Nhập UID để tải lịch sử từ máy chủ.</p>
+        <label class="field" for="historyUID">UID NGƯỜI DÙNG</label><input id="historyUID" placeholder="PT-XXXXXXXX">
+        <button class="action" onclick="getHistory()">⌕ XEM LỊCH SỬ</button>
         <div id="historyResult" class="result">Chưa có dữ liệu.</div>
       </div>
-    </div>
-    <div class="actions">
-      <button class="danger" onclick="logout()">⇥ ĐĂNG XUẤT ADMIN</button>
-    </div>
-  </section>
-</main>
-<footer class="footer">© 2026 PT BAG SHOP · PLAY TOGETHER · AKATSUKI THEME</footer>
+    </section>
+
+    <section id="page-about" class="page hidden">
+      <div class="page-head"><div><div class="eyebrow">SYSTEM INFORMATION</div><h1>Thông tin hệ thống</h1><div class="sub">Các lưu ý khi sử dụng trang quản trị.</div></div></div>
+      <div class="panel"><div class="info-grid">
+        <div class="info-box"><b>☁ PT BAG SHOP</b><span>Giao diện quản trị phong cách Akatsuki, tông đen và đỏ.</span></div>
+        <div class="info-box"><b>🔐 Bảo mật</b><span>Mật khẩu Admin được gửi tới API đăng nhập, không lưu trực tiếp trong trang HTML.</span></div>
+        <div class="info-box"><b>💰 Cộng tiền</b><span>Luôn kiểm tra UID và số tiền trước khi xác nhận thao tác.</span></div>
+        <div class="info-box"><b>📜 Lịch sử</b><span>Lịch sử được tải từ backend theo UID người dùng.</span></div>
+      </div></div>
+    </section>
+  </main>
+</div>
+<footer class="footer">© 2026 PT BAG SHOP · PLAY TOGETHER · AKATSUKI ADMIN</footer>
+<div id="toast" class="toast hidden"></div>
 
 <script>
 let adminToken = "";
-let lastFoundUser = null;
+let toastTimer = null;
 
 function skipIntro(){
   const intro=document.getElementById("intro");
   if(intro) intro.classList.add("done");
 }
-window.addEventListener("load",()=>{
-  window.setTimeout(skipIntro,3400);
-});
-document.getElementById("adminPassword").addEventListener("keydown",e=>{
-  if(e.key==="Enter") adminLogin();
-});
+window.addEventListener("load",()=>window.setTimeout(skipIntro,6500));
+document.getElementById("adminPassword").addEventListener("keydown",e=>{if(e.key==="Enter")adminLogin();});
+document.getElementById("currentTime").textContent=new Date().toLocaleString("vi-VN");
+function moneyFormat(value){return Number(value||0).toLocaleString("vi-VN")+" VNĐ";}
+function showMessage(id,message){const el=document.getElementById(id);if(el)el.textContent=message;}
+function notify(message){const el=document.getElementById("toast");el.textContent=message;el.classList.remove("hidden");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add("hidden"),3200);}
+function escapeHTML(value){return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");}
+function showPage(page,button){
+  document.querySelectorAll(".page").forEach(el=>el.classList.add("hidden"));
+  const target=document.getElementById("page-"+page);if(target)target.classList.remove("hidden");
+  document.querySelectorAll(".nav-btn").forEach(el=>el.classList.remove("active"));
+  if(button)button.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function navTo(page){const btn=document.querySelector('.nav-btn[data-page="'+page+'"]');showPage(page,btn);}
+function quickSearch(){const value=document.getElementById("quickUID").value.trim();document.getElementById("searchUID").value=value;navTo("users");if(value)searchUser();}
 
-function moneyFormat(value){
-  return Number(value||0).toLocaleString("vi-VN")+" VNĐ";
-}
-function showMessage(id,message){
-  document.getElementById(id).textContent=message;
-}
 async function adminLogin(){
   const password=document.getElementById("adminPassword").value;
   if(!password){showMessage("loginResult","❌ Vui lòng nhập mật khẩu.");return;}
-  const btn=document.querySelector("#loginBox button");
-  btn.disabled=true;btn.textContent="ĐANG XÁC THỰC...";
+  const btn=document.getElementById("loginButton");btn.disabled=true;btn.textContent="ĐANG XÁC THỰC...";
   try{
-    const response=await fetch("/api/admin/login",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({password})
-    });
+    const response=await fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password})});
     const data=await response.json();
-    if(!response.ok||!data.success){
-      showMessage("loginResult","❌ "+(data.message||"Đăng nhập thất bại."));
-      return;
-    }
+    if(!response.ok||!data.success){showMessage("loginResult","❌ "+(data.message||"Đăng nhập thất bại."));return;}
+    if(!data.token){showMessage("loginResult","❌ Máy chủ không trả về token Admin.");return;}
     adminToken=data.token;
     document.getElementById("loginBox").classList.add("hidden");
     document.getElementById("adminPanel").classList.remove("hidden");
     document.getElementById("headerLogout").classList.remove("hidden");
-  }catch(error){
-    showMessage("loginResult","❌ Không thể kết nối server.");
-  }finally{
-    btn.disabled=false;btn.textContent="⚔ ĐĂNG NHẬP HỆ THỐNG";
-  }
+    showPage("overview",document.querySelector('.nav-btn[data-page="overview"]'));
+    notify("Đăng nhập Admin thành công.");
+  }catch(error){showMessage("loginResult","❌ Không thể kết nối server. Kiểm tra Render và thử lại.");}
+  finally{btn.disabled=false;btn.textContent="✦ ĐĂNG NHẬP HỆ THỐNG";}
 }
+
 async function searchUser(){
   const uid=document.getElementById("searchUID").value.trim();
   if(!uid){showMessage("userResult","❌ Nhập UID trước.");return;}
+  showMessage("userResult","Đang tìm tài khoản...");
   try{
-    const response=await fetch("/api/admin/user?uid="+encodeURIComponent(uid),{
-      headers:{"x-admin-token":adminToken}
-    });
+    const response=await fetch("/api/admin/user?uid="+encodeURIComponent(uid),{headers:{"x-admin-token":adminToken}});
     const data=await response.json();
-    if(!response.ok||!data.success){
-      lastFoundUser=null;
-      showMessage("userResult","❌ "+(data.message||"Không tìm thấy user."));
-      return;
-    }
-    lastFoundUser=data.user;
-    document.getElementById("moneyUID").value=data.user.uid;
-    document.getElementById("historyUID").value=data.user.uid;
+    if(!response.ok||!data.success){showMessage("userResult","❌ "+(data.message||"Không tìm thấy user."));return;}
+    const user=data.user||{};
+    document.getElementById("moneyUID").value=user.uid||uid;
+    document.getElementById("historyUID").value=user.uid||uid;
     document.getElementById("userResult").innerHTML=
-      "<b>📧 Gmail:</b> "+escapeHTML(data.user.gmail)+
-      "<br><br><b>🆔 UID:</b> <span class='uid'>"+escapeHTML(data.user.uid)+
-      "</span><br><br><b>💰 Số dư:</b> <span class='balance'>"+
-      moneyFormat(data.user.balance)+"</span>";
+      "<b>📧 Gmail:</b> "+escapeHTML(user.gmail||"")+
+      "<br><br><b>🆔 UID:</b> <span class='uid'>"+escapeHTML(user.uid||uid)+"</span>"+
+      "<br><br><b>💰 Số dư:</b> <span class='user-balance'>"+moneyFormat(user.balance)+"</span>"+
+      "<br><br><button class='action' onclick='copyUID(\""+escapeHTML(user.uid||uid)+"\")'>COPY UID</button>";
   }catch(error){showMessage("userResult","❌ Lỗi kết nối server.");}
 }
+function copyUID(uid){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(uid).then(()=>notify("Đã sao chép UID." )).catch(()=>notify("Không thể sao chép tự động."));}else{notify("Trình duyệt không hỗ trợ sao chép.");}}
+
 async function addMoney(){
   const uid=document.getElementById("moneyUID").value.trim();
   const amount=Number(document.getElementById("moneyAmount").value);
   if(!uid){showMessage("moneyResult","❌ Chưa nhập UID.");return;}
-  if(!Number.isSafeInteger(amount)||amount<=0){
-    showMessage("moneyResult","❌ Số tiền phải là số nguyên lớn hơn 0.");return;
-  }
+  if(!Number.isSafeInteger(amount)||amount<=0){showMessage("moneyResult","❌ Số tiền phải là số nguyên lớn hơn 0.");return;}
+  if(!confirm("Xác nhận cộng "+moneyFormat(amount)+" cho UID "+uid+"?"))return;
+  showMessage("moneyResult","Đang xử lý giao dịch...");
   try{
-    const response=await fetch("/api/admin/add-money",{
-      method:"POST",
-      headers:{"Content-Type":"application/json","x-admin-token":adminToken},
-      body:JSON.stringify({uid,amount})
-    });
+    const response=await fetch("/api/admin/add-money",{method:"POST",headers:{"Content-Type":"application/json","x-admin-token":adminToken},body:JSON.stringify({uid,amount})});
     const data=await response.json();
-    if(!response.ok||!data.success){
-      showMessage("moneyResult","❌ "+(data.message||"Cộng tiền thất bại."));return;
-    }
-    const gmail=lastFoundUser&&lastFoundUser.uid===uid?lastFoundUser.gmail:"Chưa tra cứu";
-    document.getElementById("moneyResult").innerHTML=
-      "✅ <b>Cộng tiền thành công!</b><br><br>🆔 UID: "+escapeHTML(uid)+
-      "<br>📧 Gmail: "+escapeHTML(gmail)+
-      "<br>💵 Đã cộng: "+moneyFormat(amount)+
-      "<br>💰 Số dư mới: <span class='balance'>"+moneyFormat(data.balance)+"</span>";
+    if(!response.ok||!data.success){showMessage("moneyResult","❌ "+(data.message||"Cộng tiền thất bại."));return;}
+    showMessage("moneyResult","✅ Cộng tiền thành công!<br>UID: "+uid+"<br>Số tiền cộng: "+moneyFormat(amount)+(data.balance!==undefined?"<br>Số dư mới: "+moneyFormat(data.balance):""));
     document.getElementById("moneyAmount").value="";
-    if(lastFoundUser&&lastFoundUser.uid===uid) lastFoundUser.balance=data.balance;
-  }catch(error){showMessage("moneyResult","❌ Không thể kết nối server.");}
+    notify("Đã cộng tiền thành công.");
+  }catch(error){showMessage("moneyResult","❌ Lỗi kết nối server.");}
 }
+
 async function getHistory(){
   const uid=document.getElementById("historyUID").value.trim();
   if(!uid){showMessage("historyResult","❌ Nhập UID trước.");return;}
+  showMessage("historyResult","Đang tải lịch sử...");
   try{
-    const response=await fetch("/api/admin/history?uid="+encodeURIComponent(uid),{
-      headers:{"x-admin-token":adminToken}
-    });
+    const response=await fetch("/api/admin/history?uid="+encodeURIComponent(uid),{headers:{"x-admin-token":adminToken}});
     const data=await response.json();
-    if(!response.ok||!data.success){
-      showMessage("historyResult","❌ "+(data.message||"Không tìm thấy lịch sử."));return;
-    }
-    if(!data.history||data.history.length===0){
-      showMessage("historyResult","📭 Người dùng chưa có giao dịch nào.");return;
-    }
-    let html="<b>📧 Gmail:</b> "+escapeHTML(data.gmail)+
-      "<br><b>🆔 UID:</b> "+escapeHTML(data.uid)+"<hr>";
+    if(!response.ok||!data.success){showMessage("historyResult","❌ "+(data.message||"Không tìm thấy lịch sử."));return;}
+    if(!data.history||data.history.length===0){showMessage("historyResult","📭 Người dùng chưa có giao dịch nào.");return;}
+    let html="<b>📧 Gmail:</b> "+escapeHTML(data.gmail||"")+
+      "<br><b>🆔 UID:</b> <span class='uid'>"+escapeHTML(data.uid||uid)+"</span><hr>";
     data.history.forEach((item,index)=>{
       const account=item.account||{};
-      html+="<div class='history-item'><b>🎁 Giao dịch #"+(index+1)+
-        "</b><br><br>📦 Sản phẩm: "+escapeHTML(item.product||"")+
+      html+="<div class='history-item'><b>🎁 Đơn #"+(index+1)+"</b><br>"+
+        "📦 Túi: "+escapeHTML(item.product||"")+
         "<br>💵 Giá: "+moneyFormat(item.price)+
-        "<br>🕐 Thời gian: "+escapeHTML(item.time||"")+
-        (account.username?"<br>👤 Tên tài khoản: "+escapeHTML(account.username):"")+
-        (account.level?"<br>⭐ Level: "+escapeHTML(String(account.level)):"")+
-        (account.rarity?"<br>💎 Độ hiếm: "+escapeHTML(account.rarity):"")+
-        (account.info?"<br>📝 Thông tin: "+escapeHTML(account.info):"")+
-        "</div>";
+        "<br>👤 Account: "+escapeHTML(account.username||"")+
+        "<br>⭐ Level: "+escapeHTML(account.level||"")+
+        "<br>💎 Độ hiếm: "+escapeHTML(account.rarity||"")+
+        "<br>📝 Thông tin: "+escapeHTML(account.info||"")+
+        "<br>🕐 Thời gian: "+escapeHTML(item.time||"")+"</div>";
     });
     document.getElementById("historyResult").innerHTML=html;
   }catch(error){showMessage("historyResult","❌ Lỗi kết nối server.");}
 }
+
 function logout(){
   adminToken="";
-  lastFoundUser=null;
   document.getElementById("adminPanel").classList.add("hidden");
   document.getElementById("loginBox").classList.remove("hidden");
   document.getElementById("headerLogout").classList.add("hidden");
   document.getElementById("adminPassword").value="";
-  showMessage("loginResult","Đã đăng xuất khỏi Admin.");
-}
-function escapeHTML(value){
-  return String(value??"")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+  showMessage("loginResult","Đã đăng xuất Admin.");
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 </script>
 </body>
