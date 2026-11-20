@@ -39,13 +39,12 @@ button{cursor:pointer}
 .video-bg-container iframe {
     width: 100%; height: 100%;
     object-fit: cover;
-    opacity: 0.65; /* Mặc định 65% */
+    opacity: 0.65;
     transition: opacity 0.2s ease;
 }
-/* Lớp phủ tối giảm độ tối để video đậm hơn */
 body::before {
     content: ''; position: fixed; inset: 0;
-    background: linear-gradient(rgba(8,7,8,.5), rgba(8,7,8,.6));
+    background: linear-gradient(rgba(8,7,8,.4), rgba(8,7,8,.5));
     z-index: -1; pointer-events: none;
 }
 
@@ -108,12 +107,11 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
 .header{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:30px}
 .header-left{display:flex;align-items:center;color:var(--red2);font-weight:600;font-size:15px}
 .header-left i{margin-right:10px}
-.header-right{display:flex;align-items:center;font-size:13px;color:#ccc;gap:10px}
+.header-right{display:flex;align-items:center;font-size:13px;color:#ccc;gap:12px}
 .status{color:#00ff00;display:flex;align-items:center;font-weight:500}
 .status::before{content:'';display:inline-block;width:8px;height:8px;background-color:#00ff00;border-radius:50%;margin-right:8px;box-shadow:0 0 10px #00ff00}
 
-/* Nút toggle sidebar */
-.toggle-btn{background:transparent;border:1px solid var(--line);color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center}
+.toggle-btn{background:transparent;border:1px solid var(--line);color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;font-size:14px}
 .toggle-btn:hover{background:var(--red2);border-color:var(--red2)}
 
 .welcome-text{margin-bottom:30px}
@@ -153,7 +151,7 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th{text-align:left;padding:12px;color:#aaa;font-weight:500;border-bottom:1px solid rgba(255,255,255,.1)}
 td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
-.status-badge{background:rgba(0,255,0,.1);color:#00ff00;padding:4px 10px;border-radius:20px;font-size:11px;border:1px solid rgba(0,0,0,.3);font-weight:600}
+.status-badge{background:rgba(0,255,0,.1);color:#00ff00;padding:4px 10px;border-radius:20px;font-size:11px;border:1px solid rgba(0,255,0,.3);font-weight:600}
 .text-green{color:#00ff00;font-weight:600}
 .text-red{color:var(--red2);font-weight:600}
 
@@ -237,7 +235,7 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
   .header { flex-direction: column; align-items: flex-start; gap: 10px; }
   .welcome-text h2 { font-size: 24px; }
   
-  .toggle-btn { display: none; } /* Ẩn nút toggle trên mobile */
+  .toggle-btn { display: none; }
   
   #opacity-control {
     bottom: 80px;
@@ -421,23 +419,228 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
 let adminToken = "";
 let toastTimer = null;
 
-// 1. Xử lý Intro
+// ========== 1. INTRO ==========
 function skipIntro(){
-  const intro=document.getElementById("intro");
+  const intro = document.getElementById("intro");
   if(intro) intro.classList.add("done");
 }
-window.addEventListener("load",()=>window.setTimeout(skipIntro,6500));
+window.addEventListener("load", () => window.setTimeout(skipIntro, 6500));
 
-// 2. Đồng hồ thời gian thực
+// ========== 2. ĐỒNG HỒ ==========
 function updateClock() {
     const now = new Date();
     const timeString = now.toLocaleTimeString('vi-VN', { hour12: false });
     const dateString = now.toLocaleDateString('vi-VN');
-    document.getElementById('clock').innerText = `${timeString} ${dateString}`;
+    const el = document.getElementById('clock');
+    if(el) el.innerText = `${timeString} ${dateString}`;
 }
 setInterval(updateClock, 1000);
 updateClock();
 
-// 3. Opacity Control
+// ========== 3. OPACITY SLIDER ==========
 const opacitySlider = document.getElementById('opacity-slider');
-const opacityValue
+const opacityValue = document.getElementById('opacity-value');
+const bgVideo = document.getElementById('bg-video');
+
+if (opacitySlider && bgVideo) {
+  opacitySlider.addEventListener('input', function() {
+    const val = this.value;
+    bgVideo.style.opacity = val / 100;
+    if (opacityValue) opacityValue.textContent = val + '%';
+  });
+}
+
+// ========== 4. TOGGLE SIDEBAR ==========
+const toggleBtn = document.getElementById('toggleSidebar');
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', function() {
+    const panel = document.getElementById('adminPanel');
+    if (panel) panel.classList.toggle('sidebar-collapsed');
+  });
+}
+
+// ========== 5. CÁC HÀM XỬ LÝ LOGIC ==========
+document.getElementById("adminPassword").addEventListener("keydown", e => {
+  if(e.key === "Enter") adminLogin();
+});
+
+function moneyFormat(value){ return Number(value||0).toLocaleString("vi-VN") + " VNĐ"; }
+function showMessage(id, message){ const el = document.getElementById(id); if(el) el.textContent = message; }
+function notify(message){
+  const el = document.getElementById("toast");
+  if(!el) return;
+  el.textContent = message;
+  el.classList.remove("hidden");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.add("hidden"), 3200);
+}
+function escapeHTML(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+async function adminLogin(){
+  const password = document.getElementById("adminPassword").value;
+  if(!password){ showMessage("loginResult","❌ Vui lòng nhập mật khẩu."); return; }
+  const btn = document.getElementById("loginButton");
+  btn.disabled = true;
+  btn.textContent = "ĐANG XÁC THỰC...";
+  try{
+    const response = await fetch("/api/admin/login", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({password})
+    });
+    const data = await response.json();
+    if(!response.ok || !data.success){
+      showMessage("loginResult","❌ " + (data.message || "Đăng nhập thất bại."));
+      return;
+    }
+    if(!data.token){
+      showMessage("loginResult","❌ Máy chủ không trả về token Admin.");
+      return;
+    }
+    adminToken = data.token;
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("adminPanel").classList.add("active");
+    notify("Đăng nhập Admin thành công.");
+  }catch(error){
+    showMessage("loginResult","❌ Không thể kết nối server. Kiểm tra Render và thử lại.");
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "✦ ĐĂNG NHẬP HỆ THỐNG";
+  }
+}
+
+async function searchUser(){
+  const uid = document.getElementById("searchUID").value.trim();
+  if(!uid){ showMessage("userResult","❌ Nhập UID trước."); return; }
+  showMessage("userResult","Đang tìm tài khoản...");
+  try{
+    const response = await fetch("/api/admin/user?uid=" + encodeURIComponent(uid), {
+      headers: {"x-admin-token": adminToken}
+    });
+    const data = await response.json();
+    if(!response.ok || !data.success){
+      showMessage("userResult","❌ " + (data.message || "Không tìm thấy user."));
+      return;
+    }
+    const user = data.user || {};
+    document.getElementById("moneyUID").value = user.uid || uid;
+    document.getElementById("userResult").innerHTML =
+      "<b>📧 Gmail:</b> " + escapeHTML(user.gmail || "") +
+      "<br><br><b>🆔 UID:</b> <span class='uid'>" + escapeHTML(user.uid || uid) + "</span>" +
+      "<br><br><b>💰 Số dư:</b> <span class='user-balance'>" + moneyFormat(user.balance) + "</span>" +
+      "<br><br><button class='action' style='width:auto;padding:8px 15px;margin-top:5px' onclick='copyUID(\"" + escapeHTML(user.uid || uid) + "\")'>COPY UID</button>";
+    getHistory();
+  }catch(error){
+    showMessage("userResult","❌ Lỗi kết nối server.");
+  }
+}
+
+function copyUID(uid){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(uid)
+      .then(() => notify("Đã sao chép UID."))
+      .catch(() => notify("Không thể sao chép tự động."));
+  }else{
+    notify("Trình duyệt không hỗ trợ sao chép.");
+  }
+}
+
+async function addMoney(){
+  const uid = document.getElementById("moneyUID").value.trim();
+  const amount = Number(document.getElementById("moneyAmount").value);
+  if(!uid){ showMessage("moneyResult","❌ Chưa nhập UID."); return; }
+  if(!Number.isSafeInteger(amount) || amount <= 0){
+    showMessage("moneyResult","❌ Số tiền phải là số nguyên lớn hơn 0.");
+    return;
+  }
+  if(!confirm("Xác nhận cộng " + moneyFormat(amount) + " cho UID " + uid + "?")) return;
+  showMessage("moneyResult","Đang xử lý giao dịch...");
+  try{
+    const response = await fetch("/api/admin/add-money", {
+      method: "POST",
+      headers: {"Content-Type":"application/json","x-admin-token":adminToken},
+      body: JSON.stringify({uid, amount})
+    });
+    const data = await response.json();
+    if(!response.ok || !data.success){
+      showMessage("moneyResult","❌ " + (data.message || "Cộng tiền thất bại."));
+      return;
+    }
+    showMessage("moneyResult",
+      "✅ Cộng tiền thành công!<br>UID: " + uid +
+      "<br>Số tiền cộng: " + moneyFormat(amount) +
+      (data.balance !== undefined ? "<br>Số dư mới: " + moneyFormat(data.balance) : "")
+    );
+    document.getElementById("moneyAmount").value = "";
+    notify("Đã cộng tiền thành công.");
+    getHistory();
+  }catch(error){
+    showMessage("moneyResult","❌ Lỗi kết nối server.");
+  }
+}
+
+async function getHistory(){
+  const uid = document.getElementById("searchUID").value.trim() || document.getElementById("moneyUID").value.trim();
+  if(!uid){ showMessage("historyResult","❌ Nhập UID ở trên trước."); return; }
+  document.getElementById("historyResult").innerHTML = "Đang tải lịch sử...";
+  try{
+    const response = await fetch("/api/admin/history?uid=" + encodeURIComponent(uid), {
+      headers: {"x-admin-token": adminToken}
+    });
+    const data = await response.json();
+    if(!response.ok || !data.success){
+      document.getElementById("historyResult").innerHTML = "❌ " + (data.message || "Không tìm thấy lịch sử.");
+      return;
+    }
+    if(!data.history || data.history.length === 0){
+      document.getElementById("historyResult").innerHTML = "📭 Người dùng chưa có giao dịch nào.";
+      return;
+    }
+    let html = "<b>📧 Gmail:</b> " + escapeHTML(data.gmail || "") +
+      "<br><b>🆔 UID:</b> <span class='uid'>" + escapeHTML(data.uid || uid) + "</span><hr>";
+    data.history.forEach((item, index) => {
+      const account = item.account || {};
+      html += "<div class='history-item' style='padding:15px 0;border-bottom:1px solid rgba(255,255,255,.05)'>" +
+        "<b>🎁 Đơn #" + (index + 1) + "</b><br>" +
+        "📦 Túi: " + escapeHTML(item.product || "") +
+        "<br>💵 Giá: " + moneyFormat(item.price) +
+        "<br>👤 Account: " + escapeHTML(account.username || "") +
+        "<br>⭐ Level: " + escapeHTML(account.level || "") +
+        "<br>💎 Độ hiếm: " + escapeHTML(account.rarity || "") +
+        "<br>📝 Thông tin: " + escapeHTML(account.info || "") +
+        "<br>🕐 Thời gian: " + escapeHTML(item.time || "") + "</div>";
+    });
+    document.getElementById("historyResult").innerHTML = html;
+  }catch(error){
+    document.getElementById("historyResult").innerHTML = "❌ Lỗi kết nối server.";
+  }
+}
+
+function logout(){
+  adminToken = "";
+  document.getElementById("adminPanel").classList.remove("active");
+  document.getElementById("adminPanel").classList.remove("sidebar-collapsed");
+  document.getElementById("loginBox").classList.remove("hidden");
+  document.getElementById("adminPassword").value = "";
+  showMessage("loginResult","Đã đăng xuất Admin.");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+// ========== 6. HIỆU ỨNG ACTIVE MENU ==========
+const menuItems = document.querySelectorAll('.nav-menu li');
+menuItems.forEach(item => {
+  item.addEventListener('click', function() {
+    menuItems.forEach(i => i.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
