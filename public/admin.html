@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PT BAG SHOP | AKATSUKI ADMIN</title>
+<!-- FontAwesome để lấy icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 :root{
   --bg:#080708;--panel:#141012;--panel2:#1b1417;--red:#c51f35;
@@ -12,7 +17,7 @@
   /* ===== THAY LINK ẢNH NỀN ITACHI CỦA BẠN VÀO ĐÂY ===== */
   --bg-image: url('https://images.alphacoders.com/606/606709.jpg');
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
   margin:0;
@@ -21,8 +26,10 @@ body{
     var(--bg-image) center/cover fixed,
     var(--bg);
   color:var(--text);
-  font-family:Inter,Segoe UI,Arial,sans-serif;
+  font-family:'Montserrat', sans-serif;
   min-height:100vh;
+  display:flex;
+  overflow:hidden;
 }
 button,input{font:inherit}
 button{cursor:pointer}
@@ -45,111 +52,101 @@ button{cursor:pointer}
 .eye-line{position:absolute;height:3px;width:150px;background:#d92740;top:38px;left:15px;box-shadow:0 0 18px #f00}
 .intro-loading{height:2px;width:min(280px,70vw);background:#3a1a20;margin:28px auto 0;overflow:hidden}
 .intro-loading:after{content:"";display:block;height:100%;width:35%;background:#ed3048;animation:loading 3.4s ease-in-out forwards}
-.skip{position:absolute;right:26px;top:24px;z-index:3;border:1px solid #ffffff55;color:#fff;background:#130b0dcc;padding:10px 17px;border-radius:30px;letter-spacing:.08em;font-size:11px}
+.skip{position:absolute;right:26px;top:24px;z-index:3;border:1px solid #ffffff55;color:#fff;background:#130b0dcc;padding:10px 17px;border-radius:30px;letter-spacing:.08em;font-size:11px;transition:.3s}
+.skip:hover{background:#ff344e;border-color:#ff344e}
 @keyframes eyeOpen{to{transform:rotate(45deg) scaleY(1)}}
 @keyframes irisShow{to{opacity:1}}
 @keyframes loading{to{width:100%}}
 @keyframes introRise{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
 @keyframes backdropZoom{from{transform:scale(1.1);filter:brightness(.45)}to{transform:scale(1);filter:brightness(.8)}}
 
-/* ================= TOPBAR ================= */
-.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid var(--line);background:#0b0809d9;backdrop-filter:blur(14px);position:sticky;top:0;z-index:20}
-.brand{display:flex;align-items:center;gap:13px;font-weight:900;letter-spacing:.1em}
-.brand-mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#ec314b,#590b19);display:grid;place-items:center;font-size:22px;box-shadow:0 7px 24px #a10f2c55}
-.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:.25em;margin-top:4px}
-.top-right{display:flex;align-items:center;gap:12px}
-.online{font-size:11px;color:#8ee5bb;border:1px solid #34785b66;background:#10241c;padding:8px 12px;border-radius:30px}
-.logout{border:1px solid #71303a;background:#271016;color:#ffdce1;border-radius:12px;padding:10px 14px}
-
-/* ================= LAYOUT ================= */
-.layout{display:grid;grid-template-columns:245px minmax(0,1fr);max-width:1500px;margin:auto;min-height:calc(100vh - 76px)}
-.sidebar{padding:26px 16px;border-right:1px solid var(--line);background:rgba(12,9,10,.85);backdrop-filter:blur(10px)}
-.side-label{font-size:10px;letter-spacing:.22em;color:#806d72;padding:0 13px;margin:12px 0}
-.nav-btn{width:100%;display:flex;align-items:center;gap:12px;padding:14px 13px;border:1px solid transparent;border-radius:13px;background:transparent;color:#c7b8bb;text-align:left;margin:5px 0;transition:.2s}
-.nav-btn:hover,.nav-btn.active{background:linear-gradient(100deg,#4a101c88,#211014);border-color:#8c283b;color:#fff;transform:translateX(2px)}
-.nav-icon{width:25px;text-align:center;font-size:17px}
-.side-note{margin:30px 5px 0;padding:16px;border:1px solid #54202a;border-radius:15px;background:linear-gradient(145deg,rgba(40,16,22,.85),rgba(16,11,13,.85));backdrop-filter:blur(8px)}
-.side-note b{display:block;color:#f0b9c0;font-size:12px;margin-bottom:7px}
-.side-note span{color:#a88e94;font-size:11px;line-height:1.6}
-main{padding:30px;min-width:0}
-.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin-bottom:25px}
-.eyebrow{font-size:10px;color:#ed6477;letter-spacing:.28em;font-weight:800}
-h1{font-size:clamp(25px,4vw,36px);margin:8px 0 5px}
-h1 span{color:#ff344e;font-style:italic;text-shadow:0 0 18px rgba(255,52,78,.5)}
-.sub{color:var(--muted);font-size:13px}
-.clock{color:#c6aeb3;font-size:12px;text-align:right}
-
-/* ================= PANELS ================= */
-.panel{background:linear-gradient(145deg,rgba(26,19,22,.85),rgba(16,13,14,.85));border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(10px)}
-.hero{position:relative;overflow:hidden;min-height:220px;background:linear-gradient(90deg,rgba(15,5,8,.96) 0%,rgba(37,8,17,.78) 48%,rgba(12,5,8,.48) 100%),url('https://img.youtube.com/vi/4EXQrUumyIE/maxresdefault.jpg') right 35%/cover;border-color:#61212e}
-.hero:after{content:"";position:absolute;right:9%;top:-70px;width:240px;height:240px;border-radius:50%;border:1px solid #d7334d44;box-shadow:0 0 0 22px #d7334d0d,0 0 0 50px #d7334d09}
-.hero-inner{position:relative;z-index:1;max-width:650px}
-.hero h2{font-family:Georgia,serif;font-size:clamp(27px,4vw,42px);margin:10px 0}
-.hero p{color:#c9afb4;line-height:1.7;font-size:13px;max-width:520px}
-.hero-tag{display:inline-flex;padding:7px 11px;border:1px solid #a53a4e;border-radius:30px;color:#f1b8c0;font-size:10px;letter-spacing:.16em}
-
-/* ================= STATS ================= */
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:18px 0}
-.stat{padding:19px;border:1px solid var(--line);border-radius:17px;background:rgba(21,16,18,.85);backdrop-filter:blur(10px);transition:.2s}
-.stat:hover{border-color:#8c283b;box-shadow:0 0 20px rgba(197,31,53,.2)}
-.stat-icon{font-size:21px}
-.stat strong{display:block;font-size:18px;margin:13px 0 4px}
-.stat span{color:var(--muted);font-size:11px}
-
-/* ================= FORMS ================= */
-.section-title{font-size:17px;margin:0 0 7px}
-.section-desc{font-size:12px;color:var(--muted);margin:0 0 18px}
-.content-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+/* ================= LOGIN ================= */
+#loginBox{max-width:480px;margin:10vh auto;padding:32px;background:linear-gradient(145deg,rgba(26,19,22,.95),rgba(16,13,14,.95));border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);backdrop-filter:blur(10px);position:relative;z-index:10}
+.login-mark{width:65px;height:65px;border-radius:20px;background:linear-gradient(145deg,#e6324d,#530c1a);display:grid;place-items:center;font-size:31px;margin-bottom:22px;color:#fff}
+.login-title{font-family:Georgia,serif;font-size:28px;margin:0 0 8px}
+.login-hint{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:24px}
 .field{display:block;margin:12px 0 7px;color:#d7c5c9;font-size:12px}
-input{width:100%;padding:13px 14px;border:1px solid #49323a;background:#0c090a;color:#fff;border-radius:12px;outline:none;transition:.2s}
+input{width:100%;padding:13px 14px;border:1px solid #49323a;background:#0c090a;color:#fff;border-radius:12px;outline:none;transition:.2s;font-family:'Montserrat',sans-serif}
 input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
-.action{border:0;border-radius:12px;padding:12px 17px;background:linear-gradient(100deg,#a5122c,#e3324c);color:white;font-weight:800;letter-spacing:.06em;margin-top:13px;box-shadow:0 8px 20px #a5122c30;transition:.2s}
+.action{border:0;border-radius:12px;padding:12px 17px;background:linear-gradient(100deg,#a5122c,#e3324c);color:white;font-weight:800;letter-spacing:.06em;margin-top:13px;box-shadow:0 8px 20px #a5122c30;transition:.2s;width:100%;font-family:'Montserrat',sans-serif;font-size:14px}
 .action:hover{filter:brightness(1.12);transform:translateY(-1px)}
 .action:disabled{opacity:.55;cursor:wait;transform:none}
 .result{margin-top:15px;padding:14px;border-radius:12px;background:#0d090b;border:1px solid #332329;color:#d9c9cc;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
 .result:empty{display:none}
-.user-balance{color:#f4c978;font-weight:900}
-.uid{color:#ff8292;font-weight:800}
-.history-item{padding:15px 0;border-bottom:1px solid var(--line)}
-.history-item:last-child{border-bottom:0}
-.history-item b{color:#f1c3c9}
-.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
-.info-box{padding:18px;background:#100c0e;border:1px solid var(--line);border-radius:15px}
-.info-box b{display:block;margin-bottom:7px}
-.info-box span{font-size:12px;color:var(--muted);line-height:1.6}
 
-/* ================= LOGIN ================= */
-#loginBox{max-width:480px;margin:10vh auto;padding:32px}
-.login-mark{width:65px;height:65px;border-radius:20px;background:linear-gradient(145deg,#e6324d,#530c1a);display:grid;place-items:center;font-size:31px;margin-bottom:22px}
-.login-title{font-family:Georgia,serif;font-size:28px;margin:0 0 8px}
-.login-hint{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:24px}
-.footer{text-align:center;color:#6e5a60;font-size:10px;letter-spacing:.16em;padding:20px;border-top:1px solid var(--line)}
-.toast{position:fixed;right:22px;bottom:22px;z-index:50;padding:14px 18px;background:#211116;border:1px solid #873044;border-radius:13px;box-shadow:var(--shadow);max-width:calc(100vw - 44px);font-size:13px}
+/* ================= MAIN APP ================= */
+#adminPanel{display:none;width:100%;height:100vh;overflow:hidden}
+#adminPanel.active{display:flex}
 
-/* ================= RESPONSIVE ================= */
-@media(max-width:850px){
-  .layout{grid-template-columns:1fr}
-  .sidebar{display:flex;gap:6px;overflow:auto;padding:10px;border-right:0;border-bottom:1px solid var(--line)}
-  .side-label,.side-note{display:none}
-  .nav-btn{width:auto;white-space:nowrap;padding:11px 13px;margin:0}
-  .nav-icon{width:auto}
-  .stats{grid-template-columns:1fr}
-  .topbar{padding:0 16px}
-  .layout main{padding:18px}
-}
-@media(max-width:580px){
-  .content-grid,.info-grid{grid-template-columns:1fr}
-  .page-head{align-items:flex-start;flex-direction:column}
-  .clock{text-align:left}
-  .topbar{height:66px}
-  .brand{font-size:12px}
-  .online{display:none}
-  main{padding:14px}
-  .hero{min-height:240px}
-  .hero:after{right:-120px}
-  .panel{padding:18px}
-}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+/* --- SIDEBAR --- */
+.sidebar{width:260px;background:rgba(10,10,10,.85);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:20px 0;height:100%;backdrop-filter:blur(10px);flex-shrink:0}
+.logo-area{text-align:center;padding:0 20px 20px;border-bottom:1px solid var(--line)}
+.logo-area h1{color:var(--red2);font-size:22px;font-weight:800;text-shadow:0 0 10px rgba(255,52,78,.6);display:flex;align-items:center;justify-content:center;gap:10px}
+.logo-area p{font-size:11px;color:#888;letter-spacing:3px;margin-top:5px}
+.admin-profile{display:flex;align-items:center;padding:20px;border-bottom:1px solid var(--line)}
+.admin-profile img{width:45px;height:45px;border-radius:50%;border:2px solid var(--red2);margin-right:15px;object-fit:cover;box-shadow:0 0 10px rgba(255,52,78,.5)}
+.admin-info h3{font-size:14px;color:#fff;display:flex;align-items:center;gap:5px;margin:0}
+.admin-info p{font-size:12px;color:var(--red2);margin:2px 0 0 0}
+.nav-menu{list-style:none;padding:20px 0;flex-grow:1}
+.nav-menu li{padding:15px 20px;cursor:pointer;transition:.3s;display:flex;align-items:center;color:#ccc;font-size:14px;font-weight:500;margin-bottom:5px}
+.nav-menu li i{margin-right:15px;width:20px;text-align:center;font-size:16px}
+.nav-menu li:hover,.nav-menu li.active{background:linear-gradient(90deg,rgba(204,0,0,.8) 0%,transparent 100%);color:#fff;border-left:4px solid var(--red2)}
+.quote-box{padding:20px;font-size:12px;color:#888;font-style:italic;text-align:center;border-top:1px solid var(--line);line-height:1.5}
+.quote-box span{color:var(--red2);font-weight:bold;display:block;margin-top:8px;font-style:normal}
+
+/* --- MAIN CONTENT --- */
+.main-content{flex-grow:1;padding:20px 40px;overflow-y:auto;position:relative}
+.header{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:30px}
+.header-left{display:flex;align-items:center;color:var(--red2);font-weight:600;font-size:15px}
+.header-left i{margin-right:10px}
+.header-right{display:flex;align-items:center;font-size:13px;color:#ccc}
+.status{color:#00ff00;margin-right:20px;display:flex;align-items:center;font-weight:500}
+.status::before{content:'';display:inline-block;width:8px;height:8px;background-color:#00ff00;border-radius:50%;margin-right:8px;box-shadow:0 0 10px #00ff00}
+
+.welcome-text{margin-bottom:30px}
+.welcome-text h2{font-size:32px;font-weight:700}
+.welcome-text h2 span{color:var(--red2);font-style:italic;text-shadow:0 0 10px rgba(255,52,78,.5)}
+.welcome-text p{color:#aaa;margin-top:5px;font-size:14px}
+
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:30px}
+.stat-card{background:rgba(20,0,0,.6);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;align-items:center;box-shadow:0 4px 15px rgba(0,0,0,.5);backdrop-filter:blur(5px);transition:.3s}
+.stat-card:hover{border-color:var(--red2);box-shadow:0 0 15px rgba(255,52,78,.2)}
+.stat-icon{width:50px;height:50px;background:rgba(255,52,78,.1);border-radius:10px;display:flex;justify-content:center;align-items:center;color:var(--red2);font-size:24px;margin-right:15px}
+.stat-info h3{font-size:20px;margin-bottom:5px;font-weight:700}
+.stat-info p{font-size:12px;color:#aaa;margin:0}
+
+/* Action Panels */
+.action-panels{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px}
+.panel{background:rgba(20,0,0,.6);border:1px solid var(--line);border-radius:10px;padding:20px;backdrop-filter:blur(5px)}
+.panel-title{font-size:16px;font-weight:600;margin-bottom:20px;display:flex;align-items:center}
+.panel-title i{color:var(--red2);margin-right:10px;font-size:18px}
+.form-group{margin-bottom:15px}
+.form-group label{display:block;font-size:13px;color:#ccc;margin-bottom:8px;font-weight:500}
+.input-wrapper{position:relative}
+.input-wrapper i{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#888}
+.input-wrapper input{width:100%;background:rgba(0,0,0,.5);border:1px solid #333;border-radius:5px;padding:12px 12px 12px 40px;color:#fff;outline:none;transition:.3s;font-family:'Montserrat',sans-serif}
+.input-wrapper input:focus{border-color:var(--red2);box-shadow:0 0 10px rgba(255,52,78,.2)}
+.btn{width:100%;padding:12px;border:none;border-radius:5px;background:linear-gradient(90deg,#cc0000,var(--red2));color:#fff;font-weight:600;cursor:pointer;transition:.3s;display:flex;justify-content:center;align-items:center;gap:10px;font-family:'Montserrat',sans-serif;font-size:14px}
+.btn:hover{background:linear-gradient(90deg,var(--red2),#cc0000);box-shadow:0 0 15px rgba(255,52,78,.5)}
+
+/* Table */
+.table-container{background:rgba(20,0,0,.6);border:1px solid var(--line);border-radius:10px;padding:20px;backdrop-filter:blur(5px)}
+.table-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.table-header h3{font-size:16px;display:flex;align-items:center;font-weight:600;margin:0}
+.table-header h3 i{color:var(--red2);margin-right:10px;font-size:18px}
+.btn-outline{background:transparent;border:1px solid var(--red2);color:var(--red2);padding:6px 15px;border-radius:5px;cursor:pointer;font-size:12px;transition:.3s;font-weight:600}
+.btn-outline:hover{background:var(--red2);color:#fff}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:12px;color:#aaa;font-weight:500;border-bottom:1px solid rgba(255,255,255,.1)}
+td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
+.status-badge{background:rgba(0,255,0,.1);color:#00ff00;padding:4px 10px;border-radius:20px;font-size:11px;border:1px solid rgba(0,255,0,.3);font-weight:600}
+.text-green{color:#00ff00;font-weight:600}
+.text-red{color:var(--red2);font-weight:600}
+
+/* Responsive */
+@media(max-width:1024px){.stats-grid,.action-panels{grid-template-columns:1fr}.sidebar{width:200px}.main-content{padding:20px}}
+@media(max-width:768px){.sidebar{display:none}.main-content{padding:15px}.header{flex-direction:column;align-items:flex-start;gap:10px}}
 </style>
 </head>
 <body>
@@ -168,170 +165,172 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
   </div>
 </div>
 
-<!-- ================= TOPBAR ================= -->
-<header class="topbar">
-  <div class="brand"><div class="brand-mark">☁</div><div>PT BAG SHOP<small>AKATSUKI ADMIN SYSTEM</small></div></div>
-  <div class="top-right"><span class="online">● ADMIN CONSOLE</span><button id="headerLogout" class="logout hidden" onclick="logout()">ĐĂNG XUẤT ↗</button></div>
-</header>
-
 <!-- ================= LOGIN ================= -->
-<section id="loginBox" class="panel">
+<section id="loginBox">
   <div class="login-mark">☁</div>
   <div class="eyebrow">RESTRICTED AREA · AKATSUKI</div>
   <h1 class="login-title">Đăng nhập quản trị</h1>
   <p class="login-hint">Nhập mật khẩu Admin để truy cập bảng điều khiển PT BAG SHOP. Kết nối được xác thực qua máy chủ.</p>
   <label class="field" for="adminPassword">MẬT KHẨU ADMIN</label>
   <input id="adminPassword" type="password" placeholder="Nhập mật khẩu Admin" autocomplete="current-password">
-  <button id="loginButton" class="action" style="width:100%" onclick="adminLogin()">✦ ĐĂNG NHẬP HỆ THỐNG</button>
+  <button id="loginButton" class="action" onclick="adminLogin()">✦ ĐĂNG NHẬP HỆ THỐNG</button>
   <div id="loginResult" class="result"></div>
 </section>
 
 <!-- ================= ADMIN PANEL ================= -->
-<div id="adminPanel" class="layout hidden">
+<div id="adminPanel">
+  <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="side-label">CONTROL CENTER</div>
-    <button class="nav-btn active" data-page="overview" onclick="showPage('overview',this)"><span class="nav-icon">⌂</span>Tổng quan</button>
-    <button class="nav-btn" data-page="topup" onclick="showPage('topup',this)"><span class="nav-icon">＋</span>Cộng tiền</button>
-    <button class="nav-btn" data-page="users" onclick="showPage('users',this)"><span class="nav-icon">♙</span>Tra cứu user</button>
-    <button class="nav-btn" data-page="history" onclick="showPage('history',this)"><span class="nav-icon">▤</span>Lịch sử</button>
-    <button class="nav-btn" data-page="about" onclick="showPage('about',this)"><span class="nav-icon">ⓘ</span>Thông tin</button>
-    <div class="side-note"><b>☁ THE AKATSUKI</b><span>Hệ thống quản trị PT BAG SHOP. Kiểm tra UID cẩn thận trước khi cộng tiền.</span></div>
+    <div class="logo-area">
+      <h1><i class="fa-solid fa-cloud"></i> PT BAG SHOP</h1>
+      <p>ADMIN PANEL</p>
+    </div>
+    <div class="admin-profile">
+      <!-- THAY LINK AVATAR CỦA BẠN VÀO ĐÂY -->
+      <img src="https://i.pinimg.com/736x/2b/0c/9c/2b0c9c5e1c6e8c6e8c6e8c6e8c6e8c6e.jpg" alt="Admin">
+      <div class="admin-info">
+        <h3>Admin <i class="fa-solid fa-crown" style="color:gold;font-size:12px"></i></h3>
+        <p>Quản trị viên</p>
+      </div>
+    </div>
+    <ul class="nav-menu">
+      <li class="active"><i class="fa-solid fa-house"></i> Tổng Quan</li>
+      <li><i class="fa-solid fa-circle-plus"></i> Cộng Tiền</li>
+      <li><i class="fa-solid fa-magnifying-glass"></i> Tra Cứu UID</li>
+      <li><i class="fa-solid fa-file-invoice"></i> Lịch Sử Giao Dịch</li>
+      <li><i class="fa-solid fa-gear"></i> Cài Đặt Shop</li>
+      <li onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Đăng Xuất</li>
+    </ul>
+    <div class="quote-box">
+      "Sự thật luôn ẩn sau lớp màn đêm..."
+      <span>— Itachi Uchiha —</span>
+    </div>
   </aside>
 
-  <main>
-    <!-- ============ TRANG TỔNG QUAN ============ -->
-    <section id="page-overview" class="page">
-      <div class="page-head">
-        <div>
-          <div class="eyebrow">WELCOME BACK · ADMIN</div>
-          <h1>Chào mừng trở lại, <span>Admin!</span></h1>
-          <div class="sub">Quản lý shop dễ dàng - Nâng tầm trải nghiệm</div>
-        </div>
-        <div class="clock" id="currentTime">AKATSUKI CONTROL</div>
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <i class="fa-solid fa-shuriken"></i> PT Bag Shop - Admin
       </div>
+      <div class="header-right">
+        <div class="status">Online</div>
+        <div><i class="fa-regular fa-clock"></i> <span id="clock">11:45:32 19/11/2026</span></div>
+      </div>
+    </div>
 
-      <!-- 3 thẻ stats -->
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-icon">📦</div>
-          <strong>1,248</strong>
-          <span>Tổng Lượt Bốc</span>
-        </div>
-        <div class="stat">
-          <div class="stat-icon">💰</div>
-          <strong>25,750,000đ</strong>
-          <span>Tổng Doanh Thu</span>
-        </div>
-        <div class="stat">
-          <div class="stat-icon">👥</div>
-          <strong>892</strong>
-          <span>Tổng Người Dùng</span>
+    <!-- Welcome -->
+    <div class="welcome-text">
+      <h2>Chào mừng trở lại, <span>Admin!</span></h2>
+      <p>Quản lý shop dễ dàng - Nâng tầm trải nghiệm</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-box-open"></i></div>
+        <div class="stat-info">
+          <h3>1,248</h3>
+          <p>Tổng Lượt Bốc</p>
         </div>
       </div>
-
-      <!-- 2 panel: Cộng Tiền + Tra Cứu -->
-      <div class="content-grid">
-        <div class="panel">
-          <h3 class="section-title">＋ Cộng Tiền Cho UID</h3>
-          <label class="field">Nhập UID:</label>
-          <input id="ovMoneyUID" placeholder="VD: PT-ABC1234">
-          <label class="field">Số tiền:</label>
-          <input id="ovMoneyAmount" type="number" placeholder="Nhập số tiền (đ)">
-          <button class="action" onclick="ovAddMoney()">＋ Cộng Tiền</button>
-          <div id="ovMoneyResult" class="result"></div>
-        </div>
-        <div class="panel">
-          <h3 class="section-title">🔍 Tra Cứu UID</h3>
-          <label class="field">Nhập Gmail hoặc UID...</label>
-          <input id="ovSearchUID" placeholder="Nhập Gmail hoặc UID...">
-          <button class="action" onclick="ovSearchUser()">🔍 Tìm Kiếm</button>
-          <div id="ovUserResult" class="result">Chưa tìm tài khoản.</div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-coins"></i></div>
+        <div class="stat-info">
+          <h3>25,750,000đ</h3>
+          <p>Tổng Doanh Thu</p>
         </div>
       </div>
-
-      <!-- Bảng lịch sử giao dịch -->
-      <div class="panel" style="margin-top:17px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
-          <h3 class="section-title" style="margin:0">🕐 Lịch Sử Giao Dịch</h3>
-          <button class="action" style="margin:0;padding:8px 14px;font-size:11px" onclick="navTo('history')">Xem Tất Cả →</button>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+        <div class="stat-info">
+          <h3>892</h3>
+          <p>Tổng Người Dùng</p>
         </div>
-        <div id="ovHistoryResult" class="result">Nhập UID ở trên để xem lịch sử giao dịch.</div>
       </div>
-    </section>
+    </div>
 
-    <!-- ============ TRANG CỘNG TIỀN ============ -->
-    <section id="page-topup" class="page hidden">
-      <div class="page-head"><div><div class="eyebrow">WALLET MANAGEMENT</div><h1>Cộng tiền khách hàng</h1><div class="sub">Cộng số dư theo UID người dùng.</div></div></div>
+    <!-- Action Panels -->
+    <div class="action-panels">
+      <!-- Panel Cộng Tiền -->
       <div class="panel">
-        <h3 class="section-title">＋ Nạp tiền vào ví</h3><p class="section-desc">Hãy xác nhận đúng UID và số tiền trước khi thực hiện.</p>
-        <label class="field" for="moneyUID">UID NGƯỜI DÙNG</label><input id="moneyUID" placeholder="Ví dụ: PT-XXXXXXXX">
-        <label class="field" for="moneyAmount">SỐ TIỀN CẦN CỘNG (VNĐ)</label><input id="moneyAmount" type="number" min="1" step="1" placeholder="Nhập số tiền">
-        <button class="action" onclick="addMoney()">＋ XÁC NHẬN CỘNG TIỀN</button>
+        <div class="panel-title"><i class="fa-solid fa-circle-plus"></i> Cộng Tiền Cho UID</div>
+        <div class="form-group">
+          <label>Nhập UID:</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-user"></i>
+            <input id="moneyUID" type="text" placeholder="VD: PT-ABC1234">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Số tiền:</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-coins"></i>
+            <input id="moneyAmount" type="number" placeholder="Nhập số tiền (đ)">
+          </div>
+        </div>
+        <button class="btn" onclick="addMoney()"><i class="fa-solid fa-paper-plane"></i> Cộng Tiền</button>
         <div id="moneyResult" class="result"></div>
       </div>
-    </section>
 
-    <!-- ============ TRANG TRA CỨU USER ============ -->
-    <section id="page-users" class="page hidden">
-      <div class="page-head"><div><div class="eyebrow">USER DATABASE</div><h1>Tra cứu tài khoản</h1><div class="sub">Xem Gmail, UID và số dư hiện tại.</div></div></div>
+      <!-- Panel Tra Cứu -->
       <div class="panel">
-        <h3 class="section-title">♙ Tìm người dùng</h3><p class="section-desc">Nhập UID chính xác để xem thông tin.</p>
-        <label class="field" for="searchUID">UID NGƯỜI DÙNG</label><input id="searchUID" placeholder="PT-XXXXXXXX">
-        <button class="action" onclick="searchUser()">⌕ TÌM USER</button>
+        <div class="panel-title"><i class="fa-solid fa-magnifying-glass"></i> Tra Cứu UID</div>
+        <div class="form-group">
+          <label>Nhập Gmail hoặc UID...</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-user"></i>
+            <input id="searchUID" type="text" placeholder="Nhập Gmail hoặc UID...">
+          </div>
+        </div>
+        <div style="height: 61px;"></div> 
+        <button class="btn" onclick="searchUser()"><i class="fa-solid fa-magnifying-glass"></i> Tìm Kiếm</button>
         <div id="userResult" class="result">Chưa tìm tài khoản.</div>
       </div>
-    </section>
+    </div>
 
-    <!-- ============ TRANG LỊCH SỬ ============ -->
-    <section id="page-history" class="page hidden">
-      <div class="page-head"><div><div class="eyebrow">TRANSACTION RECORDS</div><h1>Lịch sử giao dịch</h1><div class="sub">Xem các đơn mua hàng theo UID.</div></div></div>
-      <div class="panel">
-        <h3 class="section-title">▤ Lịch sử mua hàng</h3><p class="section-desc">Nhập UID để tải lịch sử từ máy chủ.</p>
-        <label class="field" for="historyUID">UID NGƯỜI DÙNG</label><input id="historyUID" placeholder="PT-XXXXXXXX">
-        <button class="action" onclick="getHistory()">⌕ XEM LỊCH SỬ</button>
-        <div id="historyResult" class="result">Chưa có dữ liệu.</div>
+    <!-- Table Lịch Sử -->
+    <div class="table-container">
+      <div class="table-header">
+        <h3><i class="fa-regular fa-clock"></i> Lịch Sử Giao Dịch</h3>
+        <button class="btn-outline" onclick="getHistory()">Xem Tất Cả <i class="fa-solid fa-arrow-right"></i></button>
       </div>
-    </section>
-
-    <!-- ============ TRANG THÔNG TIN ============ -->
-    <section id="page-about" class="page hidden">
-      <div class="page-head"><div><div class="eyebrow">SYSTEM INFORMATION</div><h1>Thông tin hệ thống</h1><div class="sub">Các lưu ý khi sử dụng trang quản trị.</div></div></div>
-      <div class="panel"><div class="info-grid">
-        <div class="info-box"><b>☁ PT BAG SHOP</b><span>Giao diện quản trị phong cách Akatsuki, tông đen và đỏ.</span></div>
-        <div class="info-box"><b>🔐 Bảo mật</b><span>Mật khẩu Admin được gửi tới API đăng nhập, không lưu trực tiếp trong trang HTML.</span></div>
-        <div class="info-box"><b>💰 Cộng tiền</b><span>Luôn kiểm tra UID và số tiền trước khi xác nhận thao tác.</span></div>
-        <div class="info-box"><b>📜 Lịch sử</b><span>Lịch sử được tải từ backend theo UID người dùng.</span></div>
-      </div></div>
-    </section>
+      <div id="historyResult" class="result" style="margin-top:0;background:transparent;border:none;padding:0;">
+        Nhập UID ở trên để xem lịch sử giao dịch.
+      </div>
+    </div>
   </main>
 </div>
-<footer class="footer">© 2026 PT BAG SHOP · PLAY TOGETHER · AKATSUKI ADMIN</footer>
-<div id="toast" class="toast hidden"></div>
 
+<!-- ================= JAVASCRIPT ================= -->
 <script>
 let adminToken = "";
 let toastTimer = null;
 
+// 1. Xử lý Intro
 function skipIntro(){
   const intro=document.getElementById("intro");
   if(intro) intro.classList.add("done");
 }
 window.addEventListener("load",()=>window.setTimeout(skipIntro,6500));
+
+// 2. Đồng hồ thời gian thực
+function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('vi-VN', { hour12: false });
+    const dateString = now.toLocaleDateString('vi-VN');
+    document.getElementById('clock').innerText = `${timeString} ${dateString}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// 3. Các hàm xử lý Logic
 document.getElementById("adminPassword").addEventListener("keydown",e=>{if(e.key==="Enter")adminLogin();});
-document.getElementById("currentTime").textContent=new Date().toLocaleString("vi-VN");
 function moneyFormat(value){return Number(value||0).toLocaleString("vi-VN")+" VNĐ";}
 function showMessage(id,message){const el=document.getElementById(id);if(el)el.textContent=message;}
-function notify(message){const el=document.getElementById("toast");el.textContent=message;el.classList.remove("hidden");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add("hidden"),3200);}
+function notify(message){const el=document.getElementById("toast");if(!el)return;el.textContent=message;el.classList.remove("hidden");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add("hidden"),3200);}
 function escapeHTML(value){return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");}
-function showPage(page,button){
-  document.querySelectorAll(".page").forEach(el=>el.classList.add("hidden"));
-  const target=document.getElementById("page-"+page);if(target)target.classList.remove("hidden");
-  document.querySelectorAll(".nav-btn").forEach(el=>el.classList.remove("active"));
-  if(button)button.classList.add("active");
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-function navTo(page){const btn=document.querySelector('.nav-btn[data-page="'+page+'"]');showPage(page,btn);}
-function quickSearch(){const value=document.getElementById("quickUID").value.trim();document.getElementById("searchUID").value=value;navTo("users");if(value)searchUser();}
 
 async function adminLogin(){
   const password=document.getElementById("adminPassword").value;
@@ -344,77 +343,12 @@ async function adminLogin(){
     if(!data.token){showMessage("loginResult","❌ Máy chủ không trả về token Admin.");return;}
     adminToken=data.token;
     document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("adminPanel").classList.remove("hidden");
-    document.getElementById("headerLogout").classList.remove("hidden");
-    showPage("overview",document.querySelector('.nav-btn[data-page="overview"]'));
+    document.getElementById("adminPanel").classList.add("active");
     notify("Đăng nhập Admin thành công.");
   }catch(error){showMessage("loginResult","❌ Không thể kết nối server. Kiểm tra Render và thử lại.");}
   finally{btn.disabled=false;btn.textContent="✦ ĐĂNG NHẬP HỆ THỐNG";}
 }
 
-/* ============ CÁC HÀM CHO TRANG TỔNG QUAN ============ */
-async function ovSearchUser(){
-  const uid=document.getElementById("ovSearchUID").value.trim();
-  if(!uid){showMessage("ovUserResult","❌ Nhập UID trước.");return;}
-  showMessage("ovUserResult","Đang tìm tài khoản...");
-  try{
-    const response=await fetch("/api/admin/user?uid="+encodeURIComponent(uid),{headers:{"x-admin-token":adminToken}});
-    const data=await response.json();
-    if(!response.ok||!data.success){showMessage("ovUserResult","❌ "+(data.message||"Không tìm thấy user."));return;}
-    const user=data.user||{};
-    document.getElementById("ovMoneyUID").value=user.uid||uid;
-    document.getElementById("ovUserResult").innerHTML=
-      "<b>📧 Gmail:</b> "+escapeHTML(user.gmail||"")+
-      "<br><br><b>🆔 UID:</b> <span class='uid'>"+escapeHTML(user.uid||uid)+"</span>"+
-      "<br><br><b>💰 Số dư:</b> <span class='user-balance'>"+moneyFormat(user.balance)+"</span>";
-    // Tự động load lịch sử
-    ovLoadHistory(user.uid||uid);
-  }catch(error){showMessage("ovUserResult","❌ Lỗi kết nối server.");}
-}
-
-async function ovAddMoney(){
-  const uid=document.getElementById("ovMoneyUID").value.trim();
-  const amount=Number(document.getElementById("ovMoneyAmount").value);
-  if(!uid){showMessage("ovMoneyResult","❌ Chưa nhập UID.");return;}
-  if(!Number.isSafeInteger(amount)||amount<=0){showMessage("ovMoneyResult","❌ Số tiền phải là số nguyên lớn hơn 0.");return;}
-  if(!confirm("Xác nhận cộng "+moneyFormat(amount)+" cho UID "+uid+"?"))return;
-  showMessage("ovMoneyResult","Đang xử lý giao dịch...");
-  try{
-    const response=await fetch("/api/admin/add-money",{method:"POST",headers:{"Content-Type":"application/json","x-admin-token":adminToken},body:JSON.stringify({uid,amount})});
-    const data=await response.json();
-    if(!response.ok||!data.success){showMessage("ovMoneyResult","❌ "+(data.message||"Cộng tiền thất bại."));return;}
-    showMessage("ovMoneyResult","✅ Cộng tiền thành công! UID: "+uid+" - Số tiền: "+moneyFormat(amount));
-    document.getElementById("ovMoneyAmount").value="";
-    notify("Đã cộng tiền thành công.");
-    ovLoadHistory(uid);
-  }catch(error){showMessage("ovMoneyResult","❌ Lỗi kết nối server.");}
-}
-
-async function ovLoadHistory(uid){
-  if(!uid) return;
-  document.getElementById("ovHistoryResult").innerHTML="Đang tải lịch sử...";
-  try{
-    const response=await fetch("/api/admin/history?uid="+encodeURIComponent(uid),{headers:{"x-admin-token":adminToken}});
-    const data=await response.json();
-    if(!response.ok||!data.success){document.getElementById("ovHistoryResult").innerHTML="❌ "+(data.message||"Không tìm thấy lịch sử.");return;}
-    if(!data.history||data.history.length===0){document.getElementById("ovHistoryResult").innerHTML="📭 Người dùng chưa có giao dịch nào.";return;}
-    let html="<b>📧 Gmail:</b> "+escapeHTML(data.gmail||"")+"<br><b>🆔 UID:</b> <span class='uid'>"+escapeHTML(data.uid||uid)+"</span><hr>";
-    data.history.forEach((item,index)=>{
-      const account=item.account||{};
-      html+="<div class='history-item'><b>🎁 Đơn #"+(index+1)+"</b><br>"+
-        "📦 Túi: "+escapeHTML(item.product||"")+
-        "<br>💵 Giá: "+moneyFormat(item.price)+
-        "<br>👤 Account: "+escapeHTML(account.username||"")+
-        "<br>⭐ Level: "+escapeHTML(account.level||"")+
-        "<br>💎 Độ hiếm: "+escapeHTML(account.rarity||"")+
-        "<br>📝 Thông tin: "+escapeHTML(account.info||"")+
-        "<br>🕐 Thời gian: "+escapeHTML(item.time||"")+"</div>";
-    });
-    document.getElementById("ovHistoryResult").innerHTML=html;
-  }catch(error){document.getElementById("ovHistoryResult").innerHTML="❌ Lỗi kết nối server.";}
-}
-
-/* ============ CÁC HÀM TRANG RIÊNG ============ */
 async function searchUser(){
   const uid=document.getElementById("searchUID").value.trim();
   if(!uid){showMessage("userResult","❌ Nhập UID trước.");return;}
@@ -425,14 +359,15 @@ async function searchUser(){
     if(!response.ok||!data.success){showMessage("userResult","❌ "+(data.message||"Không tìm thấy user."));return;}
     const user=data.user||{};
     document.getElementById("moneyUID").value=user.uid||uid;
-    document.getElementById("historyUID").value=user.uid||uid;
     document.getElementById("userResult").innerHTML=
       "<b>📧 Gmail:</b> "+escapeHTML(user.gmail||"")+
       "<br><br><b>🆔 UID:</b> <span class='uid'>"+escapeHTML(user.uid||uid)+"</span>"+
       "<br><br><b>💰 Số dư:</b> <span class='user-balance'>"+moneyFormat(user.balance)+"</span>"+
-      "<br><br><button class='action' onclick='copyUID(\""+escapeHTML(user.uid||uid)+"\")'>COPY UID</button>";
+      "<br><br><button class='action' style='width:auto;padding:8px 15px;margin-top:5px' onclick='copyUID(\""+escapeHTML(user.uid||uid)+"\")'>COPY UID</button>";
+    getHistory(); // Tự động load lịch sử
   }catch(error){showMessage("userResult","❌ Lỗi kết nối server.");}
 }
+
 function copyUID(uid){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(uid).then(()=>notify("Đã sao chép UID." )).catch(()=>notify("Không thể sao chép tự động."));}else{notify("Trình duyệt không hỗ trợ sao chép.");}}
 
 async function addMoney(){
@@ -449,23 +384,24 @@ async function addMoney(){
     showMessage("moneyResult","✅ Cộng tiền thành công!<br>UID: "+uid+"<br>Số tiền cộng: "+moneyFormat(amount)+(data.balance!==undefined?"<br>Số dư mới: "+moneyFormat(data.balance):""));
     document.getElementById("moneyAmount").value="";
     notify("Đã cộng tiền thành công.");
+    getHistory(); // Load lại lịch sử
   }catch(error){showMessage("moneyResult","❌ Lỗi kết nối server.");}
 }
 
 async function getHistory(){
-  const uid=document.getElementById("historyUID").value.trim();
-  if(!uid){showMessage("historyResult","❌ Nhập UID trước.");return;}
-  showMessage("historyResult","Đang tải lịch sử...");
+  const uid=document.getElementById("searchUID").value.trim() || document.getElementById("moneyUID").value.trim();
+  if(!uid){showMessage("historyResult","❌ Nhập UID ở trên trước.");return;}
+  document.getElementById("historyResult").innerHTML="Đang tải lịch sử...";
   try{
     const response=await fetch("/api/admin/history?uid="+encodeURIComponent(uid),{headers:{"x-admin-token":adminToken}});
     const data=await response.json();
-    if(!response.ok||!data.success){showMessage("historyResult","❌ "+(data.message||"Không tìm thấy lịch sử."));return;}
-    if(!data.history||data.history.length===0){showMessage("historyResult","📭 Người dùng chưa có giao dịch nào.");return;}
+    if(!response.ok||!data.success){document.getElementById("historyResult").innerHTML="❌ "+(data.message||"Không tìm thấy lịch sử.");return;}
+    if(!data.history||data.history.length===0){document.getElementById("historyResult").innerHTML="📭 Người dùng chưa có giao dịch nào.";return;}
     let html="<b>📧 Gmail:</b> "+escapeHTML(data.gmail||"")+
       "<br><b>🆔 UID:</b> <span class='uid'>"+escapeHTML(data.uid||uid)+"</span><hr>";
     data.history.forEach((item,index)=>{
       const account=item.account||{};
-      html+="<div class='history-item'><b>🎁 Đơn #"+(index+1)+"</b><br>"+
+      html+="<div class='history-item' style='padding:15px 0;border-bottom:1px solid rgba(255,255,255,.05)'><b>🎁 Đơn #"+(index+1)+"</b><br>"+
         "📦 Túi: "+escapeHTML(item.product||"")+
         "<br>💵 Giá: "+moneyFormat(item.price)+
         "<br>👤 Account: "+escapeHTML(account.username||"")+
@@ -475,18 +411,26 @@ async function getHistory(){
         "<br>🕐 Thời gian: "+escapeHTML(item.time||"")+"</div>";
     });
     document.getElementById("historyResult").innerHTML=html;
-  }catch(error){showMessage("historyResult","❌ Lỗi kết nối server.");}
+  }catch(error){document.getElementById("historyResult").innerHTML="❌ Lỗi kết nối server.";}
 }
 
 function logout(){
   adminToken="";
-  document.getElementById("adminPanel").classList.add("hidden");
+  document.getElementById("adminPanel").classList.remove("active");
   document.getElementById("loginBox").classList.remove("hidden");
-  document.getElementById("headerLogout").classList.add("hidden");
   document.getElementById("adminPassword").value="";
   showMessage("loginResult","Đã đăng xuất Admin.");
   window.scrollTo({top:0,behavior:"smooth"});
 }
+
+// 4. Hiệu ứng Active cho Menu
+const menuItems = document.querySelectorAll('.nav-menu li');
+menuItems.forEach(item => {
+    item.addEventListener('click', function() {
+        menuItems.forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
 </script>
 </body>
 </html>
