@@ -85,9 +85,7 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
 #adminPanel.active{display:flex}
 
 /* --- SIDEBAR --- */
-.sidebar{width:260px;background:rgba(10,10,10,.75);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:20px 0;height:100%;backdrop-filter:blur(10px);flex-shrink:0;z-index:10;transition: width 0.3s ease, padding 0.3s ease}
-#adminPanel.sidebar-collapsed .sidebar{width:0;padding:0;overflow:hidden;border-right:none}
-
+.sidebar{width:260px;background:rgba(10,10,10,.75);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:20px 0;height:100%;backdrop-filter:blur(10px);flex-shrink:0;z-index:10}
 .logo-area{text-align:center;padding:0 20px 20px;border-bottom:1px solid var(--line)}
 .logo-area h1{color:var(--red2);font-size:22px;font-weight:800;text-shadow:0 0 10px rgba(255,52,78,.6);display:flex;align-items:center;justify-content:center;gap:10px}
 .logo-area p{font-size:11px;color:#888;letter-spacing:3px;margin-top:5px}
@@ -111,9 +109,6 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
 .status{color:#00ff00;display:flex;align-items:center;font-weight:500}
 .status::before{content:'';display:inline-block;width:8px;height:8px;background-color:#00ff00;border-radius:50%;margin-right:8px;box-shadow:0 0 10px #00ff00}
 
-.toggle-btn{background:transparent;border:1px solid var(--line);color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;font-size:14px}
-.toggle-btn:hover{background:var(--red2);border-color:var(--red2)}
-
 .welcome-text{margin-bottom:30px}
 .welcome-text h2{font-size:32px;font-weight:700}
 .welcome-text h2 span{color:var(--red2);font-style:italic;text-shadow:0 0 10px rgba(255,52,78,.5)}
@@ -129,9 +124,24 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
 
 /* Action Panels */
 .action-panels{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px}
-.panel{background:rgba(20,0,0,.5);border:1px solid var(--line);border-radius:10px;padding:20px;backdrop-filter:blur(5px)}
-.panel-title{font-size:16px;font-weight:600;margin-bottom:20px;display:flex;align-items:center}
+.panel{background:rgba(20,0,0,.5);border:1px solid var(--line);border-radius:10px;padding:20px;backdrop-filter:blur(5px);transition:all 0.3s ease}
+.panel-title{font-size:16px;font-weight:600;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+.panel-title-left{display:flex;align-items:center}
 .panel-title i{color:var(--red2);margin-right:10px;font-size:18px}
+
+/* Nút thu gọn panel */
+.panel-toggle{background:transparent;border:1px solid var(--line);color:#fff;width:30px;height:30px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.3s;font-size:12px}
+.panel-toggle:hover{background:var(--red2);border-color:var(--red2)}
+.panel-toggle i{transition:transform 0.3s ease;margin:0}
+
+/* Khi panel bị thu gọn */
+.panel.collapsed{padding:15px 20px}
+.panel.collapsed .panel-title{margin-bottom:0}
+.panel.collapsed .panel-body{display:none}
+.panel.collapsed .panel-toggle i{transform:rotate(180deg)}
+
+.panel-body{transition:all 0.3s ease}
+
 .form-group{margin-bottom:15px}
 .form-group label{display:block;font-size:13px;color:#ccc;margin-bottom:8px;font-weight:500}
 .input-wrapper{position:relative}
@@ -142,12 +152,24 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
 .btn:hover{background:linear-gradient(90deg,var(--red2),#cc0000);box-shadow:0 0 15px rgba(255,52,78,.5)}
 
 /* Table */
-.table-container{background:rgba(20,0,0,.5);border:1px solid var(--line);border-radius:10px;padding:20px;backdrop-filter:blur(5px);overflow-x:auto}
+.table-container{background:rgba(20,0,0,.5);border:1px solid var(--line);border-radius:10px;padding:20px;backdrop-filter:blur(5px);overflow-x:auto;transition:all 0.3s ease}
 .table-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
 .table-header h3{font-size:16px;display:flex;align-items:center;font-weight:600;margin:0}
 .table-header h3 i{color:var(--red2);margin-right:10px;font-size:18px}
+.table-header-right{display:flex;align-items:center;gap:10px}
 .btn-outline{background:transparent;border:1px solid var(--red2);color:var(--red2);padding:6px 15px;border-radius:5px;cursor:pointer;font-size:12px;transition:.3s;font-weight:600}
 .btn-outline:hover{background:var(--red2);color:#fff}
+
+/* Khi table bị thu gọn */
+.table-container.collapsed{padding:15px 20px}
+.table-container.collapsed .table-header{margin-bottom:0}
+.table-container.collapsed .table-body{display:none}
+.table-container.collapsed .table-toggle i{transform:rotate(180deg)}
+
+.table-toggle{background:transparent;border:1px solid var(--line);color:#fff;width:30px;height:30px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.3s;font-size:12px}
+.table-toggle:hover{background:var(--red2);border-color:var(--red2)}
+.table-toggle i{transition:transform 0.3s ease}
+
 table{width:100%;border-collapse:collapse;font-size:13px}
 th{text-align:left;padding:12px;color:#aaa;font-weight:500;border-bottom:1px solid rgba(255,255,255,.1)}
 td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
@@ -235,8 +257,6 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
   .header { flex-direction: column; align-items: flex-start; gap: 10px; }
   .welcome-text h2 { font-size: 24px; }
   
-  .toggle-btn { display: none; }
-  
   #opacity-control {
     bottom: 80px;
     right: 10px;
@@ -318,7 +338,6 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
       <div class="header-right">
         <div class="status">Online</div>
         <div><i class="fa-regular fa-clock"></i> <span id="clock">11:45:32 19/11/2026</span></div>
-        <button id="toggleSidebar" class="toggle-btn" title="Thu gọn menu"><i class="fa-solid fa-bars"></i></button>
       </div>
     </div>
 
@@ -355,51 +374,76 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
 
     <!-- Action Panels -->
     <div class="action-panels">
-      <!-- Panel Cộng Tiền -->
-      <div class="panel">
-        <div class="panel-title"><i class="fa-solid fa-circle-plus"></i> Cộng Tiền Cho UID</div>
-        <div class="form-group">
-          <label>Nhập UID:</label>
-          <div class="input-wrapper">
-            <i class="fa-solid fa-user"></i>
-            <input id="moneyUID" type="text" placeholder="VD: PT-ABC1234">
+      <!-- Panel Cộng Tiền (CÓ NÚT THU GỌN) -->
+      <div class="panel" id="panelTopup">
+        <div class="panel-title">
+          <div class="panel-title-left">
+            <i class="fa-solid fa-circle-plus"></i> Cộng Tiền Cho UID
           </div>
+          <button class="panel-toggle" onclick="togglePanel('panelTopup')" title="Thu gọn/Mở rộng">
+            <i class="fa-solid fa-chevron-up"></i>
+          </button>
         </div>
-        <div class="form-group">
-          <label>Số tiền:</label>
-          <div class="input-wrapper">
-            <i class="fa-solid fa-coins"></i>
-            <input id="moneyAmount" type="number" placeholder="Nhập số tiền (đ)">
+        <div class="panel-body">
+          <div class="form-group">
+            <label>Nhập UID:</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-user"></i>
+              <input id="moneyUID" type="text" placeholder="VD: PT-ABC1234">
+            </div>
           </div>
+          <div class="form-group">
+            <label>Số tiền:</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-coins"></i>
+              <input id="moneyAmount" type="number" placeholder="Nhập số tiền (đ)">
+            </div>
+          </div>
+          <button class="btn" onclick="addMoney()"><i class="fa-solid fa-paper-plane"></i> Cộng Tiền</button>
+          <div id="moneyResult" class="result"></div>
         </div>
-        <button class="btn" onclick="addMoney()"><i class="fa-solid fa-paper-plane"></i> Cộng Tiền</button>
-        <div id="moneyResult" class="result"></div>
       </div>
 
-      <!-- Panel Tra Cứu -->
-      <div class="panel">
-        <div class="panel-title"><i class="fa-solid fa-magnifying-glass"></i> Tra Cứu UID</div>
-        <div class="form-group">
-          <label>Nhập Gmail hoặc UID...</label>
-          <div class="input-wrapper">
-            <i class="fa-solid fa-user"></i>
-            <input id="searchUID" type="text" placeholder="Nhập Gmail hoặc UID...">
+      <!-- Panel Tra Cứu (CÓ NÚT THU GỌN) -->
+      <div class="panel" id="panelSearch">
+        <div class="panel-title">
+          <div class="panel-title-left">
+            <i class="fa-solid fa-magnifying-glass"></i> Tra Cứu UID
           </div>
+          <button class="panel-toggle" onclick="togglePanel('panelSearch')" title="Thu gọn/Mở rộng">
+            <i class="fa-solid fa-chevron-up"></i>
+          </button>
         </div>
-        <div style="height: 61px;"></div> 
-        <button class="btn" onclick="searchUser()"><i class="fa-solid fa-magnifying-glass"></i> Tìm Kiếm</button>
-        <div id="userResult" class="result">Chưa tìm tài khoản.</div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label>Nhập Gmail hoặc UID...</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-user"></i>
+              <input id="searchUID" type="text" placeholder="Nhập Gmail hoặc UID...">
+            </div>
+          </div>
+          <div style="height: 61px;"></div> 
+          <button class="btn" onclick="searchUser()"><i class="fa-solid fa-magnifying-glass"></i> Tìm Kiếm</button>
+          <div id="userResult" class="result">Chưa tìm tài khoản.</div>
+        </div>
       </div>
     </div>
 
-    <!-- Table Lịch Sử -->
-    <div class="table-container">
+    <!-- Table Lịch Sử (CÓ NÚT THU GỌN) -->
+    <div class="table-container" id="tableHistory">
       <div class="table-header">
         <h3><i class="fa-regular fa-clock"></i> Lịch Sử Giao Dịch</h3>
-        <button class="btn-outline" onclick="getHistory()">Xem Tất Cả <i class="fa-solid fa-arrow-right"></i></button>
+        <div class="table-header-right">
+          <button class="btn-outline" onclick="getHistory()">Xem Tất Cả <i class="fa-solid fa-arrow-right"></i></button>
+          <button class="table-toggle" onclick="toggleTable()" title="Thu gọn/Mở rộng">
+            <i class="fa-solid fa-chevron-up"></i>
+          </button>
+        </div>
       </div>
-      <div id="historyResult" class="result" style="margin-top:0;background:transparent;border:none;padding:0;">
-        Nhập UID ở trên để xem lịch sử giao dịch.
+      <div class="table-body">
+        <div id="historyResult" class="result" style="margin-top:0;background:transparent;border:none;padding:0;">
+          Nhập UID ở trên để xem lịch sử giao dịch.
+        </div>
       </div>
     </div>
   </main>
@@ -450,13 +494,15 @@ if (opacitySlider && bgVideo) {
   });
 }
 
-// ========== 4. TOGGLE SIDEBAR ==========
-const toggleBtn = document.getElementById('toggleSidebar');
-if (toggleBtn) {
-  toggleBtn.addEventListener('click', function() {
-    const panel = document.getElementById('adminPanel');
-    if (panel) panel.classList.toggle('sidebar-collapsed');
-  });
+// ========== 4. THU GỌN / MỞ RỘNG PANEL ==========
+function togglePanel(id) {
+  const panel = document.getElementById(id);
+  if(panel) panel.classList.toggle('collapsed');
+}
+
+function toggleTable() {
+  const table = document.getElementById('tableHistory');
+  if(table) table.classList.toggle('collapsed');
 }
 
 // ========== 5. CÁC HÀM XỬ LÝ LOGIC ==========
@@ -626,7 +672,6 @@ async function getHistory(){
 function logout(){
   adminToken = "";
   document.getElementById("adminPanel").classList.remove("active");
-  document.getElementById("adminPanel").classList.remove("sidebar-collapsed");
   document.getElementById("loginBox").classList.remove("hidden");
   document.getElementById("adminPassword").value = "";
   showMessage("loginResult","Đã đăng xuất Admin.");
