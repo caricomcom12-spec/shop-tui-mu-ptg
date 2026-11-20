@@ -39,23 +39,16 @@ button{cursor:pointer}
 #intro{position:fixed;inset:0;z-index:1000;background:#050405;display:grid;place-items:center;overflow:hidden;transition:opacity .8s,visibility .8s}
 #intro.done{opacity:0;visibility:hidden;pointer-events:none}
 .intro-video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;opacity:.48;pointer-events:none}
-.intro-backdrop{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.95),rgba(8,0,0,.48),rgba(0,0,0,.92)),url('https://img.youtube.com/vi/4EXQrUumyIE/maxresdefault.jpg') center/cover;animation:backdropZoom 7s ease both}
+.intro-backdrop{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.95),rgba(8,0,0,.48),rgba(0,0,0,.92)),url('https://img.youtube.com/vi/4g_2RyKq33k/maxresdefault.jpg') center/cover;animation:backdropZoom 7s ease both}
 .intro-vignette{position:absolute;inset:0;background:radial-gradient(ellipse,transparent 15%,rgba(0,0,0,.75) 80%)}
 .intro-content{position:relative;z-index:2;text-align:center;padding:24px;animation:introRise 1s ease both}
 .intro-kicker{color:#f06a78;letter-spacing:.48em;font-size:11px;font-weight:800}
 .intro-title{font-family:Georgia,serif;font-size:clamp(38px,8vw,88px);letter-spacing:.12em;margin:14px 0 4px;text-shadow:0 0 24px #c51f35}
 .intro-sub{color:#e6c9cc;letter-spacing:.32em;font-size:12px}
-.eye-wrap{width:180px;height:76px;margin:25px auto 20px;position:relative;overflow:hidden;filter:drop-shadow(0 0 18px #f11)}
-.eye{position:absolute;width:108px;height:55px;border-radius:100% 0 100% 0;left:36px;top:10px;background:#f3e4df;transform:rotate(45deg) scaleY(.04);transform-origin:center;animation:eyeOpen 1.2s .6s ease forwards}
-.iris{position:absolute;width:35px;height:35px;border-radius:50%;background:radial-gradient(circle,#100 0 15%,#c40022 18% 60%,#65000f 72%);left:72px;top:20px;opacity:0;animation:irisShow .5s 1.6s forwards}
-.iris:before,.iris:after{content:"";position:absolute;width:7px;height:7px;background:#050405;border-radius:50%;top:4px;left:5px;box-shadow:18px 9px 0 #050405}
-.eye-line{position:absolute;height:3px;width:150px;background:#d92740;top:38px;left:15px;box-shadow:0 0 18px #f00}
 .intro-loading{height:2px;width:min(280px,70vw);background:#3a1a20;margin:28px auto 0;overflow:hidden}
 .intro-loading:after{content:"";display:block;height:100%;width:35%;background:#ed3048;animation:loading 3.4s ease-in-out forwards}
 .skip{position:absolute;right:26px;top:24px;z-index:3;border:1px solid #ffffff55;color:#fff;background:#130b0dcc;padding:10px 17px;border-radius:30px;letter-spacing:.08em;font-size:11px;transition:.3s}
 .skip:hover{background:#ff344e;border-color:#ff344e}
-@keyframes eyeOpen{to{transform:rotate(45deg) scaleY(1)}}
-@keyframes irisShow{to{opacity:1}}
 @keyframes loading{to{width:100%}}
 @keyframes introRise{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
 @keyframes backdropZoom{from{transform:scale(1.1);filter:brightness(.45)}to{transform:scale(1);filter:brightness(.8)}}
@@ -151,14 +144,13 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
 </head>
 <body>
 
-<!-- ================= INTRO ================= -->
+<!-- ================= INTRO (ĐÃ XÓA HIỆU ỨNG MỞ MẮT) ================= -->
 <div id="intro">
   <iframe class="intro-video" src="https://www.youtube-nocookie.com/embed/4g_2RyKq33k?autoplay=1&mute=1&controls=0&rel=0&playsinline=1&modestbranding=1&loop=1&playlist=4g_2RyKq33k" title="Itachi Sharingan intro" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
   <div class="intro-backdrop"></div><div class="intro-vignette"></div>
   <button class="skip" onclick="skipIntro()">BỎ QUA INTRO ↗</button>
   <div class="intro-content">
     <div class="intro-kicker">PANEL ADMIN</div>
-    <div class="eye-wrap"><div class="eye"></div><div class="iris"></div><div class="eye-line"></div></div>
     <div class="intro-title">UCHIHA ITACHI</div>
     <div class="intro-sub">AMATERASU ẢO THUẬT CHUYỂN WEB</div>
     <div class="intro-loading"></div>
@@ -186,7 +178,6 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
       <p>ADMIN PANEL</p>
     </div>
     <div class="admin-profile">
-      <!-- THAY LINK AVATAR CỦA BẠN VÀO ĐÂY -->
       <img src="https://cdn2.fptshop.com.vn/unsafe/800x0/hinh_nen_itachi_2_ff7b9f2e6f.jpg" alt="Admin">
       <div class="admin-info">
         <h3>Admin <i class="fa-solid fa-crown" style="color:gold;font-size:12px"></i></h3>
