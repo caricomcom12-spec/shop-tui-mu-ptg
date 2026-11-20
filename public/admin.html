@@ -8,14 +8,27 @@
 :root{
   --bg:#080708;--panel:#141012;--panel2:#1b1417;--red:#c51f35;
   --red2:#ff344e;--text:#f7eeee;--muted:#a9959a;--line:rgba(255,255,255,.09);
-  --gold:#d8b36a;--green:#61d6a2;--shadow:0 18px 55px rgba(0,0,0,.4)
+  --gold:#d8b36a;--green:#61d6a2;--shadow:0 18px 55px rgba(0,0,0,.4);
+  /* ===== THAY LINK ẢNH NỀN ITACHI CỦA BẠN VÀO ĐÂY ===== */
+  --bg-image: url('https://images.alphacoders.com/606/606709.jpg');
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(ellipse at 80% 0%,#351018 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;min-height:100vh}
+body{
+  margin:0;
+  background:
+    linear-gradient(rgba(8,7,8,.78), rgba(8,7,8,.92)),
+    var(--bg-image) center/cover fixed,
+    var(--bg);
+  color:var(--text);
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  min-height:100vh;
+}
 button,input{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
+
+/* ================= INTRO ================= */
 #intro{position:fixed;inset:0;z-index:1000;background:#050405;display:grid;place-items:center;overflow:hidden;transition:opacity .8s,visibility .8s}
 #intro.done{opacity:0;visibility:hidden;pointer-events:none}
 .intro-video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;opacity:.48;pointer-events:none}
@@ -38,6 +51,8 @@ button{cursor:pointer}
 @keyframes loading{to{width:100%}}
 @keyframes introRise{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
 @keyframes backdropZoom{from{transform:scale(1.1);filter:brightness(.45)}to{transform:scale(1);filter:brightness(.8)}}
+
+/* ================= TOPBAR ================= */
 .topbar{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid var(--line);background:#0b0809d9;backdrop-filter:blur(14px);position:sticky;top:0;z-index:20}
 .brand{display:flex;align-items:center;gap:13px;font-weight:900;letter-spacing:.1em}
 .brand-mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#ec314b,#590b19);display:grid;place-items:center;font-size:22px;box-shadow:0 7px 24px #a10f2c55}
@@ -45,40 +60,50 @@ button{cursor:pointer}
 .top-right{display:flex;align-items:center;gap:12px}
 .online{font-size:11px;color:#8ee5bb;border:1px solid #34785b66;background:#10241c;padding:8px 12px;border-radius:30px}
 .logout{border:1px solid #71303a;background:#271016;color:#ffdce1;border-radius:12px;padding:10px 14px}
+
+/* ================= LAYOUT ================= */
 .layout{display:grid;grid-template-columns:245px minmax(0,1fr);max-width:1500px;margin:auto;min-height:calc(100vh - 76px)}
-.sidebar{padding:26px 16px;border-right:1px solid var(--line);background:#0c090a}
+.sidebar{padding:26px 16px;border-right:1px solid var(--line);background:rgba(12,9,10,.85);backdrop-filter:blur(10px)}
 .side-label{font-size:10px;letter-spacing:.22em;color:#806d72;padding:0 13px;margin:12px 0}
 .nav-btn{width:100%;display:flex;align-items:center;gap:12px;padding:14px 13px;border:1px solid transparent;border-radius:13px;background:transparent;color:#c7b8bb;text-align:left;margin:5px 0;transition:.2s}
 .nav-btn:hover,.nav-btn.active{background:linear-gradient(100deg,#4a101c88,#211014);border-color:#8c283b;color:#fff;transform:translateX(2px)}
 .nav-icon{width:25px;text-align:center;font-size:17px}
-.side-note{margin:30px 5px 0;padding:16px;border:1px solid #54202a;border-radius:15px;background:linear-gradient(145deg,#281016,#100b0d)}
+.side-note{margin:30px 5px 0;padding:16px;border:1px solid #54202a;border-radius:15px;background:linear-gradient(145deg,rgba(40,16,22,.85),rgba(16,11,13,.85));backdrop-filter:blur(8px)}
 .side-note b{display:block;color:#f0b9c0;font-size:12px;margin-bottom:7px}
 .side-note span{color:#a88e94;font-size:11px;line-height:1.6}
 main{padding:30px;min-width:0}
 .page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin-bottom:25px}
 .eyebrow{font-size:10px;color:#ed6477;letter-spacing:.28em;font-weight:800}
 h1{font-size:clamp(25px,4vw,36px);margin:8px 0 5px}
+h1 span{color:#ff344e;font-style:italic;text-shadow:0 0 18px rgba(255,52,78,.5)}
 .sub{color:var(--muted);font-size:13px}
 .clock{color:#c6aeb3;font-size:12px;text-align:right}
-.panel{background:linear-gradient(145deg,#1a1316,#100d0e);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow)}
+
+/* ================= PANELS ================= */
+.panel{background:linear-gradient(145deg,rgba(26,19,22,.85),rgba(16,13,14,.85));border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(10px)}
 .hero{position:relative;overflow:hidden;min-height:220px;background:linear-gradient(90deg,rgba(15,5,8,.96) 0%,rgba(37,8,17,.78) 48%,rgba(12,5,8,.48) 100%),url('https://img.youtube.com/vi/4EXQrUumyIE/maxresdefault.jpg') right 35%/cover;border-color:#61212e}
 .hero:after{content:"";position:absolute;right:9%;top:-70px;width:240px;height:240px;border-radius:50%;border:1px solid #d7334d44;box-shadow:0 0 0 22px #d7334d0d,0 0 0 50px #d7334d09}
 .hero-inner{position:relative;z-index:1;max-width:650px}
 .hero h2{font-family:Georgia,serif;font-size:clamp(27px,4vw,42px);margin:10px 0}
 .hero p{color:#c9afb4;line-height:1.7;font-size:13px;max-width:520px}
 .hero-tag{display:inline-flex;padding:7px 11px;border:1px solid #a53a4e;border-radius:30px;color:#f1b8c0;font-size:10px;letter-spacing:.16em}
+
+/* ================= STATS ================= */
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:18px 0}
-.stat{padding:19px;border:1px solid var(--line);border-radius:17px;background:#151012}
+.stat{padding:19px;border:1px solid var(--line);border-radius:17px;background:rgba(21,16,18,.85);backdrop-filter:blur(10px);transition:.2s}
+.stat:hover{border-color:#8c283b;box-shadow:0 0 20px rgba(197,31,53,.2)}
 .stat-icon{font-size:21px}
 .stat strong{display:block;font-size:18px;margin:13px 0 4px}
 .stat span{color:var(--muted);font-size:11px}
+
+/* ================= FORMS ================= */
 .section-title{font-size:17px;margin:0 0 7px}
 .section-desc{font-size:12px;color:var(--muted);margin:0 0 18px}
 .content-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
 .field{display:block;margin:12px 0 7px;color:#d7c5c9;font-size:12px}
 input{width:100%;padding:13px 14px;border:1px solid #49323a;background:#0c090a;color:#fff;border-radius:12px;outline:none;transition:.2s}
 input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
-.action{border:0;border-radius:12px;padding:12px 17px;background:linear-gradient(100deg,#a5122c,#e3324c);color:white;font-weight:800;letter-spacing:.06em;margin-top:13px;box-shadow:0 8px 20px #a5122c30}
+.action{border:0;border-radius:12px;padding:12px 17px;background:linear-gradient(100deg,#a5122c,#e3324c);color:white;font-weight:800;letter-spacing:.06em;margin-top:13px;box-shadow:0 8px 20px #a5122c30;transition:.2s}
 .action:hover{filter:brightness(1.12);transform:translateY(-1px)}
 .action:disabled{opacity:.55;cursor:wait;transform:none}
 .result{margin-top:15px;padding:14px;border-radius:12px;background:#0d090b;border:1px solid #332329;color:#d9c9cc;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
@@ -92,18 +117,44 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
 .info-box{padding:18px;background:#100c0e;border:1px solid var(--line);border-radius:15px}
 .info-box b{display:block;margin-bottom:7px}
 .info-box span{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* ================= LOGIN ================= */
 #loginBox{max-width:480px;margin:10vh auto;padding:32px}
 .login-mark{width:65px;height:65px;border-radius:20px;background:linear-gradient(145deg,#e6324d,#530c1a);display:grid;place-items:center;font-size:31px;margin-bottom:22px}
 .login-title{font-family:Georgia,serif;font-size:28px;margin:0 0 8px}
 .login-hint{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:24px}
 .footer{text-align:center;color:#6e5a60;font-size:10px;letter-spacing:.16em;padding:20px;border-top:1px solid var(--line)}
 .toast{position:fixed;right:22px;bottom:22px;z-index:50;padding:14px 18px;background:#211116;border:1px solid #873044;border-radius:13px;box-shadow:var(--shadow);max-width:calc(100vw - 44px);font-size:13px}
-@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{display:flex;gap:6px;overflow:auto;padding:10px;border-right:0;border-bottom:1px solid var(--line)}.side-label,.side-note{display:none}.nav-btn{width:auto;white-space:nowrap;padding:11px 13px;margin:0}.nav-icon{width:auto}.stats{grid-template-columns:1fr}.topbar{padding:0 16px}.layout main{padding:18px}}
-@media(max-width:580px){.content-grid,.info-grid{grid-template-columns:1fr}.page-head{align-items:flex-start;flex-direction:column}.clock{text-align:left}.topbar{height:66px}.brand{font-size:12px}.online{display:none}main{padding:14px}.hero{min-height:240px}.hero:after{right:-120px}.panel{padding:18px}}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:flex;gap:6px;overflow:auto;padding:10px;border-right:0;border-bottom:1px solid var(--line)}
+  .side-label,.side-note{display:none}
+  .nav-btn{width:auto;white-space:nowrap;padding:11px 13px;margin:0}
+  .nav-icon{width:auto}
+  .stats{grid-template-columns:1fr}
+  .topbar{padding:0 16px}
+  .layout main{padding:18px}
+}
+@media(max-width:580px){
+  .content-grid,.info-grid{grid-template-columns:1fr}
+  .page-head{align-items:flex-start;flex-direction:column}
+  .clock{text-align:left}
+  .topbar{height:66px}
+  .brand{font-size:12px}
+  .online{display:none}
+  main{padding:14px}
+  .hero{min-height:240px}
+  .hero:after{right:-120px}
+  .panel{padding:18px}
+}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+
+<!-- ================= INTRO ================= -->
 <div id="intro">
   <iframe class="intro-video" src="https://www.youtube-nocookie.com/embed/4EXQrUumyIE?autoplay=1&mute=1&controls=0&rel=0&playsinline=1&modestbranding=1&loop=1&playlist=4EXQrUumyIE" title="Itachi Sharingan intro" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
   <div class="intro-backdrop"></div><div class="intro-vignette"></div>
@@ -117,11 +168,13 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
   </div>
 </div>
 
+<!-- ================= TOPBAR ================= -->
 <header class="topbar">
   <div class="brand"><div class="brand-mark">☁</div><div>PT BAG SHOP<small>AKATSUKI ADMIN SYSTEM</small></div></div>
   <div class="top-right"><span class="online">● ADMIN CONSOLE</span><button id="headerLogout" class="logout hidden" onclick="logout()">ĐĂNG XUẤT ↗</button></div>
 </header>
 
+<!-- ================= LOGIN ================= -->
 <section id="loginBox" class="panel">
   <div class="login-mark">☁</div>
   <div class="eyebrow">RESTRICTED AREA · AKATSUKI</div>
@@ -133,6 +186,7 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
   <div id="loginResult" class="result"></div>
 </section>
 
+<!-- ================= ADMIN PANEL ================= -->
 <div id="adminPanel" class="layout hidden">
   <aside class="sidebar">
     <div class="side-label">CONTROL CENTER</div>
@@ -143,21 +197,69 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
     <button class="nav-btn" data-page="about" onclick="showPage('about',this)"><span class="nav-icon">ⓘ</span>Thông tin</button>
     <div class="side-note"><b>☁ THE AKATSUKI</b><span>Hệ thống quản trị PT BAG SHOP. Kiểm tra UID cẩn thận trước khi cộng tiền.</span></div>
   </aside>
+
   <main>
+    <!-- ============ TRANG TỔNG QUAN ============ -->
     <section id="page-overview" class="page">
-      <div class="page-head"><div><div class="eyebrow">WELCOME BACK · ADMIN</div><h1>Bảng điều khiển</h1><div class="sub">Quản lý tài khoản, số dư và lịch sử giao dịch.</div></div><div class="clock" id="currentTime">AKATSUKI CONTROL</div></div>
-      <div class="panel hero"><div class="hero-inner"><span class="hero-tag">☁ FIRE · SHADOW · CONTROL</span><h2>“Trong bóng tối,<br>mọi thứ đều được kiểm soát.”</h2><p>Chào mừng đến khu vực quản trị. Chọn chức năng ở thanh bên để tra cứu người dùng, cộng số dư hoặc kiểm tra lịch sử mua hàng.</p></div></div>
-      <div class="stats">
-        <div class="stat"><div class="stat-icon">♙</div><strong>TRA CỨU USER</strong><span>Tìm khách hàng bằng UID</span></div>
-        <div class="stat"><div class="stat-icon">✦</div><strong>CỘNG SỐ DƯ</strong><span>Nạp tiền vào ví người dùng</span></div>
-        <div class="stat"><div class="stat-icon">▤</div><strong>LỊCH SỬ GIAO DỊCH</strong><span>Kiểm tra đơn theo UID</span></div>
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">WELCOME BACK · ADMIN</div>
+          <h1>Chào mừng trở lại, <span>Admin!</span></h1>
+          <div class="sub">Quản lý shop dễ dàng - Nâng tầm trải nghiệm</div>
+        </div>
+        <div class="clock" id="currentTime">AKATSUKI CONTROL</div>
       </div>
+
+      <!-- 3 thẻ stats -->
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-icon">📦</div>
+          <strong>1,248</strong>
+          <span>Tổng Lượt Bốc</span>
+        </div>
+        <div class="stat">
+          <div class="stat-icon">💰</div>
+          <strong>25,750,000đ</strong>
+          <span>Tổng Doanh Thu</span>
+        </div>
+        <div class="stat">
+          <div class="stat-icon">👥</div>
+          <strong>892</strong>
+          <span>Tổng Người Dùng</span>
+        </div>
+      </div>
+
+      <!-- 2 panel: Cộng Tiền + Tra Cứu -->
       <div class="content-grid">
-        <div class="panel"><h3 class="section-title">Tra cứu nhanh</h3><p class="section-desc">Nhập UID để mở thông tin tài khoản.</p><input id="quickUID" placeholder="PT-XXXXXXXX"><button class="action" onclick="quickSearch()">⌕ TRA CỨU NGAY</button></div>
-        <div class="panel"><h3 class="section-title">Trạng thái quản trị</h3><p class="section-desc">Phiên đăng nhập hiện tại đang hoạt động.</p><div class="result">● Đã xác thực Admin<br>● Kết nối API qua máy chủ shop<br>● Dữ liệu số dư được xử lý bởi backend</div></div>
+        <div class="panel">
+          <h3 class="section-title">＋ Cộng Tiền Cho UID</h3>
+          <label class="field">Nhập UID:</label>
+          <input id="ovMoneyUID" placeholder="VD: PT-ABC1234">
+          <label class="field">Số tiền:</label>
+          <input id="ovMoneyAmount" type="number" placeholder="Nhập số tiền (đ)">
+          <button class="action" onclick="ovAddMoney()">＋ Cộng Tiền</button>
+          <div id="ovMoneyResult" class="result"></div>
+        </div>
+        <div class="panel">
+          <h3 class="section-title">🔍 Tra Cứu UID</h3>
+          <label class="field">Nhập Gmail hoặc UID...</label>
+          <input id="ovSearchUID" placeholder="Nhập Gmail hoặc UID...">
+          <button class="action" onclick="ovSearchUser()">🔍 Tìm Kiếm</button>
+          <div id="ovUserResult" class="result">Chưa tìm tài khoản.</div>
+        </div>
+      </div>
+
+      <!-- Bảng lịch sử giao dịch -->
+      <div class="panel" style="margin-top:17px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+          <h3 class="section-title" style="margin:0">🕐 Lịch Sử Giao Dịch</h3>
+          <button class="action" style="margin:0;padding:8px 14px;font-size:11px" onclick="navTo('history')">Xem Tất Cả →</button>
+        </div>
+        <div id="ovHistoryResult" class="result">Nhập UID ở trên để xem lịch sử giao dịch.</div>
       </div>
     </section>
 
+    <!-- ============ TRANG CỘNG TIỀN ============ -->
     <section id="page-topup" class="page hidden">
       <div class="page-head"><div><div class="eyebrow">WALLET MANAGEMENT</div><h1>Cộng tiền khách hàng</h1><div class="sub">Cộng số dư theo UID người dùng.</div></div></div>
       <div class="panel">
@@ -169,6 +271,7 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
       </div>
     </section>
 
+    <!-- ============ TRANG TRA CỨU USER ============ -->
     <section id="page-users" class="page hidden">
       <div class="page-head"><div><div class="eyebrow">USER DATABASE</div><h1>Tra cứu tài khoản</h1><div class="sub">Xem Gmail, UID và số dư hiện tại.</div></div></div>
       <div class="panel">
@@ -179,6 +282,7 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
       </div>
     </section>
 
+    <!-- ============ TRANG LỊCH SỬ ============ -->
     <section id="page-history" class="page hidden">
       <div class="page-head"><div><div class="eyebrow">TRANSACTION RECORDS</div><h1>Lịch sử giao dịch</h1><div class="sub">Xem các đơn mua hàng theo UID.</div></div></div>
       <div class="panel">
@@ -189,6 +293,7 @@ input:focus{border-color:#d23a52;box-shadow:0 0 0 3px #d23a521c}
       </div>
     </section>
 
+    <!-- ============ TRANG THÔNG TIN ============ -->
     <section id="page-about" class="page hidden">
       <div class="page-head"><div><div class="eyebrow">SYSTEM INFORMATION</div><h1>Thông tin hệ thống</h1><div class="sub">Các lưu ý khi sử dụng trang quản trị.</div></div></div>
       <div class="panel"><div class="info-grid">
@@ -247,6 +352,69 @@ async function adminLogin(){
   finally{btn.disabled=false;btn.textContent="✦ ĐĂNG NHẬP HỆ THỐNG";}
 }
 
+/* ============ CÁC HÀM CHO TRANG TỔNG QUAN ============ */
+async function ovSearchUser(){
+  const uid=document.getElementById("ovSearchUID").value.trim();
+  if(!uid){showMessage("ovUserResult","❌ Nhập UID trước.");return;}
+  showMessage("ovUserResult","Đang tìm tài khoản...");
+  try{
+    const response=await fetch("/api/admin/user?uid="+encodeURIComponent(uid),{headers:{"x-admin-token":adminToken}});
+    const data=await response.json();
+    if(!response.ok||!data.success){showMessage("ovUserResult","❌ "+(data.message||"Không tìm thấy user."));return;}
+    const user=data.user||{};
+    document.getElementById("ovMoneyUID").value=user.uid||uid;
+    document.getElementById("ovUserResult").innerHTML=
+      "<b>📧 Gmail:</b> "+escapeHTML(user.gmail||"")+
+      "<br><br><b>🆔 UID:</b> <span class='uid'>"+escapeHTML(user.uid||uid)+"</span>"+
+      "<br><br><b>💰 Số dư:</b> <span class='user-balance'>"+moneyFormat(user.balance)+"</span>";
+    // Tự động load lịch sử
+    ovLoadHistory(user.uid||uid);
+  }catch(error){showMessage("ovUserResult","❌ Lỗi kết nối server.");}
+}
+
+async function ovAddMoney(){
+  const uid=document.getElementById("ovMoneyUID").value.trim();
+  const amount=Number(document.getElementById("ovMoneyAmount").value);
+  if(!uid){showMessage("ovMoneyResult","❌ Chưa nhập UID.");return;}
+  if(!Number.isSafeInteger(amount)||amount<=0){showMessage("ovMoneyResult","❌ Số tiền phải là số nguyên lớn hơn 0.");return;}
+  if(!confirm("Xác nhận cộng "+moneyFormat(amount)+" cho UID "+uid+"?"))return;
+  showMessage("ovMoneyResult","Đang xử lý giao dịch...");
+  try{
+    const response=await fetch("/api/admin/add-money",{method:"POST",headers:{"Content-Type":"application/json","x-admin-token":adminToken},body:JSON.stringify({uid,amount})});
+    const data=await response.json();
+    if(!response.ok||!data.success){showMessage("ovMoneyResult","❌ "+(data.message||"Cộng tiền thất bại."));return;}
+    showMessage("ovMoneyResult","✅ Cộng tiền thành công! UID: "+uid+" - Số tiền: "+moneyFormat(amount));
+    document.getElementById("ovMoneyAmount").value="";
+    notify("Đã cộng tiền thành công.");
+    ovLoadHistory(uid);
+  }catch(error){showMessage("ovMoneyResult","❌ Lỗi kết nối server.");}
+}
+
+async function ovLoadHistory(uid){
+  if(!uid) return;
+  document.getElementById("ovHistoryResult").innerHTML="Đang tải lịch sử...";
+  try{
+    const response=await fetch("/api/admin/history?uid="+encodeURIComponent(uid),{headers:{"x-admin-token":adminToken}});
+    const data=await response.json();
+    if(!response.ok||!data.success){document.getElementById("ovHistoryResult").innerHTML="❌ "+(data.message||"Không tìm thấy lịch sử.");return;}
+    if(!data.history||data.history.length===0){document.getElementById("ovHistoryResult").innerHTML="📭 Người dùng chưa có giao dịch nào.";return;}
+    let html="<b>📧 Gmail:</b> "+escapeHTML(data.gmail||"")+"<br><b>🆔 UID:</b> <span class='uid'>"+escapeHTML(data.uid||uid)+"</span><hr>";
+    data.history.forEach((item,index)=>{
+      const account=item.account||{};
+      html+="<div class='history-item'><b>🎁 Đơn #"+(index+1)+"</b><br>"+
+        "📦 Túi: "+escapeHTML(item.product||"")+
+        "<br>💵 Giá: "+moneyFormat(item.price)+
+        "<br>👤 Account: "+escapeHTML(account.username||"")+
+        "<br>⭐ Level: "+escapeHTML(account.level||"")+
+        "<br>💎 Độ hiếm: "+escapeHTML(account.rarity||"")+
+        "<br>📝 Thông tin: "+escapeHTML(account.info||"")+
+        "<br>🕐 Thời gian: "+escapeHTML(item.time||"")+"</div>";
+    });
+    document.getElementById("ovHistoryResult").innerHTML=html;
+  }catch(error){document.getElementById("ovHistoryResult").innerHTML="❌ Lỗi kết nối server.";}
+}
+
+/* ============ CÁC HÀM TRANG RIÊNG ============ */
 async function searchUser(){
   const uid=document.getElementById("searchUID").value.trim();
   if(!uid){showMessage("userResult","❌ Nhập UID trước.");return;}
