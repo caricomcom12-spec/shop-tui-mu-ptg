@@ -9,10 +9,13 @@
 
 <style>
 :root{
-  --bg:#080708;--panel:#141012;--panel2:#1b1417;--red:#c51f35;
-  --red2:#ff344e;--text:#f7eeee;--muted:#a9959a;--line:rgba(255,255,255,.09);
-  --gold:#d8b36a;--green:#61d6a2;
-  --menu-opacity: 0.5; /* Biến điều khiển độ mờ menu */
+  --bg:#080708;
+  --red:#c51f35;
+  --red2:#ff344e;
+  --text:#f7eeee;
+  --muted:#a9959a;
+  --line:rgba(255,255,255,.09);
+  --menu-opacity: 0.6; /* Biến điều khiển độ mờ menu */
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -39,7 +42,7 @@ button{cursor:pointer;touch-action:manipulation}
 }
 #video-wrapper {
     width: 100%; height: 100%;
-    opacity: 0.65;
+    opacity: 0.65; /* Độ nét mặc định */
     transition: opacity 0.2s ease;
 }
 #video-wrapper iframe {
@@ -54,7 +57,7 @@ body::before {
 }
 
 /* ================= INTRO ================= */
-#intro{position:fixed;inset:0;z-index:1000;background:#050405;display:grid;place-items:center;overflow:hidden;transition:opacity .8s,visibility .8s}
+#intro{position:fixed;inset:0;z-index:9999;background:#050405;display:grid;place-items:center;overflow:hidden;transition:opacity .6s,visibility .6s}
 #intro.done{opacity:0;visibility:hidden;pointer-events:none}
 .intro-video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;opacity:.48;pointer-events:none}
 .intro-backdrop{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.95),rgba(8,0,0,.48),rgba(0,0,0,.92)),url('https://img.youtube.com/vi/4g_2RyKq33k/maxresdefault.jpg') center/cover;animation:backdropZoom 7s ease both}
@@ -65,14 +68,18 @@ body::before {
 .intro-sub{color:#e6c9cc;letter-spacing:.32em;font-size:12px}
 .intro-loading{height:2px;width:min(280px,70vw);background:#3a1a20;margin:28px auto 0;overflow:hidden}
 .intro-loading:after{content:"";display:block;height:100%;width:35%;background:#ed3048;animation:loading 3.4s ease-in-out forwards}
-.skip{position:absolute;right:26px;top:24px;z-index:3;border:1px solid #ffffff55;color:#fff;background:#130b0dcc;padding:10px 17px;border-radius:30px;letter-spacing:.08em;font-size:11px;transition:.3s}
+.skip{
+  position:absolute;right:26px;top:26px;z-index:99999;
+  border:1px solid #ffffff55;color:#fff;background:#130b0dcc;
+  padding:10px 17px;border-radius:30px;letter-spacing:.08em;font-size:11px;transition:.3s;
+}
 .skip:hover{background:#ff344e;border-color:#ff344e}
 @keyframes loading{to{width:100%}}
 @keyframes introRise{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
 @keyframes backdropZoom{from{transform:scale(1.1);filter:brightness(.45)}to{transform:scale(1);filter:brightness(.8)}}
 
 /* ================= LOGIN ================= */
-#loginBox{max-width:480px;margin:10vh auto;padding:32px;background:linear-gradient(145deg,rgba(26,19,22,.85),rgba(16,13,14,.85));border:1px solid var(--line);border-radius:20px;backdrop-filter:blur(10px);position:relative;z-index:10}
+#loginBox{max-width:480px;margin:10vh auto;padding:32px;background:rgba(20,16,18,.85);border:1px solid var(--line);border-radius:20px;backdrop-filter:blur(10px);position:relative;z-index:10}
 .login-mark{width:65px;height:65px;border-radius:20px;background:linear-gradient(145deg,#e6324d,#530c1a);display:grid;place-items:center;font-size:31px;margin-bottom:22px;color:#fff}
 .login-title{font-family:Georgia,serif;font-size:28px;margin:0 0 8px}
 .login-hint{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:24px}
@@ -223,9 +230,7 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
   gap: 14px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: bottom right;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
 }
-
 .control-content.collapsed {
   transform: scale(0);
   opacity: 0;
@@ -273,7 +278,6 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
   transition: 0.3s;
 }
 .control-toggle:hover { transform: scale(1.1); }
-.control-toggle.active { background: linear-gradient(135deg, #e3324c, #a5122c); }
 
 /* ================= RESPONSIVE (MOBILE) ================= */
 @media(max-width:1024px){
@@ -334,7 +338,10 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
 <div id="intro">
   <iframe class="intro-video" src="https://www.youtube-nocookie.com/embed/4g_2RyKq33k?autoplay=1&mute=1&controls=0&rel=0&playsinline=1&modestbranding=1&loop=1&playlist=4g_2RyKq33k" title="Itachi Sharingan intro" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
   <div class="intro-backdrop"></div><div class="intro-vignette"></div>
+  
+  <!-- Nút Bỏ qua Intro đã được đưa lên z-index cao nhất -->
   <button class="skip" onclick="skipIntro()">BỎ QUA INTRO ↗</button>
+  
   <div class="intro-content">
     <div class="intro-kicker">PANEL ADMIN</div>
     <div class="intro-title">UCHIHA ITACHI</div>
@@ -533,9 +540,9 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
     <div class="control-item">
       <label>
         <span><i class="fa-solid fa-layer-group"></i> Độ mờ menu</span>
-        <span id="menu-opacity-value">50%</span>
+        <span id="menu-opacity-value">60%</span>
       </label>
-      <input type="range" id="menu-opacity-slider" min="0" max="100" value="50">
+      <input type="range" id="menu-opacity-slider" min="0" max="100" value="60">
     </div>
 
   </div>
@@ -552,7 +559,19 @@ let player;
 let isMuted = false;
 let currentVolume = 100;
 
-// ========== 1. YOUTUBE API ==========
+// ========== 1. FIX LỖI INTRO ==========
+function skipIntro(){
+  const intro = document.getElementById("intro");
+  if(intro) {
+    intro.classList.add("done");
+    // Xóa hẳn khỏi DOM sau khi hiệu ứng mờ kết thúc để không chặn click
+    setTimeout(() => { intro.style.display = 'none'; }, 600); 
+  }
+}
+// Tự động bỏ qua sau 6.5s
+window.addEventListener("load", () => window.setTimeout(skipIntro, 6500));
+
+// ========== 2. YOUTUBE API ==========
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -584,7 +603,7 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
-// ========== 2. ĐIỀU KHIỂN ÂM THANH ==========
+// ========== 3. ĐIỀU KHIỂN ÂM THANH ==========
 function toggleSound() {
   if (!player || !player.unMute) return;
   
@@ -613,7 +632,6 @@ if (volumeSlider) {
     if (player && player.setVolume) {
       player.setVolume(currentVolume);
       
-      // Tự động bật/tắt mute dựa vào âm lượng
       if (currentVolume === 0) {
         if (!isMuted) {
           player.mute();
@@ -631,7 +649,7 @@ if (volumeSlider) {
   });
 }
 
-// ========== 3. ĐỘ NÉT VIDEO ==========
+// ========== 4. ĐỘ NÉT VIDEO ==========
 const opacitySlider = document.getElementById('opacity-slider');
 const opacityValue = document.getElementById('opacity-value');
 const videoWrapper = document.getElementById('video-wrapper');
@@ -644,7 +662,7 @@ if (opacitySlider && videoWrapper) {
   });
 }
 
-// ========== 4. ĐỘ MỜ MENU ==========
+// ========== 5. ĐỘ MỜ MENU ==========
 const menuOpacitySlider = document.getElementById('menu-opacity-slider');
 const menuOpacityValue = document.getElementById('menu-opacity-value');
 
@@ -656,20 +674,13 @@ if (menuOpacitySlider) {
   });
 }
 
-// ========== 5. TOGGLE CONTROL PANEL ==========
+// ========== 6. TOGGLE CONTROL PANEL ==========
 function toggleControlPanel() {
   const content = document.getElementById('controlContent');
   const toggle = document.getElementById('controlToggle');
   content.classList.toggle('collapsed');
   toggle.classList.toggle('active');
 }
-
-// ========== 6. INTRO ==========
-function skipIntro(){
-  const intro = document.getElementById("intro");
-  if(intro) intro.classList.add("done");
-}
-window.addEventListener("load", () => window.setTimeout(skipIntro, 6500));
 
 // ========== 7. ĐỒNG HỒ ==========
 function updateClock() {
@@ -734,7 +745,7 @@ function toggleSection(targetId, element) {
   }
 }
 
-// ========== 10. LOGIC ==========
+// ========== 10. LOGIC API ==========
 document.getElementById("adminPassword").addEventListener("keydown", e => {
   if(e.key === "Enter") adminLogin();
 });
@@ -876,4 +887,18 @@ async function getHistory(){
     });
     document.getElementById("historyResult").innerHTML = html;
   }catch(error){
-    document.getElementById("historyResult").innerHTML
+    document.getElementById("historyResult").innerHTML = "❌ Lỗi kết nối server.";
+  }
+}
+
+function logout(){
+  adminToken = "";
+  document.getElementById("adminPanel").classList.remove("active");
+  document.getElementById("loginBox").classList.remove("hidden");
+  document.getElementById("adminPassword").value = "";
+  showMessage("loginResult","Đã đăng xuất Admin.");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+</script>
+</body>
+</html>
