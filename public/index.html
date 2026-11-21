@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title> TÚI MÙ ACC PLAY TOGETHER</title>
 
 <style>
@@ -54,6 +54,16 @@ header{
 }
 
 .header-right{ display:flex; align-items:center; gap:10px; }
+
+/* Nút Zalo */
+.zalo-btn{
+    display:flex; align-items:center; gap:5px;
+    background:rgba(139,92,246,.15); border:1px solid #8b5cf6;
+    color:white; padding:6px 12px; border-radius:20px;
+    font-size:12px; font-weight:bold; transition:.2s;
+}
+.zalo-btn:hover{ background:rgba(139,92,246,.3); }
+
 .admin-btn{
     display:none; background:rgba(251,191,36,.1); color:#fbbf24;
     border:1px solid rgba(251,191,36,.5); padding:6px 15px;
@@ -67,11 +77,9 @@ header{
 }
 .account-btn:hover{ border-color:#8b5cf6; }
 
-.avatar{
-    width:30px; height:30px; border-radius:50%;
-    background:linear-gradient(135deg,#2563eb,#7c3aed);
-    display:flex; justify-content:center; align-items:center;
-    font-weight:bold; font-size:14px;
+.avatar-img{
+    width:32px; height:32px; border-radius:50%;
+    object-fit:cover; border:2px solid #8b5cf6;
 }
 
 /* --- CONTAINER --- */
@@ -82,8 +90,8 @@ header{
     position:relative; border-radius:16px; overflow:hidden;
     border:1px solid rgba(255,255,255,.1); min-height:250px;
     display:flex; align-items:center; padding:30px; margin-bottom:30px;
-    /* ẢNH ANIME NAM CỦA BẠN */
-    background-image: linear-gradient(to right, rgba(10,10,22,.95), rgba(10,10,22,.4)), url('https://anhavatardep.com/wp-content/uploads/2024/12/anh-anime-nam-14.jpg');
+    /* ẢNH ITACHI BẠN GỬI */
+    background-image: linear-gradient(to right, rgba(10,10,22,.95), rgba(10,10,22,.4)), url('https://cdn2.fptshop.com.vn/unsafe/800x0/hinh_nen_itachi_2_ff7b9f2e6f.jpg');
     background-size:cover; background-position:center top;
 }
 
@@ -133,6 +141,31 @@ header{
 .buy-btn:hover{ opacity:.9; }
 .buy-btn:disabled{ opacity:.5; cursor:not-allowed; }
 
+/* --- CARD DÀNH RIÊNG CHO ACC (ẢNH BÊN TRÊN) --- */
+.card.acc-card {
+    padding: 0;
+    overflow: hidden;
+    justify-content: flex-start;
+}
+.card.acc-card img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    margin-bottom: 0;
+    border-radius: 0;
+    filter: none;
+}
+.card.acc-card:hover img {
+    transform: scale(1.05);
+}
+.card.acc-card .card-content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 /* --- SIDEBAR --- */
 .sidebar{ display:flex; flex-direction:column; gap:20px; }
 .box{ background:#131824; border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:20px; }
@@ -176,7 +209,7 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
 .mobile-nav i{ font-size:18px; }
 
 /* ==========================================
-   HIỆU ỨNG MODAL MƯỢT MÀ (PHÓNG TO TỪ 70% LÊN 100%)
+   HIỆU ỨNG MODAL MƯỢT MÀ
 ========================================== */
 .overlay{
     display:none;
@@ -187,7 +220,6 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
     justify-content:center;
     align-items:center;
     padding:20px;
-    /* Hiệu ứng mờ dần cho nền đen */
     animation: fadeInBg 0.3s ease-out forwards;
 }
 
@@ -205,39 +237,24 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
     border-radius:16px;
     padding:20px;
     box-shadow:0 20px 50px rgba(0,0,0,.6);
-    
-    /* Hiệu ứng phóng to từ 70% lên 100% + mờ dần */
     animation: popInModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     transform-origin: center;
 }
 
 @keyframes popInModal {
-    0% {
-        opacity: 0;
-        transform: scale(0.7) translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+    0% { opacity: 0; transform: scale(0.7) translateY(20px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* Tinh chỉnh lại Modal cho gọn gàng hơn */
 .modal h2{
-    font-size:16px;
-    margin-bottom:15px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 10px;
+    font-size:16px; margin-bottom:15px; display:flex; align-items:center; gap:8px;
+    border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;
 }
 
 .modal input{
     width:100%; padding:10px; border-radius:8px;
     border:1px solid #334155; background:#020617;
-    color:white; outline:none; margin-bottom:12px;
-    font-size: 14px;
+    color:white; outline:none; margin-bottom:12px; font-size: 14px;
 }
 .modal input:focus{ border-color:#8b5cf6; }
 
@@ -277,6 +294,7 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
     .features-bar{ grid-template-columns:repeat(4,1fr); }
     .hero ul{ display:block; }
     .footer-content{ flex-direction:row; justify-content:space-between; }
+    .zalo-btn span { display: inline; }
 }
 
 @media(min-width:1024px){
@@ -286,6 +304,14 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
     .mobile-nav{ display:none; }
     .main-grid{ grid-template-columns:2fr 1fr; }
     .hero{ min-height:350px; padding:40px; }
+}
+
+/* Mobile nhỏ */
+@media(max-width: 767px){
+    .zalo-btn span { display: none; } /* Ẩn chữ, chỉ hiện icon Zalo */
+    .zalo-btn { padding: 8px; border-radius: 50%; }
+    .header-right { gap: 6px; }
+    .card.acc-card img { height: 110px; }
 }
 </style>
 </head>
@@ -310,9 +336,17 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
     </nav>
 
     <div class="header-right">
+        <!-- Nút Zalo Admin -->
+        <a href="https://zalo.me/0907859891" target="_blank" class="zalo-btn">
+            <i class="fa-solid fa-comment-dots"></i> <span>Zalo: 0907859891</span>
+        </a>
+        
         <a href="/admin" class="admin-btn">👑 Admin</a>
+        
         <button class="account-btn" onclick="openAccount()">
-            <div class="avatar" id="headerAvatar">?</div>
+            <!-- ẢNH ITACHI -->
+            <img src="https://cdn2.fptshop.com.vn/unsafe/800x0/hinh_nen_itachi_2_ff7b9f2e6f.jpg" alt="Itachi" class="avatar-img" id="headerAvatarImg">
+            <div class="avatar" id="headerAvatar" style="display:none;">?</div>
             <span id="headerAccountText" style="font-size:13px; font-weight:bold; display:none;">Đăng nhập</span>
         </button>
     </div>
@@ -576,10 +610,10 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
         },
         names:{
             bag5k:"🎁 TÚI 5K",
-            tanbinh:"🥉 TÂN BINH",
-            premium:"💎 PREMIUM",
-            legendary:"🔥 LEGENDARY",
-            lucky:"🍀 LUCKY",
+            tanbinh:"🥉 TÚI 20K",
+            premium:"💎 TÚI 50K",
+            legendary:"🔥 TÚI 100K",
+            lucky:"🍀 TÚI 500K",
             acc1:"⚙️ ACC CẦN CƠ KHÍ",
             acc2:"🎮 ACC CLONE 8XX-1XXKC",
             acc3:"🎮 ACC REG QUA GAME"
@@ -589,15 +623,16 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
             legendary:100000, lucky:500000, acc1:40000,
             acc2:13000, acc3:4000
         },
+        // BẠN THAY LINK ẢNH THẬT VÀO ĐÂY
         images: {
-            bag5k: "https://cdn-icons-png.flaticon.com/512/3003/3003728.png",
-            tanbinh: "https://cdn-icons-png.flaticon.com/512/4140/4140048.png",
-            premium: "https://cdn-icons-png.flaticon.com/512/2583/2583344.png",
-            legendary: "https://cdn-icons-png.flaticon.com/512/2583/2583434.png",
-            lucky: "https://cdn-icons-png.flaticon.com/512/2583/2583319.png",
-            acc1: "https://cdn-icons-png.flaticon.com/512/2666/2666505.png",
-            acc2: "https://cdn-icons-png.flaticon.com/512/2666/2666505.png",
-            acc3: "https://cdn-icons-png.flaticon.com/512/2666/2666505.png"
+            bag5k: "https://placehold.co/150x150/1a1a2e/FFF?text=Sharingan+1",
+            tanbinh: "https://placehold.co/150x150/1a1a2e/FFF?text=Sharingan+2",
+            premium: "https://placehold.co/150x150/1a1a2e/FFF?text=Sharingan+3",
+            legendary: "https://placehold.co/150x150/1a1a2e/FFF?text=Mangekyou",
+            lucky: "https://placehold.co/150x150/1a1a2e/FFF?text=Rinnegan",
+            acc1: "https://placehold.co/400x200/1a1a2e/FFF?text=Anh+Acc+1",
+            acc2: "https://placehold.co/400x200/1a1a2e/FFF?text=Anh+Acc+2",
+            acc3: "https://placehold.co/400x200/1a1a2e/FFF?text=Anh+Acc+3"
         }
     };
 
@@ -622,23 +657,43 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
         const description = SHOP_CONFIG.descriptions[product];
         const amount = stock[product] ?? 0;
         const sold = demoSold[product] ?? 0;
-        const imgSrc = SHOP_CONFIG.images[product] || "https://cdn-icons-png.flaticon.com/512/3003/3003728.png";
+        const imgSrc = SHOP_CONFIG.images[product] || "https://placehold.co/150x150/1a1a2e/FFF?text=No+Image";
         
         const card = document.createElement("div");
-        card.className = "card";
-        const cleanName = name.substring(name.indexOf(" ")+1);
-
-        card.innerHTML = `
-            <img src="${imgSrc}" alt="${cleanName}">
-            <h4>${cleanName}</h4>
-            <div class="price">${formatMoney(price)}</div>
-            <div class="desc">${description}</div>
-            <div class="stock">📦 Còn lại: ${amount} acc</div>
-            <div class="sold">🔥 Đã bán: ${sold} lượt</div>
-            <button class="buy-btn" onclick="buyProduct('${product}')" ${amount<=0?"disabled":""}>
-                ${amount<=0 ? "HẾT ACC" : (isAcc ? "🛒 MUA ACC" : "🎁 BỐC TÚI")}
-            </button>
-        `;
+        
+        if (isAcc) {
+            // Layout cho Acc Riêng (Ảnh trên, chữ dưới)
+            card.className = "card acc-card";
+            const cleanName = name.substring(name.indexOf(" ")+1);
+            card.innerHTML = `
+                <img src="${imgSrc}" alt="${cleanName}">
+                <div class="card-content">
+                    <h4>${cleanName}</h4>
+                    <div class="price">${formatMoney(price)}</div>
+                    <div class="desc">${description}</div>
+                    <div class="stock">📦 Còn lại: ${amount} acc</div>
+                    <div class="sold">🔥 Đã bán: ${sold} lượt</div>
+                    <button class="buy-btn" onclick="buyProduct('${product}')" ${amount<=0?"disabled":""}>
+                        ${amount<=0 ? "HẾT ACC" : "🛒 MUA ACC"}
+                    </button>
+                </div>
+            `;
+        } else {
+            // Layout cho Túi Mù (Icon ở giữa)
+            card.className = "card";
+            const cleanName = name.substring(name.indexOf(" ")+1);
+            card.innerHTML = `
+                <img src="${imgSrc}" alt="${cleanName}">
+                <h4>${cleanName}</h4>
+                <div class="price">${formatMoney(price)}</div>
+                <div class="desc">${description}</div>
+                <div class="stock">📦 Còn lại: ${amount} acc</div>
+                <div class="sold">🔥 Đã bán: ${sold} lượt</div>
+                <button class="buy-btn" onclick="buyProduct('${product}')" ${amount<=0?"disabled":""}>
+                    ${amount<=0 ? "HẾT ACC" : "🎁 BỐC TÚI"}
+                </button>
+            `;
+        }
         return card;
     }
 
@@ -695,8 +750,11 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
         document.getElementById("accountUID").textContent = currentUser.uid;
         document.getElementById("accountBalance").textContent = formatMoney(currentUser.balance);
         
-        const firstLetter = currentUser.gmail.charAt(0).toUpperCase();
-        document.getElementById("headerAvatar").textContent = firstLetter;
+        // Ẩn ảnh Itachi, hiện chữ cái đầu
+        document.getElementById("headerAvatarImg").style.display = "none";
+        const avatarDiv = document.getElementById("headerAvatar");
+        avatarDiv.style.display = "flex";
+        avatarDiv.textContent = currentUser.gmail.charAt(0).toUpperCase();
         
         const textEl = document.getElementById("headerAccountText");
         textEl.textContent = currentUser.gmail;
@@ -730,7 +788,11 @@ footer{ border-top:1px solid rgba(255,255,255,.1); margin-top:40px; padding:20px
     function logout(){
         currentUser=null;
         lastAccount=null;
-        document.getElementById("headerAvatar").textContent="?";
+        
+        // Hiện lại ảnh Itachi
+        document.getElementById("headerAvatarImg").style.display = "block";
+        document.getElementById("headerAvatar").style.display = "none";
+        
         const textEl = document.getElementById("headerAccountText");
         textEl.textContent="Đăng nhập";
         textEl.style.display="none";
