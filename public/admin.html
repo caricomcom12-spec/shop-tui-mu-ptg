@@ -12,6 +12,7 @@
   --bg:#080708;--panel:#141012;--panel2:#1b1417;--red:#c51f35;
   --red2:#ff344e;--text:#f7eeee;--muted:#a9959a;--line:rgba(255,255,255,.09);
   --gold:#d8b36a;--green:#61d6a2;
+  --menu-opacity: 0.5; /* Biến điều khiển độ mờ menu */
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -36,11 +37,15 @@ button{cursor:pointer;touch-action:manipulation}
     pointer-events: none;
     overflow: hidden;
 }
-.video-bg-container iframe {
+#video-wrapper {
     width: 100%; height: 100%;
-    object-fit: cover;
     opacity: 0.65;
     transition: opacity 0.2s ease;
+}
+#video-wrapper iframe {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border: 0;
 }
 body::before {
     content: ''; position: fixed; inset: 0;
@@ -86,15 +91,15 @@ input:focus{border-color:#d23a52;}
 
 /* --- SIDEBAR --- */
 .sidebar{
-  width:260px;background:rgba(10,10,10,.85);border-right:1px solid var(--line);
+  width:260px;
+  background: rgba(10,10,10, var(--menu-opacity));
+  border-right:1px solid var(--line);
   display:flex;flex-direction:column;padding:20px 0;height:100%;
   backdrop-filter:blur(15px);flex-shrink:0;z-index:100;
-  transition:transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s ease;
-  position:absolute;left:0;top:0;
+  transition:transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+  position:fixed;left:0;top:0;
 }
-.sidebar.hidden{
-  transform:translateX(-100%);
-}
+.sidebar.hidden{transform:translateX(-100%);}
 .logo-area{text-align:center;padding:0 20px 20px;border-bottom:1px solid var(--line)}
 .logo-area h1{color:var(--red2);font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px}
 .logo-area p{font-size:11px;color:#888;letter-spacing:3px;margin-top:5px}
@@ -112,11 +117,11 @@ input:focus{border-color:#d23a52;}
 /* --- MAIN CONTENT --- */
 .main-content{
   flex-grow:1;padding:20px 30px;overflow-y:auto;position:relative;z-index:1;
-  height:100%;width:100%;transition:padding-left 0.3s ease;
+  height:100%;width:100%;
+  margin-left:260px;
+  transition:margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.main-content.expanded{
-  padding-left:30px; /* Khi ẩn menu, content tràn sang trái */
-}
+.main-content.expanded{margin-left:0;}
 
 /* Header */
 .header{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:30px}
@@ -126,7 +131,7 @@ input:focus{border-color:#d23a52;}
 .status{color:#00ff00;display:flex;align-items:center;font-weight:500}
 .status::before{content:'';display:inline-block;width:8px;height:8px;background-color:#00ff00;border-radius:50%;margin-right:8px}
 
-/* Nút Toggle Menu (Góc phải) */
+/* Nút Toggle Menu */
 .toggle-menu-btn{
   background:rgba(255,255,255,0.05);border:1px solid var(--line);color:#fff;
   width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;
@@ -134,7 +139,7 @@ input:focus{border-color:#d23a52;}
 }
 .toggle-menu-btn:hover{background:rgba(255,255,255,0.1);}
 
-/* Sections (Các khối nội dung) */
+/* Sections */
 .content-section{display:none;animation:fadeIn 0.3s ease}
 .content-section.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -146,15 +151,24 @@ input:focus{border-color:#d23a52;}
 
 /* Stats */
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:30px}
-.stat-card{background:rgba(20,0,0,.5);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;align-items:center;transition:.3s}
+.stat-card{
+  background: rgba(20,0,0, var(--menu-opacity));
+  border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;align-items:center;
+  transition:border-color .3s, background .3s;
+  backdrop-filter: blur(8px);
+}
 .stat-card:hover{border-color:var(--red2);}
 .stat-icon{width:50px;height:50px;background:rgba(255,52,78,.1);border-radius:10px;display:flex;justify-content:center;align-items:center;color:var(--red2);font-size:24px;margin-right:15px;flex-shrink:0}
 .stat-info h3{font-size:20px;margin-bottom:5px;font-weight:700}
 .stat-info p{font-size:12px;color:#aaa;margin:0}
 
 /* Action Panels */
-.action-panels{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px}
-.panel{background:rgba(20,0,0,.5);border:1px solid var(--line);border-radius:10px;padding:20px;transition:all 0.3s ease}
+.panel{
+  background: rgba(20,0,0, var(--menu-opacity));
+  border:1px solid var(--line);border-radius:10px;padding:20px;
+  transition:all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
 .panel-title{font-size:16px;font-weight:600;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .panel-title-left{display:flex;align-items:center;min-width:0}
 .panel-title i{color:var(--red2);margin-right:10px;font-size:18px;flex-shrink:0}
@@ -169,38 +183,97 @@ input:focus{border-color:#d23a52;}
 .btn:hover{background:linear-gradient(90deg,var(--red2),#cc0000);}
 
 /* Table */
-.table-container{background:rgba(20,0,0,.5);border:1px solid var(--line);border-radius:10px;padding:20px;overflow-x:auto;transition:all 0.3s ease}
+.table-container{
+  background: rgba(20,0,0, var(--menu-opacity));
+  border:1px solid var(--line);border-radius:10px;padding:20px;overflow-x:auto;
+  transition:all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
 .table-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;gap:10px;flex-wrap:wrap}
 .table-header h3{font-size:16px;display:flex;align-items:center;font-weight:600;margin:0}
 .table-header h3 i{color:var(--red2);margin-right:10px;font-size:18px}
 .btn-outline{background:transparent;border:1px solid var(--red2);color:var(--red2);padding:6px 15px;border-radius:5px;cursor:pointer;font-size:12px;transition:.3s;font-weight:600;white-space:nowrap}
-.btn-outline:hover{background:var(--red2);color:#fff}
+.btn-outline:hover{background:var(--red2);color:#fff;}
 
 table{width:100%;border-collapse:collapse;font-size:13px}
 th{text-align:left;padding:12px;color:#aaa;font-weight:500;border-bottom:1px solid rgba(255,255,255,.1)}
 td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
 
-/* ================= OPACITY CONTROL ================= */
-#opacity-control {
+/* ================= CONTROL PANEL (Góc phải dưới) ================= */
+.control-panel {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 999;
-  background: rgba(10,10,10,0.9);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 10px 15px;
-  backdrop-filter: blur(10px);
-  color: #fff;
-  font-size: 12px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  min-width: 150px;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.control-content {
+  background: rgba(10,10,10,0.95);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 15px;
+  backdrop-filter: blur(15px);
+  min-width: 230px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: bottom right;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+
+.control-content.collapsed {
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  border: none;
+}
+
+.control-item label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #fff;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.control-item label i {
+  margin-right: 5px;
+  color: var(--red2);
+}
+.control-item input[type="range"] {
+  width: 100%;
+  accent-color: var(--red2);
+  cursor: pointer;
+  height: 4px;
+}
+
+.control-toggle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a5122c, #e3324c);
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
   transition: 0.3s;
 }
-#opacity-control label {display: flex;justify-content: space-between;align-items: center;font-weight: 500;}
-#opacity-control input[type="range"] {width: 100%;accent-color: var(--red2);cursor: pointer;}
+.control-toggle:hover { transform: scale(1.1); }
+.control-toggle.active { background: linear-gradient(135deg, #e3324c, #a5122c); }
 
 /* ================= RESPONSIVE (MOBILE) ================= */
 @media(max-width:1024px){
@@ -208,23 +281,21 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
 }
 
 @media(max-width:768px){
-  /* Mobile: Sidebar mặc định ẩn */
   .sidebar{width: 280px; max-width: 85vw; transform: translateX(-100%);}
   .sidebar.open{transform: translateX(0);}
   
-  /* Lớp phủ mờ khi mở menu */
   .sidebar-overlay{
     display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);
     backdrop-filter:blur(3px);z-index:90;opacity:0;transition:.3s;
   }
   .sidebar-overlay.active{display:block;opacity:1;}
 
-  .main-content{padding:15px; padding-top: 15px;}
+  .main-content{margin-left: 0 !important; padding:15px; padding-top: 15px;}
   
   .header{flex-direction:row;align-items:center;justify-content:space-between;margin-bottom:20px;}
   .header-left{font-size:14px;}
   .header-right .status{font-size:12px;}
-  .header-right .clock-text{display:none;} /* Ẩn đồng hồ trên mobile cho gọn */
+  .header-right .clock-text{display:none;}
   
   .welcome-text h2{font-size:22px;}
   .welcome-text p{font-size:13px;}
@@ -241,15 +312,10 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
   .table-body{overflow-x:auto;}
   table{min-width:500px;}
   
-  #opacity-control{
-    bottom: 15px;
-    right: 15px;
-    min-width: 130px;
-    padding: 8px 12px;
-    font-size: 11px;
-  }
+  .control-panel { bottom: 15px; right: 15px; }
+  .control-content { min-width: 200px; padding: 12px; }
+  .control-toggle { width: 45px; height: 45px; font-size: 18px; }
 
-  /* Login */
   #loginBox{margin:5vh auto;padding:24px;max-width:calc(100% - 30px);}
   .login-title{font-size:24px;}
 }
@@ -259,7 +325,9 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
 
 <!-- ================= VIDEO BACKGROUND ================= -->
 <div class="video-bg-container">
-  <iframe id="bg-video" src="https://www.youtube-nocookie.com/embed/4g_2RyKq33k?autoplay=1&mute=1&controls=0&rel=0&playsinline=1&modestbranding=1&loop=1&playlist=4g_2RyKq33k" allow="autoplay; encrypted-media" frameborder="0"></iframe>
+  <div id="video-wrapper">
+    <div id="bg-video"></div>
+  </div>
 </div>
 
 <!-- ================= INTRO ================= -->
@@ -290,10 +358,8 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
 <!-- ================= ADMIN PANEL ================= -->
 <div id="adminPanel">
   
-  <!-- Lớp phủ cho mobile -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMenu()"></div>
 
-  <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="logo-area">
       <h1><i class="fa-solid fa-cloud"></i> SHOP ACC</h1>
@@ -307,11 +373,10 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
       </div>
     </div>
     <ul class="nav-menu">
-      <!-- data-target dùng để gọi đúng section -->
       <li class="active" data-target="dashboard" onclick="toggleSection('dashboard', this)"><i class="fa-solid fa-house"></i> Tổng Quan</li>
       <li data-target="topup" onclick="toggleSection('topup', this)"><i class="fa-solid fa-circle-plus"></i> Cộng Tiền</li>
       <li data-target="search" onclick="toggleSection('search', this)"><i class="fa-solid fa-magnifying-glass"></i> Tra Cứu UID</li>
-      <li data-target="history" onclick="toggleSection('history', this)"><i class="fa-solid fa-file-invoice"></i> Lịch Sử Giao Dịch</li>
+      <li data-target="history" onclick="toggleSection('history', this)"><i class="fa-regular fa-file-lines"></i> Lịch Sử Giao Dịch</li>
       <li data-target="settings" onclick="toggleSection('settings', this)"><i class="fa-solid fa-gear"></i> Cài Đặt Shop</li>
       <li onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Đăng Xuất</li>
     </ul>
@@ -321,9 +386,7 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
     </div>
   </aside>
 
-  <!-- Main Content -->
   <main class="main-content" id="mainContent">
-    <!-- Header -->
     <div class="header">
       <div class="header-left">
         <i class="fa-solid fa-shuriken"></i> ADMIN
@@ -331,14 +394,12 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
       <div class="header-right">
         <div class="status">Online</div>
         <div class="clock-text"><i class="fa-regular fa-clock"></i> <span id="clock">11:45:32</span></div>
-        <!-- Nút Toggle Menu (Góc phải) -->
         <button class="toggle-menu-btn" onclick="toggleMenu()" title="Ẩn/Hiện Menu">
           <i class="fa-solid fa-bars" id="menuIcon"></i>
         </button>
       </div>
     </div>
 
-    <!-- ================= SECTION: TỔNG QUAN ================= -->
     <div id="section-dashboard" class="content-section active">
       <div class="welcome-text">
         <h2>Chào mừng trở lại, <span>Admin!</span></h2>
@@ -369,7 +430,6 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
       </div>
     </div>
 
-    <!-- ================= SECTION: CỘNG TIỀN ================= -->
     <div id="section-topup" class="content-section">
       <div class="panel" style="max-width: 600px; margin: 0 auto;">
         <div class="panel-title">
@@ -398,7 +458,6 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
       </div>
     </div>
 
-    <!-- ================= SECTION: TRA CỨU UID ================= -->
     <div id="section-search" class="content-section">
       <div class="panel" style="max-width: 600px; margin: 0 auto;">
         <div class="panel-title">
@@ -420,7 +479,6 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
       </div>
     </div>
 
-    <!-- ================= SECTION: LỊCH SỬ GIAO DỊCH ================= -->
     <div id="section-history" class="content-section">
       <div class="table-container">
         <div class="table-header">
@@ -435,7 +493,6 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
       </div>
     </div>
 
-    <!-- ================= SECTION: CÀI ĐẶT ================= -->
     <div id="section-settings" class="content-section">
       <div class="panel" style="max-width: 600px; margin: 0 auto; text-align: center; padding: 40px 20px;">
         <i class="fa-solid fa-gear" style="font-size: 40px; color: var(--muted); margin-bottom: 15px;"></i>
@@ -447,27 +504,174 @@ td{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd}
   </main>
 </div>
 
-<!-- ================= OPACITY CONTROL ================= -->
-<div id="opacity-control">
-  <label for="opacity-slider">
-    <span><i class="fa-solid fa-eye"></i> Độ mờ</span>
-    <span id="opacity-value">65%</span>
-  </label>
-  <input type="range" id="opacity-slider" min="0" max="100" value="65">
+<!-- ================= CONTROL PANEL ================= -->
+<div class="control-panel">
+  <div class="control-content collapsed" id="controlContent">
+    
+    <!-- Âm lượng -->
+    <div class="control-item">
+      <label>
+        <span>
+          <i class="fa-solid fa-volume-high" id="soundIcon" onclick="toggleSound()" style="cursor:pointer"></i> 
+          Âm lượng
+        </span>
+        <span id="volume-value">100%</span>
+      </label>
+      <input type="range" id="volume-slider" min="0" max="100" value="100">
+    </div>
+
+    <!-- Độ nét video -->
+    <div class="control-item">
+      <label>
+        <span><i class="fa-solid fa-eye"></i> Độ nét video</span>
+        <span id="opacity-value">65%</span>
+      </label>
+      <input type="range" id="opacity-slider" min="0" max="100" value="65">
+    </div>
+
+    <!-- Độ mờ menu -->
+    <div class="control-item">
+      <label>
+        <span><i class="fa-solid fa-layer-group"></i> Độ mờ menu</span>
+        <span id="menu-opacity-value">50%</span>
+      </label>
+      <input type="range" id="menu-opacity-slider" min="0" max="100" value="50">
+    </div>
+
+  </div>
+  
+  <button class="control-toggle" onclick="toggleControlPanel()" id="controlToggle" title="Cài đặt hiển thị">
+    <i class="fa-solid fa-sliders"></i>
+  </button>
 </div>
 
 <!-- ================= JAVASCRIPT ================= -->
 <script>
 let adminToken = "";
+let player;
+let isMuted = false;
+let currentVolume = 100;
 
-// ========== 1. INTRO ==========
+// ========== 1. YOUTUBE API ==========
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('bg-video', {
+    height: '100%',
+    width: '100%',
+    videoId: '4g_2RyKq33k',
+    playerVars: {
+      'autoplay': 1,
+      'controls': 0,
+      'disablekb': 1,
+      'fs': 0,
+      'loop': 1,
+      'playlist': '4g_2RyKq33k',
+      'mute': 1, // Bắt buộc mute lúc đầu để trình duyệt cho phép tự động phát
+      'playsinline': 1,
+      'modestbranding': 1,
+      'rel': 0
+    },
+    events: {
+      'onReady': function(event) {
+        event.target.playVideo();
+        event.target.setVolume(currentVolume);
+      }
+    }
+  });
+}
+
+// ========== 2. ĐIỀU KHIỂN ÂM THANH ==========
+function toggleSound() {
+  if (!player || !player.unMute) return;
+  
+  if (isMuted) {
+    player.unMute();
+    document.getElementById('soundIcon').className = 'fa-solid fa-volume-high';
+    if (currentVolume === 0) {
+      currentVolume = 100;
+      player.setVolume(100);
+      document.getElementById('volume-slider').value = 100;
+      document.getElementById('volume-value').textContent = '100%';
+    }
+  } else {
+    player.mute();
+    document.getElementById('soundIcon').className = 'fa-solid fa-volume-xmark';
+  }
+  isMuted = !isMuted;
+}
+
+const volumeSlider = document.getElementById('volume-slider');
+if (volumeSlider) {
+  volumeSlider.addEventListener('input', function() {
+    currentVolume = parseInt(this.value);
+    document.getElementById('volume-value').textContent = currentVolume + '%';
+    
+    if (player && player.setVolume) {
+      player.setVolume(currentVolume);
+      
+      // Tự động bật/tắt mute dựa vào âm lượng
+      if (currentVolume === 0) {
+        if (!isMuted) {
+          player.mute();
+          isMuted = true;
+          document.getElementById('soundIcon').className = 'fa-solid fa-volume-xmark';
+        }
+      } else {
+        if (isMuted) {
+          player.unMute();
+          isMuted = false;
+          document.getElementById('soundIcon').className = 'fa-solid fa-volume-high';
+        }
+      }
+    }
+  });
+}
+
+// ========== 3. ĐỘ NÉT VIDEO ==========
+const opacitySlider = document.getElementById('opacity-slider');
+const opacityValue = document.getElementById('opacity-value');
+const videoWrapper = document.getElementById('video-wrapper');
+
+if (opacitySlider && videoWrapper) {
+  opacitySlider.addEventListener('input', function() {
+    const val = this.value;
+    videoWrapper.style.opacity = val / 100;
+    if (opacityValue) opacityValue.textContent = val + '%';
+  });
+}
+
+// ========== 4. ĐỘ MỜ MENU ==========
+const menuOpacitySlider = document.getElementById('menu-opacity-slider');
+const menuOpacityValue = document.getElementById('menu-opacity-value');
+
+if (menuOpacitySlider) {
+  menuOpacitySlider.addEventListener('input', function() {
+    const val = this.value;
+    document.documentElement.style.setProperty('--menu-opacity', val / 100);
+    if (menuOpacityValue) menuOpacityValue.textContent = val + '%';
+  });
+}
+
+// ========== 5. TOGGLE CONTROL PANEL ==========
+function toggleControlPanel() {
+  const content = document.getElementById('controlContent');
+  const toggle = document.getElementById('controlToggle');
+  content.classList.toggle('collapsed');
+  toggle.classList.toggle('active');
+}
+
+// ========== 6. INTRO ==========
 function skipIntro(){
   const intro = document.getElementById("intro");
   if(intro) intro.classList.add("done");
 }
 window.addEventListener("load", () => window.setTimeout(skipIntro, 6500));
 
-// ========== 2. ĐỒNG HỒ ==========
+// ========== 7. ĐỒNG HỒ ==========
 function updateClock() {
     const now = new Date();
     const timeString = now.toLocaleTimeString('vi-VN', { hour12: false });
@@ -477,36 +681,22 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// ========== 3. OPACITY SLIDER ==========
-const opacitySlider = document.getElementById('opacity-slider');
-const opacityValue = document.getElementById('opacity-value');
-const bgVideo = document.getElementById('bg-video');
-
-if (opacitySlider && bgVideo) {
-  opacitySlider.addEventListener('input', function() {
-    const val = this.value;
-    bgVideo.style.opacity = val / 100;
-    if (opacityValue) opacityValue.textContent = val + '%';
-  });
-}
-
-// ========== 4. TOGGLE MENU (ẨN/HIỆN SIDEBAR) ==========
+// ========== 8. TOGGLE MENU ==========
 function toggleMenu() {
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('sidebarOverlay');
+  const mainContent = document.getElementById('mainContent');
   const menuIcon = document.getElementById('menuIcon');
   
-  // Kiểm tra xem đang ở mobile hay desktop
   const isMobile = window.innerWidth <= 768;
 
   if (isMobile) {
-    // Mobile: Dùng overlay và trượt
     sidebar.classList.toggle('open');
     overlay.classList.toggle('active');
   } else {
-    // Desktop: Trượt sang trái
     sidebar.classList.toggle('hidden');
-    // Đổi icon
+    mainContent.classList.toggle('expanded');
+    
     if (sidebar.classList.contains('hidden')) {
       menuIcon.classList.remove('fa-bars');
       menuIcon.classList.add('fa-indent');
@@ -517,27 +707,23 @@ function toggleMenu() {
   }
 }
 
-// ========== 5. CHUYỂN ĐỔI GIỮA CÁC SECTION ==========
+// ========== 9. CHUYỂN SECTION ==========
 function toggleSection(targetId, element) {
   const sections = document.querySelectorAll('.content-section');
   const navItems = document.querySelectorAll('.nav-menu li');
   const targetSection = document.getElementById('section-' + targetId);
 
-  // Nếu section đang active mà click lại -> Ẩn nó đi (thu gọn)
   if (targetSection.classList.contains('active')) {
     targetSection.classList.remove('active');
     element.classList.remove('active');
   } else {
-    // Ẩn tất cả
     sections.forEach(sec => sec.classList.remove('active'));
     navItems.forEach(item => item.classList.remove('active'));
     
-    // Hiện cái được click
     targetSection.classList.add('active');
     element.classList.add('active');
   }
 
-  // Nếu đang ở mobile, click xong thì tự đóng menu
   if (window.innerWidth <= 768) {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
@@ -548,7 +734,7 @@ function toggleSection(targetId, element) {
   }
 }
 
-// ========== 6. CÁC HÀM XỬ LÝ LOGIC ==========
+// ========== 10. LOGIC ==========
 document.getElementById("adminPassword").addEventListener("keydown", e => {
   if(e.key === "Enter") adminLogin();
 });
@@ -690,18 +876,4 @@ async function getHistory(){
     });
     document.getElementById("historyResult").innerHTML = html;
   }catch(error){
-    document.getElementById("historyResult").innerHTML = "❌ Lỗi kết nối server.";
-  }
-}
-
-function logout(){
-  adminToken = "";
-  document.getElementById("adminPanel").classList.remove("active");
-  document.getElementById("loginBox").classList.remove("hidden");
-  document.getElementById("adminPassword").value = "";
-  showMessage("loginResult","Đã đăng xuất Admin.");
-  window.scrollTo({top:0, behavior:"smooth"});
-}
-</script>
-</body>
-</html>
+    document.getElementById("historyResult").innerHTML
